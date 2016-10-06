@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <title>ConLite Logs</title> 
+    <script type="text/javascript" src="scripts/rowMark.js"></script>
+    <script type="text/javascript" src="scripts/infoBox.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/contenido.css" />
+</head>
+<body style="margin:10px">
+
+{FORM}
+<table id="optionselect" style="border:0px; border-top:1px; border-right: 1px;border-color: {BORDERCOLOR}; border-style: solid;">
+    <tr class="textg_medium" style="background-color: {HEADERBGCOLOR};" >
+        <td class="textg_medium" style="border:0px; border-left:1px; border-bottom: 0px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Filter")</td>
+        <td class="textg_medium" style="border:0px; border-left:1px; border-bottom: 0px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Value")</td>
+    </tr>
+    <tr class="text_medium" style="background-color: {SELECTBBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Client"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;"><select name="idqclient" class="text_medium" >{CLIENTS}</select></td>
+    </tr>
+    <tr class="text_medium" style="background-color: {SELECTBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("User"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;"><select name="idquser" class="text_medium" >{USERS}</select></td>
+    </tr>
+    <tr class="text_medium" style="background-color: {SELECTBBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Action"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;"><select name="idqaction" class="text_medium" >{ACTION}</select></td>
+    </tr>
+    <tr class="text_medium" style="background-color: {SELECTBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Start date"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">{FROMDAY}{FROMMONTH}{FROMYEAR}</td>
+     </tr>
+      <tr class="text_medium" style="background-color: {SELECTBBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("End date"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">{TODAY}{TOMONTH}{TOYEAR}</td>
+     </tr>
+     <tr class="text_medium" style="background-color: {SELECTBGCOLOR};" >
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Limit"):</td>
+        <td style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">{LIMIT}</td>
+    </tr>
+    <tr id="{ROWNAME}" class="text_medium" style="background-color: #FFFFFF;" >
+        <td style="border: 0px; border-left:1px; border-bottom:1px; border-color: {BORDERCOLOR}; border-style: solid; text-align: right;" colspan="2"><input type="image" src="images/but_ok.gif" alt="{SUBMITTEXT}" title="{SUBMITTEXT}" style="border: none;"></td>
+    </tr>
+</table>
+<br>
+<table id="results" style="border:0px; border-left:1px; border-bottom: 1px;border-color: {BORDERCOLOR}; border-style: solid;">
+    <tr class="textw_medium" style="background-color: {RHEADERBGCOLOR};" >
+			<td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Client")</td>
+      <td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Date")</td>
+      <td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("User")</td>
+      <td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Action")</td>
+      <td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Category")</td>
+      <td class="textg_medium" style="border: 0px; border-top:1px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">i18n("Article")</td>
+    </tr>
+    <!-- BEGIN:BLOCK -->
+    <tr class="text_medium" style="background-color: {RBGCOLOR};" >
+		<td class="text_medium" style="border: 0px; border-top:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RCLIENT}</td>
+        <td class="text_medium" style="border: 0px; border-bottom:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RDATETIME}</td>
+        <td class="text_medium" style="border: 0px; border-top:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RUSER}</td>
+        <td class="text_medium" style="border: 0px; border-top:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RACTION}</td>
+        <td class="text_medium" style="border: 0px; border-top:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RSTR}</td>
+        <td class="text_medium" style="border: 0px; border-top:0px; border-right:1px;border-color: {BORDERCOLOR}; border-style: solid;">{RPAGE}</td>
+    </tr>
+    <!-- END:BLOCK -->
+    {NORESULTS}
+    
+</table>
+</form>
+</body>
+</html>

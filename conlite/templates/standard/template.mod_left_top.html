@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>be-site</title>
+    <link rel="stylesheet" type="text/css" href="styles/contenido.css">
+    <style type="text/css">
+        <!--
+        .syncmod {
+            background: url("images/sync.png") no-repeat scroll 0 2px transparent;
+            display: block;
+            float: left;
+            height: 2em;
+            line-height: 2em;
+            padding-left: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border: none;
+        }
+        -->
+    </style>
+    <script src="scripts/cfoldingrow.js" type="text/javascript"></script>
+    <script src="scripts/parameterCollector.js" type="text/javascript"></script>
+    <script src="scripts/general.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var listopURL='';
+        var pagingURL='';
+
+        var sDisplay = 'table-row';
+        var bMsie = (document.all) ? true : false;
+        if (bMsie) {
+            sDisplay = 'block';
+        }
+
+    // need to insert function in Article Search link
+    function resizeFrame(arg, bIgnore)
+    {
+        if(arg == '')
+        {
+        var listopLink = document.getElementById('{LISTOPLINK}');
+        var pagingLink = document.getElementById('{PAGINGLINK}');
+
+        // store current link for later use
+        listopURL = listopLink.href;
+                        if (pagingLink) {
+                            pagingURL = pagingLink.href;
+                        }
+
+        // clicking the link now calls this function
+        listopLink.href = "javascript:resizeFrame('{LISTOPLINK}');";
+                        if (pagingLink) {
+                            pagingLink.href = "javascript:resizeFrame('{PAGINGLINK}');";
+                        }
+        }
+        else if(arg == '{LISTOPLINK}')
+        {
+        window.location.href=listopURL;
+        }
+        else if(arg == '{PAGINGLINK}' && bIgnore != 1)
+        {
+        window.location.href=pagingURL;
+        }
+
+        // resizing frame
+        window.setTimeout("parent.parent.frameResize.resizeTopLeftFrame(document.getElementById('top_left_container').offsetHeight)", 10);
+    }
+
+    function execFilter()
+    {
+            var multilink = "main.php?";
+        var formelements = document.filter;
+
+        for(var i=0; i<formelements.length; i++)
+        {
+        if(i>0 && formelements[i].name != "" && formelements[i].name != "area" && formelements[i].name != "frame" &&formelements[i].value != "")
+        {
+            multilink += "&";
+        }
+        if(formelements[i].name != "" && formelements[i].value != "" && formelements[i].name != "area" && formelements[i].name != "frame" )
+        {
+            multilink += formelements[i].name + "=" + formelements[i].value;
+        }
+        }
+        conMultiLink("left_bottom", multilink+'&area=mod&frame=2');
+    }
+
+        function toggle_pager(sId) {
+            var oBase = document.getElementById(sId);
+            if (oBase) {
+                if (oBase.firstChild && oBase.firstChild.firstChild && oBase.firstChild.firstChild) {
+                    var sExpandstate = document.getElementsByName('expandstate_'+sId)[0].value;
+                    oBase.previousSibling.style.display = sDisplay;
+                    if (sExpandstate == 'expanded') {
+                        oBase.style.display = sDisplay;
+                    } else {
+                        oBase.style.display = 'none';
+                    }
+                } else if (oBase){
+                    oBase.previousSibling.style.display = 'none';
+                    oBase.style.display = 'none';
+                }
+            }
+
+            switch(sId) {
+                case '02420d6b-a77e-4a97-9395-7f6be480f497':
+                    resizeFrame('{PAGINGLINK}', 1);
+                    break;
+            }
+        }
+    </script>    
+</head>
+<body onLoad="resizeFrame('');">
+
+<div id="top_left_container">
+		{ACTION}
+</div>
+
+</body>
+</html>

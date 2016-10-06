@@ -1,0 +1,55 @@
+
+<div id="contactForm">
+	<form action="{form_action}" method="post">
+		<input type="hidden" name="send" value="1" />
+        <div class="contactRow clearfix" style="font-size: 0.8em;">* {PFLICHTFELDER}</div>
+		<div class="contactRow clearfix">
+			<label for="Anrede">{ANREDE}</label>
+            <input type="radio" name="Anrede" value="{ANREDE_OPTION1}" id="Anrede" checked="checked" style="width:auto;border:0;" /> {ANREDE_OPTION1}
+            <input type="radio" name="Anrede" value="{ANREDE_OPTION2}" style="width:auto;border:0;" /> {ANREDE_OPTION2}
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Vorname">{VORNAME} *</label>
+			<input type="text" name="Vorname" id="Vorname" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Nachname">{NACHNAME} *</label>
+			<input type="text" name="Nachname" id="Nachname" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Firma">{FIRMA} *</label>
+			<input type="text" name="Firma" id="Firma" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Strasse">{STRASSE} *</label>
+			<input type="text" name="Strasse" id="Strasse" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="PLZOrt">{PLZORT} *</label>
+			<input type="text" name="PLZOrt" id="PLZOrt" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Telefon">{TELEFON} *</label>
+			<input type="text" name="Telefon" id="Telefon" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="EMail">{EMAIL} *</label>
+			<input type="text" name="EMail" id="EMail" class="eingabe" maxlength="100"/>
+		</div>
+		<div class="contactRow clearfix">
+			<label for="Anliegen">{ANLIEGEN} *</label>
+			<textarea name="Anliegen" id="Anliegen"></textarea>
+		</div>
+		<div id="contactFormSubmit" class="clearfix">
+			<label></label>
+            <div class="uneditable-input" style="padding: 0px 0px 4px 0px; border: 0px none;">
+                <div id="contactFormSubmitLeft">
+                    <input type="reset" value="{LOESCHEN}" />
+                </div>
+                <div id="contactFormSubmitRight">
+                    <input type="submit" value="{ABSCHICKEN}" />
+                </div>
+            </div>
+		</div>
+	</form>
+</div>

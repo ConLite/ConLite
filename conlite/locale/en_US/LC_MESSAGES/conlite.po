@@ -1,0 +1,5162 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Contenido 4.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-09 21:17+0100\n"
+"PO-Revision-Date: 2014-01-09 21:39+0100\n"
+"Last-Translator: Ortwin Pinke <translation@dceonline.de>\n"
+"Language-Team: Contenido Translators <translators@contenido.de>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: i18n;trans;gettext\n"
+"X-Poedit-Basepath: E:\\timo\\contenido_head\\contenido\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: cronjobs/send_reminder.php:97
+#, php-format
+msgid ""
+"Hello %s,\n"
+"\n"
+"you've got a new reminder for the client '%s' at\n"
+"%s:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: backend_search.php:328
+msgid "Thank you for saving this search from extinction !"
+msgstr ""
+
+#: backend_search.php:490
+msgid "Search results"
+msgstr ""
+
+#: backend_search.php:491 classes/class.cms_teaser.php:596
+#: classes/class.ajax.php:171 templates/standard/template.symbolhelp.html:38
+#: templates/standard/template.symbolhelp.html:283
+#: templates/standard/template.log_main.html:56
+#: includes/include.con_art_overview.php:77
+#: includes/include.con_editcontent.php:387
+#: includes/include.con_subnav.php:104
+msgid "Article"
+msgstr ""
+
+#: backend_search.php:492
+#: templates/standard/template.mycontenido_lastarticles.html:62
+#: includes/include.con_art_overview.php:78
+#: includes/include.con_art_overview.php:746
+#: includes/include.con_edit_form.php:208 includes/include.upl_artlist.php:81
+#: includes/include.stat_overview.php:89
+msgid "Title"
+msgstr ""
+
+#: backend_search.php:493 includes/include.con_art_overview.php:79
+msgid "Changed"
+msgstr ""
+
+#: backend_search.php:494 includes/include.con_art_overview.php:80
+msgid "Published"
+msgstr ""
+
+#: backend_search.php:495 classes/class.cms_teaser.php:588
+#: classes/class.cms_filelist.php:738 includes/include.con_art_overview.php:81
+#: includes/include.mod_new.php:133 includes/include.frontend.left_top.php:257
+#: includes/include.rights_left_top.php:155
+msgid "Sort order"
+msgstr ""
+
+#: backend_search.php:496
+#: templates/standard/template.mycontenido_lastarticles.html:66
+#: templates/standard/template.str_overview.html:230
+#: includes/include.con_art_overview.php:82
+#: includes/include.tplcfg_edit_form.php:283
+#: includes/include.pretplcfg_edit_form.php:76
+msgid "Template"
+msgstr ""
+
+#: backend_search.php:497 templates/standard/template.str_overview.html:233
+#: includes/include.con_art_overview.php:83
+#: includes/include.upl_files_overview.php:541
+#: includes/include.frontend.left_top.php:165
+#: includes/include.mycontenido.tasks.php:276
+msgid "Actions"
+msgstr ""
+
+#: backend_search.php:506
+msgid "Missing search value."
+msgstr ""
+
+#: backend_search.php:507 backend_search.php:734
+msgid "No article found."
+msgstr ""
+
+#: backend_search.php:632 includes/include.con_art_overview.php:549
+msgid "Flag as normal article"
+msgstr ""
+
+#: backend_search.php:635 includes/include.con_art_overview.php:547
+msgid "Flag as start article"
+msgstr ""
+
+#: backend_search.php:648 scripts/langref.php:8 scripts/HTMLObj.js.php:239
+#: includes/include.con_art_overview.php:593
+#: includes/include.client_artspec.php:144
+msgid "Make offline"
+msgstr ""
+
+#: backend_search.php:652 scripts/langref.php:9 scripts/HTMLObj.js.php:242
+#: scripts/HTMLObj.js.php:245 includes/include.con_art_overview.php:601
+#: includes/include.client_artspec.php:140
+#: includes/include.str_overview.php:957 includes/include.str_overview.php:959
+msgid "Make online"
+msgstr ""
+
+#: backend_search.php:658 includes/include.con_art_overview.php:436
+msgid "Unfreeze article"
+msgstr ""
+
+#: backend_search.php:661 includes/include.con_art_overview.php:439
+#: includes/cfg_language_de.inc.php:98
+msgid "Freeze article"
+msgstr ""
+
+#: backend_search.php:669 includes/include.con_art_overview.php:523
+#: includes/include.mod_package.php:180
+#: includes/include.upl_search_results.php:55
+#: includes/include.con_left_top.php:449 includes/cfg_language_de.inc.php:370
+#: includes/include.CMS_LINK.php:180 includes/include.CMS_LINK.php:182
+#: includes/include.CMS_SWF.php:80
+#: includes/include.mycontenido_lastarticles.php:183
+#: includes/include.CMS_IMG.php:235
+msgid "None"
+msgstr ""
+
+#: backend_search.php:672
+msgid "Reminder"
+msgstr ""
+
+#: backend_search.php:674 classes/class.todo.php:158
+#: classes/class.todo.php:161
+msgid "Set reminder / add to todo list"
+msgstr ""
+
+#: backend_search.php:675 templates/standard/template.symbolhelp.html:413
+#: includes/include.con_art_overview.php:569
+msgid "Duplicate article"
+msgstr ""
+
+#: backend_search.php:676 includes/include.con_art_overview.php:472
+msgid "Article properties"
+msgstr ""
+
+#: backend_search.php:677 templates/standard/template.symbolhelp.html:377
+#: includes/cfg_language_de.inc.php:110
+msgid "Configure template"
+msgstr ""
+
+#: backend_search.php:678 templates/standard/template.symbolhelp.html:425
+#: includes/include.con_art_overview.php:626
+#: includes/cfg_language_de.inc.php:106
+msgid "Delete article"
+msgstr ""
+
+#: backend_search.php:679
+msgid "Do you really want to delete following article"
+msgstr ""
+
+#: backend_search.php:765
+msgid "Search Name"
+msgstr ""
+
+#: backend_search.php:767
+msgid "Store"
+msgstr ""
+
+#: backend_search.php:772
+msgid "Save this Search"
+msgstr ""
+
+#: scripts/langref.php:10 scripts/HTMLObj.js.php:248
+msgid "Protect"
+msgstr ""
+
+#: scripts/langref.php:11 scripts/HTMLObj.js.php:251
+msgid "Remove protection"
+msgstr ""
+
+#: scripts/langref.php:12 scripts/HTMLObj.js.php:254
+#: includes/include.con_left_top.php:369
+msgid "Choose template"
+msgstr ""
+
+#: scripts/langref.php:13 scripts/articleObject.js.php:248
+msgid "Overview cannot be displayed"
+msgstr ""
+
+#: scripts/langref.php:14 scripts/articleObject.js.php:228
+#: scripts/articleObject.js.php:231 classes/class.notification.php:114
+msgid "Error"
+msgstr ""
+
+#: scripts/langref.php:15 scripts/articleObject.js.php:274
+msgid "Article can't be displayed"
+msgstr ""
+
+#: scripts/langref.php:16 scripts/articleObject.js.php:274
+#: scripts/articleObject.js.php:305 scripts/articleObject.js.php:335
+#: scripts/articleObject.js.php:360 scripts/articleObject.js.php:379
+msgid "No article was selected"
+msgstr ""
+
+#: scripts/langref.php:17 scripts/articleObject.js.php:305
+msgid "Template configuration can't be displayed"
+msgstr ""
+
+#: scripts/langref.php:18 scripts/articleObject.js.php:257
+#: scripts/articleObject.js.php:290 scripts/articleObject.js.php:319
+#: scripts/articleObject.js.php:335
+msgid "Editor can't be displayed"
+msgstr ""
+
+#: scripts/langref.php:19 scripts/articleObject.js.php:360
+msgid "Preview can't be displayed"
+msgstr ""
+
+#: scripts/langref.php:20 scripts/messageBox.js.php:78
+msgid "Confirm"
+msgstr ""
+
+#: scripts/langref.php:21 scripts/messageBox.js.php:79
+#: templates/standard/template.symbolhelp.html:181
+#: includes/include.mod_package.php:311
+msgid "Cancel"
+msgstr ""
+
+#: scripts/langref.php:22 scripts/messageBox.js.php:80
+msgid "Close window"
+msgstr ""
+
+#: scripts/langref.php:23 scripts/rights.js.php:67 scripts/rights.js.php:70
+#: scripts/iZoom.js.php:70 scripts/iZoom.js.php:73
+msgid "Click to close"
+msgstr ""
+
+#: scripts/langref.php:24
+msgid "Headline / HTML"
+msgstr ""
+
+#: scripts/langref.php:25
+msgid "Text / HTML"
+msgstr ""
+
+#: scripts/langref.php:26
+msgid "Text / Standard"
+msgstr ""
+
+#: scripts/langref.php:27
+msgid "Picture"
+msgstr ""
+
+#: scripts/langref.php:28 templates/standard/template.tpl_edit_form.html:29
+#: templates/standard/template.mod_edit_form.html:33
+#: templates/standard/template.lay_edit_form.html:32
+#: templates/standard/template.upl_files_overview.html:84
+#: includes/rights_tpl.inc.php:74 includes/grouprights_tpl.inc.php:73
+#: includes/include.todo.popup.php:70 includes/include.upl_edit.php:87
+#: includes/grouprights_lay.inc.php:86
+#: includes/include.style_edit_form.php:198
+#: includes/include.html_tpl_edit_form.php:214 includes/include.mod_new.php:81
+#: includes/include.mycontenido.tasks.edit.php:71
+#: includes/include.grouprights_overview.php:118
+#: includes/grouprights_mod.inc.php:74 includes/include.style_history.php:161
+#: includes/include.CMS_LINK.php:341 includes/include.js_history.php:156
+#: includes/rights_lay.inc.php:76 includes/include.grouprights_create.php:112
+#: includes/include.lay_edit_form.php:205
+#: includes/include.tpl_edit_form.php:155 includes/include.lay_history.php:121
+#: includes/include.CMS_IMG.php:278 includes/rights_mod.inc.php:76
+#: includes/include.js_edit_form.php:176
+#: includes/include.html_tpl_history.php:164
+#: includes/include.mod_edit_form.php:378
+#: includes/include.CMS_SIMPLELINK.php:153
+#: includes/include.mod_history.php:132
+msgid "Description"
+msgstr ""
+
+#: scripts/langref.php:29
+msgid "Description / Standard"
+msgstr ""
+
+#: scripts/langref.php:30
+msgid "Flash Movie"
+msgstr ""
+
+#: scripts/langref.php:31 includes/include.CMS_SIMPLELINK.php:150
+msgid "Link"
+msgstr ""
+
+#: scripts/langref.php:32
+msgid "Frame"
+msgstr ""
+
+#: scripts/articleObject.js.php:257 scripts/articleObject.js.php:290
+#: scripts/articleObject.js.php:319
+msgid "Can't edit articles in foreign languages."
+msgstr ""
+
+#: scripts/articleObject.js.php:379
+msgid "Tab can't be displayed"
+msgstr ""
+
+#: classes/class.note.php:331 classes/class.note.php:334
+msgid "View notes / add note"
+msgstr ""
+
+#: classes/class.todo.php:101
+msgid "New"
+msgstr ""
+
+#: classes/class.todo.php:102
+msgid "In progress"
+msgstr ""
+
+#: classes/class.todo.php:103
+msgid "Done"
+msgstr ""
+
+#: classes/class.todo.php:104
+msgid "Waiting for action"
+msgstr ""
+
+#: classes/class.todo.php:105
+msgid "Deferred"
+msgstr ""
+
+#: classes/class.todo.php:113
+msgid "Low"
+msgstr ""
+
+#: classes/class.todo.php:114
+msgid "Medium"
+msgstr ""
+
+#: classes/class.todo.php:115
+msgid "High"
+msgstr ""
+
+#: classes/class.todo.php:116
+msgid "Immediately"
+msgstr ""
+
+#: classes/class.inuse.php:242
+msgid "Click here if you want to override the lock"
+msgstr ""
+
+#: classes/class.inuse.php:246
+msgid "Do you really want to override the lock?"
+msgstr ""
+
+#: classes/class.inuse.php:248
+msgid "Override lock"
+msgstr ""
+
+#: classes/class.inuse.php:248
+msgid "Hide notification"
+msgstr ""
+
+#: classes/class.version.php:199
+#, php-format
+msgid "Alternative path %s does not exist. Version was saved in frondendpath."
+msgstr ""
+
+#: classes/class.version.php:522 includes/include.mycontenido.tasks.php:380
+msgid "Refresh"
+msgstr ""
+
+#: classes/class.version.php:538
+msgid "Clear layout history"
+msgstr ""
+
+#: classes/class.version.php:539
+msgid "Do you really want to clear layout history?"
+msgstr ""
+
+#: classes/class.version.php:539
+msgid "Note: This only affects the current layout."
+msgstr ""
+
+#: classes/class.version.php:542
+msgid "Clear module history"
+msgstr ""
+
+#: classes/class.version.php:543
+msgid "Do you really want to clear module history?"
+msgstr ""
+
+#: classes/class.version.php:543
+msgid "Note: This only affects the current module."
+msgstr ""
+
+#: classes/class.version.php:546
+msgid "Clear style history"
+msgstr ""
+
+#: classes/class.version.php:547
+msgid "Do you really want to clear style history?"
+msgstr ""
+
+#: classes/class.version.php:547
+msgid "Note: This only affects the current style."
+msgstr ""
+
+#: classes/class.version.php:550
+msgid "Clear Java-Script history"
+msgstr ""
+
+#: classes/class.version.php:551
+msgid "Do you really want to clear Java-Script history?"
+msgstr ""
+
+#: classes/class.version.php:551
+msgid "Note: This only affects the current Java-Script."
+msgstr ""
+
+#: classes/class.version.php:554
+msgid "Clear HTML-Template history"
+msgstr ""
+
+#: classes/class.version.php:555
+msgid "Do you really want to clear HTML-Template history?"
+msgstr ""
+
+#: classes/class.version.php:555
+msgid "Note: This only the affects current HTML-Template."
+msgstr ""
+
+#: classes/class.version.php:558
+msgid "Clear history"
+msgstr ""
+
+#: classes/class.version.php:559
+msgid "Do you really want to clear history?"
+msgstr ""
+
+#: classes/class.version.php:559
+msgid "Note: This only affects the current history."
+msgstr ""
+
+#: classes/class.update.notifier.php:432 classes/class.update.notifier.php:437
+msgid "Unable to check for new updates!"
+msgstr ""
+
+#: classes/class.update.notifier.php:432
+msgid "Could not handle server response!"
+msgstr ""
+
+#: classes/class.update.notifier.php:437
+msgid "Could not determine vendor version!"
+msgstr ""
+
+#: classes/class.update.notifier.php:551
+msgid "Unable to check for updates!"
+msgstr ""
+
+#: classes/class.update.notifier.php:552
+#, php-format
+msgid "Connection to s% failed!"
+msgstr ""
+
+#: classes/class.update.notifier.php:662
+msgid "Disable update notification"
+msgstr ""
+
+#: classes/class.update.notifier.php:664 classes/class.update.notifier.php:676
+msgid "Disable notification"
+msgstr ""
+
+#: classes/class.update.notifier.php:667
+msgid "Enable update notification (recommended)"
+msgstr ""
+
+#: classes/class.update.notifier.php:669 classes/class.update.notifier.php:683
+msgid "Enable notification"
+msgstr ""
+
+#: classes/class.update.notifier.php:674
+msgid "Disable RSS notification"
+msgstr ""
+
+#: classes/class.update.notifier.php:681
+msgid "Enable RSS notification (recommended)"
+msgstr ""
+
+#: classes/class.update.notifier.php:685
+msgid "RSS notification is disabled"
+msgstr ""
+
+#: classes/class.update.notifier.php:733
+msgid "read more"
+msgstr ""
+
+#: classes/class.update.notifier.php:743 classes/class.update.notifier.php:752
+msgid "No RSS content available"
+msgstr ""
+
+#: classes/class.update.notifier.php:750 classes/class.update.notifier.php:768
+msgid ""
+"Your webserver does not have write permissions for the directory /contenido/"
+"cache/!"
+msgstr ""
+
+#: classes/class.update.notifier.php:771
+msgid ""
+"Update notification is disabled! For actual update information, please "
+"activate."
+msgstr ""
+
+#: classes/class.update.notifier.php:776
+msgid "You have an unknown or unsupported version of ConLite!"
+msgstr ""
+
+#: classes/class.update.notifier.php:779
+#, php-format
+msgid ""
+"Your version of ConLite is deprecated and not longer supported for any "
+"updates. Please update to a higher version! <br /> <a href=\"%s\" class="
+"\"blue\" target=\"_blank\">Download now!</a>"
+msgstr ""
+
+#: classes/class.update.notifier.php:783
+#, php-format
+msgid ""
+"A new version of ConLite is available! <br /> <a href=\"%s\" class=\"blue\" "
+"target=\"_blank\">Download %s now!</a>"
+msgstr ""
+
+#: classes/class.update.notifier.php:786
+#, php-format
+msgid ""
+"It seems to be that your version string was manipulated. ConLite %s does not "
+"exist!"
+msgstr ""
+
+#: classes/class.update.notifier.php:789
+msgid "Your version of ConLite is up to date!"
+msgstr ""
+
+#: classes/class.ui.php:351 classes/widgets/class.widgets.views.php:80
+#: classes/widgets/class.widgets.tableedit.php:188
+#: includes/include.client_edit.php:225
+#: includes/include.grouprights_overview.php:102
+#: includes/include.CMS_EASYIMG.php:158
+#: includes/include.grouprights_create.php:94
+#: includes/include.rights_overview.php:192
+#: includes/include.rights_create.php:142
+msgid "Save changes"
+msgstr ""
+
+#: classes/widgets/class.widgets.datawidgets.php:314
+#: classes/widgets/class.widgets.datawidgets.php:315
+msgid "Clear contents"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:47
+#: classes/widgets/class.widgets.pager.php:51
+msgid "Paging"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:85
+msgid "First page"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:92
+msgid "Previous page"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:106
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:122
+msgid "Next page"
+msgstr ""
+
+#: classes/widgets/class.widgets.pager.php:132
+msgid "Last page"
+msgstr ""
+
+#: classes/class.cms_teaser.php:353 classes/class.cms_teaser.php:382
+#: classes/class.cms_teaser.php:419 classes/class.cms_teaser.php:447
+#: classes/class.cms_teaser.php:476 classes/class.cms_teaser.php:539
+#: includes/include.CMS_LINK.php:215 includes/include.CMS_LINK.php:244
+#: includes/include.CMS_LINK.php:273 includes/include.CMS_LINK.php:288
+#: includes/include.CMS_LINK.php:304 includes/include.str_overview.php:90
+#: includes/functions.general.php:1213 includes/functions.general.php:1256
+msgid "Please choose"
+msgstr ""
+
+#: classes/class.cms_teaser.php:386
+msgid "Block Style"
+msgstr ""
+
+#: classes/class.cms_teaser.php:389
+msgid "Blog Style"
+msgstr ""
+
+#: classes/class.cms_teaser.php:423 classes/class.cms_filelist.php:465
+#: includes/include.mod_new.php:60 includes/include.frontend.left_top.php:118
+#: includes/include.rights_left_top.php:118
+#: includes/include.frontend.user_menu.php:112
+msgid "Ascending"
+msgstr ""
+
+#: classes/class.cms_teaser.php:426 classes/class.cms_filelist.php:468
+#: includes/include.mod_new.php:60 includes/include.frontend.left_top.php:118
+#: includes/include.rights_left_top.php:119
+#: includes/include.frontend.user_menu.php:112
+msgid "Descending"
+msgstr ""
+
+#: classes/class.cms_teaser.php:451
+msgid "Scaled"
+msgstr ""
+
+#: classes/class.cms_teaser.php:454
+msgid "Cropped"
+msgstr ""
+
+#: classes/class.cms_teaser.php:480
+msgid "Sort Sequence"
+msgstr ""
+
+#: classes/class.cms_teaser.php:483
+msgid "Creationdate"
+msgstr ""
+
+#: classes/class.cms_teaser.php:486
+msgid "Publisheddate"
+msgstr ""
+
+#: classes/class.cms_teaser.php:489
+msgid "Modificationdate"
+msgstr ""
+
+#: classes/class.cms_teaser.php:578
+msgid "Teasersettings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:579
+msgid "Teasertitle"
+msgstr ""
+
+#: classes/class.cms_teaser.php:580
+msgid "Teaser Startarticle"
+msgstr ""
+
+#: classes/class.cms_teaser.php:581
+msgid "Sourcecategory"
+msgstr ""
+
+#: classes/class.cms_teaser.php:582
+msgid "Number of Articles"
+msgstr ""
+
+#: classes/class.cms_teaser.php:583 classes/class.cms_filelist.php:724
+msgid "General Settings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:584
+msgid "Teaser Style"
+msgstr ""
+
+#: classes/class.cms_teaser.php:585
+msgid "Advanced Teaser Settings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:586
+msgid "Teaser Filter"
+msgstr ""
+
+#: classes/class.cms_teaser.php:587
+msgid "Teaser Sort"
+msgstr ""
+
+#: classes/class.cms_teaser.php:589
+msgid "Source Headline"
+msgstr ""
+
+#: classes/class.cms_teaser.php:590
+msgid "Source Settings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:591
+msgid "Source Text"
+msgstr ""
+
+#: classes/class.cms_teaser.php:592
+msgid "Source Image"
+msgstr ""
+
+#: classes/class.cms_teaser.php:593
+msgid "Source Date"
+msgstr ""
+
+#: classes/class.cms_teaser.php:595 classes/class.ajax.php:154
+#: templates/standard/template.symbolhelp.html:41
+#: templates/standard/template.symbolhelp.html:472
+#: templates/standard/template.mycontenido_lastarticles.html:63
+#: templates/standard/template.log_main.html:55
+#: templates/standard/template.str_overview.html:124
+#: templates/standard/template.str_overview.html:224
+#: includes/include.con_editcontent.php:392
+#: includes/include.con_edit_form.php:510 includes/rights_con.inc.php:78
+#: includes/include.note.popup.php:93 includes/grouprights_str.inc.php:76
+#: includes/rights_str.inc.php:77 includes/grouprights_con.inc.php:78
+msgid "Category"
+msgstr ""
+
+#: classes/class.cms_teaser.php:598 classes/class.cms_filelist.php:720
+msgid "General"
+msgstr ""
+
+#: classes/class.cms_teaser.php:599
+msgid "Advanced"
+msgstr ""
+
+#: classes/class.cms_teaser.php:600 classes/class.cms_filelist.php:721
+msgid "Manual"
+msgstr ""
+
+#: classes/class.cms_teaser.php:601
+msgid "Included Articles"
+msgstr ""
+
+#: classes/class.cms_teaser.php:602
+msgid "Add Article"
+msgstr ""
+
+#: classes/class.cms_teaser.php:603
+msgid "Manual Teaser Settings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:604
+msgid "Manual Teaser"
+msgstr ""
+
+#: classes/class.cms_teaser.php:607
+msgid "Size Settings"
+msgstr ""
+
+#: classes/class.cms_teaser.php:608
+msgid "Characterlength"
+msgstr ""
+
+#: classes/class.cms_teaser.php:609
+msgid "Imagewidth"
+msgstr ""
+
+#: classes/class.cms_teaser.php:610
+msgid "Imageheight"
+msgstr ""
+
+#: classes/class.cms_teaser.php:611
+msgid "Image Scale"
+msgstr ""
+
+#: classes/class.cms_teaser.php:648
+msgid "Add"
+msgstr ""
+
+#: classes/class.notification.php:120
+msgid "Warning"
+msgstr ""
+
+#: classes/class.notification.php:126
+#: templates/standard/template.mycontenido_lastarticles.html:67
+msgid "Info"
+msgstr ""
+
+#: classes/class.notification.php:133
+msgid "Notification"
+msgstr ""
+
+#: classes/class.cms_filelist.php:413
+msgid "Default Style"
+msgstr ""
+
+#: classes/class.cms_filelist.php:438
+#: templates/standard/template.upl_files_overview.html:82
+msgid "Filename"
+msgstr ""
+
+#: classes/class.cms_filelist.php:441
+#: templates/standard/template.upl_files_overview.html:86
+msgid "File size"
+msgstr ""
+
+#: classes/class.cms_filelist.php:444 includes/include.con_left_top.php:136
+msgid "Date created"
+msgstr ""
+
+#: classes/class.cms_filelist.php:447 includes/include.con_left_top.php:137
+msgid "Date modified"
+msgstr ""
+
+#: classes/class.cms_filelist.php:540 classes/class.cms_filelist.php:541
+#: includes/include.upl_files_overview.php:690
+#: includes/include.upl_search_results.php:417
+msgid "No files found"
+msgstr ""
+
+#: classes/class.cms_filelist.php:719
+msgid "Directories"
+msgstr ""
+
+#: classes/class.cms_filelist.php:722
+#: templates/standard/template.log_main.html:17
+msgid "Filter"
+msgstr ""
+
+#: classes/class.cms_filelist.php:725
+msgid "Manual Settings"
+msgstr ""
+
+#: classes/class.cms_filelist.php:726
+msgid "Filter settings"
+msgstr ""
+
+#: classes/class.cms_filelist.php:727
+msgid "File list settings"
+msgstr ""
+
+#: classes/class.cms_filelist.php:728
+msgid "File list title"
+msgstr ""
+
+#: classes/class.cms_filelist.php:729
+msgid "File size limit"
+msgstr ""
+
+#: classes/class.cms_filelist.php:730
+msgid "Creation date limit"
+msgstr ""
+
+#: classes/class.cms_filelist.php:731
+msgid "Modify date limit"
+msgstr ""
+
+#: classes/class.cms_filelist.php:733
+msgid "File list style"
+msgstr ""
+
+#: classes/class.cms_filelist.php:734
+msgid "Source directory"
+msgstr ""
+
+#: classes/class.cms_filelist.php:735
+msgid "Include subdirectories?"
+msgstr ""
+
+#: classes/class.cms_filelist.php:736
+msgid "Include meta data?"
+msgstr ""
+
+#: classes/class.cms_filelist.php:737
+msgid "File list sort"
+msgstr ""
+
+#: classes/class.cms_filelist.php:739
+msgid "Displayed file extensions"
+msgstr ""
+
+#: classes/class.cms_filelist.php:740
+msgid "Ignore selection (use all)"
+msgstr ""
+
+#: classes/class.cms_filelist.php:741
+msgid "Selection will be ignored!"
+msgstr ""
+
+#: classes/class.cms_filelist.php:742
+msgid "Select all entries"
+msgstr ""
+
+#: classes/class.cms_filelist.php:743
+msgid "Use manual file list?"
+msgstr ""
+
+#: classes/class.cms_filelist.php:744
+msgid "Directory"
+msgstr ""
+
+#: classes/class.cms_filelist.php:745 includes/include.mod_package.php:476
+#: includes/include.mod_package.php:478 includes/include.mod_translate.php:185
+#: includes/include.mod_edit_form.php:440
+#: includes/include.mod_edit_form.php:442
+msgid "File"
+msgstr ""
+
+#: classes/class.cms_filelist.php:746
+msgid "Files"
+msgstr ""
+
+#: classes/class.cms_filelist.php:747
+msgid "Existing files"
+msgstr ""
+
+#: classes/class.cms_filelist.php:748
+msgid "Add file"
+msgstr ""
+
+#: classes/class.cms_filelist.php:749
+msgid "File count"
+msgstr ""
+
+#: classes/class.client.php:131 classes/contenido/class.client.php:106
+msgid "No client"
+msgstr ""
+
+#: classes/template/class.template.php:325
+msgid "\""
+msgstr ""
+
+#: classes/class.ajax.php:103 classes/class.ajax.php:127
+#: includes/rights_tpl.inc.php:73 includes/grouprights_tpl.inc.php:72
+msgid "Template name"
+msgstr ""
+
+#: classes/class.ajax.php:109 classes/class.ajax.php:136
+#: classes/class.ajax.php:187
+msgid "No data found!"
+msgstr ""
+
+#: classes/class.ajax.php:161
+msgid "idcat"
+msgstr ""
+
+#: classes/class.ajax.php:162 classes/class.ajax.php:179
+msgid "idlang"
+msgstr ""
+
+#: classes/class.ajax.php:163 classes/class.ajax.php:180
+#: templates/standard/template.tpl_edit_form.html:19
+#: templates/standard/template.mod_edit_form.html:23
+#: templates/standard/template.lay_edit_form.html:22
+#: includes/include.mod_package.php:235 includes/include.mod_package.php:253
+#: includes/include.mod_package.php:422
+#: includes/include.style_edit_form.php:197
+#: includes/include.html_tpl_edit_form.php:213 includes/include.mod_new.php:59
+#: includes/include.style_history.php:160 includes/include.js_history.php:155
+#: includes/include.lay_edit_form.php:204
+#: includes/include.tpl_edit_form.php:152 includes/include.lay_history.php:120
+#: includes/include.rights_left_top.php:116
+#: includes/include.rights_overview.php:209
+#: includes/include.rights_create.php:156
+#: includes/include.js_edit_form.php:175
+#: includes/include.html_tpl_history.php:163
+#: includes/include.mod_edit_form.php:372
+#: includes/include.mod_edit_form.php:374
+#: includes/include.systemsettings.php:61
+#: includes/include.systemsettings.php:174
+#: includes/include.clientsettings.php:98
+#: includes/include.clientsettings.php:189
+#: includes/include.mod_history.php:131
+msgid "Name"
+msgstr ""
+
+#: classes/class.ajax.php:178
+msgid "idart"
+msgstr ""
+
+#: classes/class.navigation.php:340 classes/class.navigation.php:343
+#: templates/standard/template.log_main.html:21
+#: templates/standard/template.log_main.html:51
+#: includes/include.con_editcontent.php:402
+#: includes/include.system_purge.php:195
+msgid "Client"
+msgstr ""
+
+#: classes/class.navigation.php:360
+#: templates/standard/template.symbolhelp.html:1823
+#: templates/standard/template.log_main.html:25
+#: templates/standard/template.log_main.html:53
+msgid "User"
+msgstr ""
+
+#: classes/class.navigation.php:435
+msgid "-- No Language available --"
+msgstr ""
+
+#: classes/contenido/class.module.php:361
+#: includes/include.mod_edit_form.php:56
+msgid "- Unnamed Module -"
+msgstr ""
+
+#: classes/contenido/class.module.php:889
+msgid ""
+"Module uses Output- and/or InputFromFile. Editing and Saving may not be "
+"possible in backend."
+msgstr ""
+
+#: classes/class.conuser.php:842 classes/class.conuser.php:867
+#, php-format
+msgid ""
+"Please use at least %d lower and upper case characters in your password!"
+msgstr ""
+
+#: classes/class.conuser.php:847
+#, php-format
+msgid "Please use at least %d numbers in your password!"
+msgstr ""
+
+#: classes/class.conuser.php:852
+#, php-format
+msgid "Please use at least %d symbols in your password!"
+msgstr ""
+
+#: classes/class.conuser.php:857
+#, php-format
+msgid "Password is too short! Please use at least %d signs."
+msgstr ""
+
+#: classes/class.conuser.php:863
+msgid "Password does not contain enough different characters."
+msgstr ""
+
+#: classes/class.conuser.php:872
+msgid "Please choose a more secure password!"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:140
+#: includes/functions.general.php:111
+msgid "January"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:141
+#: includes/functions.general.php:114
+msgid "February"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:142
+#: includes/functions.general.php:117
+msgid "March"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:143
+#: includes/functions.general.php:120
+msgid "April"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:144
+#: includes/functions.general.php:123
+msgid "May"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:145
+#: includes/functions.general.php:126
+msgid "June"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:146
+#: includes/functions.general.php:129
+msgid "July"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:147
+#: includes/functions.general.php:132
+msgid "August"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:148
+#: includes/functions.general.php:135
+msgid "September"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:149
+#: includes/functions.general.php:138
+msgid "October"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:150
+#: includes/functions.general.php:141
+msgid "November"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:151
+#: includes/functions.general.php:144
+msgid "December"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:159
+#: classes/datatypes/class.datatype.datetime.php:166
+#: includes/functions.general.php:178
+msgid "Sunday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:160
+#: includes/functions.general.php:160
+msgid "Monday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:161
+#: includes/functions.general.php:163
+msgid "Tuesday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:162
+#: includes/functions.general.php:166
+msgid "Wednesday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:163
+#: includes/functions.general.php:169
+msgid "Thursday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:164
+#: includes/functions.general.php:172
+msgid "Friday"
+msgstr ""
+
+#: classes/datatypes/class.datatype.datetime.php:165
+msgid "Saturday"
+msgstr ""
+
+#: classes/class.versionFile.php:131
+msgid "Can not open file "
+msgstr ""
+
+#: classes/class.request.password.php:247
+#: templates/standard/template.symbolhelp.html:196
+msgid "Submit"
+msgstr ""
+
+#: classes/class.request.password.php:251
+msgid "Please enter your login"
+msgstr ""
+
+#: classes/class.request.password.php:291
+#, php-format
+msgid "Password requests are allowed every %s minutes."
+msgstr ""
+
+#: classes/class.request.password.php:299
+#: classes/class.request.password.php:312
+msgid "No matching data found. Please contact your systemadministrator."
+msgstr ""
+
+#: classes/class.request.password.php:305
+msgid "New password was submitted to your e-mail address."
+msgstr ""
+
+#: classes/class.request.password.php:348
+#, php-format
+msgid ""
+"Dear Contenidouser %s,\n"
+"\n"
+"Your password to log in Content Management System Contenido is: %s\n"
+"\n"
+"Best regards\n"
+"\n"
+"Your Contenido sysadmin"
+msgstr ""
+
+#: classes/class.request.password.php:364
+msgid "Your new password for Contenido Backend"
+msgstr ""
+
+#: classes/class.cms_date.php:212
+msgid "Please Choose Format"
+msgstr ""
+
+#: external/frontend/front_content.php:348
+#: external/frontend/front_content.php:396
+#: external/backendedit/front_content.php:331
+#: external/backendedit/front_content.php:386
+msgid "No start article for this category"
+msgstr ""
+
+#: external/frontend/front_content.php:494
+#: external/backendedit/front_content.php:484
+#: includes/include.con_edit_form.php:134
+#: includes/include.tplcfg_edit_form.php:59
+#, php-format
+msgid "Article is in use by %s (%s)"
+msgstr ""
+
+#: templates/standard/template.stat_overview.html:135
+#: includes/include.con_left_top.php:428
+#: includes/include.con_str_overview.php:662
+#: includes/include.str_overview.php:486 includes/include.str_overview.php:487
+#: includes/include.str_overview.php:488
+msgid "Close all categories"
+msgstr ""
+
+#: templates/standard/template.stat_overview.html:137
+#: includes/include.con_left_top.php:429
+#: includes/include.con_str_overview.php:663
+#: includes/include.str_overview.php:493 includes/include.str_overview.php:494
+#: includes/include.str_overview.php:495
+msgid "Open all categories"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:23
+msgid "Table of contents"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:29
+#: templates/standard/template.symbolhelp.html:135
+msgid "Common"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:35
+#: templates/standard/template.symbolhelp.html:277
+msgid "Content"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:44
+#: templates/standard/template.symbolhelp.html:740
+msgid "File management"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:50
+#: templates/standard/template.symbolhelp.html:816
+msgid "Style"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:53
+#: templates/standard/template.symbolhelp.html:822
+#: includes/include.mod_package.php:191
+msgid "Layouts"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:56
+#: templates/standard/template.symbolhelp.html:904
+msgid "Modules"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:59
+#: templates/standard/template.symbolhelp.html:985
+msgid "Templates"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:62
+#: templates/standard/template.symbolhelp.html:1055
+msgid "CSS editor"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:65
+#: templates/standard/template.symbolhelp.html:1110
+msgid "Script editor"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:68
+#: templates/standard/template.symbolhelp.html:1165
+msgid "Module Templates"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:74
+#: templates/standard/template.symbolhelp.html:1242
+msgid "Extras"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:77
+#: templates/standard/template.symbolhelp.html:1248
+msgid "Newsletter"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:80
+msgid "Recipients"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:86
+#: templates/standard/template.symbolhelp.html:1466
+msgid "Statistics"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:89
+#: templates/standard/template.symbolhelp.html:1472
+#: includes/include.stat_overview.php:92
+msgid "Hits"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:95
+#: templates/standard/template.symbolhelp.html:1548
+msgid "Administration"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:98
+#: templates/standard/template.symbolhelp.html:1554
+msgid "Users"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:101
+#: templates/standard/template.symbolhelp.html:1609
+msgid "Groups"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:104
+#: templates/standard/template.symbolhelp.html:1664
+msgid "Languages"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:107
+#: templates/standard/template.symbolhelp.html:1734
+msgid "Clients"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:129
+msgid "Table of Contents"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:166
+msgid "Execute query / Save"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:208
+msgid "Change to MyContenido (Personal Settings)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:220
+msgid "Information (Impressum)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:235
+msgid "Logout"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:314
+#: templates/standard/template.symbolhelp.html:506
+#: templates/standard/template.str_overview.html:148
+#: includes/cfg_language_de.inc.php:132 includes/include.str_overview.php:949
+#: includes/include.str_overview.php:952
+msgid "Configure category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:329
+#: includes/include.con_art_overview.php:988
+#: includes/include.con_art_overview.php:989
+msgid "Create new article"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:341
+msgid "Article is start article / is not start article"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:353
+#: templates/standard/template.symbolhelp.html:868
+#: templates/standard/template.symbolhelp.html:949
+msgid "Set template / Add to To-Do list"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:365
+msgid "Configure article properties"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:389
+msgid "Element is online / offline (change through click)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:401
+msgid "Element is protected / accessible (change through click)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:439
+msgid "Lock / unlock folder (change through click)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:451
+msgid "Set folder offline / online (change through click)"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:524
+#: includes/cfg_language_de.inc.php:120
+msgid "Rename category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:542
+msgid "Create category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:560
+msgid "Set category online / offline"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:578
+msgid "Category is online and unprotected / protected"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:596
+msgid "Category is offline and unprotected / protected"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:614
+msgid "Category is online, contains an error and is unprotected / protected"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:632
+msgid "Category is offline, contains an error and is unprotected / protected"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:650
+msgid "Move up one category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:665
+#: includes/cfg_language_de.inc.php:129
+msgid "Move category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:683
+msgid "Select move target"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:701
+#: includes/cfg_language_de.inc.php:131
+msgid "Duplicate category"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:716
+#: templates/standard/template.symbolhelp.html:880
+#: templates/standard/template.symbolhelp.html:961
+#: templates/standard/template.symbolhelp.html:1031
+#: templates/standard/template.symbolhelp.html:1086
+#: templates/standard/template.symbolhelp.html:1141
+#: templates/standard/template.symbolhelp.html:1196
+#: templates/standard/template.symbolhelp.html:1306
+#: templates/standard/template.symbolhelp.html:1421
+#: templates/standard/template.symbolhelp.html:1585
+#: templates/standard/template.symbolhelp.html:1640
+#: templates/standard/template.symbolhelp.html:1710
+#: templates/standard/template.symbolhelp.html:1765
+#: templates/standard/template.symbolhelp.html:1871
+msgid "Delete / Delete not available"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:762
+msgid "Root upload folder"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:780
+msgid "Regular folder"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:853
+msgid "Layout in use"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:934
+msgid "Module in use"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1016
+#: includes/cfg_language_de.inc.php:167 includes/cfg_language_de.inc.php:168
+#: includes/include.tpl_overview.php:111
+msgid "Duplicate template"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1279
+#: includes/cfg_language_de.inc.php:217
+msgid "Create newsletter"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1294
+msgid "Copy newsletter"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1330
+#: templates/standard/template.symbolhelp.html:1361
+msgid "Recipient"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1373
+#: includes/cfg_language_de.inc.php:229
+msgid "Create recipient"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1385
+msgid "Remove recipient"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1397
+msgid "Recipient group"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1409
+#: includes/cfg_language_de.inc.php:235
+msgid "Create recipient group"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1503
+msgid "Article is online / offline"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1695
+msgid "Language active / not active"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1835
+#: includes/cfg_language_de.inc.php:171 includes/cfg_language_de.inc.php:174
+#: includes/include.frontend.left_top.php:178
+#: includes/include.rights_left_top.php:103
+msgid "Create user"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1847
+msgid "User group"
+msgstr ""
+
+#: templates/standard/template.symbolhelp.html:1859
+msgid "Create user group"
+msgstr ""
+
+#: templates/standard/template.mycontenido_lastarticles.html:35
+msgid "Your clients"
+msgstr ""
+
+#: templates/standard/template.mycontenido_lastarticles.html:61
+#: includes/include.upl_artlist.php:81
+msgid "Start"
+msgstr ""
+
+#: templates/standard/template.mycontenido_lastarticles.html:64
+#: includes/include.con_edit_form.php:284
+#: includes/include.mycontenido.tasks.php:276
+#: includes/include.upl_artlist.php:81
+msgid "Created"
+msgstr ""
+
+#: templates/standard/template.mycontenido_lastarticles.html:65
+#: includes/include.upl_artlist.php:81
+msgid "Modified"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:16
+msgid "Your system configuration"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:21
+msgid "Variable"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:22
+msgid "Local value"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:37
+msgid "Contenido Error Log"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:50
+msgid "clear error log"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:58
+msgid "Contenido Upgrade Error Log"
+msgstr ""
+
+#: templates/standard/template.system_variables.html:72
+msgid "clear upgrade error log"
+msgstr ""
+
+#: templates/standard/template.log_main.html:18
+#: includes/include.client_edit.php:237
+#: includes/include.grouprights_overview.php:109
+#: includes/include.grouprights_overview.php:210
+#: includes/include.grouprights_create.php:99
+#: includes/include.rights_overview.php:200
+#: includes/include.rights_overview.php:354
+#: includes/include.rights_create.php:147
+#: includes/include.systemsettings.php:62
+#: includes/include.systemsettings.php:178
+#: includes/include.clientsettings.php:98
+#: includes/include.clientsettings.php:193
+msgid "Value"
+msgstr ""
+
+#: templates/standard/template.log_main.html:29
+#: templates/standard/template.log_main.html:54
+#: includes/include.mod_package.php:254
+msgid "Action"
+msgstr ""
+
+#: templates/standard/template.log_main.html:33
+#: templates/standard/template.con_edit_form.html:146
+#: includes/include.upl_edit.php:207
+msgid "Start date"
+msgstr ""
+
+#: templates/standard/template.log_main.html:37
+#: templates/standard/template.con_edit_form.html:150
+#: includes/include.todo.popup.php:79 includes/include.upl_edit.php:211
+#: includes/include.mycontenido.tasks.edit.php:75
+msgid "End date"
+msgstr ""
+
+#: templates/standard/template.log_main.html:41
+#: templates/standard/template.recipient_menu.html:88
+msgid "Limit"
+msgstr ""
+
+#: templates/standard/template.log_main.html:52
+msgid "Date"
+msgstr ""
+
+#: templates/standard/template.tpl_edit_form.html:42
+#: includes/include.lay_overview.php:101
+#: includes/include.tpl_edit_form.php:161
+msgid "Layout"
+msgstr ""
+
+#: templates/standard/template.tpl_edit_form.html:55
+#: includes/include.tpl_edit_form.php:162
+msgid "Layout description"
+msgstr ""
+
+#: templates/standard/template.info.html:15
+msgid "Concept and Implementation"
+msgstr ""
+
+#: templates/standard/template.info.html:15
+msgid "Germany"
+msgstr ""
+
+#: templates/standard/template.info.html:15
+msgid "Phone"
+msgstr ""
+
+#: templates/standard/template.rights_inc.html:24
+msgid "Client / Language"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:141
+#: includes/include.upl_edit.php:92
+msgid "Time control"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:144
+#: includes/include.upl_edit.php:201
+msgid "Use time control"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:153
+msgid "When expired, move to category"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:155
+msgid "Make online after move"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:184
+msgid "Page title"
+msgstr ""
+
+#: templates/standard/template.con_edit_form.html:190
+msgid "Meta tags"
+msgstr ""
+
+#: templates/standard/template.welcome.html:22
+msgid "Available clients"
+msgstr ""
+
+#: templates/standard/template.welcome.html:42
+msgid "Currently"
+msgstr ""
+
+#: templates/standard/template.welcome.html:42
+msgid "Users online"
+msgstr ""
+
+#: templates/standard/template.welcome.html:50
+msgid "Contact System Administrators"
+msgstr ""
+
+#: templates/standard/template.upl_files_overview.html:61
+msgid "Sort files"
+msgstr ""
+
+#: templates/standard/template.upl_files_overview.html:88
+msgid "Image size"
+msgstr ""
+
+#: templates/standard/template.str_overview.html:133
+#: templates/standard/template.str_overview.html:227
+#: includes/include.con_edit_form.php:211
+#: includes/include.str_overview.php:509
+msgid "Alias"
+msgstr ""
+
+#: templates/standard/template.str_overview.html:139
+#: includes/cfg_language_de.inc.php:105 includes/cfg_language_de.inc.php:124
+#: includes/include.str_overview.php:963 includes/include.str_overview.php:965
+msgid "Protect category"
+msgstr ""
+
+#: templates/standard/template.str_overview.html:157
+msgid "Category is a tree"
+msgstr ""
+
+#: templates/standard/template.str_overview.html:164
+msgid "Position of category"
+msgstr ""
+
+#: templates/standard/template.recipient_menu.html:92
+#: includes/include.con_left_top.php:237
+msgid "Search"
+msgstr ""
+
+#: includes/rights_tpl.inc.php:55 includes/grouprights_area.inc.php:65
+#: includes/include.client_edit.php:48
+#: includes/include.con_art_overview.php:1013
+#: includes/include.client_artspec.php:40
+#: includes/include.client_artspec.php:50
+#: includes/include.client_artspec.php:60
+#: includes/include.client_artspec.php:70 includes/grouprights_tpl.inc.php:53
+#: includes/grouprights_lay.inc.php:55 includes/grouprights_lay.inc.php:74
+#: includes/include.style_edit_form.php:51
+#: includes/include.html_tpl_edit_form.php:50
+#: includes/include.system_purge.php:37 includes/include.logs.php:46
+#: includes/include.grouprights_overview.php:42
+#: includes/grouprights_mod.inc.php:54 includes/include.style_history.php:57
+#: includes/include.js_history.php:55 includes/rights_area.inc.php:58
+#: includes/include.con_edit_form.php:764
+#: includes/grouprights_members.inc.php:41 includes/rights_con.inc.php:56
+#: includes/rights_lay.inc.php:57 includes/include.grouprights_create.php:42
+#: includes/include.lay_edit_form.php:43 includes/include.lay_edit_form.php:52
+#: includes/grouprights_str.inc.php:54 includes/include.tpl_edit_form.php:40
+#: includes/include.tplcfg_edit_form.php:148
+#: includes/include.lay_history.php:46 includes/include.rights_overview.php:49
+#: includes/rights_str.inc.php:55 includes/include.upl_dirs_overview.php:389
+#: includes/include.upl_dirs_overview.php:536 includes/rights_mod.inc.php:55
+#: includes/grouprights_con.inc.php:56 includes/include.rights_create.php:43
+#: includes/include.js_edit_form.php:50 includes/include.lang_edit.php:127
+#: includes/include.html_tpl_history.php:59
+#: includes/include.mod_history.php:52
+msgid "Permission denied"
+msgstr ""
+
+#: includes/rights_tpl.inc.php:100 includes/grouprights_area.inc.php:86
+#: includes/grouprights_tpl.inc.php:101 includes/grouprights_lay.inc.php:113
+#: includes/grouprights_mod.inc.php:99 includes/rights_area.inc.php:87
+#: includes/rights_con.inc.php:112 includes/rights_lay.inc.php:100
+#: includes/grouprights_str.inc.php:105 includes/rights_str.inc.php:106
+#: includes/rights_mod.inc.php:99 includes/grouprights_con.inc.php:111
+msgid "Check all"
+msgstr ""
+
+#: includes/rights.inc.php:273 includes/include.con_art_overview.php:866
+#: includes/include.grouprights_left_top.php:59
+#: includes/grouprights.inc.php:157 includes/include.rights_left_top.php:76
+#: includes/functions.stat.php:992 includes/functions.stat.php:1018
+msgid "All"
+msgstr ""
+
+#: includes/rights.inc.php:275 includes/grouprights.inc.php:159
+msgid "Article rights"
+msgstr ""
+
+#: includes/rights.inc.php:277 includes/grouprights.inc.php:161
+msgid "Category rights"
+msgstr ""
+
+#: includes/rights.inc.php:279 includes/grouprights.inc.php:163
+msgid "Template rights"
+msgstr ""
+
+#: includes/rights.inc.php:281 includes/grouprights.inc.php:165
+msgid "Plugin/Other rights"
+msgstr ""
+
+#: includes/rights.inc.php:343
+msgid ""
+"The selected user is a system administrator. A system administrator has all "
+"rights for all clients for all languages and therefore rights can't be "
+"specified in more detail."
+msgstr ""
+
+#: includes/rights.inc.php:348
+msgid ""
+"The selected user is assigned to clients as admin, only. An admin has all "
+"rights for a client and therefore rights can't be specified in more detail."
+msgstr ""
+
+#: includes/rights.inc.php:352
+msgid "Current user doesn't have any rights to any client/language."
+msgstr ""
+
+#: includes/include.client_menu.php:80
+msgid "Delete client"
+msgstr ""
+
+#: includes/include.client_menu.php:81
+#, php-format
+msgid "Do you really want to delete the following client:<br><br>%s<br>"
+msgstr ""
+
+#: includes/include.client_edit.php:52
+msgid "No client ID passed"
+msgstr ""
+
+#: includes/include.client_edit.php:65
+msgid ""
+"Notice: In order to use this client, you must create a new language for it."
+msgstr ""
+
+#: includes/include.client_edit.php:69
+#, php-format
+msgid "Please click %shere%s to create a new language."
+msgstr ""
+
+#: includes/include.client_edit.php:116
+msgid "Couldn't write the file config.php."
+msgstr ""
+
+#: includes/include.client_edit.php:126
+#, php-format
+msgid ""
+"The directory %s already exists. The client was created, but you have to "
+"copy the frontend-template yourself"
+msgstr ""
+
+#: includes/include.client_edit.php:145
+msgid ""
+"You changed the client path. You might need to copy the frontend to the new "
+"location"
+msgstr ""
+
+#: includes/include.client_edit.php:170
+#: includes/include.system_configuration.php:133
+#: includes/include.grouprights_overview.php:65
+#: includes/grouprights.inc.php:335 includes/include.rights_overview.php:141
+#: includes/include.lang_edit.php:140
+msgid "Changes saved"
+msgstr ""
+
+#: includes/include.client_edit.php:226
+#: includes/include.grouprights_overview.php:103
+#: includes/include.CMS_EASYIMG.php:157
+#: includes/include.rights_overview.php:193
+msgid "Discard changes"
+msgstr ""
+
+#: includes/include.client_edit.php:234
+#: includes/include.grouprights_overview.php:106
+#: includes/include.grouprights_overview.php:209
+#: includes/include.grouprights_create.php:96
+#: includes/include.rights_overview.php:197
+#: includes/include.rights_overview.php:353
+#: includes/include.rights_create.php:144
+msgid "Property"
+msgstr ""
+
+#: includes/include.client_edit.php:243
+msgid "Client name"
+msgstr ""
+
+#: includes/include.client_edit.php:259
+msgid "Server path"
+msgstr ""
+
+#: includes/include.client_edit.php:275
+msgid "Web address"
+msgstr ""
+
+#: includes/include.client_edit.php:284
+msgid "Error page category"
+msgstr ""
+
+#: includes/include.client_edit.php:293
+msgid "Error page article"
+msgstr ""
+
+#: includes/include.client_edit.php:304
+msgid "Client logo"
+msgstr ""
+
+#: includes/include.client_edit.php:313
+msgid "HTML"
+msgstr ""
+
+#: includes/include.client_edit.php:313
+msgid "XHTML"
+msgstr ""
+
+#: includes/include.client_edit.php:313
+msgid "HTML5"
+msgstr ""
+
+#: includes/include.client_edit.php:328
+msgid "Generate"
+msgstr ""
+
+#: includes/include.client_edit.php:339
+msgid "Copy frontend template"
+msgstr ""
+
+#: includes/include.con_art_overview.php:354
+#: includes/include.con_edit_form.php:297
+msgid "not yet published"
+msgstr ""
+
+#: includes/include.con_art_overview.php:369
+msgid "Article is in use"
+msgstr ""
+
+#: includes/include.con_art_overview.php:370
+#, php-format
+msgid "Article in use by %s (%s)"
+msgstr ""
+
+#: includes/include.con_art_overview.php:446
+msgid "Article is frozen"
+msgstr ""
+
+#: includes/include.con_art_overview.php:449
+msgid "Article is not frozen"
+msgstr ""
+
+#: includes/include.con_art_overview.php:486
+msgid "Copy article to the current language"
+msgstr ""
+
+#: includes/include.con_art_overview.php:553
+#: includes/include.con_edit_form.php:350
+msgid "Start article"
+msgstr ""
+
+#: includes/include.con_art_overview.php:555
+msgid "Normal article"
+msgstr ""
+
+#: includes/include.con_art_overview.php:581
+#, php-format
+msgid "Reminder for Article '%s'"
+msgstr ""
+
+#: includes/include.con_art_overview.php:584
+#, php-format
+msgid ""
+"Reminder for Article '%s'\n"
+"Category: %s"
+msgstr ""
+
+#: includes/include.con_art_overview.php:595
+#: includes/include.mycontenido_lastarticles.php:221
+msgid "Article is online"
+msgstr ""
+
+#: includes/include.con_art_overview.php:603
+#: includes/include.mycontenido_lastarticles.php:224
+msgid "Article is offline"
+msgstr ""
+
+#: includes/include.con_art_overview.php:625
+#, php-format
+msgid "Are you sure to delete the following article:<br><br><b>%s</b>"
+msgstr ""
+
+#: includes/include.con_art_overview.php:771
+#: includes/include.con_art_overview.php:774
+#, php-format
+msgid "Go to page: %s"
+msgstr ""
+
+#: includes/include.con_art_overview.php:777
+msgid "with click select line for further treatment"
+msgstr ""
+
+#: includes/include.con_art_overview.php:832
+#: includes/include.con_art_overview.php:938
+msgid "No articles found"
+msgstr ""
+
+#: includes/include.con_art_overview.php:838
+msgid "Alphabetical"
+msgstr ""
+
+#: includes/include.con_art_overview.php:839
+msgid "Last change"
+msgstr ""
+
+#: includes/include.con_art_overview.php:840
+msgid "Published date"
+msgstr ""
+
+#: includes/include.con_art_overview.php:841
+#: includes/include.con_edit_form.php:354
+msgid "Sort key"
+msgstr ""
+
+#: includes/include.con_art_overview.php:860
+msgid "Sort articles:"
+msgstr ""
+
+#: includes/include.con_art_overview.php:887
+msgid "Items per page:"
+msgstr ""
+
+#: includes/include.client_artspec.php:79
+#: includes/include.con_edit_form.php:241
+msgid "Article specification"
+msgstr ""
+
+#: includes/include.client_artspec.php:80
+#: includes/include.mycontenido_settings.php:127
+#: includes/include.lay_edit_form.php:207
+#: includes/include.mycontenido.tasks.php:397
+msgid "Options"
+msgstr ""
+
+#: includes/include.client_artspec.php:90 includes/include.upl_edit.php:58
+#: includes/include.systemsettings.php:71
+#: includes/include.systemsettings.php:75
+#: includes/include.clientsettings.php:114
+msgid "Edit"
+msgstr ""
+
+#: includes/include.client_artspec.php:94
+#: includes/include.systemsettings.php:79
+#: includes/include.systemsettings.php:81
+#: includes/include.clientsettings.php:108
+msgid "Delete"
+msgstr ""
+
+#: includes/include.client_artspec.php:131
+msgid "Save"
+msgstr ""
+
+#: includes/include.client_artspec.php:150
+msgid "Make this article specification default"
+msgstr ""
+
+#: includes/include.client_artspec.php:154
+msgid "This article specification is default"
+msgstr ""
+
+#: includes/include.client_artspec.php:163
+#: includes/include.con_edit_form.php:238
+msgid "No article specifications found!"
+msgstr ""
+
+#: includes/include.client_artspec.php:173
+msgid "Create new article specification"
+msgstr ""
+
+#: includes/include.client_artspec.php:176
+msgid "Specification name"
+msgstr ""
+
+#: includes/include.mod_package.php:111
+#: includes/include.js_files_overview.php:104
+#: includes/include.html_tpl_files_overview.php:105
+#: includes/include.style_files_overview.php:104
+msgid "is not readable!"
+msgstr ""
+
+#: includes/include.mod_package.php:123
+#: includes/include.js_files_overview.php:155
+#: includes/include.html_tpl_files_overview.php:156
+#: includes/include.style_files_overview.php:155
+msgid "Directory is not existing or readable!"
+msgstr ""
+
+#: includes/include.mod_package.php:139
+msgid "No elements available"
+msgstr ""
+
+#: includes/include.mod_package.php:188
+msgid "Javascript files"
+msgstr ""
+
+#: includes/include.mod_package.php:189
+msgid "Module template files"
+msgstr ""
+
+#: includes/include.mod_package.php:190
+msgid "Style files"
+msgstr ""
+
+#: includes/include.mod_package.php:192
+msgid "Translations"
+msgstr ""
+
+#: includes/include.mod_package.php:219 includes/include.mod_package.php:357
+#: includes/include.mod_edit_form.php:81
+#, php-format
+msgid "Error while importing XML file: %s"
+msgstr ""
+
+#: includes/include.mod_package.php:238
+msgid "Skip"
+msgstr ""
+
+#: includes/include.mod_package.php:238
+msgid "Append"
+msgstr ""
+
+#: includes/include.mod_package.php:238
+msgid "Overwrite"
+msgstr ""
+
+#: includes/include.mod_package.php:239
+msgid "OK"
+msgstr ""
+
+#: includes/include.mod_package.php:240
+msgid "Assign"
+msgstr ""
+
+#: includes/include.mod_package.php:241
+msgid "Conflict"
+msgstr ""
+
+#: includes/include.mod_package.php:242
+msgid "Ignored"
+msgstr ""
+
+#: includes/include.mod_package.php:243
+msgid "- Select -"
+msgstr ""
+
+#: includes/include.mod_package.php:252 includes/include.mod_package.php:361
+#: includes/include.mod_package.php:366
+#: includes/include.mycontenido.tasks.edit.php:137
+#: includes/include.mycontenido.tasks.php:276
+#: includes/include.stat_overview.php:90
+msgid "Status"
+msgstr ""
+
+#: includes/include.mod_package.php:312
+msgid "Import"
+msgstr ""
+
+#: includes/include.mod_package.php:361
+msgid "Import was not succesful, please check data and try again"
+msgstr ""
+
+#: includes/include.mod_package.php:362
+msgid "Retry"
+msgstr ""
+
+#: includes/include.mod_package.php:366
+msgid "Import succesfully finished"
+msgstr ""
+
+#: includes/include.mod_package.php:367
+msgid "Finish"
+msgstr ""
+
+#: includes/include.mod_package.php:398 includes/include.mod_edit_form.php:101
+#, php-format
+msgid "Module is in use by %s (%s)"
+msgstr ""
+
+#: includes/include.mod_package.php:421
+msgid "Edit package"
+msgstr ""
+
+#: includes/include.mod_package.php:442
+msgid "Package GUID"
+msgstr ""
+
+#: includes/include.mod_package.php:454 includes/include.mod_translate.php:174
+#: includes/include.mod_edit_form.php:419
+msgid "Import from file"
+msgstr ""
+
+#: includes/include.mod_package.php:455 includes/include.mod_translate.php:173
+#: includes/include.mod_edit_form.php:420
+msgid "Export to file"
+msgstr ""
+
+#: includes/include.mod_package.php:472 includes/include.mod_translate.php:184
+#: includes/include.mod_edit_form.php:437
+msgid "Mode"
+msgstr ""
+
+#: includes/include.todo.popup.php:58
+msgid "Add TODO item"
+msgstr ""
+
+#: includes/include.todo.popup.php:67
+#: includes/include.mycontenido.tasks.edit.php:68
+#: includes/include.mycontenido.tasks.php:276
+msgid "Subject"
+msgstr ""
+
+#: includes/include.todo.popup.php:75
+#: includes/include.mycontenido.tasks.edit.php:100
+msgid "Reminder date"
+msgstr ""
+
+#: includes/include.todo.popup.php:80
+msgid "eMail notification"
+msgstr ""
+
+#: includes/include.todo.popup.php:82
+#: includes/include.mycontenido.tasks.edit.php:81
+msgid "Reminder options"
+msgstr ""
+
+#: includes/include.todo.popup.php:124
+#: includes/include.mycontenido.tasks.edit.php:65
+msgid "Assigned to"
+msgstr ""
+
+#: includes/include.upl_edit.php:83
+msgid "File name"
+msgstr ""
+
+#: includes/include.upl_edit.php:84
+#: includes/include.upl_search_results.php:204
+#: includes/include.upl_search_results.php:209
+#: includes/include.upl_search_results.php:212
+msgid "Path"
+msgstr ""
+
+#: includes/include.upl_edit.php:85
+msgid "Replace file"
+msgstr ""
+
+#: includes/include.upl_edit.php:86
+msgid "Media name"
+msgstr ""
+
+#: includes/include.upl_edit.php:88
+msgid "Keywords"
+msgstr ""
+
+#: includes/include.upl_edit.php:89
+msgid "Internal notes"
+msgstr ""
+
+#: includes/include.upl_edit.php:90
+msgid "Copyright"
+msgstr ""
+
+#: includes/include.upl_edit.php:91
+msgid "Protection"
+msgstr ""
+
+#: includes/include.upl_edit.php:93
+#: includes/include.upl_files_overview.php:537
+#: includes/include.upl_search_results.php:286
+#: includes/include.CMS_IMG.php:283
+msgid "Preview"
+msgstr ""
+
+#: includes/include.upl_edit.php:94 includes/include.con_left_top.php:275
+#: includes/include.frontend.user_edit.php:245
+msgid "Author"
+msgstr ""
+
+#: includes/include.upl_edit.php:95
+#: includes/include.frontend.user_edit.php:246
+msgid "Last modified by"
+msgstr ""
+
+#: includes/include.upl_edit.php:192
+msgid "Protected for non-logged in users"
+msgstr ""
+
+#: includes/include.upl_edit.php:296
+#: includes/include.upl_files_overview.php:87
+#: includes/include.upl_files_upload.php:67
+msgid "Directory not writable"
+msgstr ""
+
+#: includes/include.upl_edit.php:305
+#, php-format
+msgid "Could not load file %s"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:260
+#, php-format
+msgid ""
+"The uploaded file (%s) exceeds the upload_max_filesize directive in php.ini."
+msgstr ""
+
+#: includes/include.upl_files_overview.php:270
+#, php-format
+msgid "Error while uploading file (%s)."
+msgstr ""
+
+#: includes/include.upl_files_overview.php:322
+msgid "Errors while uploading file(s). Some or all files were not uploaded."
+msgstr ""
+
+#: includes/include.upl_files_overview.php:405
+#: includes/include.upl_files_overview.php:407
+msgid "Use file"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:453
+#: includes/include.upl_files_overview.php:457
+#: includes/include.upl_files_overview.php:459
+#: includes/include.upl_search_results.php:190
+#: includes/include.upl_search_results.php:195
+#: includes/include.upl_search_results.php:198
+msgid "Filename / Description"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:465
+#: includes/include.upl_files_overview.php:469
+#: includes/include.upl_files_overview.php:471
+#: includes/include.upl_search_results.php:218
+#: includes/include.upl_search_results.php:223
+#: includes/include.upl_search_results.php:226
+msgid "Size"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:477
+#: includes/include.upl_files_overview.php:481
+#: includes/include.upl_files_overview.php:483
+#: includes/include.upl_search_results.php:232
+#: includes/include.upl_search_results.php:237
+#: includes/include.upl_search_results.php:240 includes/include.mod_new.php:59
+#: includes/include.mod_new.php:82 includes/include.mod_edit_form.php:377
+#: includes/include.systemsettings.php:60
+#: includes/include.systemsettings.php:170
+#: includes/include.clientsettings.php:98
+#: includes/include.clientsettings.php:185
+msgid "Type"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:490
+msgid "Delete Files"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:490
+msgid "Are you sure you want to delete the selected files?"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:491
+msgid "Delete selected files"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:508
+msgid "Flip Selection"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:513
+#: includes/include.upl_files_upload.php:59
+msgid "Path:"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:528
+#: includes/include.upl_search_results.php:276
+msgid "Files per Page"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:536
+msgid "Mark"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:654
+msgid "Display properties"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:717
+#: includes/include.upl_search_results.php:445
+msgid "Previous Page"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:724
+#: includes/include.upl_search_results.php:452
+msgid "Next Page"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:764
+#: includes/include.upl_search_results.php:490
+msgid "Page"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:790
+#: includes/cfg_language_de.inc.php:143
+msgid "Delete file"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:791
+msgid "Do you really want to delete the following file:<br>"
+msgstr ""
+
+#: includes/include.upl_files_overview.php:922
+#: includes/include.upl_search_results.php:605
+msgid "Enter new filename"
+msgstr ""
+
+#: includes/include.upl_search_results.php:246
+#: includes/include.upl_search_results.php:251
+#: includes/include.upl_search_results.php:254
+msgid "Relevance"
+msgstr ""
+
+#: includes/include.upl_search_results.php:260
+msgid "Searched for:"
+msgstr ""
+
+#: includes/include.system_sysvalues.php:79
+#: includes/include.system_sysvalues.php:123
+msgid "No error log entries found"
+msgstr ""
+
+#: includes/include.system_sysvalues.php:83
+msgid "No error log file found"
+msgstr ""
+
+#: includes/include.system_sysvalues.php:116
+msgid "No install error log entries found"
+msgstr ""
+
+#: includes/grouprights_lay.inc.php:85 includes/rights_lay.inc.php:75
+msgid "Layout name"
+msgstr ""
+
+#: includes/include.js_files_overview.php:131
+#: includes/include.html_tpl_files_overview.php:132
+#: includes/include.system_db_backup.php:276
+#: includes/include.style_files_overview.php:131
+msgid "Delete File"
+msgstr ""
+
+#: includes/include.js_files_overview.php:132
+#: includes/include.html_tpl_files_overview.php:133
+#: includes/include.style_files_overview.php:132
+#, php-format
+msgid "Do you really want to delete the following file:<br><br>%s<br>"
+msgstr ""
+
+#: includes/include.system_configuration.php:93
+msgid "Versioning activated"
+msgstr ""
+
+#: includes/include.system_configuration.php:93
+#: includes/include.system_configuration.php:94
+#: includes/include.system_configuration.php:95
+msgid "Versioning"
+msgstr ""
+
+#: includes/include.system_configuration.php:94
+msgid "Serverpath to version files"
+msgstr ""
+
+#: includes/include.system_configuration.php:95
+msgid "Maximum number of stored versions"
+msgstr ""
+
+#: includes/include.system_configuration.php:96
+msgid "Check for updates"
+msgstr ""
+
+#: includes/include.system_configuration.php:96
+#: includes/include.system_configuration.php:97
+#: includes/include.system_configuration.php:98
+msgid "Update notifier"
+msgstr ""
+
+#: includes/include.system_configuration.php:97
+msgid "Get news from conlite.org"
+msgstr ""
+
+#: includes/include.system_configuration.php:98
+msgid "Update check period (minutes)"
+msgstr ""
+
+#: includes/include.system_configuration.php:99
+msgid "Clickable menu in backend"
+msgstr ""
+
+#: includes/include.system_configuration.php:99
+#: includes/include.system_configuration.php:100
+#: includes/include.system_configuration.php:101
+#: includes/include.system_configuration.php:102
+#: includes/include.system_configuration.php:103
+#: includes/include.system_configuration.php:104
+msgid "Backend"
+msgstr ""
+
+#: includes/include.system_configuration.php:100
+msgid "Use passwordrequest in Backend"
+msgstr ""
+
+#: includes/include.system_configuration.php:101
+msgid "Activate maintenance mode"
+msgstr ""
+
+#: includes/include.system_configuration.php:102
+msgid "Use editarea for code highlighting"
+msgstr ""
+
+#: includes/include.system_configuration.php:103
+msgid "Use TinyMce as insight editor"
+msgstr ""
+
+#: includes/include.system_configuration.php:104
+msgid "Default client (ID)"
+msgstr ""
+
+#: includes/include.system_configuration.php:105
+msgid "Mailserver host"
+msgstr ""
+
+#: includes/include.system_configuration.php:105
+#: includes/include.system_configuration.php:106
+#: includes/include.system_configuration.php:107
+msgid "Mailserver"
+msgstr ""
+
+#: includes/include.system_configuration.php:106
+msgid "Mailserver sender mail"
+msgstr ""
+
+#: includes/include.system_configuration.php:107
+msgid "Mailserver sender name"
+msgstr ""
+
+#: includes/include.system_configuration.php:109
+msgid "Generate basehref"
+msgstr ""
+
+#: includes/include.system_configuration.php:109
+#: includes/include.system_configuration.php:110
+msgid "Development"
+msgstr ""
+
+#: includes/include.system_configuration.php:110
+msgid "Use image magic (if available)"
+msgstr ""
+
+#: includes/include.system_configuration.php:123
+msgid "Update check period must be at least 60 minutes."
+msgstr ""
+
+#: includes/include.system_configuration.php:142
+msgid "System Configuration"
+msgstr ""
+
+#: includes/include.system_configuration.php:192
+msgid "Access denied"
+msgstr ""
+
+#: includes/include.con_editcontent.php:216
+msgid "Close editor"
+msgstr ""
+
+#: includes/include.con_editcontent.php:217
+msgid "Close editor and save changes"
+msgstr ""
+
+#: includes/include.con_editcontent.php:218
+msgid "Do you want to save changes?"
+msgstr ""
+
+#: includes/include.con_editcontent.php:380
+msgid "No template assigned to the category<br>and/or the article"
+msgstr ""
+
+#: includes/include.con_editcontent.php:381
+msgid "The code for the following article<br>couldnt be generated:"
+msgstr ""
+
+#: includes/include.con_editcontent.php:397 includes/include.lang_edit.php:247
+#: includes/include.lang_edit.php:249 main.loginform.php:193
+msgid "Language"
+msgstr ""
+
+#: includes/include.con_left_top.php:135
+msgid "Ignore"
+msgstr ""
+
+#: includes/include.con_left_top.php:138
+msgid "Date published"
+msgstr ""
+
+#: includes/include.con_left_top.php:141
+msgid "Article Search"
+msgstr ""
+
+#: includes/include.con_left_top.php:250
+msgid "Title/Content"
+msgstr ""
+
+#: includes/include.con_left_top.php:255
+msgid "Article ID"
+msgstr ""
+
+#: includes/include.con_left_top.php:260
+msgid "Datum"
+msgstr ""
+
+#: includes/include.con_left_top.php:265
+msgid "Date from"
+msgstr ""
+
+#: includes/include.con_left_top.php:270
+msgid "Date to"
+msgstr ""
+
+#: includes/include.con_left_top.php:291
+msgid "Saved Searches"
+msgstr ""
+
+#: includes/include.con_left_top.php:302
+#: includes/include.mycontenido_lastarticles.php:137
+#: includes/main.login.php:184
+msgid "Recently edited articles"
+msgstr ""
+
+#: includes/include.con_left_top.php:306
+msgid "My articles"
+msgstr ""
+
+#: includes/include.con_left_top.php:311
+msgid "Workflow"
+msgstr ""
+
+#: includes/include.con_left_top.php:374
+#: includes/include.frontend.user_edit.php:241
+#: includes/include.str_overview.php:188 includes/include.str_overview.php:656
+#: includes/include.tpl_edit_form.php:87 includes/include.tpl_edit_form.php:92
+#: includes/include.tpl_edit_form.php:206
+#: includes/include.tplcfg_edit_form.php:309
+#: includes/include.rights_overview.php:455
+#: includes/include.tpl_visualedit.php:146
+msgid "none"
+msgstr ""
+
+#: includes/include.con_left_top.php:379
+msgid "Edit Category"
+msgstr ""
+
+#: includes/include.con_left_top.php:395
+msgid "Template:"
+msgstr ""
+
+#: includes/include.con_left_top.php:404 includes/include.con_left_top.php:405
+msgid "Configure Category"
+msgstr ""
+
+#: includes/include.con_left_top.php:407 includes/include.con_left_top.php:408
+msgid "Online / Offline"
+msgstr ""
+
+#: includes/include.con_left_top.php:410 includes/include.con_left_top.php:411
+msgid "Lock / Unlock"
+msgstr ""
+
+#: includes/include.con_left_top.php:428
+msgid "close all"
+msgstr ""
+
+#: includes/include.con_left_top.php:429
+msgid "open all"
+msgstr ""
+
+#: includes/include.con_left_top.php:439
+msgid "Synchronize from"
+msgstr ""
+
+#: includes/include.con_left_top.php:472 includes/include.con_left_top.php:473
+msgid "Copy to current language"
+msgstr ""
+
+#: includes/include.con_left_top.php:474 includes/include.con_left_top.php:475
+msgid "Also copy subcategories"
+msgstr ""
+
+#: includes/include.style_edit_form.php:180
+#: includes/include.html_tpl_edit_form.php:197
+#: includes/include.js_edit_form.php:159
+msgid "Edit file"
+msgstr ""
+
+#: includes/include.style_edit_form.php:199
+#: includes/include.html_tpl_edit_form.php:215
+#: includes/include.style_history.php:162 includes/include.js_history.php:157
+#: includes/include.lay_edit_form.php:206
+#: includes/include.lay_edit_form.php:217 includes/include.lay_history.php:122
+#: includes/include.js_edit_form.php:177
+#: includes/include.html_tpl_history.php:165
+msgid "Code"
+msgstr ""
+
+#: includes/include.frontend.group.subnav.php:40 includes/main.login.php:183
+msgid "Overview"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:57
+msgid "Old password incorrect"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:62
+#: includes/include.rights_overview.php:132
+#: includes/include.rights_create.php:122
+msgid "Passwords don't match"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:77
+msgid "Password changed"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:97
+#, php-format
+msgid "Settings for %s"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:115
+msgid "Old password"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:116
+#: includes/include.frontend.user_edit.php:190
+#: includes/include.rights_overview.php:217
+#: includes/include.rights_create.php:162
+msgid "New password"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:117
+#: includes/include.rights_overview.php:223
+#: includes/include.rights_create.php:168
+msgid "Confirm new password"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:121
+#: includes/include.rights_overview.php:230
+#: includes/include.rights_create.php:174
+msgid "E-Mail"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:125
+msgid "Use WYSIWYG Editor"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:129
+msgid "The format is equal to PHP's date() function."
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:131
+msgid "Common date formattings"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:141
+#: includes/include.lang_edit.php:254
+msgid "Date/Time format"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:142
+#: includes/include.lang_edit.php:255
+msgid "Date format"
+msgstr ""
+
+#: includes/include.mycontenido_settings.php:143
+#: includes/include.lang_edit.php:253 includes/include.lang_edit.php:256
+msgid "Time format"
+msgstr ""
+
+#: includes/include.html_tpl_edit_form.php:185
+#: includes/include.lay_edit_form.php:173
+#, php-format
+msgid "Tag '%s' %s has no end tag (start tag is on line %s char %s)"
+msgstr ""
+
+#: includes/include.system_purge.php:79 includes/include.system_purge.php:87
+#: includes/include.system_purge.php:95 includes/include.system_purge.php:103
+#: includes/include.system_purge.php:112
+msgid "Client "
+msgstr ""
+
+#: includes/include.system_purge.php:80 includes/include.system_purge.php:128
+#: includes/include.system_purge.php:135
+#, php-format
+msgid "The entries of %s table are not deleted!"
+msgstr ""
+
+#: includes/include.system_purge.php:88
+#, php-format
+msgid "The %s is not updated!"
+msgstr ""
+
+#: includes/include.system_purge.php:96
+msgid "The cache is not deleted!"
+msgstr ""
+
+#: includes/include.system_purge.php:104
+msgid "The log is not deleted!"
+msgstr ""
+
+#: includes/include.system_purge.php:113
+msgid "The history is not deleted!"
+msgstr ""
+
+#: includes/include.system_purge.php:143
+msgid "The contenido log is not cleaned!"
+msgstr ""
+
+#: includes/include.system_purge.php:150
+msgid "The contenido cache is not deleted!"
+msgstr ""
+
+#: includes/include.system_purge.php:157
+msgid "The contenido cronjobs are not cleaned!"
+msgstr ""
+
+#: includes/include.system_purge.php:164
+msgid "Update of sequence table not completed!"
+msgstr ""
+
+#: includes/include.system_purge.php:169
+msgid "The changes were successfully executed."
+msgstr ""
+
+#: includes/include.system_purge.php:171
+msgid "The changes were not all successfully completed."
+msgstr ""
+
+#: includes/include.system_purge.php:190 includes/include.system_purge.php:214
+msgid "System purge"
+msgstr ""
+
+#: includes/include.system_purge.php:191
+msgid "No Client selected!"
+msgstr ""
+
+#: includes/include.system_purge.php:196
+msgid "all clients"
+msgstr ""
+
+#: includes/include.system_purge.php:197
+msgid "from list"
+msgstr ""
+
+#: includes/include.system_purge.php:198
+msgid "Select clients"
+msgstr ""
+
+#: includes/include.system_purge.php:199 includes/include.system_purge.php:201
+#: includes/include.system_purge.php:209
+#, php-format
+msgid "Reset the table %s"
+msgstr ""
+
+#: includes/include.system_purge.php:200
+#, php-format
+msgid "Activate the code generation in %s"
+msgstr ""
+
+#: includes/include.system_purge.php:202
+msgid "Clear client cache"
+msgstr ""
+
+#: includes/include.system_purge.php:203
+msgid "Clear client log file"
+msgstr ""
+
+#: includes/include.system_purge.php:204
+msgid "Clear client history"
+msgstr ""
+
+#: includes/include.system_purge.php:205
+msgid "Keep last histories"
+msgstr ""
+
+#: includes/include.system_purge.php:207
+msgid "Contenido"
+msgstr ""
+
+#: includes/include.system_purge.php:208
+msgid "Clear contenido log file"
+msgstr ""
+
+#: includes/include.system_purge.php:210
+msgid "Clear contenido cache"
+msgstr ""
+
+#: includes/include.system_purge.php:211
+msgid "Reset cronjobs"
+msgstr ""
+
+#: includes/include.system_purge.php:212
+msgid "Update sequence table"
+msgstr ""
+
+#: includes/include.system_purge.php:215
+msgid "These changes can not be cancelled."
+msgstr ""
+
+#: includes/include.system_purge.php:215
+msgid "Do you really want to complete it?"
+msgstr ""
+
+#: includes/include.system_purge.php:220
+msgid "No action selected!"
+msgstr ""
+
+#: includes/include.system_purge.php:222
+msgid "Send"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:99
+msgid "Make category online"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:100
+msgid "Change template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:101
+msgid "Set start article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:102
+msgid "Make article online"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:103
+msgid "Syncronize Category"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:104
+msgid "Syncronize Article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:107
+msgid "Edit template configuration"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:108
+msgid "Duplicate Article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:109
+msgid "Expand boxes"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:111
+msgid "Create article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:112
+msgid "Configure article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:113
+msgid "Save article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:114 includes/include.con_edit_form.php:391
+msgid "Remove assignments"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:115 includes/cfg_language_de.inc.php:117
+msgid "Edit article"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:116
+msgid "Edit article properties"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:118
+msgid "Help"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:121
+msgid "New category"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:122
+msgid "Set category on- or offline"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:123
+msgid "Disable category"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:125
+msgid "Frontend access"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:126
+msgid "Delete category"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:127
+msgid "Move category up"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:128
+msgid "Move category down"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:130
+msgid "Create new tree"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:133
+msgid "Edit category"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:135 includes/cfg_language_de.inc.php:145
+msgid "Create directory"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:136 includes/cfg_language_de.inc.php:144
+#: includes/include.upl_files_upload.php:63
+msgid "Upload files"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:137
+msgid "Delete files"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:138
+msgid "Remove directory"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:139
+msgid "Rename directory"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:140
+msgid "Modify file"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:141
+msgid "Rename file"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:142
+msgid "Multidelete Files"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:147 includes/include.lay_overview.php:92
+msgid "Delete layout"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:148
+msgid "Modify layout"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:149
+msgid "Create layout"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:150 includes/cfg_language_de.inc.php:155
+#: includes/cfg_language_de.inc.php:201 includes/cfg_language_de.inc.php:207
+#: includes/cfg_language_de.inc.php:213
+msgid "Manage History"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:151 includes/cfg_language_de.inc.php:156
+#: includes/cfg_language_de.inc.php:202 includes/cfg_language_de.inc.php:208
+#: includes/cfg_language_de.inc.php:214
+msgid "Truncate History"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:154 includes/include.mod_overview.php:234
+msgid "Delete module"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:157 includes/include.mod_edit_form.php:124
+msgid "Edit module"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:158
+msgid "Create module"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:159
+msgid "Import/Export module"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:160
+msgid "Translate modules"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:161
+msgid "Translation import/export"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:162
+msgid "Import/Export package"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:164 includes/include.tpl_overview.php:99
+msgid "Delete template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:165 includes/include.tpl_edit_form.php:149
+msgid "Edit template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:166
+msgid "Create template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:169
+msgid "Visual edit"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:172
+#: includes/include.frontend.left_top.php:397
+#: includes/include.rights_menu.php:135
+#: includes/include.frontend.user_menu.php:275
+msgid "Delete user"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:173
+msgid "Save user area rights"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:175
+msgid "Edit rights"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:176
+#: includes/include.frontend.user_edit.php:181
+msgid "Edit user"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:178
+msgid "Delete group members"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:179
+msgid "Add group members"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:180
+#: includes/include.frontend.group_edit.php:275
+msgid "Edit group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:181
+#: includes/include.grouprights_left_top.php:90
+#: includes/include.frontend.left_top.php:442
+msgid "Create group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:182
+#: includes/include.grouprights_menu.php:196
+msgid "Delete group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:184
+msgid "Show statistics"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:186 includes/include.lang_overview.php:68
+msgid "Activate language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:187 includes/include.lang_overview.php:72
+msgid "Deactivate language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:188
+msgid "Rename language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:189 includes/include.lang_left_top.php:80
+msgid "Create language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:190 includes/include.lang_overview.php:78
+msgid "Delete language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:191 includes/include.lang_edit.php:242
+msgid "Edit language"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:193
+msgid "Linkchecker"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:194
+msgid "Linkchecker Whitelist"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:196
+msgid "Install/Remove plugins"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:198
+msgid "Modify CSS"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:199
+msgid "Create CSS"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:200
+msgid "Delete CSS"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:204
+msgid "Edit script"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:205
+msgid "Delete script"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:206 includes/include.js_left_top.php:50
+msgid "Create script"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:210
+msgid "Modify HTML-Template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:211
+msgid "Create HTML-Template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:212
+msgid "Delete HTML-Template"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:216
+msgid "Edit newsletter"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:218
+msgid "Delete newsletter"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:219
+msgid "Duplicate newsletter"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:220
+msgid "Add newsletter dispatch job"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:221
+msgid "Change global HTML newsletter settings"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:222
+msgid "Send test newsletter (to groups)"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:223
+msgid "Delete dispatch job"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:224
+msgid "Remove recipient from dispatch job"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:225
+msgid "Run job"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:226
+msgid "View dispatch job details"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:228
+msgid "Edit recipient"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:230
+msgid "Delete recipient"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:231
+msgid "Purge recipients"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:232
+msgid "Import recipients"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:233
+msgid "Execute recipients import"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:234
+msgid "Delete recipient group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:236
+msgid "Delete recipient from group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:237
+msgid "Save recipient group"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:239
+msgid "Edit own MyContenido settings"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:240
+msgid "Delete reminder item"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:241
+msgid "Save todo item"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:243
+#: includes/include.client_left_top.php:50
+msgid "Create client"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:244
+msgid "Edit client"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:245
+msgid "Remove client"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:246
+msgid "Delete clientsetting"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:247
+msgid "Edit clientsetting"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:248
+msgid "Save clientsetting"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:249
+msgid "Create/Edit articlespecifications"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:250
+msgid "Delete articlespecifications"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:251
+msgid "Define default articlespecification"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:252
+msgid "Edit articlespecifications"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:253
+msgid "Make articlespecifications online"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:255
+msgid "Save frontenduser"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:256
+msgid "Create frontenduser"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:257 includes/cfg_language_de.inc.php:263
+msgid "Delete frontenduser"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:258
+msgid "Delete frontendgroup"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:259
+msgid "Save frontendgroup"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:260 includes/cfg_language_de.inc.php:261
+msgid "Create frontendgroup"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:262
+msgid "Add frontendusers"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:264
+msgid "Save frontendgroup permissions"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:266
+msgid "Delete system property"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:267
+msgid "Edit system property"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:268
+msgid "Save system property"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:270
+msgid "Empty log"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:271
+msgid "Edit Systemconfigration"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:272
+msgid "Do system purge"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:274
+msgid "Show log"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:276 main.loginform.php:197
+msgid "Login"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:277
+msgid "Request password?"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:279
+msgid "Delete note"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:280
+msgid "Save note"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:282
+msgid "Send mail"
+msgstr ""
+
+#: includes/cfg_language_de.inc.php:283
+msgid "Fake permissions"
+msgstr ""
+
+#: includes/include.mod_new.php:41
+msgid "New module"
+msgstr ""
+
+#: includes/include.mod_new.php:44
+msgid "Sync module"
+msgstr ""
+
+#: includes/include.mod_new.php:48 includes/include.js_left_top.php:54
+#: includes/include.tpl_new.php:41 includes/include.html_tpl_left_top.php:54
+#: includes/include.frontend.left_top.php:181
+#: includes/include.frontend.left_top.php:445
+#: includes/include.upl_left_top.php:53 includes/include.lay_new.php:40
+#: includes/include.lang_left_top.php:82
+#: includes/include.style_left_top.php:54
+msgid "No Client selected"
+msgstr ""
+
+#: includes/include.mod_new.php:66 includes/include.frontend.left_top.php:193
+#: includes/include.rights_left_top.php:123
+#: includes/include.frontend.user_menu.php:114
+msgid "List options"
+msgstr ""
+
+#: includes/include.mod_new.php:69 includes/include.mod_new.php:79
+#: includes/include.mod_new.php:99
+msgid "-- All --"
+msgstr ""
+
+#: includes/include.mod_new.php:80
+msgid "Modulname"
+msgstr ""
+
+#: includes/include.mod_new.php:83 includes/include.mod_edit_form.php:399
+#: includes/include.mod_edit_form.php:402
+msgid "Input"
+msgstr ""
+
+#: includes/include.mod_new.php:84 includes/include.mod_edit_form.php:400
+#: includes/include.mod_edit_form.php:403
+msgid "Output"
+msgstr ""
+
+#: includes/include.mod_new.php:100
+msgid "-- Without type --"
+msgstr ""
+
+#: includes/include.mod_new.php:125 includes/include.frontend.left_top.php:249
+#: includes/include.rights_left_top.php:147
+msgid "Items / page"
+msgstr ""
+
+#: includes/include.mod_new.php:129 includes/include.frontend.left_top.php:253
+#: includes/include.rights_left_top.php:151
+msgid "Sort by"
+msgstr ""
+
+#: includes/include.mod_new.php:137
+msgid "Type filter"
+msgstr ""
+
+#: includes/include.mod_new.php:141 includes/include.frontend.left_top.php:265
+#: includes/include.upl_left_top.php:74
+#: includes/include.rights_left_top.php:159
+msgid "Search for"
+msgstr ""
+
+#: includes/include.mod_new.php:144 includes/include.frontend.left_top.php:269
+msgid "Search in"
+msgstr ""
+
+#: includes/include.mod_new.php:149 includes/include.frontend.left_top.php:274
+#: includes/include.rights_left_top.php:164
+msgid "Apply"
+msgstr ""
+
+#: includes/functions.lang.php:119
+msgid ""
+"Could not set the language-ID in the file 'config.php'. Please set the "
+"language manually."
+msgstr ""
+
+#: includes/functions.lang.php:591
+msgid "Could not delete language"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.edit.php:43
+msgid "Edit Reminder item"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.edit.php:77
+msgid "E-Mail notification"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.edit.php:132
+#: includes/include.mycontenido.tasks.php:276
+msgid "Priority"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.edit.php:140
+msgid "Progress"
+msgstr ""
+
+#: includes/include.logs.php:64
+msgid "Submit query"
+msgstr ""
+
+#: includes/include.logs.php:75
+msgid "All users"
+msgstr ""
+
+#: includes/include.logs.php:77
+msgid "All actions"
+msgstr ""
+
+#: includes/include.logs.php:199
+msgid "Unlimited"
+msgstr ""
+
+#: includes/include.logs.php:200 includes/include.logs.php:201
+#: includes/include.logs.php:202 includes/include.logs.php:203
+#: includes/include.logs.php:204
+msgid "Entries"
+msgstr ""
+
+#: includes/include.logs.php:275
+msgid "No results"
+msgstr ""
+
+#: includes/include.lang_overview.php:77
+#, php-format
+msgid "Do you really want to delete the language %s?"
+msgstr ""
+
+#: includes/include.lang_overview.php:103 includes/include.lang_edit.php:84
+msgid "New language"
+msgstr ""
+
+#: includes/include.lang_overview.php:118
+msgid "Language deleted"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:67
+msgid "Changes couldn't saved"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:112
+msgid "Groupname"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:129
+#: includes/include.grouprights_create.php:123
+#: includes/include.rights_overview.php:271
+#: includes/include.rights_create.php:215
+msgid "System administrator"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:147
+#: includes/include.grouprights_create.php:141
+#: includes/include.rights_overview.php:289
+#: includes/include.rights_create.php:233
+msgid "Administrator"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:163
+#: includes/include.grouprights_create.php:156
+#: includes/include.rights_overview.php:305
+#: includes/include.rights_create.php:248
+msgid "Access clients"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:180
+#: includes/include.grouprights_create.php:172
+#: includes/include.rights_overview.php:322
+#: includes/include.rights_create.php:263
+msgid "Access languages"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:208
+#: includes/include.rights_overview.php:352
+msgid "Area/Type"
+msgstr ""
+
+#: includes/include.grouprights_overview.php:222
+#: includes/include.rights_overview.php:366
+msgid "User-defined properties"
+msgstr ""
+
+#: includes/include.mod_translate.php:138
+#, php-format
+msgid "Translate module '%s'"
+msgstr ""
+
+#: includes/include.mod_translate.php:147
+msgid "Translated Name"
+msgstr ""
+
+#: includes/include.mod_translate.php:157
+msgid "Original module string"
+msgstr ""
+
+#: includes/include.mod_translate.php:157
+#, php-format
+msgid "Translation for %s"
+msgstr ""
+
+#: includes/include.mod_translate.php:165
+msgid ""
+"Hint: Hit ALT+SHIFT+S to save the translated entry and advance to the next "
+"string."
+msgstr ""
+
+#: includes/include.mod_translate.php:166
+msgid "String list"
+msgstr ""
+
+#: includes/include.grouprights_menu.php:178
+#, php-format
+msgid "Do you really want to delete the group %s?"
+msgstr ""
+
+#: includes/include.grouprights_menu.php:197
+#, php-format
+msgid "Do you really want to delete the following group:<br><br>%s<br>"
+msgstr ""
+
+#: includes/grouprights_mod.inc.php:73 includes/rights_mod.inc.php:75
+msgid "Module name"
+msgstr ""
+
+#: includes/include.style_history.php:62 includes/include.js_history.php:60
+#: includes/include.lay_history.php:51
+#: includes/include.html_tpl_history.php:64
+#: includes/include.mod_history.php:57
+msgid "Versioning is not activated"
+msgstr ""
+
+#: includes/include.style_history.php:126
+msgid "Edit Style"
+msgstr ""
+
+#: includes/include.style_history.php:163 includes/include.js_history.php:158
+#: includes/include.lay_history.php:123
+#: includes/include.html_tpl_history.php:166
+#: includes/include.mod_history.php:135
+msgid "Copy to current"
+msgstr ""
+
+#: includes/include.style_history.php:176
+#: includes/include.style_history.php:184 includes/include.js_history.php:179
+msgid "No style history available"
+msgstr ""
+
+#: includes/include.style_history.php:182 includes/include.js_history.php:177
+#: includes/include.lay_history.php:135
+#: includes/include.html_tpl_history.php:185
+#: includes/include.mod_history.php:150
+msgid "Version history was cleared"
+msgstr ""
+
+#: includes/include.CMS_HTMLHEAD.php:100 includes/include.CMS_HTML.php:98
+msgid "Save without leaving the editor"
+msgstr ""
+
+#: includes/include.CMS_HTMLHEAD.php:101 includes/include.CMS_HTML.php:99
+msgid "Save and close editor"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:142 includes/include.CMS_SIMPLELINK.php:139
+#, php-format
+msgid "Edit link for container %s"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:153
+msgid "External link"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:210
+msgid "Internal link"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:240
+msgid "Link to a document"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:270
+msgid "Link to an image"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:285
+msgid "Link to an archive"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:300
+msgid "Link to a media file"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:316
+msgid "Link to any file"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:340
+msgid "Upload file"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:345
+msgid "Target frame"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:353
+msgid "Open link in new window"
+msgstr ""
+
+#: includes/include.CMS_LINK.php:375
+msgid "Open in new window"
+msgstr ""
+
+#: includes/include.grouprights_left_top.php:60
+#: includes/include.rights_left_top.php:77
+msgid "Frontend only"
+msgstr ""
+
+#: includes/include.grouprights_left_top.php:61
+#: includes/include.rights_left_top.php:78
+msgid "Backend only"
+msgstr ""
+
+#: includes/include.tpl_new.php:39
+msgid "New template"
+msgstr ""
+
+#: includes/include.frontend.group_edit.php:56
+msgid "-- new group --"
+msgstr ""
+
+#: includes/include.frontend.group_edit.php:121
+msgid "Could not set new group name: Group already exists"
+msgstr ""
+
+#: includes/include.frontend.group_edit.php:221
+#: includes/include.grouprights_create.php:102
+msgid "Group name"
+msgstr ""
+
+#: includes/include.frontend.group_edit.php:227
+msgid "Default group"
+msgstr ""
+
+#: includes/include.js_history.php:125
+#: includes/include.html_tpl_history.php:129
+msgid "Edit JScript"
+msgstr ""
+
+#: includes/include.js_history.php:171
+msgid "No jscript history available"
+msgstr ""
+
+#: includes/include.html_tpl_left_top.php:50
+msgid "Create module template"
+msgstr ""
+
+#: includes/grouprights.inc.php:215
+msgid "Current group doesn't have any rights to any client/language."
+msgstr ""
+
+#: includes/include.lay_preview.php:39 includes/include.tpl_visualedit.php:83
+msgid "No such layout"
+msgstr ""
+
+#: includes/include.con_edit_form.php:253
+msgid "Articlelink"
+msgstr ""
+
+#: includes/include.con_edit_form.php:260
+msgid "Select an entry to display link"
+msgstr ""
+
+#: includes/include.con_edit_form.php:261
+msgid "Article only"
+msgstr ""
+
+#: includes/include.con_edit_form.php:262
+msgid "Article with Category"
+msgstr ""
+
+#: includes/include.con_edit_form.php:263
+msgid "Article with Category and Language"
+msgstr ""
+
+#: includes/include.con_edit_form.php:264
+msgid "Article with Language"
+msgstr ""
+
+#: includes/include.con_edit_form.php:278
+msgid "Author (Creator)"
+msgstr ""
+
+#: includes/include.con_edit_form.php:288
+msgid "Author (Modifier)"
+msgstr ""
+
+#: includes/include.con_edit_form.php:289
+msgid "Last modified"
+msgstr ""
+
+#: includes/include.con_edit_form.php:293
+msgid "Publishing date"
+msgstr ""
+
+#: includes/include.con_edit_form.php:300
+msgid "Publisher"
+msgstr ""
+
+#: includes/include.con_edit_form.php:308
+msgid "Redirect"
+msgstr ""
+
+#: includes/include.con_edit_form.php:324
+msgid "New Window"
+msgstr ""
+
+#: includes/include.con_edit_form.php:393
+msgid "Remove multiple category assignments"
+msgstr ""
+
+#: includes/include.con_edit_form.php:394
+msgid ""
+"Do you really want to remove the assignments to all categories except the "
+"current one?"
+msgstr ""
+
+#: includes/include.con_edit_form.php:410
+msgid ""
+"Language parts of the articles are existing in other languages and are "
+"online. To change the category assignment, please set the other articles "
+"offline first."
+msgstr ""
+
+#: includes/include.con_edit_form.php:549
+msgid "Choose Startdate"
+msgstr ""
+
+#: includes/include.con_edit_form.php:550
+msgid "Choose Enddate"
+msgstr ""
+
+#: includes/include.con_edit_form.php:648
+msgid "Select date"
+msgstr ""
+
+#: includes/include.con_edit_form.php:685
+msgid "Summary"
+msgstr ""
+
+#: includes/include.stat_menu.php:37
+msgid "Current Report"
+msgstr ""
+
+#: includes/include.stat_menu.php:45
+msgid "Statistics Overview"
+msgstr ""
+
+#: includes/include.stat_menu.php:56
+msgid "Archived Statistics"
+msgstr ""
+
+#: includes/grouprights_members.inc.php:208
+msgid "Manage group members"
+msgstr ""
+
+#: includes/include.CMS_EASYIMG.php:146 includes/include.CMS_IMG.php:186
+#, php-format
+msgid "Edit image for container %s"
+msgstr ""
+
+#: includes/include.CMS_EASYIMG.php:153
+msgid "Upload image"
+msgstr ""
+
+#: includes/functions.tpl.php:433 includes/functions.con.php:1837
+#: includes/functions.str.php:1387
+#, php-format
+msgid "%s (Copy)"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:50
+#: includes/include.frontend.user_edit.php:74
+#: includes/include.frontend.user_edit.php:111
+msgid "-- new user --"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:114
+msgid "Username empty or not set! Please choose one."
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:119
+msgid "Password not set right now!"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:125
+msgid "Could not set new username: Username already exists"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:132
+msgid "Could not set new password: Passwords don't match"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:189
+#: includes/include.rights_left_top.php:115
+msgid "User name"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:191
+msgid "New password (again)"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:192
+#: includes/include.lang_edit.php:245
+msgid "Active"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:219
+msgid "WARNING"
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:219
+#, php-format
+msgid ""
+"The plugin %s delivered an array for the displayed titles, but did not "
+"return an array for the contents."
+msgstr ""
+
+#: includes/include.frontend.user_edit.php:244
+#: includes/include.rights_overview.php:458
+msgid "Group membership"
+msgstr ""
+
+#: includes/functions.system.php:55
+msgid "Can't clear install error log : Access is denied!"
+msgstr ""
+
+#: includes/functions.system.php:60
+msgid "error log successfully cleared"
+msgstr ""
+
+#: includes/functions.system.php:278
+msgid "Contenido version"
+msgstr ""
+
+#: includes/functions.system.php:281
+msgid "Contenido path"
+msgstr ""
+
+#: includes/functions.system.php:283
+msgid "Contenido HTML path"
+msgstr ""
+
+#: includes/functions.system.php:285
+msgid "Contenido full HTML path"
+msgstr ""
+
+#: includes/functions.system.php:287
+msgid "Contenido frontend path"
+msgstr ""
+
+#: includes/functions.system.php:289
+msgid "Contenido PHPLIB path"
+msgstr ""
+
+#: includes/functions.system.php:291
+msgid "Contenido wysiwyg path"
+msgstr ""
+
+#: includes/functions.system.php:293
+msgid "Contenido wysiwyg HTML path"
+msgstr ""
+
+#: includes/functions.system.php:296
+msgid "Host name"
+msgstr ""
+
+#: includes/functions.system.php:299
+msgid "Browser path"
+msgstr ""
+
+#: includes/functions.system.php:321
+msgid "client settings"
+msgstr ""
+
+#: includes/functions.system.php:322
+msgid "values"
+msgstr ""
+
+#: includes/functions.system.php:353
+msgid "language(s)"
+msgstr ""
+
+#: includes/functions.system.php:362
+msgid "htmlpath"
+msgstr ""
+
+#: includes/functions.system.php:366
+msgid "frontendpath"
+msgstr ""
+
+#: includes/functions.system.php:378
+msgid "No permissions!"
+msgstr ""
+
+#: includes/functions.system.php:384
+msgid "Number of installed clients: "
+msgstr ""
+
+#: includes/functions.system.php:387
+msgid "Client informations"
+msgstr ""
+
+#: includes/functions.system.php:394
+msgid "Number of users"
+msgstr ""
+
+#: includes/functions.system.php:401 includes/include.stat_overview.php:91
+msgid "Number of articles"
+msgstr ""
+
+#: includes/functions.system.php:404
+msgid "Server operating system"
+msgstr ""
+
+#: includes/functions.system.php:408
+msgid "PHP database extension"
+msgstr ""
+
+#: includes/functions.system.php:410
+msgid "Database server version"
+msgstr ""
+
+#: includes/functions.system.php:413
+msgid "Installed PHP version"
+msgstr ""
+
+#: includes/functions.system.php:418 includes/functions.system.php:422
+#: includes/functions.system.php:426 includes/functions.system.php:447
+msgid "activated"
+msgstr ""
+
+#: includes/functions.system.php:418 includes/functions.system.php:422
+#: includes/functions.system.php:426 includes/functions.system.php:447
+msgid "deactivated"
+msgstr ""
+
+#: includes/functions.system.php:439
+msgid "nothing disabled"
+msgstr ""
+
+#: includes/functions.system.php:440
+msgid "Disabled functions"
+msgstr ""
+
+#: includes/functions.system.php:443
+msgid "loaded"
+msgstr ""
+
+#: includes/functions.system.php:443
+msgid "not loaded"
+msgstr ""
+
+#: includes/functions.system.php:444
+msgid "Gettext extension"
+msgstr ""
+
+#: includes/functions.system.php:455 includes/main.login.php:186
+msgid "Settings"
+msgstr ""
+
+#: includes/functions.system.php:456
+msgid "Values"
+msgstr ""
+
+#: includes/functions.system.php:473
+msgid "GD library"
+msgstr ""
+
+#: includes/functions.system.php:636
+msgid "an error occured while sending your bug report! Please try again"
+msgstr ""
+
+#: includes/functions.system.php:639
+msgid "bug report forwarded"
+msgstr ""
+
+#: includes/functions.system.php:645
+msgid "please fill out all mandatory fields"
+msgstr ""
+
+#: includes/functions.system.php:649
+msgid "please enter a valid E-Mail adress"
+msgstr ""
+
+#: includes/functions.system.php:653
+msgid "you must agree the declaration of consent"
+msgstr ""
+
+#: includes/rights_con.inc.php:223 includes/grouprights_str.inc.php:212
+#: includes/rights_str.inc.php:217 includes/grouprights_con.inc.php:237
+msgid ""
+"Apply rights for this category to all categories on the same level or above"
+msgstr ""
+
+#: includes/rights_con.inc.php:224 includes/grouprights_str.inc.php:213
+#: includes/rights_str.inc.php:218 includes/grouprights_con.inc.php:238
+msgid ""
+"Apply rights for this category to all categories below the current category"
+msgstr ""
+
+#: includes/rights_con.inc.php:227 includes/grouprights_str.inc.php:215
+#: includes/include.str_overview.php:169 includes/rights_str.inc.php:221
+#: includes/include.upl_dirs_overview.php:56
+#: includes/grouprights_con.inc.php:241 includes/functions.stat.php:313
+#: includes/functions.stat.php:314 includes/functions.stat.php:644
+#: includes/functions.stat.php:645
+msgid "Open category"
+msgstr ""
+
+#: includes/rights_con.inc.php:227 includes/grouprights_str.inc.php:215
+#: includes/include.str_overview.php:174 includes/rights_str.inc.php:221
+#: includes/include.upl_dirs_overview.php:60
+#: includes/grouprights_con.inc.php:241
+msgid "Close category"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:58
+#: includes/include.frontend.user_menu.php:53
+msgid "-- All fields --"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:58
+#: includes/include.frontend.left_top.php:59
+#: includes/include.rights_overview.php:203
+#: includes/include.frontend.user_menu.php:53
+#: includes/include.frontend.user_menu.php:54
+#: includes/include.rights_create.php:150
+msgid "Username"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:141
+msgid "Frontend users"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:148
+msgid "Frontend groups"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:228
+#: includes/include.frontend.user_menu.php:139
+msgid "-- All Groups --"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:261
+msgid "Show group"
+msgstr ""
+
+#: includes/include.frontend.left_top.php:395
+#: includes/include.rights_menu.php:133
+#: includes/include.frontend.user_menu.php:273
+#, php-format
+msgid "Do you really want to delete the user %s?"
+msgstr ""
+
+#: includes/include.grouprights_create.php:57
+msgid "New Group"
+msgstr ""
+
+#: includes/include.grouprights_create.php:71
+msgid "group created"
+msgstr ""
+
+#: includes/include.grouprights_create.php:76
+msgid "Group couldn't created"
+msgstr ""
+
+#: includes/include.note.popup.php:63
+msgid "Add note"
+msgstr ""
+
+#: includes/include.note.popup.php:75
+msgid "No category"
+msgstr ""
+
+#: includes/include.note.popup.php:92
+msgid "Note"
+msgstr ""
+
+#: includes/include.lay_edit_form.php:46
+msgid "-- New Layout --"
+msgstr ""
+
+#: includes/include.lay_edit_form.php:56
+msgid "Layout deleted"
+msgstr ""
+
+#: includes/include.lay_edit_form.php:128
+#, php-format
+msgid "Container %s was defined %s times"
+msgstr ""
+
+#: includes/include.lay_edit_form.php:141
+msgid ""
+"The body tag does not exist in the layout. This is a requirement for the in-"
+"site editing."
+msgstr ""
+
+#: includes/include.lay_edit_form.php:147
+msgid ""
+"The head tag does not exist in the layout. This is a requirement for the in-"
+"site editing."
+msgstr ""
+
+#: includes/include.lay_edit_form.php:186 includes/include.lay_history.php:87
+msgid "Edit Layout"
+msgstr ""
+
+#: includes/include.lay_edit_form.php:202
+msgid "On save, apply default modules to new containers"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:128
+msgid "No status type set"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:155
+#, php-format
+msgid "%d %% complete"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:196
+msgid "Today"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:201
+#: includes/include.mycontenido.tasks.php:203
+msgid "Day(s)"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:276
+msgid "End Date"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:276
+#, php-format
+msgid "%% complete"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:276
+msgid "Due in"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:302
+msgid "Unnamed item"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:307
+msgid "No end date set"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:314
+msgid "No status set"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:338
+msgid "Delete item"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:345
+msgid "Edit item"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:376
+msgid "Restrict display"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:386
+msgid "Hide done tasks"
+msgstr ""
+
+#: includes/include.mycontenido.tasks.php:401
+msgid "No tasks found"
+msgstr ""
+
+#: includes/functions.lay.php:66
+msgid "-- Unnamed Layout --"
+msgstr ""
+
+#: includes/include.tpl_overview.php:96 includes/include.lay_overview.php:83
+#: includes/include.mod_overview.php:226
+msgid "Click for more information about usage"
+msgstr ""
+
+#: includes/include.tpl_overview.php:100
+#, php-format
+msgid "Do you really want to delete the following template:<br><br>%s<br>"
+msgstr ""
+
+#: includes/include.tpl_overview.php:105
+msgid "Template in use, cannot delete"
+msgstr ""
+
+#: includes/include.tpl_overview.php:128
+#, php-format
+msgid "The template '%s' is used for following categories and articles"
+msgstr ""
+
+#: includes/include.lay_overview.php:78 includes/include.mod_overview.php:239
+#: includes/include.str_overview.php:741 includes/include.mod_edit_form.php:51
+msgid "No permission"
+msgstr ""
+
+#: includes/include.lay_overview.php:82
+msgid "Layout is in use, cannot delete"
+msgstr ""
+
+#: includes/include.lay_overview.php:93
+#, php-format
+msgid "Do you really want to delete the following layout:<br><br>%s<br>"
+msgstr ""
+
+#: includes/include.lay_overview.php:118
+#, php-format
+msgid "The layout '%s' is used for following templates"
+msgstr ""
+
+#: includes/functions.con.php:331 includes/functions.con.php:518
+msgid "Default title"
+msgstr ""
+
+#: includes/functions.upl.php:791
+msgid "OpenOffice.org Presentation"
+msgstr ""
+
+#: includes/functions.upl.php:792
+msgid "OpenOffice.org Presentation Template"
+msgstr ""
+
+#: includes/functions.upl.php:793
+msgid "Microsoft PowerPoint Screen Presentation"
+msgstr ""
+
+#: includes/functions.upl.php:794 includes/functions.upl.php:796
+msgid "Microsoft PowerPoint Presentation Template"
+msgstr ""
+
+#: includes/functions.upl.php:795
+msgid "KDE KPresenter Document"
+msgstr ""
+
+#: includes/functions.upl.php:799
+msgid "Microsoft Word Document or regular text file"
+msgstr ""
+
+#: includes/functions.upl.php:800
+msgid "Microsoft Word Template"
+msgstr ""
+
+#: includes/functions.upl.php:801
+msgid "OpenOffice.org Text Document"
+msgstr ""
+
+#: includes/functions.upl.php:802
+msgid "OpenOffice.org Text Document Template"
+msgstr ""
+
+#: includes/functions.upl.php:803
+msgid "StarOffice 5.0 Text Document"
+msgstr ""
+
+#: includes/functions.upl.php:804
+msgid "KDE KWord Document"
+msgstr ""
+
+#: includes/functions.upl.php:807
+msgid "Microsoft Excel Worksheet"
+msgstr ""
+
+#: includes/functions.upl.php:808
+msgid "OpenOffice.org Table"
+msgstr ""
+
+#: includes/functions.upl.php:809
+msgid "OpenOffice.org Table Template"
+msgstr ""
+
+#: includes/functions.upl.php:810
+msgid "Microsoft Excel File"
+msgstr ""
+
+#: includes/functions.upl.php:811
+msgid "Microsoft Excel Template"
+msgstr ""
+
+#: includes/functions.upl.php:812
+msgid "Comma Seperated Value File"
+msgstr ""
+
+#: includes/functions.upl.php:813
+msgid "KDE KSpread Document"
+msgstr ""
+
+#: includes/functions.upl.php:814
+msgid "StarOffice 5.0 Table"
+msgstr ""
+
+#: includes/functions.upl.php:817
+msgid "Plain Text"
+msgstr ""
+
+#: includes/functions.upl.php:818
+msgid "Rich Text Format"
+msgstr ""
+
+#: includes/functions.upl.php:821
+msgid "GIF Image"
+msgstr ""
+
+#: includes/functions.upl.php:822
+msgid "PNG Image"
+msgstr ""
+
+#: includes/functions.upl.php:823 includes/functions.upl.php:824
+msgid "JPEG Image"
+msgstr ""
+
+#: includes/functions.upl.php:825
+msgid "TIFF Image"
+msgstr ""
+
+#: includes/functions.upl.php:826
+msgid "Adobe Photoshop Image"
+msgstr ""
+
+#: includes/functions.upl.php:829 includes/functions.upl.php:830
+msgid "Hypertext Markup Language Document"
+msgstr ""
+
+#: includes/functions.upl.php:831
+msgid "Cascading Style Sheets"
+msgstr ""
+
+#: includes/functions.upl.php:834
+msgid "LHA Archive"
+msgstr ""
+
+#: includes/functions.upl.php:835
+msgid "RAR Archive"
+msgstr ""
+
+#: includes/functions.upl.php:836
+msgid "ARJ Archive"
+msgstr ""
+
+#: includes/functions.upl.php:837
+msgid "bz2-compressed File"
+msgstr ""
+
+#: includes/functions.upl.php:838
+msgid "bzip-compressed File"
+msgstr ""
+
+#: includes/functions.upl.php:839
+msgid "ZIP Archive"
+msgstr ""
+
+#: includes/functions.upl.php:840
+msgid "TAR Archive"
+msgstr ""
+
+#: includes/functions.upl.php:841
+msgid "GZ Compressed File"
+msgstr ""
+
+#: includes/functions.upl.php:844
+msgid "C Program Code"
+msgstr ""
+
+#: includes/functions.upl.php:847
+msgid "C++ Program Code"
+msgstr ""
+
+#: includes/functions.upl.php:849
+msgid "C or C++ Program Header"
+msgstr ""
+
+#: includes/functions.upl.php:852
+msgid "PHP Program Code"
+msgstr ""
+
+#: includes/functions.upl.php:853
+msgid "PHP Source File"
+msgstr ""
+
+#: includes/functions.upl.php:855
+msgid "Adobe Acrobat Portable Document"
+msgstr ""
+
+#: includes/functions.upl.php:858
+msgid "QuickTime Movie"
+msgstr ""
+
+#: includes/functions.upl.php:859
+msgid "avi Movie"
+msgstr ""
+
+#: includes/functions.upl.php:861
+msgid "MPEG Movie"
+msgstr ""
+
+#: includes/functions.upl.php:862
+msgid "Windows Media Video"
+msgstr ""
+
+#: includes/functions.upl.php:864
+msgid "-File"
+msgstr ""
+
+#: includes/include.upl_left_top.php:112
+msgid "Create directory in"
+msgstr ""
+
+#: includes/functions.file.php:206
+msgid "Please insert filename."
+msgstr ""
+
+#: includes/functions.file.php:218
+#, php-format
+msgid "Could not open file %s"
+msgstr ""
+
+#: includes/functions.file.php:223
+#, php-format
+msgid "Could not write file %s"
+msgstr ""
+
+#: includes/functions.file.php:234 includes/functions.file.php:338
+#, php-format
+msgid "%s is not writable"
+msgstr ""
+
+#: includes/functions.file.php:255
+#, php-format
+msgid "Can not open file%s "
+msgstr ""
+
+#: includes/functions.file.php:304
+msgid "Unable to change file access permission."
+msgstr ""
+
+#: includes/functions.file.php:308
+#, php-format
+msgid "Unable to create file %s"
+msgstr ""
+
+#: includes/functions.file.php:334
+#, php-format
+msgid "Can not rename file %s"
+msgstr ""
+
+#: includes/functions.file.php:361
+msgid "Wrong filename."
+msgstr ""
+
+#: includes/include.mod_overview.php:228
+msgid "Module in use, cannot delete"
+msgstr ""
+
+#: includes/include.mod_overview.php:235
+#, php-format
+msgid "Do you really want to delete the following module:<br><br>%s<br>"
+msgstr ""
+
+#: includes/include.mod_overview.php:302
+#, php-format
+msgid "The module '%s' is used for following templates"
+msgstr ""
+
+#: includes/include.frontend.group_rights.php:47
+msgid "Invalid plugin"
+msgstr ""
+
+#: includes/include.frontend.group_rights.php:96
+#, php-format
+msgid "Permissions for plugin '%s'"
+msgstr ""
+
+#: includes/include.frontend.group_rights.php:101
+msgid "(All)"
+msgstr ""
+
+#: includes/include.frontend.group_rights.php:109
+msgid "Global rights"
+msgstr ""
+
+#: includes/include.frontend.group_rights.php:131
+msgid "No items found"
+msgstr ""
+
+#: includes/include.str_overview.php:511
+#, php-format
+msgid ""
+"Do you really want to duplicate the following category:<br><br><b>%s</"
+"b><br><br>Notice: The duplicate process can take up to several minutes, "
+"depending on how many subitems and articles you've got."
+msgstr ""
+
+#: includes/include.str_overview.php:513
+#, php-format
+msgid "Do you really want to delete the following category:<br><br><b>%s</b>"
+msgstr ""
+
+#: includes/include.str_overview.php:920
+msgid "Create new category"
+msgstr ""
+
+#: includes/include.str_overview.php:993
+#, php-format
+msgid "Cancel moving %s"
+msgstr ""
+
+#: includes/include.tpl_edit_form.php:44
+msgid "- New Template -"
+msgstr ""
+
+#: includes/include.tpl_edit_form.php:159
+#: includes/include.tpl_edit_form.php:237
+msgid "Default"
+msgstr ""
+
+#: includes/include.upl_files_upload.php:51
+msgid "Upload"
+msgstr ""
+
+#: includes/include.tplcfg_edit_form.php:79
+#, php-format
+msgid "Category Template configuration is in use by %s (%s)"
+msgstr ""
+
+#: includes/include.tplcfg_edit_form.php:362
+msgid "Module in container"
+msgstr ""
+
+#: includes/include.tplcfg_edit_form.php:492
+msgid "Categorytemplate configuration"
+msgstr ""
+
+#: includes/include.tplcfg_edit_form.php:495
+msgid "Articletemplate configuration"
+msgstr ""
+
+#: includes/include.lay_history.php:137
+msgid "No layout history available"
+msgstr ""
+
+#: includes/functions.general.php:175
+msgid "Saterday"
+msgstr ""
+
+#: includes/functions.general.php:2183
+#, php-format
+msgid "MySQL Database not reachable for installation %s"
+msgstr ""
+
+#: includes/functions.general.php:2186
+#, php-format
+msgid ""
+"The MySQL Database for the installation %s is not reachable. Please check if "
+"this is a temporary problem or if it is a real fault."
+msgstr ""
+
+#: includes/include.info.php:38
+msgid ""
+"You can find a lot of information and a community forum on the <a href="
+"\"http://www.conlite.org/forum\" target=\"_blank\">ConLite Portal</a>"
+msgstr ""
+
+#: includes/include.mycontenido_lastarticles.php:293
+msgid "No article found"
+msgstr ""
+
+#: includes/include.upl_artlist.php:66
+msgid "Use this category"
+msgstr ""
+
+#: includes/include.upl_artlist.php:81
+msgid "Sort Order"
+msgstr ""
+
+#: includes/include.upl_artlist.php:81
+msgid "Online"
+msgstr ""
+
+#: includes/include.CMS_IMG.php:275
+msgid "Directory / File"
+msgstr ""
+
+#: includes/include.rights_overview.php:75
+msgid "User deleted"
+msgstr ""
+
+#: includes/include.rights_overview.php:144
+#: includes/include.rights_overview.php:149
+msgid "An error occured while saving user info."
+msgstr ""
+
+#: includes/include.rights_overview.php:236
+#: includes/include.rights_create.php:180
+msgid "Phone number"
+msgstr ""
+
+#: includes/include.rights_overview.php:242
+#: includes/include.rights_create.php:186
+msgid "Street"
+msgstr ""
+
+#: includes/include.rights_overview.php:248
+#: includes/include.rights_create.php:192
+msgid "ZIP code"
+msgstr ""
+
+#: includes/include.rights_overview.php:254
+#: includes/include.rights_create.php:198
+msgid "City"
+msgstr ""
+
+#: includes/include.rights_overview.php:260
+#: includes/include.rights_create.php:204 includes/include.lang_edit.php:250
+msgid "Country"
+msgstr ""
+
+#: includes/include.rights_overview.php:373
+#: includes/include.rights_create.php:269
+msgid "Use WYSIWYG-Editor"
+msgstr ""
+
+#: includes/include.rights_overview.php:398
+#: includes/include.rights_create.php:290
+msgid "Valid from"
+msgstr ""
+
+#: includes/include.rights_overview.php:418
+#: includes/include.rights_create.php:307
+msgid "Valid to"
+msgstr ""
+
+#: includes/include.rights_overview.php:436
+msgid "This account is currently inactive."
+msgstr ""
+
+#: includes/include.rights_overview.php:439
+msgid "This account is currently active."
+msgstr ""
+
+#: includes/include.stat_overview.php:47 includes/include.stat_overview.php:60
+msgid "Full statistics"
+msgstr ""
+
+#: includes/include.stat_overview.php:50 includes/functions.stat.php:989
+#: includes/functions.stat.php:1015
+msgid "Top 10"
+msgstr ""
+
+#: includes/include.stat_overview.php:53 includes/functions.stat.php:990
+#: includes/functions.stat.php:1016
+msgid "Top 20"
+msgstr ""
+
+#: includes/include.stat_overview.php:56 includes/functions.stat.php:991
+#: includes/functions.stat.php:1017
+msgid "Top 30"
+msgstr ""
+
+#: includes/include.stat_overview.php:76
+msgid "Yearly"
+msgstr ""
+
+#: includes/include.stat_overview.php:80
+msgid "Current"
+msgstr ""
+
+#: includes/include.stat_overview.php:94
+msgid "Hits in this language"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:153
+msgid "Failed to delete the following files:"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:159
+#, php-format
+msgid "Failed to remove directory %s"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:172
+msgid "Upload directory"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:175
+msgid ""
+"The following directories contains invalid characters and were ignored: "
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:178
+msgid "Please click here in order to rename automatically."
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:300
+msgid "Categories"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:381
+#: includes/include.upl_dirs_overview.php:528
+msgid "Delete directory"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:381
+#: includes/include.upl_dirs_overview.php:528
+msgid "Do you really want to delete the following directory:"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:386
+#: includes/include.upl_dirs_overview.php:533
+msgid "Directory contains files"
+msgstr ""
+
+#: includes/include.upl_dirs_overview.php:435
+msgid "Database Filesystem"
+msgstr ""
+
+#: includes/main.login.php:67
+msgid "No Login Information available."
+msgstr ""
+
+#: includes/main.login.php:72
+msgid ""
+"You're logged in with a temporary password. Please change your password."
+msgstr ""
+
+#: includes/main.login.php:80
+msgid "Welcome"
+msgstr ""
+
+#: includes/main.login.php:81
+msgid "Last login"
+msgstr ""
+
+#: includes/main.login.php:101 includes/main.login.php:138
+#, php-format
+msgid "Client %s (%s) has no languages"
+msgstr ""
+
+#: includes/main.login.php:121
+msgid "Change client"
+msgstr ""
+
+#: includes/main.login.php:126
+msgid "No clients available!"
+msgstr ""
+
+#: includes/main.login.php:178
+#, php-format
+msgid "Reminder list: %d Task open"
+msgstr ""
+
+#: includes/main.login.php:180
+#, php-format
+msgid "Reminder list: %d Tasks open"
+msgstr ""
+
+#: includes/main.login.php:211
+msgid "Symbol help"
+msgstr ""
+
+#: includes/main.login.php:214
+msgid "Contenido Manual"
+msgstr ""
+
+#: includes/include.lay_new.php:38
+msgid "New Layout"
+msgstr ""
+
+#: includes/functions.stat.php:44
+msgid "Info about article"
+msgstr ""
+
+#: includes/functions.stat.php:46
+msgid "Info about directory"
+msgstr ""
+
+#: includes/functions.stat.php:285
+msgid "Category is online"
+msgstr ""
+
+#: includes/functions.stat.php:287
+msgid "Category is offline"
+msgstr ""
+
+#: includes/functions.stat.php:478
+msgid "Sum"
+msgstr ""
+
+#: includes/include.rights_create.php:53
+msgid "Username can't be empty"
+msgstr ""
+
+#: includes/include.rights_create.php:85
+msgid "User created"
+msgstr ""
+
+#: includes/include.rights_create.php:106
+msgid "Username already exists"
+msgstr ""
+
+#: includes/include.rights_create.php:110
+msgid "Unknown error"
+msgstr ""
+
+#: includes/include.lang_edit.php:228
+msgid "Left to right"
+msgstr ""
+
+#: includes/include.lang_edit.php:228
+msgid "Right to left"
+msgstr ""
+
+#: includes/include.lang_edit.php:244
+msgid "Language name"
+msgstr ""
+
+#: includes/include.lang_edit.php:248
+msgid "Encoding"
+msgstr ""
+
+#: includes/include.lang_edit.php:251
+msgid "Text direction"
+msgstr ""
+
+#: includes/include.html_tpl_history.php:179
+#: includes/include.html_tpl_history.php:187
+msgid "No template history available"
+msgstr ""
+
+#: includes/include.system_db_backup.php:36
+msgid "Backupfolder missing or not writable!"
+msgstr ""
+
+#: includes/include.system_db_backup.php:43
+msgid "Start your Backup!"
+msgstr ""
+
+#: includes/include.system_db_backup.php:77
+msgid "Permission denied!"
+msgstr ""
+
+#: includes/include.system_db_backup.php:87
+msgid "Starting Backup."
+msgstr ""
+
+#: includes/include.system_db_backup.php:196
+msgid "Backup in Progress!"
+msgstr ""
+
+#: includes/include.system_db_backup.php:203
+#: includes/include.system_db_backup.php:229
+msgid "Tables saved: "
+msgstr ""
+
+#: includes/include.system_db_backup.php:203
+msgid "Last processed: "
+msgstr ""
+
+#: includes/include.system_db_backup.php:204
+#: includes/include.system_db_backup.php:229
+msgid "Pageviews: "
+msgstr ""
+
+#: includes/include.system_db_backup.php:228
+msgid "Backup done!"
+msgstr ""
+
+#: includes/include.system_db_backup.php:233
+msgid "Go Back to Overview"
+msgstr ""
+
+#: includes/include.system_db_backup.php:268
+msgid "File successfully deleted."
+msgstr ""
+
+#: includes/include.system_db_backup.php:283
+msgid "Download File"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:57
+msgid "<your module description>"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:57
+msgid "Author: "
+msgstr ""
+
+#: includes/include.mod_edit_form.php:57
+msgid "Version:"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:304
+#: includes/include.mod_edit_form.php:306
+msgid "Custom"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:332
+#: includes/include.mod_edit_form.php:342
+#, php-format
+msgid "Error in module. Error location: %s"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:335
+#: includes/include.mod_edit_form.php:345
+msgid "Module successfully compiled"
+msgstr ""
+
+#: includes/include.mod_edit_form.php:410
+msgid ""
+"This module uses variables and/or functions which are probably not available "
+"in this Contenido version. Please make sure that you use up-to-date modules."
+msgstr ""
+
+#: includes/include.systemsettings.php:47
+msgid "Please set this property in systemsettings directly"
+msgstr ""
+
+#: includes/include.systemsettings.php:157
+#: includes/include.clientsettings.php:172
+msgid "No defined properties"
+msgstr ""
+
+#: includes/include.systemsettings.php:167
+#: includes/include.clientsettings.php:181
+msgid "Add new variable"
+msgstr ""
+
+#: includes/include.clientsettings.php:50
+msgid "Select range"
+msgstr ""
+
+#: includes/include.clientsettings.php:53
+msgid "Language independent"
+msgstr ""
+
+#: includes/include.clientsettings.php:79
+msgid "Range"
+msgstr ""
+
+#: includes/functions.mod.php:200
+msgid "Please do not use short open Tags. (Use <?php instead of <?)."
+msgstr ""
+
+#: includes/include.mod_history.php:94
+msgid "Edit Module"
+msgstr ""
+
+#: includes/include.mod_history.php:133
+msgid "Code Input"
+msgstr ""
+
+#: includes/include.mod_history.php:134
+msgid "Code Output"
+msgstr ""
+
+#: includes/include.mod_history.php:152
+msgid "No module history available"
+msgstr ""
+
+#: includes/include.frontend.group_menu.php:51
+msgid "Delete frontend group"
+msgstr ""
+
+#: includes/include.frontend.group_menu.php:52
+#, php-format
+msgid "Do you really want to delete the following frontend group:<br><b>%s</b>"
+msgstr ""
+
+#: includes/include.style_left_top.php:50
+msgid "Create style"
+msgstr ""
+
+#: includes/include.pretplcfg_edit_form.php:101
+#, php-format
+msgid "Module in Container %s"
+msgstr ""
+
+#: includes/include.pretplcfg_edit_form.php:150
+msgid "Template preconfiguration"
+msgstr ""
+
+#: main.loginform.php:76
+msgid ""
+"The setup directory still exists. Please remove the setup directory before "
+"you continue."
+msgstr ""
+
+#: main.loginform.php:93
+msgid ""
+"The sysadmin and/or the admin account still contains a well-known default "
+"password. Please change immediately after login."
+msgstr ""
+
+#: main.loginform.php:97
+msgid ""
+"Contenido is in maintenance mode. Only sysadmins are allowed to login. "
+"Please try again later."
+msgstr ""
+
+#: main.loginform.php:195
+msgid "ConLite Backend"
+msgstr ""
+
+#: main.loginform.php:204
+msgid "Invalid Login or Password!"
+msgstr ""
+
+#: main.loginform.php:211
+msgid "Password"
+msgstr ""

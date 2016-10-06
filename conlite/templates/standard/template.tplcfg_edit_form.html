@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>template.tplcfg_edit_form.html</title>
+        <link rel="stylesheet" type="text/css" href="styles/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="styles/contenido.css">
+        <link rel="stylesheet" type="text/css" href="styles/conlite.css">
+        <style type="text/css">
+            table.content td.col-1 {background-color:#e2e2e2;border:1px;border-color:#b3b3b3;border-right:0px;border-style:solid;}
+            table.content td.col-2 {background-color:#f1f1f1;padding-left:5px;border:1px;border-left:0px;border-color:#b3b3b3;border-style:solid;}
+            table.content td.module_config {border:1px;border-top:0px;border-color:#b3b3b3;border-style:solid;background-color:#fff;}
+            table.content td.module_config table td {padding:5px;vertical-align:top;}
+        </style>
+        <script type="text/javascript" src="scripts/jquery/jquery.js"></script>
+        <script type="text/javascript" src="scripts/jquery/jquery-ui.js"></script>
+    </head>
+    <body style="margin:10px">
+        <p style="display:{DISPLAY_HEADER};font-weight:bold;">{HEADER}</p>
+        <div class="categorypath">{CATEGORY}</div>
+        <form name="tplcfgform" action="{FORMACTION}" id="tpl_form" method="post" enctype="multipart/form-data">
+            {HIDDEN}
+            <table class="content">
+                <tr>
+                    <td class="text_medium col-1">{TEMPLATECAPTION}</td>
+                    <td class="text_medium col-2">{TEMPLATESELECTBOX}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><img src="images/spacer.gif" width="1" height="10" alt=""></td>
+                </tr>
+
+                <!-- BEGIN:BLOCK -->
+                <tr>
+                    <td colspan="2"><img src="images/spacer.gif" width="1" height="10" alt=""></td>
+                </tr>
+                <tr>
+                    <td class="text_medium col-1">{MODULECAPTION}</td>
+                    <td class="text_medium col-2">{MODULENAME}</td>
+                </tr>
+                <tr>
+                    <td class="text_medium module_config" colspan="2">
+                        {MODULECODE}
+                    </td>
+                </tr>
+                <!-- END:BLOCK -->
+
+                <tr>
+                    <td colspan="2"><img src="images/spacer.gif" width="1" height="10" alt=""></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="right">
+                        {BUTTONS}
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <script type="text/javascript">
+            {
+                SCRIPT
+            }
+        </script>
+        {MARKSUBMENU}
+<!-- backend template $Id: template.tplcfg_edit_form.html 365 2015-10-08 14:26:19Z oldperl $ -->
+    </body>
+</html>

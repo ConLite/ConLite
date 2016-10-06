@@ -1,0 +1,136 @@
+form#login_box {
+    width: 100%;
+}
+
+form#login_box fieldset {
+    padding: 3px;
+    border-radius: 6px;
+}
+
+input[type='submit'] {
+    background: #0099ff none repeat scroll 0 0;
+    border: 1px solid;
+    border-radius: 6px;
+    color: #fff;
+    margin: 5px 10px 5px 0;
+    padding: 5px;
+    text-decoration: none;
+}
+
+footer #colophon {
+    position: relative;
+}
+
+div#social-media-links {
+    position: absolute;
+    right: 0;
+    text-align: right;
+    width: 20%;
+    display: inline-block;
+}
+
+a.social-media-icon {
+    width: 32px;
+    height: 32px;
+    background-image: url(../images/ico/social_icons_sprite.png);
+    display: inline-block;
+    color: rgba(0, 0, 0, 0);
+}
+
+.facebook {
+    background-position: 0 0 !important;
+}
+
+.facebook:hover {
+    background-position: 0 -32px !important;
+}
+
+.pinterest {
+    background-position: -32px 0 !important;
+}
+
+.pinterest:hover {
+    background-position: -32px -32px !important;
+}
+
+.youtube {
+    background-position: -64px 0px !important;
+}
+
+.youtube:hover {
+    background-position: -64px -32px !important;
+}
+
+.flickr {
+    background-position: -96px 0px !important;
+}
+
+.flickr:hover{
+    background-position: -96px -32px !important;
+}
+
+.google-plus {
+    background-position: -128px 0px !important;
+}
+
+.google-plus:hover {
+    background-position: -128px -32px !important;
+}
+
+.rss {
+    background-position: -160px 0 !important;
+}
+
+.rss:hover {
+    background-position: -160px -32px !important;
+}
+
+
+.twitter {
+    background-position: -192px 0 !important;
+}
+
+.twitter:hover {
+    background-position: -192px -32px !important;
+}
+
+
+.vimeo {
+    background-position: -224px 0 !important;
+}
+
+.vimeo:hover {
+    background-position: -224px -32px !important;
+}
+
+.dribble {
+    background-position: -256px 0 !important;
+}
+
+.dribble:hover {
+    background-position: -256px -32px !important;
+}
+
+.linkedin {
+    background-position: -288px 0 !important;
+}
+
+.linkedin:hover {
+    background-position: -288px -32px !important;
+}
+
+.xing {
+    background-position: -320px 0 !important;
+}
+
+.xing:hover {
+    background-position: -320px -32px !important;
+}
+
+
+
+@media only screen and (min-width: 920px) {
+    form#login_box input {
+        max-width: 100px;
+    }
+}
