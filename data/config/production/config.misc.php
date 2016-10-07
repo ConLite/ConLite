@@ -51,7 +51,10 @@ $cfg["develop"]["show_errors"] = false;
 $cfg["develop"]["show_deprecated"] = false;
 
 /* Use Pseudo-Cron? */
-$cfg["use_pseudocron"] = true;
+$cfg["use_pseudocron"] = TRUE;
+
+/* Config Pseudo-Cron */
+$cfg["pseudocron"]["logging"] = TRUE;
 
 /* If you want to measure function timing set this to true */
 $cfg["debug"]["functiontiming"] = false;

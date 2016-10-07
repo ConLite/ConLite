@@ -132,7 +132,7 @@ $PC_jobDir = $cfg['path']['conlite'] . $cfg['path']['cronjobs'];
 $PC_reqDir = getcwd();
 
 // control logging, 1=use log file, 0=don't use log file
-$PC_useLog = 1;
+$PC_useLog = $cfg["pseudocron"]["logging"];
 
 // turn on / off debugging output
 // DO NOT use this on live servers!
