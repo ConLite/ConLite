@@ -47,7 +47,7 @@ $cfg['datetag'] = '$Date: 2015-11-09 22:02:55 +0100 (Mon, 09 Nov 2015) $';
 /* Backend timeout */
 $cfg["backend"]["timeout"] = 60;
 
-$cfg["develop"]["show_errors"] = true;
+$cfg["develop"]["show_errors"] = false;
 $cfg["develop"]["show_deprecated"] = false;
 
 /* Use Pseudo-Cron? */

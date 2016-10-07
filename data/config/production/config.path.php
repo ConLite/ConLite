@@ -54,15 +54,15 @@ $cfg['path']['temp']                    = $cfg['path']['data'].'temp/';
 $cfg['path']['cache']                   = $cfg['path']['data'].'cache/';
 $cfg['path']['config']                  = $cfg['path']['data'].'config/';
 $cfg['path']['logs']                    = $cfg['path']['data'].'logs/';
-$cfg['path']['backup']                    = $cfg['path']['data'].'backup/';
-//$cfg['path']['cronlog']                 = $cfg['path']['data'].'cronlog/';
+$cfg['path']['backup']                  = $cfg['path']['data'].'backup/';
+$cfg['path']['cronlog']                 = $cfg['path']['data'].'cronlog/';
 //$cfg['path']['locale']                  = $cfg['path']['data'].'locale/';
 
 $cfg['path']['conlite_temp']            = $cfg['path']['frontend']. '/' .$cfg['path']['temp'];
 $cfg['path']['conlite_cache']           = $cfg['path']['frontend']. '/' .$cfg['path']['cache'];
 $cfg['path']['conlite_logs']            = $cfg['path']['frontend']. '/' .$cfg['path']['logs'];
-$cfg['path']['conlite_backup']            = $cfg['path']['frontend']. '/' .$cfg['path']['backup'];
-//$cfg['path']['conlite_cronlog']         = $cfg['path']['frontend']. '/' .$cfg['path']['cronlog'];
+$cfg['path']['conlite_backup']          = $cfg['path']['frontend']. '/' .$cfg['path']['backup'];
+$cfg['path']['conlite_cronlog']         = $cfg['path']['frontend']. '/' .$cfg['path']['cronlog'];
 //$cfg['path']['conlite_locale']          = $cfg['path']['frontend']. '/' .$cfg['path']['locale'];
 
 $cfg['path']['repository']              = $cfg["path"]['plugins'] . 'repository/';

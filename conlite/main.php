@@ -64,7 +64,7 @@ cInclude ("includes", 'cfg_language_de.inc.php');
 if ($cfg["use_pseudocron"] == true)
 {
     /* Include cronjob-Emulator, but only for frame 1 */
-    if($frame == 1) {        
+    if($frame == 4) {        
         $sess->freeze();
         $oldpwd = getcwd();
 
