@@ -1,5 +1,4 @@
 <?php
-
 // vim: set expandtab tabstop=4 shiftwidth=4 fdm=marker:
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -97,6 +96,7 @@ class XML_RSS extends XML_Parser2 {
      * @var array
      */
     var $imageTags = array('TITLE', 'URL', 'LINK');
+
     var $textinputTags = array('TITLE', 'DESCRIPTION', 'NAME', 'LINK');
 
     /**

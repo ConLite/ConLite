@@ -31,33 +31,31 @@ if(!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
-class gdbDriver
-{
+class gdbDriver {
+
 	var $_sEncoding;
-	
 	var $_oItemClassInstance;
 	
-	function gdbDriver ()
-	{}
+    function gdbDriver() {
 	
-	function setEncoding ($sEncoding)
-	{
+    }
+
+    function setEncoding($sEncoding) {
 		$this->_sEncoding = $sEncoding;
 	}
 	
-	function setItemClassInstance ($oInstance)
-	{
+    function setItemClassInstance($oInstance) {
 		$this->_oItemClassInstance = $oInstance;
 	}
 	
-	function buildJoinQuery ($destinationTable, $destinationClass, $destinationPrimaryKey, $sourceClass, $primaryKey)
-	{
+    function buildJoinQuery($destinationTable, $destinationClass, $destinationPrimaryKey, $sourceClass, $primaryKey) {
 		
 	}
 	
-	function buildOperator ($sField, $sOperator, $sRestriction)
-	{
+    function buildOperator($sField, $sOperator, $sRestriction) {
+        
 	}
+
 }
 
 ?>

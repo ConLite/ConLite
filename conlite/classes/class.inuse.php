@@ -69,7 +69,7 @@ class InUseCollection extends ItemCollection
         $this->select("type = '".$type."' AND objectid = '".$objectid."'");
 
         if (!$this->next()) {
-            $newitem = parent::create();
+            $newitem = parent::createNewItem();
             $newitem->set("type", $type);
             $newitem->set("objectid", $objectid);
             $newitem->set("session", $session);

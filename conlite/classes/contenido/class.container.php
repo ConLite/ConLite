@@ -64,7 +64,7 @@ class cApiContainerCollection extends ItemCollection
 
     public function create($idtpl, $number, $module)
     {
-        $item = parent::create();
+        $item = parent::createNewItem();
         $item->set("idtpl", $idtpl);
         $item->set("number", $number);
         $item->set("module", $module);

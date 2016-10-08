@@ -61,7 +61,7 @@ class cApiTemplateConfigurationCollection extends ItemCollection
     {
         global $auth;
 
-        $item = parent::create();
+        $item = parent::createNewItem();
         $item->set("idtpl", $idtpl);
         $item->set("author", $auth->auth['uname']);
         $item->set("status", 0);

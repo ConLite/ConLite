@@ -103,7 +103,7 @@ class WorkflowUserSequences extends ItemCollection {
 	function create ($idworkflowitem)
 	{
 		global $auth, $client, $idworkflow;
-		$newitem = parent::create();
+		$newitem = parent::createNewItem();
 		
 		$workflowitems = new WorkflowItems;
 		if (!$workflowitems->exists($idworkflowitem))
@@ -198,7 +198,7 @@ class WorkflowUserSequence extends Item {
      * @param string $field Field to set
      * @param string $valie Value to set
      */
-	function setField($field, $value)
+	function setField($field, $value, $bSafe = true)
 	{
 		global $cfg;
 		
@@ -235,7 +235,7 @@ class WorkflowUserSequence extends Item {
 
 		}
 		
-		parent::setField($field, $value);	
+		parent::setField($field, $value, $bSafe);	
         if ($idusersquence) {
             WorkflowUserSequences::updateArtAllocation(0);
         }

@@ -63,7 +63,7 @@ class TODOCollection extends CommunicationCollection
     /**
      * Creates a new communication item
      */
-    public function create($itemtype, $itemid, $reminderdate, $subject, $content, $notimail, $notibackend, $recipient)
+    public function createItem($itemtype, $itemid, $reminderdate, $subject, $content, $notimail, $notibackend, $recipient)
     {
         $item = parent::create();
 

@@ -60,7 +60,7 @@ class WorkflowTasks extends ItemCollection {
 
 	function create ()
 	{
-		$newitem = parent::create();
+		$newitem = parent::createNewItem();
 		return ($newitem);
 	}
 	

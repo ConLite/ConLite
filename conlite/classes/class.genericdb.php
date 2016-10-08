@@ -38,6 +38,10 @@ if (file_exists($driver_filename)) {
     include_once($driver_filename);
 }
 
+// load all genericdb classes
+cInclude("classes", "genericdb/class.item.base.abstract.php");
+cInclude("classes", "genericdb/class.item.cache.php");
+
 
 /**
  * Class Contenido_ItemException.
@@ -48,401 +52,10 @@ if (file_exists($driver_filename)) {
 class Contenido_ItemException extends Exception {}
 
 
-/**
- * Class Contenido_ItemCache.
- *
- * Implements features to cache entries, usually result sets of Item classes.
- * Contains a list of self instances, where each instance contains cached Items
- * fore one specific table.
- *
- * @author     Murat Purc <murat@purc.de>
- * @version    0.1.2
- * @copyright  four for business AG <www.4fb.de>
- */
-class Contenido_ItemCache
-{
-    /**
-     * List of self instances (Contenido_ItemCache)
-     * @var  array
-     */
-    protected static $_oInstances = array();
 
-    /**
-     * Assoziative cache array
-     * @var  array
-     */
-    protected $_aItemsCache = array();
-
-    /**
-     * Table name for current instance
-     * @var  string
-     */
-    protected $_sTable = '';
-
-    /**
-     * Max number of items to cache
-     * @var  int
-     */
-    protected $_iMaxItemsToCache = 10;
-
-    /**
-     * Enable caching
-     * @var  bool
-     */
-    protected $_bEnable = false;
-
-    protected $_iFrame;
-
-    /**
-     * Contructor of Contenido_ItemCache
-     * @param  string  $sTable   Table name
-     * @param  array   $aOptions Options array as follows:
-     *                 - $aOptions['max_items_to_cache'] = (int) Number of items to cache
-     *                 - $aOptions['enable'] = (bool) Flag to enable caching
-     */
-    protected function __construct($sTable, array $aOptions = array())
-    {
-        $this->_sTable = $sTable;
-        if (isset($aOptions['max_items_to_cache']) && (int) $aOptions['max_items_to_cache'] > 0) {
-            $this->_iMaxItemsToCache = (int) $aOptions['max_items_to_cache'];
-        }
-        if (isset($aOptions['enable']) && is_bool($aOptions['enable'])) {
-            $this->_bEnable = (bool) $aOptions['enable'];
-        }
-        
-        if(isset($_GET['frame']) && is_numeric($_GET['frame'])) {
-            $this->_iFrame = (int) $_GET['frame'];
-        } else {
-            $this->_bEnable = false;
-    }
-    }
-
-    /**
-     * Prevent cloning
-     */
-    protected function __clone()
-    {
-    }
-
-    /**
-     * Returns item cache instance, creates it, if not done before.
-     * Works as a singleton for one specific table.
-     *
-     * @param  string  $sTable   Table name
-     * @param  array   $aOptions Options array as follows:
-     *                 - $aOptions['max_items_to_cache'] = (int) Number of items to cache
-     *                 - $aOptions['enable'] = (bool) Flag to enable caching
-     */
-    public static function getInstance($sTable, array $aOptions = array())
-    {
-        if (!isset(self::$_oInstances[$sTable])) {
-            self::$_oInstances[$sTable] = new self($sTable, $aOptions);
-        }
-        return self::$_oInstances[$sTable];
-    }
-
-    /**
-     * Returns items cache list.
-     *
-     * @return  array
-     */
-    public function getItemsCache()
-    {
-        return $this->_aItemsCache[$this->_iFrame];
-    }
-
-    /**
-     * Returns existing entry from cache by it's id.
-     *
-     * @param   mixed  $mId
-     * @return  array|null
-     */
-    public function getItem($mId)
-    {
-        if (!$this->_bEnable) {
-            return null;
-        }
-
-        if (isset($this->_aItemsCache[$this->_iFrame][$mId])) {
-            return $this->_aItemsCache[$this->_iFrame][$mId];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns existing entry from cache by matching propery value.
-     *
-     * @param   mixed  $mProperty
-     * @param   mixed  $mValue
-     * @return  array|null
-     */
-    public function getItemByProperty($mProperty, $mValue)
-    {
-        if (!$this->_bEnable) {
-            return null;
-        }
-
-        // loop thru all cached entries and try to find a entry by it's property
-        if(is_array($this->_aItemsCache[$this->_iFrame]) 
-                && count($this->_aItemsCache[$this->_iFrame]) > 0) {
-            foreach ($this->_aItemsCache[$this->_iFrame] as $id => $aEntry) {
-                if (isset($aEntry[$mProperty]) && $aEntry[$mProperty] == $mValue) {
-                    return $aEntry;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns existing entry from cache by matching properties and their values.
-     *
-     * @param   array  $aProperties  Assoziative key value pairs
-     * @return  array|null
-     */
-    public function getItemByProperties(array $aProperties)
-    {
-        if (!$this->_bEnable) {
-            return null;
-        }
-
-        // loop thru all cached entries and try to find a entry by it's property
-        foreach ($this->_aItemsCache as $id => $aEntry) {
-            $mFound = null;
-            foreach ($aProperties as $key => $value) {
-                if (isset($aEntry[$key]) && $aEntry[$key] == $value) {
-                    if (null === $mFound) {
-                        $mFound = true;
-                    }
-                } else {
-                    $mFound = false;
-                    break;
-                }
-                if (true === $mFound) {
-                    return $aEntry;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Adds passed item data to internal cache
-     *
-     * @param   mixed  $mId
-     * @param   array  $aData  Usually the recordset
-     * @return  void
-     */
-    public function addItem($mId, array $aData)
-    {
-        if (!$this->_bEnable) {
-            return null;
-        }
-
-        if(isset($this->_aItemsCache[$this->_iFrame])) {
-            $aTmpItemsArray = $this->_aItemsCache[$this->_iFrame];
-
-            if ($this->_iMaxItemsToCache == count($aTmpItemsArray)) {
-            // we have reached the maximum number of cached items, remove first entry
-                $firstEntryKey = array_shift($aTmpItemsArray);
-                if(is_array($firstEntryKey)) return null;
-                unset($this->_aItemsCache[$this->_iFrame][$firstEntryKey]);
-        }
-        }
-
-        // add entry
-        $this->_aItemsCache[$this->_iFrame][$mId] = $aData;
-    }
-
-    /**
-     * Removes existing cache entry by it's key
-     *
-     * @param   mixed  $mId
-     * @return  void
-     */
-    public function removeItem($mId)
-    {
-        if (!$this->_bEnable) {
-            return null;
-        }
-
-        // remove entry
-        if (isset($this->_aItemsCache[$this->_iFrame][$mId])){
-            unset($this->_aItemsCache[$this->_iFrame][$mId]);
-        }
-    }
-}
-
-
-/**
- * Class Contenido_ItemBaseAbstract.
- * Base class with common features for database based items and item collections.
- *
- * @author     Murat Purc <murat@purc.de>
- * @version    0.2
- * @copyright  four for business AG <www.4fb.de>
- */
-abstract class Contenido_ItemBaseAbstract
-{
-    /**
-     * Database instance, contains the database object
-     * @var  DB_ConLite
-     */
-    protected $db;
-
-    /**
-     * Second DB instance, is required for some additional queries without
-     * losing an current existing query result.
-     * @var  DB_ConLite
-     */
-    protected $secondDb;
-
-    /**
-     * Property collection instance
-     * @var  PropertyCollection
-     */
-    protected $properties;
-
-    /**
-     * Item cache instance
-     * @var  Contenido_ItemCache
-     */
-    protected static $_oCache;
-
-    /**
-     * GenericDB settings, see $cfg['sql']
-     * @var  array
-     */
-    protected $_settings;
-
-    /**
-     * Storage of the source table to use for the information
-     * @var  string
-     */
-    protected $table;
-
-    /**
-     * Storage of the primary key
-     * @var  string
-     * @todo remove access from public
-     */
-    public $primaryKey;
-
-    /**
-     * Checks for the virginity of created objects. If true, the object
-     * is virgin and no operations on it except load-Functions are allowed.
-     * @todo remove access from public
-     * @var  bool
-     */
-    public $virgin;
-
-    /**
-     * Lifetime of results/created objects?
-     * FIXME  Not used at the moment!
-     * @var  int
-     */
-    protected $lifetime;
-
-    /**
-     * Storage of the last occured error
-     * @var  string
-     */
-    protected $lasterror = '';
-
-    /**
-     * Cache the result items
-     * FIXME  seems to not used, remove it!
-     * @var  array
-     */
-    protected $cache;
-
-    /**
-     * Classname of current instance
-     * @var  string
-     */
-    protected $_className;
 
 
     /**
-     * Sets some common properties
-     *
-     * @param  string  $sTable       Name of table
-     * @param  string  $sPrimaryKey  Primary key of table
-     * @param  string  $sClassName   Name of parent class
-     * @param  int     $iLifetime    Lifetime of the object in seconds (NOT USED!)
-     * @throws  Contenido_ItemException  If table name or primary key is not set
-     */
-    protected function __construct($sTable, $sPrimaryKey, $sClassName, $iLifetime = 10)
-    {
-        global $cfg;
-
-        $this->db = new DB_ConLite();
-
-        if ($sTable == '') {
-            $sMsg = "$sClassName: No table specified. Inherited classes *need* to set a table";
-            throw new Contenido_ItemException($sMsg);
-        } elseif ($sPrimaryKey == '') {
-            $sMsg = "No primary key specified. Inherited classes *need* to set a primary key";
-            throw new Contenido_ItemException($sMsg);
-        }
-
-        $this->_settings = $cfg['sql'];
-
-        // instanciate caching
-        $aCacheOpt = (isset($this->_settings['cache'])) ? $this->_settings['cache'] : array();
-        self::$_oCache = Contenido_ItemCache::getInstance($sTable, $aCacheOpt);
-
-        $this->table      = $sTable;
-        $this->primaryKey = $sPrimaryKey;
-        $this->virgin     = true;
-        $this->lifetime   = $iLifetime;
-        $this->_className = $sClassName;
-    }
-
-
-    /**
-     * Escape string for using in SQL-Statement.
-     *
-     * @param   string  $sString  The string to escape
-     * @return  string  Escaped string
-     */
-    public function escape($sString)
-    {
-        return $this->db->escape($sString);
-    }
-
-    /**
-     * Returns the second database instance, usable to run additional statements
-     * without losing current query results.
-     *
-     * @return  DB_ConLite
-     */
-    protected function _getSecondDBInstance()
-    {
-        if (!isset($this->secondDb) || !($this->secondDb instanceof DB_ConLite)) {
-            $this->secondDb = new DB_ConLite();
-        }
-        return $this->secondDb;
-    }
-
-    /**
-     * Returns properties instance, instantiates it if not done before.
-     *
-     * @return  PropertyCollection
-     */
-    protected function _getPropertiesCollectionInstance()
-    {
-        // Runtime on-demand allocation of the properties object
-        if (!isset($this->properties) || !($this->properties instanceof PropertyCollection)) {
-            $this->properties = new PropertyCollection();
-        }
-        return $this->properties;
-    }
-}
-
-
-/**
  * Class ItemCollection
  * Abstract class for database based item collections.
  *
@@ -451,7 +64,7 @@ abstract class Contenido_ItemBaseAbstract
  * @version    0.2
  * @copyright  four for business 2003
  */
-abstract class ItemCollection extends Contenido_ItemBaseAbstract
+abstract class ItemCollection extends cItemBaseAbstract
 {
     /**
      * Storage of all result items
@@ -1537,7 +1150,7 @@ abstract class ItemCollection extends Contenido_ItemBaseAbstract
      * @param  string  $primaryKeyValue  Optional parameter for direct input of primary key value
      * @return  Item  The newly created object
      */
-    public function create()
+    public function createNewItem($aData = NULL)
     {   /* @var $oDb DB_ConLite */
         $oDb     = $this->_getSecondDBInstance();
         $iNextId = $oDb->nextid($this->table);
@@ -1696,7 +1309,7 @@ abstract class ItemCollection extends Contenido_ItemBaseAbstract
  * @version    0.3
  * @copyright  four for business 2003
  */
-abstract class Item extends Contenido_ItemBaseAbstract
+abstract class Item extends cItemBaseAbstract
 {
     /**
      * Storage of the source table to use for the user informations

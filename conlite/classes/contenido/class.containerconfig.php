@@ -45,7 +45,7 @@ class cApiContainerConfigurationCollection extends ItemCollection
 
     public function create($idtplcfg, $number, $container)
     {
-        $item = parent::create();
+        $item = parent::createNewItem();
         $item->set("idtplcfg", $idtplcfg);
         $item->set("number", $number);
         $item->set("container", $container);

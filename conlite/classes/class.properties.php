@@ -122,7 +122,7 @@ class PropertyCollection extends ItemCollection
     {
         global $cfg, $auth;
 
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         if (!$bInternally) {
             $itemtype   = Contenido_Security::escapeDB($itemtype, null);
@@ -459,7 +459,7 @@ class PropertyItem extends Item
 	 * @param  string  $value
 	 * @param  bool    $safe  Flag to run filter on passed value
      */
-    public function setField($field, $value, $safe)
+    public function setField($field, $value, $safe = true)
     {
         if (array_key_exists($field, $this->maximumLength)) {
             if (strlen($value) > $this->maximumLength[$field]) {

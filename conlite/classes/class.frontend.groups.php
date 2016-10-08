@@ -77,7 +77,7 @@ class FrontendGroupCollection extends ItemCollection
             $groupname = $groupname. md5(rand());
         }
 
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("idclient", $client);
         $item->set("groupname", $groupname);
@@ -170,7 +170,7 @@ class FrontendGroupMemberCollection extends ItemCollection
             return false;
         }
 
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("idfrontenduser", $idfrontenduser);
         $item->set("idfrontendgroup", $idfrontendgroup);

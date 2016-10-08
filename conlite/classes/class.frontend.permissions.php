@@ -74,7 +74,7 @@ class FrontendPermissionCollection extends ItemCollection
 
         $item = null;
         if (!$this->checkPerm($group, $plugin, $action, $mitem)) {
-            $item = parent::create();
+            $item = parent::createNewItem();
             $item->set("idlang", $lang);
             $item->set("idfrontendgroup", $group);
             $item->set("plugin", $plugin);

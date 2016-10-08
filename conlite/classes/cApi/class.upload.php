@@ -54,7 +54,7 @@ class cApiUploadCollection extends ItemCollection {
     public function create($dir, $file) {
         global $client, $cfg, $auth;
 
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("idclient", $client);
         $item->set("filename", $file, false);

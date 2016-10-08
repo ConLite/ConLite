@@ -66,7 +66,7 @@ class Workflows extends ItemCollection {
 	function create ()
 	{
 		global $auth, $client, $lang;
-		$newitem = parent::create();
+		$newitem = parent::createNewItem();
 		$newitem->setField("created", date("Y-m-d H-i-s"));
 		$newitem->setField("idauthor", $auth->auth["uid"]);
 		$newitem->setField("idclient", $client);

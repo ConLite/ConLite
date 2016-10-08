@@ -126,7 +126,7 @@ class WorkflowAllocations extends ItemCollection {
 			$this->lasterror = i18n("Workflow doesn't exist", "workflow");
 			return false;
 		} 
-		$newitem = parent::create();
+		$newitem = parent::createNewItem();
 		if (!$newitem->setWorkflow($idworkflow))
 		{
 			$this->lasterror = $newitem->lasterror;

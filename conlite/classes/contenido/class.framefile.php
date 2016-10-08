@@ -45,7 +45,7 @@ class cApiFrameFileCollection extends ItemCollection
 
     public function create($area, $idframe, $idfile)
     {
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         if (is_string($area)) {
             $c = new cApiArea();

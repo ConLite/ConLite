@@ -48,7 +48,7 @@ class cApiModuleCollection extends ItemCollection {
      */
     public function create($name) {
         global $auth, $client;
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("idclient", $client);
         $item->set("name", $name);
@@ -147,13 +147,12 @@ class cApiModule extends Item {
             }
         }
 
-        $oClient = cApiClient::getInstance($client);
-        if ($oClient->isLoaded()) {
+        $oClient = new cApiClient($client);
             $aClientProp = $oClient->getPropertiesByType('modfileedit');
             if (count($aClientProp) > 0) {
                 $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $aClientProp);
             }
-        }
+
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
@@ -889,7 +888,7 @@ class cApiModule extends Item {
         if ($this->_aModFileEditConf['use'] !== true) {
             return false;
         }
-        return $this->_setFieldFromFile('output', $this->_sModAlias . "_output.php");
+        return $this->_setFieldFromFile('output', $this->_sModAlias."_output.php");
     }
 
     /**
@@ -903,7 +902,7 @@ class cApiModule extends Item {
         if ($this->_aModFileEditConf['use'] !== true) {
             return false;
         }
-        return $this->_setFieldFromFile('input', $this->_sModAlias . "_input.php");
+        return $this->_setFieldFromFile('input', $this->_sModAlias."_input.php");
     }
 
     private function _displayNoteFromFile($bIsOldPath = FALSE) {
@@ -1076,7 +1075,7 @@ class cApiModuleTranslationCollection extends ItemCollection {
             }
             return $item;
         } else {
-            $item = parent::create();
+            $item = parent::createNewItem();
             $item->set("idmod", $idmod);
             $item->set("idlang", $idlang);
             $item->set("original", $original);

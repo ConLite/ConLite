@@ -82,7 +82,7 @@ class RecipientCollection extends ItemCollection
         if ($this->next()) {
             return $this->create($sEMail."_".substr(md5(rand()),0,10), $sName, 0, $sJoinID, $iMessageType); // 0: Deactivate 'confirmed'
         }
-        $oItem = parent::create();
+        $oItem = parent::createNewItem();
         $oItem->set("idclient", $client);
         $oItem->set("idlang", $lang);
         $oItem->set("name", $sName);

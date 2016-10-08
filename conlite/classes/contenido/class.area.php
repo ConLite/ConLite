@@ -70,7 +70,7 @@ class cApiArea extends Item
 
     public function create($name, $parentid = 0, $relevant = 1, $online = 1)
     {
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("name", $name);
         $item->set("relevant", $relevant);

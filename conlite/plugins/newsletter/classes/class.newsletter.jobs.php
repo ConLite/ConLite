@@ -74,7 +74,7 @@ class cNewsletterJobCollection extends ItemCollection
             $client    = Contenido_Security::toInteger($client);
             $sName     = Contenido_Security::escapeDB($sName, null);
 
-            $oItem = parent::create();
+            $oItem = parent::createNewItem();
 
             $oItem->set("idnews", $iIDNews);
             $oItem->set("idclient", $client);

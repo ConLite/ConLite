@@ -82,7 +82,7 @@ class RecipientGroupCollection extends ItemCollection
             $groupname = $groupname . md5(rand());
         }
 
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("idclient", $client);
         $item->set("idlang", $lang);

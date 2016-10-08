@@ -41,7 +41,7 @@ class cApiLayoutCollection extends ItemCollection {
 
     public function create($title) {
         global $client;
-        $item = parent::create();
+        $item = parent::createNewItem();
         $item->set("name", $title);
         $item->set("idclient", $client);
         $item->store();

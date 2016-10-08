@@ -84,7 +84,7 @@ class cNewsletterLogCollection extends ItemCollection
 
         $oRecipient = new Recipient;
         if ($oRecipient->loadByPrimaryKey($idnewsrcp)) {
-            $oItem = parent::create();
+            $oItem = parent::createNewItem();
 
             $oItem->set("idnewsjob", $idnewsjob);
             $oItem->set("idnewsrcp", $idnewsrcp);

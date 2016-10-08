@@ -54,7 +54,7 @@ class cApiUserCollection extends ItemCollection
         if ($this->next()) {
             return false;
         } else {
-            $item = parent::create();
+            $item = parent::createNewItem();
             $item->set("user_id", $md5user);
             $item->set("username", $username);
             $item->store();

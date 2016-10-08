@@ -45,7 +45,7 @@ if ($action == "todo_save_item")
 	
 	if (is_array($userassignment)) {
 		foreach ($userassignment as $key => $value) {
-			$item = $todo->create($itemtype, $itemid, strtotime($reminderdate), $subject, $message, $notiemail, $notibackend, $auth->auth["uid"]);
+			$item = $todo->createItem($itemtype, $itemid, strtotime($reminderdate), $subject, $message, $notiemail, $notibackend, $auth->auth["uid"]);
 			$item->set("recipient", $value);
 			$item->setProperty("todo", "enddate", $enddate);
 			$item->store();

@@ -82,7 +82,7 @@ class NoteCollection extends CommunicationCollection
      */
     public function create($itemtype, $itemid, $idlang, $message, $category = "")
     {
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $item->set("subject", "Note Item");
         $item->set("message", $message);

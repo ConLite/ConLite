@@ -60,7 +60,7 @@ class CommunicationCollection extends ItemCollection
     public function create()
     {
         global $auth, $client;
-        $item = parent::create();
+        $item = parent::createNewItem();
 
         $client = Contenido_Security::toInteger($client);
 
