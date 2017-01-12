@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.clients.php
@@ -18,30 +19,20 @@
  * 
  * $Id: class.client.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class cApiClientCollection extends ItemCollection {
 
-class cApiClientCollection extends ItemCollection
-{
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg['tab']['clients'], 'idclient');
         $this->_setItemClass("cApiClient");
         $this->_setJoinPartner("cApiClientLanguageCollection");
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiClientCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
     }
 
     /**
@@ -49,8 +40,7 @@ class cApiClientCollection extends ItemCollection
      *
      * @return  array   Array with id and name entries
      */
-    public function getAvailableClients()
-    {
+    public function getAvailableClients() {
         $aClients = array();
 
         $this->select();
@@ -67,15 +57,14 @@ class cApiClientCollection extends ItemCollection
      *
      * @return  array   Array with id and name entries
      */
-    public function getAccessibleClients()
-    {
+    public function getAccessibleClients() {
         global $perm;
         $aClients = array();
         $this->select();
         while ($oItem = $this->next()) {
-            if ($perm->have_perm_client("client[".$oItem->get('idclient')."]") ||
-                $perm->have_perm_client("admin[".$oItem->get('idclient')."]") ||
-                $perm->have_perm_client()) {
+            if ($perm->have_perm_client("client[" . $oItem->get('idclient') . "]") ||
+                    $perm->have_perm_client("admin[" . $oItem->get('idclient') . "]") ||
+                    $perm->have_perm_client()) {
                 $aClients[$oItem->get('idclient')] = array('name' => $oItem->get('name'));
             }
         }
@@ -88,8 +77,7 @@ class cApiClientCollection extends ItemCollection
      * @param   int   $iIdClient
      * @return  string  Clientname if found, or empty string if not.
      */
-    public function getClientname($iIdClient)
-    {
+    public function getClientname($iIdClient) {
         $this->select("idclient='" . (int) $iIdClient . "'");
         if ($oItem = $this->next()) {
             return $oItem->get('name');
@@ -104,8 +92,7 @@ class cApiClientCollection extends ItemCollection
      * @param   int   $iIdClient
      * @return  bool  true if the client has a language
      */
-    public function hasLanguageAssigned($iIdClient)
-    {
+    public function hasLanguageAssigned($iIdClient) {
         global $cfg;
         $db = new DB_ConLite();
         $sql = 'SELECT idlang FROM ' . $cfg['tab']['clients_lang'] . ' WHERE idclient = "' . (int) $iIdClient . '"';
@@ -116,8 +103,8 @@ class cApiClientCollection extends ItemCollection
             return false;
         }
     }
-}
 
+}
 
 /**
  * Class cApiClient
@@ -125,8 +112,8 @@ class cApiClientCollection extends ItemCollection
  * @version 1.01
  * @copyright four for business 2004
  */
-class cApiClient extends Item
-{
+class cApiClient extends Item {
+
     public $idclient;
 
     /**
@@ -139,20 +126,12 @@ class cApiClient extends Item
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg['tab']['clients'], 'idclient');
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiClient($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 
     /**
@@ -162,8 +141,7 @@ class cApiClient extends Item
      * @param   int  $iClient
      * @return  cApiClient  Reference to the singleton instance.
      */
-    public static function getInstance($iClient = false)
-    {
+    public static function getInstance($iClient = false) {
         static $oCurrentInstance = array();
 
         if (!$iClient) {
@@ -184,8 +162,7 @@ class cApiClient extends Item
      * @param   int  $iIdKey
      * @return  bool
      */
-    public function loadByPrimaryKey($iIdKey)
-    {
+    public function loadByPrimaryKey($iIdKey) {
         if (parent::loadByPrimaryKey($iIdKey) == true) {
             $this->idclient = $iIdKey;
             return true;
@@ -201,8 +178,7 @@ class cApiClient extends Item
      * @param  mixed  $mValue  Value
      * @param  mixed  $mIdproperty
      */
-    public function setProperty($mType, $mName, $mValue, $mIdproperty = 0)
-    {
+    public function setProperty($mType, $mName, $mValue, $mIdproperty = 0) {
         $oPropertyColl = $this->_getPropertiesCollectionInstance();
         $oPropertyColl->setValue('clientsetting', $this->idclient, $mType, $mName, $mValue, $mIdproperty);
     }
@@ -214,8 +190,7 @@ class cApiClient extends Item
      * @param   mixed  $mName   Entry name
      * @return  mixed  Value
      */
-    public function getProperty($mType, $mName)
-    {
+    public function getProperty($mType, $mName) {
         $oPropertyColl = $this->_getPropertiesCollectionInstance();
         return $oPropertyColl->getValue('clientsetting', $this->idclient, $mType, $mName);
     }
@@ -226,8 +201,7 @@ class cApiClient extends Item
      * @param   int  $iIdProp  Id of property
      * @return  void
      */
-    public function deletePropertyById($iIdProp)
-    {
+    public function deletePropertyById($iIdProp) {
         $oPropertyColl = $this->_getPropertiesCollectionInstance();
         $oPropertyColl->delete($iIdProp);
     }
@@ -238,8 +212,7 @@ class cApiClient extends Item
      * @param   mixed  $mType   Type of the data to get
      * @return  array  Assoziative array
      */
-    public function getPropertiesByType($mType)
-    {
+    public function getPropertiesByType($mType) {
         $oPropertyColl = $this->_getPropertiesCollectionInstance();
         return $oPropertyColl->getValuesByType('clientsetting', $this->idclient, $mType);
     }
@@ -251,17 +224,16 @@ class cApiClient extends Item
      * @return  array|false  Assoziative array
      * @todo    return value should be the same as getPropertiesByType(), e. g. an empty array instead false
      */
-    public function getProperties()
-    {
+    public function getProperties() {
         $oPropertyColl = $this->_getPropertiesCollectionInstance();
-        $oPropertyColl->select("itemid='".$this->idclient."' AND itemtype='clientsetting'", "", "type, name, value ASC");
+        $oPropertyColl->select("itemid='" . $this->idclient . "' AND itemtype='clientsetting'", "", "type, name, value ASC");
 
         if ($oPropertyColl->count() > 0) {
             $aArray = array();
 
             while ($oItem = $oPropertyColl->next()) {
-                $aArray[$oItem->get('idproperty')]['type']  = $oItem->get('type');
-                $aArray[$oItem->get('idproperty')]['name']  = $oItem->get('name');
+                $aArray[$oItem->get('idproperty')]['type'] = $oItem->get('type');
+                $aArray[$oItem->get('idproperty')]['name'] = $oItem->get('name');
                 $aArray[$oItem->get('idproperty')]['value'] = $oItem->get('value');
             }
 
@@ -276,8 +248,7 @@ class cApiClient extends Item
      *
      * @return  bool
      */
-    public function hasLanguages()
-    {
+    public function hasLanguages() {
         $cApiClientLanguageCollection = new cApiClientLanguageCollection();
         $cApiClientLanguageCollection->setWhere("idclient", $this->get("idclient"));
         $cApiClientLanguageCollection->query();
@@ -294,8 +265,7 @@ class cApiClient extends Item
      *
      * @return PropertyCollection
      */
-    protected function _getPropertiesCollectionInstance()
-    {
+    protected function _getPropertiesCollectionInstance() {
         // Runtime on-demand allocation of the properties object
         if (!is_object($this->_oPropertyCollection)) {
             $this->_oPropertyCollection = new PropertyCollection();
@@ -303,6 +273,6 @@ class cApiClient extends Item
         }
         return $this->_oPropertyCollection;
     }
-}
 
+}
 ?>

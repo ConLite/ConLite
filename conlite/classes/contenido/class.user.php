@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.user.php
@@ -18,16 +19,13 @@
  * 
  * $Id: class.user.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class cApiUserCollection extends ItemCollection {
 
-class cApiUserCollection extends ItemCollection
-{
-    public function __construct($select = false)
-    {
+    public function __construct($select = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["phplib_auth_user_md5"], "user_id");
         $this->_setItemClass("cApiUser");
@@ -36,15 +34,7 @@ class cApiUserCollection extends ItemCollection
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiUserCollection($select = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($select);
-    }
-
-    public function create($username)
-    {
+    public function create($username) {
         $md5user = md5($username);
 
         $this->resetQuery();
@@ -62,30 +52,22 @@ class cApiUserCollection extends ItemCollection
             return ($item);
         }
     }
+
 }
 
+class cApiUser extends Item {
 
-class cApiUser extends Item
-{
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["phplib_auth_user_md5"], "user_id");
         $this->setFilters(array(), array());
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiUser($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 
     /**
@@ -95,8 +77,7 @@ class cApiUser extends Item
      * @param boolean group Specifies if this function should recursively search in groups
      * @return string The value of the retrieved property
      */
-    public function getUserProperty($type, $name, $group = false)
-    {
+    public function getUserProperty($type, $name, $group = false) {
         global $cfg, $perm;
 
         if (!is_object($perm)) {
@@ -110,8 +91,8 @@ class cApiUser extends Item
 
             if (is_array($groups)) {
                 foreach ($groups as $value) {
-                    $sql = "SELECT value FROM " .$cfg["tab"]["group_prop"]."
-                            WHERE group_id = '".$value."'
+                    $sql = "SELECT value FROM " . $cfg["tab"]["group_prop"] . "
+                            WHERE group_id = '" . $value . "'
                               AND type = '$type'
                               AND name = '$name'";
                     $this->db->query($sql);
@@ -123,7 +104,7 @@ class cApiUser extends Item
             }
         }
 
-        $sql = "SELECT value FROM " .$cfg["tab"]["user_prop"]."
+        $sql = "SELECT value FROM " . $cfg["tab"]["user_prop"] . "
                 WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
                   AND type = '" . Contenido_Security::escapeDB($type, $this->db) . "'
                   AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
@@ -146,37 +127,36 @@ class cApiUser extends Item
      * @param   string  $sType    Specifies the type (class, category etc) for the property to retrieve
      * @param   bool    $bGroup   Specifies if this function should recursively search in groups
      * @return  array   The value of the retrieved property
-     **/
-     public function getUserPropertiesByType($sType, $bGroup = false)
-     {
-         global $cfg, $perm;
+     * */
+    public function getUserPropertiesByType($sType, $bGroup = false) {
+        global $cfg, $perm;
 
-         if (!is_object($perm)) {
-             $perm = new Contenido_Perm();
-         }
+        if (!is_object($perm)) {
+            $perm = new Contenido_Perm();
+        }
 
-         $aResult = array();
+        $aResult = array();
 
-         if ($bGroup == true) {
-             $aGroups = $perm->getGroupsForUser($this->values['user_id']);
+        if ($bGroup == true) {
+            $aGroups = $perm->getGroupsForUser($this->values['user_id']);
 
-             if (is_array($aGroups)) {
-                 foreach ($aGroups as $iID) {
-                     $sSQL = "SELECT name, value FROM " .$cfg["tab"]["group_prop"]."
+            if (is_array($aGroups)) {
+                foreach ($aGroups as $iID) {
+                    $sSQL = "SELECT name, value FROM " . $cfg["tab"]["group_prop"] . "
                              WHERE group_id = '" . Contenido_Security::escapeDB($iID, $this->db) . "'
-                                AND type = '".Contenido_Security::escapeDB($sType, $this->db)."'";
+                                AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
                     $this->db->query($sSQL);
 
                     while ($this->db->next_record()) {
                         $aResult[$this->db->f("name")] = urldecode($this->db->f("value"));
                     }
                 }
-             }
-         }
+            }
+        }
 
-         $sSQL = "SELECT name, value FROM " .$cfg["tab"]["user_prop"]."
-                 WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'
-                 AND type = '". Contenido_Security::escapeDB($sType, $this->db) . "'";
+        $sSQL = "SELECT name, value FROM " . $cfg["tab"]["user_prop"] . "
+                 WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
+                 AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
         $this->db->query($sSQL);
 
         while ($this->db->next_record()) {
@@ -191,12 +171,11 @@ class cApiUser extends Item
      *
      * @return array|bool
      */
-    public function getUserProperties()
-    {
+    public function getUserProperties() {
         global $cfg;
 
-        $sql = "SELECT type, name FROM " .$cfg["tab"]["user_prop"]."
-                WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'";
+        $sql = "SELECT type, name FROM " . $cfg["tab"]["user_prop"] . "
+                WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'";
         $this->db->query($sql);
 
         if ($this->db->num_rows() == 0) {
@@ -206,7 +185,7 @@ class cApiUser extends Item
         $props = array();
         while ($this->db->next_record()) {
             $props[] = array("name" => $this->db->f("name"),
-                             "type" => $this->db->f("type"));
+                "type" => $this->db->f("type"));
         }
 
         return $props;
@@ -218,27 +197,26 @@ class cApiUser extends Item
      * @param string name Specifies the name of the property to retrieve
      * @param string value Specifies the value to insert
      */
-    public function setUserProperty($type, $name, $value)
-    {
+    public function setUserProperty($type, $name, $value) {
         global $cfg;
 
         $value = urlencode($value);
 
         // Check if such an entry already exists
         if ($this->getUserProperty($type, $name) !== false) {
-            $sql = "UPDATE ".$cfg["tab"]["user_prop"]."
+            $sql = "UPDATE " . $cfg["tab"]["user_prop"] . "
                     SET value = '$value'
-                    WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'
+                    WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
                       AND type = '" . Contenido_Security::escapeDB($type, $this->db) . "'
                       AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
             $this->db->query($sql);
         } else {
-            $sql = "INSERT INTO  ".$cfg["tab"]["user_prop"]."
+            $sql = "INSERT INTO  " . $cfg["tab"]["user_prop"] . "
                     SET value = '" . Contenido_Security::escapeDB($value, $this->db) . "',
                         user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "',
                           type = '" . Contenido_Security::escapeDB($type, $this->db) . "',
                           name = '" . Contenido_Security::escapeDB($name, $this->db) . "',
-                        iduserprop = " .$this->db->nextid($cfg["tab"]["user_prop"]);
+                        iduserprop = " . $this->db->nextid($cfg["tab"]["user_prop"]);
             $this->db->query($sql);
         }
     }
@@ -248,17 +226,17 @@ class cApiUser extends Item
      * @param string type Specifies the type (class, category etc) for the property to retrieve
      * @param string name Specifies the name of the property to retrieve
      */
-    public function deleteUserProperty($type, $name)
-    {
+    public function deleteUserProperty($type, $name) {
         global $cfg;
 
         // Check if such an entry already exists 
-        $sql = "DELETE FROM  ".$cfg["tab"]["user_prop"]."
-                    WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."' AND
+        $sql = "DELETE FROM  " . $cfg["tab"]["user_prop"] . "
+                    WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "' AND
                           type = '" . Contenido_Security::escapeDB($type, $this->db) . "' AND
                           name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
         $this->db->query($sql);
     }
+
 }
 
 ?>

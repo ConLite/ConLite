@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.article.php
@@ -18,7 +19,6 @@
  * 
  * $Id: class.article.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -26,10 +26,9 @@ if (!defined('CON_FRAMEWORK')) {
 
 cInclude("includes", "functions.str.php");
 
-class cApiArticleCollection extends ItemCollection
-{
-    public function __construct($select = false)
-    {
+class cApiArticleCollection extends ItemCollection {
+
+    public function __construct($select = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["art"], "idart");
         $this->_setItemClass("cApiArticle");
@@ -39,23 +38,15 @@ class cApiArticleCollection extends ItemCollection
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiArticleCollection($select = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($select);
-    }
 }
 
+class cApiArticle extends Item {
 
-class cApiArticle extends Item
-{
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["art"], "idart");
         $this->setFilters(array(), array());
@@ -64,12 +55,6 @@ class cApiArticle extends Item
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiArticle($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
 
 ?>

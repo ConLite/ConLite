@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.containerconfig.php
@@ -18,16 +19,13 @@
  * 
  * $Id: class.containerconfig.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class cApiContainerConfigurationCollection extends ItemCollection {
 
-class cApiContainerConfigurationCollection extends ItemCollection
-{
-    public function __construct($select = false)
-    {
+    public function __construct($select = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["container_conf"], "idcontainerc");
         $this->_setItemClass("cApiContainerConfiguration");
@@ -36,32 +34,23 @@ class cApiContainerConfigurationCollection extends ItemCollection
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiContainerConfigurationCollection($select = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($select = false);
-    }
-
-    public function create($idtplcfg, $number, $container)
-    {
+    public function create($idtplcfg, $number, $container) {
         $item = parent::createNewItem();
         $item->set("idtplcfg", $idtplcfg);
         $item->set("number", $number);
         $item->set("container", $container);
         $item->store();
     }
+
 }
 
+class cApiContainerConfiguration extends Item {
 
-class cApiContainerConfiguration extends Item
-{
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["container_conf"], "idcontainerc");
         $this->setFilters(array(), array());
@@ -69,13 +58,5 @@ class cApiContainerConfiguration extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiContainerConfiguration($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-
 ?>

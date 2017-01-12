@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.framfile.php
@@ -18,33 +19,22 @@
  * 
  * $Id: class.framefile.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class cApiFrameFileCollection extends ItemCollection {
 
-class cApiFrameFileCollection extends ItemCollection
-{
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg['tab']['framefiles'], 'idframefile');
         $this->_setItemClass("cApiFrameFile");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiFrameFileCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
-    public function create($area, $idframe, $idfile)
-    {
+    public function create($area, $idframe, $idfile) {
         $item = parent::createNewItem();
 
         if (is_string($area)) {
@@ -67,17 +57,16 @@ class cApiFrameFileCollection extends ItemCollection
 
         return ($item);
     }
+
 }
 
+class cApiFrameFile extends Item {
 
-class cApiFrameFile extends Item
-{
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["framefiles"], "idframefile");
         $this->setFilters(array("addslashes"), array("stripslashes"));
@@ -86,12 +75,5 @@ class cApiFrameFile extends Item
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiFrameFile($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-
 ?>

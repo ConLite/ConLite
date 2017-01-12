@@ -36,13 +36,6 @@ class cApiArticleLanguageCollection extends ItemCollection {
             $this->select($select);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiArticleLanguageCollection($select = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($select);
-    }
     
     public function getIdArtLang($iIdart, $iIdlang) {
         $this->setWhere('idart', Contenido_Security::toInteger($iIdart));
@@ -69,13 +62,6 @@ class cApiArticleLanguage extends Item
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiArticleLanguage($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
     
     public function loadByArticleAndLanguageId($idart, $idlang) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.language.php
@@ -18,14 +19,12 @@
  * 
  * $Id: class.language.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
 class cApiLanguageCollection extends ItemCollection {
-    
+
     /**
      * Constructor
      */
@@ -36,22 +35,16 @@ class cApiLanguageCollection extends ItemCollection {
         $this->_setJoinPartner("cApiClientLanguageCollection");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiLanguageCollection() {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-    
     public function nextAccessible() {
         global $perm, $client, $cfg, $lang;
 
         $item = parent::next();
 
         $db = new DB_ConLite();
-        $lang   = Contenido_Security::toInteger($lang);
+        $lang = Contenido_Security::toInteger($lang);
         $client = Contenido_Security::toInteger($client);
 
-        $sql = "SELECT idclient FROM ".$cfg["tab"]["clients_lang"]." WHERE idlang = '".$lang."'";
+        $sql = "SELECT idclient FROM " . $cfg["tab"]["clients_lang"] . " WHERE idlang = '" . $lang . "'";
         $db->query($sql);
 
         if ($db->next_record()) {
@@ -61,9 +54,9 @@ class cApiLanguageCollection extends ItemCollection {
         }
 
         if ($item) {
-            if ($perm->have_perm_client("lang[".$item->get("idlang")."]") ||
-                $perm->have_perm_client("admin[".$client."]") ||
-                $perm->have_perm_client()) {
+            if ($perm->have_perm_client("lang[" . $item->get("idlang") . "]") ||
+                    $perm->have_perm_client("admin[" . $client . "]") ||
+                    $perm->have_perm_client()) {
                 // Do nothing for now
             } else {
                 $item = $this->nextAccessible();
@@ -73,8 +66,8 @@ class cApiLanguageCollection extends ItemCollection {
         } else {
             return false;
         }
-    }    
-    
+    }
+
     /**
      * Returns an array with language ids or an array of values if $bWithValues is true
      * 
@@ -82,20 +75,20 @@ class cApiLanguageCollection extends ItemCollection {
      * @param boolean $bWithValues
      * @return array
      */
-    public function getClientLanguages($iClient, $bWithValues=false) {
+    public function getClientLanguages($iClient, $bWithValues = false) {
         $aList = array();
         $oClientLangCol = new cApiClientLanguageCollection();
         $oClientLangCol->setWhere("idclient", $iClient);
         $oClientLangCol->query();
-        
-        while($oItem = $oClientLangCol->next()) {
+
+        while ($oItem = $oClientLangCol->next()) {
             $mTmpValues = '';
-            if($bWithValues) {
+            if ($bWithValues) {
                 $oLanguage = new cApiLanguage($oItem->get("idlang"));
                 $mTmpValues = array(
-                  "idlang" => $oItem->get("idlang"),
+                    "idlang" => $oItem->get("idlang"),
                     "name" => $oLanguage->get("name"),
-                    "active" => ($oLanguage->get("active"))?true:false,
+                    "active" => ($oLanguage->get("active")) ? true : false,
                     "encoding" => $oLanguage->get("encoding")
                 );
                 unset($oLanguage);
@@ -107,11 +100,11 @@ class cApiLanguageCollection extends ItemCollection {
         unset($oClientLangCol, $oItem);
         return $aList;
     }
+
 }
 
-
 class cApiLanguage extends Item {
-    
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
@@ -124,10 +117,6 @@ class cApiLanguage extends Item {
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiLanguage($mId = false) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
+
 ?>

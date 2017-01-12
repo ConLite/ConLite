@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.templateconfig.php
@@ -18,16 +19,13 @@
  * 
  * $Id: class.templateconfig.php 352 2015-09-24 12:12:51Z oldperl $
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class cApiTemplateConfigurationCollection extends ItemCollection {
 
-class cApiTemplateConfigurationCollection extends ItemCollection
-{
-    public function __construct($select = false)
-    {
+    public function __construct($select = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["tpl_conf"], "idtplcfg");
         $this->_setItemClass("cApiTemplateConfiguration");
@@ -36,29 +34,20 @@ class cApiTemplateConfigurationCollection extends ItemCollection
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendPermission($select = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($select);
-    }
-
-    public function delete($idtplcfg)
-    {
+    public function delete($idtplcfg) {
         $result = parent::delete($idtplcfg);
-        $oContainerConfCollection = new cApiContainerConfigurationCollection ("idtplcfg = '$idtplcfg'");
+        $oContainerConfCollection = new cApiContainerConfigurationCollection("idtplcfg = '$idtplcfg'");
         $aDelContainerConfIds = array();
         while ($oContainerConf = $oContainerConfCollection->next()) {
             array_push($aDelContainerConfIds, $oContainerConf->get('idcontainerc'));
         }
 
-        foreach($aDelContainerConfIds as $iDelContainerConfId) {
+        foreach ($aDelContainerConfIds as $iDelContainerConfId) {
             $oContainerConfCollection->delete($iDelContainerConfId);
         }
     }
 
-    public function create($idtpl)
-    {
+    public function create($idtpl) {
         global $auth;
 
         $item = parent::createNewItem();
@@ -77,7 +66,7 @@ class cApiTemplateConfigurationCollection extends ItemCollection
         if ($template = $templateCollection->next()) {
             $idTplcfgStandard = $template->get("idtplcfg");
             if ($idTplcfgStandard > 0) {
-                $oContainerConfCollection = new cApiContainerConfigurationCollection ("idtplcfg = '$idTplcfgStandard'");
+                $oContainerConfCollection = new cApiContainerConfigurationCollection("idtplcfg = '$idTplcfgStandard'");
                 $aStandardconfig = array();
                 while ($oContainerConf = $oContainerConfCollection->next()) {
                     $aStandardconfig[$oContainerConf->get('number')] = $oContainerConf->get('container');
@@ -91,17 +80,16 @@ class cApiTemplateConfigurationCollection extends ItemCollection
 
         return ($item);
     }
+
 }
 
+class cApiTemplateConfiguration extends Item {
 
-class cApiTemplateConfiguration extends Item
-{
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["tpl_conf"], "idtplcfg");
         $this->setFilters(array(), array());
@@ -110,12 +98,6 @@ class cApiTemplateConfiguration extends Item
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiTemplateConfiguration($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId = false);
-    }
 }
 
 ?>
