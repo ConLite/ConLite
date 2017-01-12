@@ -1953,23 +1953,32 @@ function checkMySQLConnectivity() {
     global $contenido_host, $contenido_database, $contenido_user, $contenido_password, $cfg;
 
     if ($cfg["database_extension"] == "mysqli") {
-        if (($iPos = strpos($contenido_host, ":")) !== false) {
-            list($sHost, $sPort) = explode(":", $contenido_host);
+        if (function_exists("mysqli_connect")) {
+            if (($iPos = strpos($contenido_host, ":")) !== false) {
+                list($sHost, $sPort) = explode(":", $contenido_host);
 
-            $res = @mysqli_connect($sHost, $contenido_user, $contenido_password, "", $sPort);
+                $res = mysqli_connect($sHost, $contenido_user, $contenido_password, "", $sPort);
+            } else {
+
+                $res = mysqli_connect($contenido_host, $contenido_user, $contenido_password);
+            }
         } else {
-            $res = @mysqli_connect($contenido_host, $contenido_user, $contenido_password);
+            $res = NULL;
         }
     } else {
-        $res = @mysql_connect($contenido_host, $contenido_user, $contenido_password);
+        if(function_exists("mysql_connect")) {
+            $res = mysql_connect($contenido_host, $contenido_user, $contenido_password);
+        } else {
+            $res = NULL;
+        }
     }
 
     $selectDb = false;
     if ($res) {
         if ($cfg["database_extension"] == "mysqli") {
-            $selectDb = @mysqli_select_db($res, $contenido_database);
+            $selectDb = mysqli_select_db($res, $contenido_database);
         } else {
-            $selectDb = @mysql_select_db($contenido_database, $res);
+            $selectDb = mysql_select_db($contenido_database, $res);
         }
     }
 

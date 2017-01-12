@@ -194,11 +194,10 @@ function logMessage($msg, $PC_writeDir, $PC_useLog, $PC_debug) {
 }
 
 function lTrimZeros($number) {
-
     while ($number[0] == '0') {
         $number = substr($number, 1);
     }
-    return $number;
+    return (is_numeric($number))?$number:0;
 }
 
 function parseElement($element, &$targetArray, $numberOfElements) {
@@ -436,6 +435,7 @@ class cCronJob {
     protected $_sCronDir;
     protected $_sLogDir;
     private $_bUseLog;
+    private $_iMaxLogFileSize = 1024;
 
     public function __construct() {
         $this->_sJobDir = cRegistry::getConfigValue('path', 'conlite') . cRegistry::getConfigValue('path', 'cronjobs');
@@ -467,8 +467,41 @@ class cCronJob {
         if ($sMsg[strlen($sMsg) - 1] != "\n") {
             $sMsg .= "\r\n";
         }
+        $this->_rotateLogFiles($logfile);
         file_put_contents($logfile, $sMsg, FILE_APPEND);
     }
 
+    private function _rotateLogFiles($sLogFile) {
+        if (file_exists($sLogFile) &&
+                filesize($sLogFile) >= $this->_iMaxLogFileSize * 1024) {
+            // rotate
+            $path_info = pathinfo($sLogFile);
+            $base_directory = $path_info['dirname'];
+            $base_name = $path_info['basename'];
+            $num_map = array();
+            foreach (new DirectoryIterator($base_directory) as $fInfo) {
+                if ($fInfo->isDot() || !$fInfo->isFile()) {
+                    continue;
+                }
+                if (preg_match('/^' . $base_name . '\.?([0-9]*)$/', $fInfo->getFilename(), $matches)) {
+                    $num = $matches[1];
+                    $file2move = $fInfo->getFilename();
+                    if ($num == '') {
+                        $num = 0;
+                    }
+                    $num_map[$num] = $file2move;
+                }
+            }
+            krsort($num_map);
+            foreach ($num_map as $num => $file2move) {
+                $targetN = $num + 1;
+                if($targetN > 10) {
+                    unlink($base_directory . DIRECTORY_SEPARATOR . $file2move);
+                    continue;
+                }                
+                rename($base_directory . DIRECTORY_SEPARATOR . $file2move, $base_directory . DIRECTORY_SEPARATOR .$base_name . '.' . $targetN);
+            }
+        }
+    }
 }
 ?>
