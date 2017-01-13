@@ -38,7 +38,7 @@ class cHTMLAlphaImage extends cHTMLImage {
     var $_sMouseoverSrc;
 
     function __construct()	{
-        cHTMLImage::__construct();
+        parent::__construct();
     }
 	
 	function setMouseover ($sMouseoverSrc)
@@ -90,7 +90,7 @@ class cHTMLErrorMessageList extends cHTMLDiv {
     public function __construct() {
         $this->_oTable = new cHTMLTable();
         $this->_oTable->setWidth("100%");		
-        cHTMLDiv::__construct();
+        parent::__construct();
         $this->setClass("errorlist");
         $this->setStyle("width: 450px; height: 218px; overflow: auto; border: 1px solid black;");
     }
@@ -163,7 +163,7 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
         $this->_oIcon->setContent("&nbsp;");	
         }
 
-        cHTMLTableRow::__construct();
+        parent::__construct();
     }
 	
     function toHTML()	{
@@ -191,7 +191,7 @@ class cHTMLInfoMessage extends cHTMLTableRow {
         $this->_oMessage->setContent($sMessage);
         $this->_oMessage->setClass("entry_nowrap");
 
-        cHTMLTableRow::__construct();
+        parent::__construct();
     }
 	
     function toHTML()	{
@@ -209,7 +209,7 @@ class cHTMLLanguageLink extends cHTMLDiv {
      * @param int $stepnumber 
      */
     function __construct($langcode, $langname, $stepnumber) {
-        cHTMLDiv::__construct();
+        parent::__construct();
 		
         $linkImage = new cHTMLAlphaImage();
         $linkImage->setAlt("");
@@ -249,7 +249,7 @@ class cHTMLButtonLink extends cHTMLDiv {
      * @param string $title 
      */
     function __construct($href, $title)	{
-        cHTMLDiv::__construct();
+        parent::__construct();
 		
         $linkImage = new cHTMLAlphaImage();
         $linkImage->setSrc("../conlite/images/submit.gif");

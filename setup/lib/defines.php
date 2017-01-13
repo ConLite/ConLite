@@ -57,5 +57,5 @@ define('C_SETUP_STEPFILE_ACTIVE', 'images/steps/s%da.png');
 define('C_SETUP_STEPWIDTH', 28);
 define('C_SETUP_STEPHEIGHT', 28);
 define('C_SETUP_MIN_PHP_VERSION', '5.3');
-define('C_SETUP_VERSION', '2.0.0RC3');
+define('C_SETUP_VERSION', '2.0.1');
 ?>

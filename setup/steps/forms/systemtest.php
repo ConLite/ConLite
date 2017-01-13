@@ -24,8 +24,8 @@ define("C_SEVERITY_ERROR", 4);
 
 class cSetupSystemtest extends cSetupMask {
 
-    function cSetupSystemtest($step, $previous, $next) {
-        cSetupMask::cSetupMask("templates/setup/forms/systemtest.tpl", $step);
+    public function __construct($step, $previous, $next) {
+        parent::__construct("templates/setup/forms/systemtest.tpl", $step);
         $bErrors = false;
 
         $this->setHeader(i18n_setup("System Test"));
@@ -94,7 +94,7 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    function doExistingOldPluginTests() {
+    public function doExistingOldPluginTests() {
         $db = getSetupMySQLDBConnection(false);
         $sMessage = '';
 
@@ -157,7 +157,7 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    function runTest($mResult, $iSeverity, $sHeadline = "", $sErrorMessage = "") {
+    public function runTest($mResult, $iSeverity, $sHeadline = "", $sErrorMessage = "") {
         /**
          * @todo: Store results into an external file
          */
@@ -166,7 +166,7 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    function doPHPTests() {
+    public function doPHPTests() {
         #new demo client requires PHP5
         if (!version_compare(phpversion(), "5.2.0", ">=") && $_SESSION["setuptype"] == 'setup') {
             $this->runTest(false, C_SEVERITY_WARNING, i18n_setup('ConLite demo client requires PHP 5.2 or higher'), i18n_setup('The ConLite demo client requires PHP 5.2 or higher. If you want to install the demo client, please update your PHP version.')
@@ -245,7 +245,7 @@ class cSetupSystemtest extends cSetupMask {
          */
     }
 
-    function doGDTests() {
+    public function doGDTests() {
         $this->runTest(function_exists("imagecreatefromgif"), C_SEVERITY_INFO, i18n_setup("GD-Library GIF read support missing"), i18n_setup("Your GD version doesn't support reading GIF files. This might cause problems with some modules."));
 
         $this->runTest(function_exists("imagegif"), C_SEVERITY_INFO, i18n_setup("GD-Library GIF write support missing"), i18n_setup("Your GD version doesn't support writing GIF files. This might cause problems with some modules."));
@@ -259,7 +259,7 @@ class cSetupSystemtest extends cSetupMask {
         $this->runTest(function_exists("imagepng"), C_SEVERITY_INFO, i18n_setup("GD-Library PNG write support missing"), i18n_setup("Your GD version doesn't support writing PNG files. This might cause problems with some modules."));
     }
 
-    function doMySQLTests() {
+    public function doMySQLTests() {
 
         list($handle, $status) = doMySQLConnect($_SESSION["dbhost"], $_SESSION["dbuser"], $_SESSION["dbpass"]);
 
@@ -445,7 +445,7 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    function doFileSystemTests() {
+    public function doFileSystemTests() {
         // old logs
         if ($_SESSION["setuptype"] != "setup") {
             // old folders
@@ -500,7 +500,7 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    function logFilePrediction($sFile, $iSeverity = C_SEVERITY_WARNING) {
+    public function logFilePrediction($sFile, $iSeverity = C_SEVERITY_WARNING) {
         $status = canWriteFile("../" . $sFile);
         $sTitle = sprintf(i18n_setup("Can't write %s"), $sFile);
         $sMessage = sprintf(i18n_setup("Setup or ConLite can't write to the file %s. Please change the file permissions to correct this problem."), $sFile);

@@ -43,8 +43,8 @@ if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 
 // Check version
 //PHP >= 5.0.0 and < 6.0.0
-if (version_compare(PHP_VERSION, '6.0.0', '>=')) {
-    die("You need PHP >= 5.3.0  < 6.0.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    die("You need PHP >= 5.3.0  < 7.2.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 
