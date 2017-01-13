@@ -188,7 +188,7 @@ function checkMySQLDatabaseUse ($db, $database)
 	
 	if (hasMySQLiExtension() && !hasMySQLExtension())
 	{
-		if (@mysqli_select_db($database, $db->Link_ID))
+		if (@mysqli_select_db($db->Link_ID, $database))
 		{
 			return true;	
 		} else {
