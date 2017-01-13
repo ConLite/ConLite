@@ -213,7 +213,7 @@ class clDbBackup {
                         if (!isset($rows[$column])) {
                             $values[] = 'NULL';
                         } else if ($rows[$column] != '') {
-                            $values[] = '\'' . mysql_escape_string($rows[$column]) . '\'';
+                            $values[] = '\'' . $this->_oDb->escape($rows[$column]) . '\'';
                         } else {
                             $values[] = '\'\'';
                         }

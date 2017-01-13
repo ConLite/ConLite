@@ -29,7 +29,6 @@ define('CL_BACKUP_START_IMG_OFF', $cfg['path']['contenido_html'] . $cfg['path'][
 $aMessage = array();
 $bNoBackup = false;
 $bFinalStep = false;
-echo CL_BACKUP_PATH;
 // check backup path
 if (!is_dir(CL_BACKUP_PATH) || !is_writable(CL_BACKUP_PATH)) {
     $notification->displayNotification("error", i18n("Backupfolder missing or not writable!"));

@@ -5,10 +5,6 @@
  * 
  * Description: 
  * Validates the HTML
- * 
- * Requirements: 
- * @con_php_req 5.0
- * 
  *
  * @package    Contenido Backend classes
  * @version    1.6.1
@@ -19,13 +15,8 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  * 
- * {@internal 
- *   created unknown
- *   modified 2008-07-02, Frederic Schneider, add security fix
- *
- *   $Id: class.htmlvalidator.php 312 2014-06-18 11:01:08Z oldperl $:
- * }}
  * 
+ * $Id: class.htmlvalidator.php 312 2014-06-18 11:01:08Z oldperl $:
  */
 
 if(!defined('CON_FRAMEWORK')) {
@@ -59,7 +50,10 @@ class cHTMLValidator
 
 		// remove all php code from layout
 		$resultingHTML = preg_replace('/<\?(php)?((.)|(\s))*?\?>/i', '', $html);
-
+                
+                // remove comments
+                $resultingHTML = preg_replace('/<\!--((.)|(\s))*?-->/i', '', $resultingHTML);
+                
 		/* We respect only \n, but we need to take care of windows (\n\r) and other systems (\r) */
 		$resultingHTML = str_replace("\r\n", "\n", $resultingHTML);
 		$resultingHTML = str_replace("\r", "\n", $resultingHTML);
