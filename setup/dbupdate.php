@@ -170,8 +170,8 @@ foreach ($fullChunks as $fullChunk) {
         $failedChunks = array();
 
         $replacements = array(
-            '<!--{contenido_root}-->' => addslashes($root_path),
-            '<!--{contenido_web}-->' => addslashes($root_http_path)
+            '<!--{conlite_root}-->' => addslashes($root_path),
+            '<!--{conlite_web}-->' => addslashes($root_http_path)
         );
 
         injectSQL($db, $_SESSION['dbprefix'], 'data/' . $fullChunk, $replacements, $failedChunks);
