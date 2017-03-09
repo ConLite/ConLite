@@ -31,7 +31,7 @@
  * @since      file available since Contenido release >= 4.8.15
  *
  * {@internal
- *     created  2016-01-23
+ *     created  2017-03-09
  * }}
  */
 
@@ -87,8 +87,6 @@ return array(
     'cNominalCurrencyField' => 'conlite/classes/widgets/class.widgets.nominaltextfield.php',
     'cCalendarControl' => 'conlite/classes/widgets/class.widgets.calendar.php',
     'Contenido_ItemException' => 'conlite/classes/class.genericdb.php',
-    'Contenido_ItemCache' => 'conlite/classes/class.genericdb.php',
-    'Contenido_ItemBaseAbstract' => 'conlite/classes/class.genericdb.php',
     'ItemCollection' => 'conlite/classes/class.genericdb.php',
     'Item' => 'conlite/classes/class.genericdb.php',
     'TreeItem' => 'conlite/classes/class.treeitem.php',
@@ -133,6 +131,8 @@ return array(
     'cDatatype' => 'conlite/classes/datatypes/class.datatype.php',
     'Version' => 'conlite/classes/class.version.php',
     'ConUser' => 'conlite/classes/class.conuser.php',
+    'cApiNavMainCollection' => 'conlite/classes/cApi/class.nav.main.php',
+    'cApiNavMain' => 'conlite/classes/cApi/class.nav.main.php',
     'cApiUploadMetaCollection' => 'conlite/classes/cApi/class.upload.meta.php',
     'cApiUploadMeta' => 'conlite/classes/cApi/class.upload.meta.php',
     'cApiActionCollection' => 'conlite/classes/cApi/class.action.php',
@@ -143,6 +143,8 @@ return array(
     'cApiUpload' => 'conlite/classes/cApi/class.upload.php',
     'cApiStatCollection' => 'conlite/classes/cApi/class.stat.php',
     'cApiStat' => 'conlite/classes/cApi/class.stat.php',
+    'cApiNavSubCollection' => 'conlite/classes/cApi/class.nav.sub.php',
+    'cApiNavSub' => 'conlite/classes/cApi/class.nav.sub.php',
     'Structure' => 'conlite/classes/class.structure.php',
     'SearchBaseAbstract' => 'conlite/classes/class.search.php',
     'Index' => 'conlite/classes/class.search.php',
@@ -187,6 +189,8 @@ return array(
     'clIfFunctionParser' => 'conlite/classes/template/class.clIfFunctionParser.php',
     'CommunicationCollection' => 'conlite/classes/class.communications.php',
     'CommunicationItem' => 'conlite/classes/class.communications.php',
+    'cItemCache' => 'conlite/classes/genericdb/class.item.cache.php',
+    'cItemBaseAbstract' => 'conlite/classes/genericdb/class.item.base.abstract.php',
     'Groups' => 'conlite/classes/class.group.php',
     'Group' => 'conlite/classes/class.group.php',
     'cApiClientLanguageCollection' => 'conlite/classes/contenido/class.clientslang.php',
@@ -267,6 +271,8 @@ return array(
     'CategoryLanguageCollection' => 'conlite/classes/class.category.php',
     'CategoryLanguageItem' => 'conlite/classes/class.category.php',
     'cContentTypeAbstract' => 'conlite/classes/content_types/class.content.type.abstract.php',
+    'cFrontendNavigation' => 'conlite/classes/frontend/navigation/class.frontend.navigation.php',
+    'cFrontendNavigationAbstract' => 'conlite/classes/frontend/navigation/class.frontend.navigation.abstract.php',
     'FrontendPermissionCollection' => 'conlite/classes/class.frontend.permissions.php',
     'FrontendPermission' => 'conlite/classes/class.frontend.permissions.php',
     'cHTMLFormElement' => 'conlite/classes/class.htmlelements.php',
@@ -306,6 +312,7 @@ return array(
     'gdbDriver' => 'conlite/classes/drivers/class.gdb.driver.php',
     'PropertyCollection' => 'conlite/classes/class.properties.php',
     'PropertyItem' => 'conlite/classes/class.properties.php',
+    'cPropertyCache' => 'conlite/classes/class.properties.php',
     'NoteCollection' => 'conlite/classes/class.note.php',
     'NoteItem' => 'conlite/classes/class.note.php',
     'NoteView' => 'conlite/classes/class.note.php',
