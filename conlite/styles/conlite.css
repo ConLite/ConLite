@@ -61,6 +61,25 @@ and open the template in the editor.
 
 select#lang {
     width: 180px;
+    height: 17px;
+    line-height: 17px;
     margin-left: 4px;
-    margin-top: 0;
+    margin-top: 3px;    
+    border: 1px solid #999;
+}
+
+#cl_beuser, #cl_passwd {
+    font-family: verdana,arial,helvetica,sans-serif;
+    height: 17px;
+    line-height: 17px;
+    margin-left: 13px;
+    margin-top: 3px;
+    padding: 0 2px;
+    border: 1px solid #999;
+}
+
+#cLanguageSelect {
+    color: #000;
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 11px;
 }
