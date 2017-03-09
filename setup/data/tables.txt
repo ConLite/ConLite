@@ -282,6 +282,7 @@
 "mod_translations";"original";"text";"";"";"";"";""
 "mod_translations";"translation";"text";"";"";"";"";""
 "nav_main";"idnavm";"int(10)";"";"PRI";"0";"";"1"
+"nav_main";"name";"varchar(255)";"";"";"";"";""
 "nav_main";"location";"varchar(255)";"";"";"";"";""
 "nav_sub";"idnavs";"int(10)";"";"PRI";"0";"";"1"
 "nav_sub";"idnavm";"int(10)";"";"";"0";"";""
