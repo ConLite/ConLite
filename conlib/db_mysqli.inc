@@ -378,13 +378,15 @@ class DB_Sql extends DB_Sql_Abstract {
         // made this IF due to performance (one if is faster than $count if's)
         for ($i = 0; $i < $count; $i ++) {
             $finfo = mysqli_fetch_field($id);
-            $res[$i]['table'] = $finfo->table;
-            $res[$i]['name'] = $finfo->name;
-            $res[$i]['type'] = $this->_aDataTypes[$finfo->type];
-            $res[$i]['len'] = $finfo->max_length;
-            $res[$i]['flags'] = $finfo->flags;
-            if ($full) {
-                $res['meta'][$res[$i]['name']] = $i;
+            if (is_object($finfo)) {
+                $res[$i]['table'] = $finfo->table;
+                $res[$i]['name'] = $finfo->name;
+                $res[$i]['type'] = $this->_aDataTypes[$finfo->type];
+                $res[$i]['len'] = $finfo->max_length;
+                $res[$i]['flags'] = $finfo->flags;
+                if ($full) {
+                    $res['meta'][$res[$i]['name']] = $i;
+                }
             }
         }
         if ($full) {
@@ -395,7 +397,8 @@ class DB_Sql extends DB_Sql_Abstract {
         if ($table) {
             mysqli_free_result($id);
         }
-        return $res;
+
+        return (count($res) > 0) ? $res : FALSE;
     }
 
     /**
@@ -493,8 +496,9 @@ class DB_Sql extends DB_Sql_Abstract {
         $oCharSet = mysqli_get_charset($this->Link_ID);
         return $oCharSet->charset;
     }
-    
+
     public function getClientInfo() {
         return mysqli_get_client_info();
     }
+
 }

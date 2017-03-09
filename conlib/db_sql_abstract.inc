@@ -465,6 +465,15 @@ abstract class DB_Sql_Abstract {
      * @return  array   Depends on used database and on parameter $full
      */
     public function metadata($table = '', $full = false) {
+        if(empty($table)) {
+            $aMeta = $this->_metaData(NULL, true);
+            if(is_array($aMeta) && isset($aMeta[0]['table'])) {
+                $table = $aMeta[0]['table'];
+            } else {
+                return FALSE;
+            }
+        }
+        
         $key = (string) $this->Database . '_' . $table . '_' . (($full) ? '1' : '0');
 
         if (!isset(self::$_metaCache[$key])) {
