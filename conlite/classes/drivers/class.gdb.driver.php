@@ -1,15 +1,9 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
  * 
- * Description: 
- * Root Driver for GenericDB 
- * 
- * Requirements: 
- * @con_php_req 5.0
- * 
- *
  * @package    Contenido Backend classes
  * @version    1.3
  * @author     Timo Hummel
@@ -18,44 +12,35 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * 
- * {@internal 
- *   created 2005-08-29
- *   modified 2008-05-23 Added Debug_DevNull and Debug_VisibleAdv
- *   
- *   $Id: class.gdb.driver.php 2 2011-07-20 12:00:48Z oldperl $
- * }}
- * 
+ * $Id: class.gdb.driver.php 2 2011-07-20 12:00:48Z oldperl $
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 class gdbDriver {
 
-	var $_sEncoding;
-	var $_oItemClassInstance;
-	
-    function gdbDriver() {
-	
+    var $_sEncoding;
+    var $_oItemClassInstance;
+
+    public function __construct() {
+        
     }
 
-    function setEncoding($sEncoding) {
-		$this->_sEncoding = $sEncoding;
-	}
-	
-    function setItemClassInstance($oInstance) {
-		$this->_oItemClassInstance = $oInstance;
-	}
-	
-    function buildJoinQuery($destinationTable, $destinationClass, $destinationPrimaryKey, $sourceClass, $primaryKey) {
-		
-	}
-	
-    function buildOperator($sField, $sOperator, $sRestriction) {
+    public function setEncoding($sEncoding) {
+        $this->_sEncoding = $sEncoding;
+    }
+
+    public function setItemClassInstance($oInstance) {
+        $this->_oItemClassInstance = $oInstance;
+    }
+
+    public function buildJoinQuery($destinationTable, $destinationClass, $destinationPrimaryKey, $sourceClass, $primaryKey) {
         
-	}
+    }
 
+    public function buildOperator($sField, $sOperator, $sRestriction) {
+        
+    }
 }
-
 ?>

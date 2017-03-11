@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -27,9 +28,8 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
@@ -37,318 +37,303 @@ $properties = new PropertyCollection;
 
 $db2 = new DB_ConLite;
 
-if ($action == "client_new")
-{
+if ($action == "client_new") {
     $nextid = $db->nextid($cfg["tab"]["clients"]);
     $idclient = $nextid;
     $new = true;
 }
-if(!$perm->have_perm_area_action($area))
-{
-	$notification->displayNotification("error", i18n("Permission denied"));
+if (!$perm->have_perm_area_action($area)) {
+    $notification->displayNotification("error", i18n("Permission denied"));
 } else {
-	if ( !isset($idclient) )
-	{
-	  $notification->displayNotification("error", i18n("No client ID passed"));
-	} else {
-	    if (($action == "client_edit") && ($perm->have_perm_area_action($area, $action)))
-	    {
-	    	$sNewNotification = '';
-	        if ($active != "1")
-	        {
-	            $active = "0";
-	        }
-	        
-	        if ($new == true)
-	        {
-	        	
-	        	$sLangNotification = i18n('Notice: In order to use this client, you must create a new language for it.');
-           	    $sTarget = $sess->url('frameset.php?area=lang');
-                $sJsLink = "parent.parent.location.href='".$sTarget."';
+    if (!isset($idclient)) {
+        $notification->displayNotification("error", i18n("No client ID passed"));
+    } else {
+        if (($action == "client_edit") && ($perm->have_perm_area_action($area, $action))) {
+            $sNewNotification = '';
+            if ($active != "1") {
+                $active = "0";
+            }
+
+            if ($new == true) {
+
+                $sLangNotification = i18n('Notice: In order to use this client, you must create a new language for it.');
+                $sTarget = $sess->url('frameset.php?area=lang');
+                $sJsLink = "parent.parent.location.href='" . $sTarget . "';
                             top.header.markActive(top.header.document.getElementById('sub_lang'));";
-                $sLangNotificationLink = sprintf(i18n('Please click %shere%s to create a new language.'), '<a href="javascript://" onclick="'.$sJsLink.'">', '</a>');
-            	$sNewNotification = '<br>'.$sLangNotification.'<br>'.$sLangNotificationLink;
-	             if (substr($frontendpath, strlen($frontendpath)-1) != "/")
-	             {
-	                $frontendpath .= "/";
-	             }
-	
-	             if (substr($htmlpath, strlen($htmlpath)-1) != "/")
-	             {
-	                $htmlpath .= "/";
-	             }
-	             
-	             $sql = "INSERT INTO
-	                ".$cfg["tab"]["clients"]."
+                $sLangNotificationLink = sprintf(i18n('Please click %shere%s to create a new language.'), '<a href="javascript://" onclick="' . $sJsLink . '">', '</a>');
+                $sNewNotification = '<br>' . $sLangNotification . '<br>' . $sLangNotificationLink;
+                if (substr($frontendpath, strlen($frontendpath) - 1) != "/") {
+                    $frontendpath .= "/";
+                }
+
+                if (substr($htmlpath, strlen($htmlpath) - 1) != "/") {
+                    $htmlpath .= "/";
+                }
+
+                $sql = "INSERT INTO
+	                " . $cfg["tab"]["clients"] . "
 	                SET
-	                    name = '".Contenido_Security::escapeDB($clientname, $db)."',
-	                    frontendpath = '".Contenido_Security::escapeDB($frontendpath, $db)."',
-	                    htmlpath = '".Contenido_Security::escapeDB($htmlpath, $db)."',
-	                    errsite_cat = '".Contenido_Security::toInteger($errsite_cat)."',
-	                    errsite_art = '".Contenido_Security::toInteger($errsite_art)."',
-	                    idclient = '".Contenido_Security::toInteger($idclient)."'";
-	                 
-				$properties->setValue("idclient", $idclient, "backend", "clientimage", $clientlogo);
-				
-				// Copy the client template to the real location
-				$destPath = $frontendpath;
-				$sourcePath = $cfg['path']['contenido'] . $cfg['path']['frontendtemplate'];
-    
-    if($copytemplate) {
-        if(!file_exists($destPath)) {            
-            if(recursive_copy($sourcePath, $destPath)) {
-                $res = fopen($destPath."config.php","rb+");
-                $res2 = fopen($destPath."config.php.new", "ab+");
-                if($res && $res2) {
-                    while(!feof($res)) {
-                        $buffer = fgets($res, 4096);
-                        $buffer = str_replace("!CLIENT!", $idclient, $buffer);
-                        $buffer = str_replace("!PATH!", $cfg["path"]["contenido"], $buffer);
-                        fwrite($res2, $buffer);
+	                    name = '" . Contenido_Security::escapeDB($clientname, $db) . "',
+	                    frontendpath = '" . Contenido_Security::escapeDB($frontendpath, $db) . "',
+	                    htmlpath = '" . Contenido_Security::escapeDB($htmlpath, $db) . "',
+	                    errsite_cat = '" . Contenido_Security::toInteger($errsite_cat) . "',
+	                    errsite_art = '" . Contenido_Security::toInteger($errsite_art) . "',
+	                    idclient = '" . Contenido_Security::toInteger($idclient) . "'";
+
+                $properties->setValue("idclient", $idclient, "backend", "clientimage", $clientlogo);
+
+                // Copy the client template to the real location
+                $destPath = $frontendpath;
+                $sourcePath = $cfg['path']['contenido'] . $cfg['path']['frontendtemplate'];
+
+                if ($copytemplate) {
+                    if (!file_exists($destPath)) {
+                        if (recursive_copy($sourcePath, $destPath)) {
+                            $res = fopen($destPath . "config.php", "rb+");
+                            $res2 = fopen($destPath . "config.php.new", "ab+");
+                            if ($res && $res2) {
+                                while (!feof($res)) {
+                                    $buffer = fgets($res, 4096);
+                                    $buffer = str_replace("!CLIENT!", $idclient, $buffer);
+                                    $buffer = str_replace("!PATH!", $cfg["path"]["contenido"], $buffer);
+                                    fwrite($res2, $buffer);
+                                }
+                            } else {
+                                $notification->displayNotification("error", i18n("Couldn't write the file config.php."));
+                            }
+
+                            fclose($res);
+                            fclose($res2);
+
+                            unlink($destPath . "config.php");
+                            rename($destPath . "config.php.new", $destPath . "config.php");
+                            $message = sprintf(i18n("Succesfully copied client-template to %s."), $destPath);
+                            $notification->displayNotification("info", $message);
+                        } else {
+                            $message = sprintf(i18n("Cannot create directory %s . The client was created, but you have to copy the frontend-template yourself"), $destPath);
+                            $notification->displayNotification("warning", $message);
+                        }
+                    } else {
+                        $message = sprintf(i18n("The directory %s already exists. The client was created, but you have to copy the frontend-template yourself"), $destPath);
+                        $notification->displayNotification("warning", $message);
                     }
                 } else {
-                    $notification->displayNotification("error",i18n("Couldn't write the file config.php."));
+                    $message = sprintf(i18n("Client '%s' created."), $clientname);
+                    $notification->displayNotification("info", $message);
                 }
-                
-                fclose($res);
-                fclose($res2);
-                
-                unlink($destPath."config.php");
-                rename($destPath."config.php.new", $destPath."config.php");
-                $message = sprintf(i18n("Succesfully copied client-template to %s."),$destPath);
-                $notification->displayNotification("info", $message);
+                rereadClients();
             } else {
-                $message = sprintf(i18n("Cannot create directory %s . The client was created, but you have to copy the frontend-template yourself"),$destPath);
-                $notification->displayNotification("warning", $message);
-            }
-        } else {
-            $message = sprintf(i18n("The directory %s already exists. The client was created, but you have to copy the frontend-template yourself"),$destPath);
-            $notification->displayNotification("warning", $message);
-        }
-    } else {
-        $message = sprintf(i18n("Client '%s' created."),$clientname);
-        $notification->displayNotification("info", $message);
-    }
-    rereadClients();
-} else {
-	            $pathwithoutslash = $frontendpath;
-	            if (substr($frontendpath, strlen($frontendpath)-1) != "/")
-	            {
-	               $frontendpath .= "/";
-	            }
-	            
-	            if (substr($htmlpath, strlen($htmlpath)-1) != "/")
-	            {
-	               $htmlpath .= "/";
-	            }            
-	
-	            if (($oldpath != $frontendpath) && ($oldpath != $pathwithoutslash))
-	            {
-	                $notification->displayNotification("warning", i18n("You changed the client path. You might need to copy the frontend to the new location"));
-	
-	            }
-	            $sql = "UPDATE 
-	                    ".$cfg["tab"]["clients"]."
-	                    SET
-							name = '".Contenido_Security::escapeDB($clientname, $db)."',
-							frontendpath = '".Contenido_Security::escapeDB($frontendpath, $db)."',
-							htmlpath = '".Contenido_Security::escapeDB($htmlpath, $db)."',
-							errsite_cat = '".Contenido_Security::toInteger($errsite_cat)."',
-							errsite_art = '".Contenido_Security::toInteger($errsite_art)."'
-						WHERE
-							idclient = '".Contenido_Security::toInteger($idclient)."'";
-	        }
-	
-	        $db->query($sql);
-	        $new = false;
-	        rereadClients();
-	        
-	        $properties->setValue("idclient", $idclient, "backend", "clientimage", $clientlogo);
-	        
-	        /* Clear the con_code table */
-	        $sql = "DELETE FROM ".$cfg["tab"]["code"]." WHERE idclient = '".Contenido_Security::toInteger($idclient)."'";
-	        $db->query($sql);
-	        
-            $notification->displayNotification("info", i18n("Changes saved").$sNewNotification);
-	
-	    	$cApiClient = new cApiClient;
-	    	$cApiClient->loadByPrimaryKey($idclient);
-      
-      if(isset($_REQUEST["generate_xhtml"])) {
-          switch($_REQUEST["generate_xhtml"]) {
-              case "html":
-                  $cApiClient->setProperty("generator", "xhtml", "false");
-                  $cApiClient->setProperty("generator", "html5", "false");
-                  break;
-              
-              case "xhtml":
-                  $cApiClient->setProperty("generator", "xhtml", "true");
-                  $cApiClient->setProperty("generator", "html5", "false");
-                  break;
-              
-              case "html5":
-                  $cApiClient->setProperty("generator", "xhtml", "false");
-                  $cApiClient->setProperty("generator", "html5", "true");
-                  break;
+                $pathwithoutslash = $frontendpath;
+                if (substr($frontendpath, strlen($frontendpath) - 1) != "/") {
+                    $frontendpath .= "/";
+                }
 
-              default: // do nothing
-                  break;
-          }
-      }     
-	    } 
-	
-	
-	    $tpl->reset();
-	    
-	    $sql = "SELECT
+                if (substr($htmlpath, strlen($htmlpath) - 1) != "/") {
+                    $htmlpath .= "/";
+                }
+
+                if (($oldpath != $frontendpath) && ($oldpath != $pathwithoutslash)) {
+                    $notification->displayNotification("warning", i18n("You changed the client path. You might need to copy the frontend to the new location"));
+                }
+                $sql = "UPDATE 
+	                    " . $cfg["tab"]["clients"] . "
+	                    SET
+							name = '" . Contenido_Security::escapeDB($clientname, $db) . "',
+							frontendpath = '" . Contenido_Security::escapeDB($frontendpath, $db) . "',
+							htmlpath = '" . Contenido_Security::escapeDB($htmlpath, $db) . "',
+							errsite_cat = '" . Contenido_Security::toInteger($errsite_cat) . "',
+							errsite_art = '" . Contenido_Security::toInteger($errsite_art) . "'
+						WHERE
+							idclient = '" . Contenido_Security::toInteger($idclient) . "'";
+            }
+
+            $db->query($sql);
+            $new = false;
+            rereadClients();
+
+            $properties->setValue("idclient", $idclient, "backend", "clientimage", $clientlogo);
+
+            /* Clear the con_code table */
+            $sql = "DELETE FROM " . $cfg["tab"]["code"] . " WHERE idclient = '" . Contenido_Security::toInteger($idclient) . "'";
+            $db->query($sql);
+
+            $notification->displayNotification("info", i18n("Changes saved") . $sNewNotification);
+
+            $cApiClient = new cApiClient;
+            $cApiClient->loadByPrimaryKey($idclient);
+
+            if (isset($_REQUEST["generate_xhtml"])) {
+                switch ($_REQUEST["generate_xhtml"]) {
+                    case "html":
+                        $cApiClient->setProperty("generator", "xhtml", "false");
+                        $cApiClient->setProperty("generator", "html5", "false");
+                        break;
+
+                    case "xhtml":
+                        $cApiClient->setProperty("generator", "xhtml", "true");
+                        $cApiClient->setProperty("generator", "html5", "false");
+                        break;
+
+                    case "html5":
+                        $cApiClient->setProperty("generator", "xhtml", "false");
+                        $cApiClient->setProperty("generator", "html5", "true");
+                        break;
+
+                    default: // do nothing
+                        break;
+                }
+            }
+        }
+
+
+        $tpl->reset();
+
+        $sql = "SELECT
 	                idclient, name, frontendpath, htmlpath, errsite_cat, errsite_art
 	            FROM
-	                ".$cfg["tab"]["clients"]."
+	                " . $cfg["tab"]["clients"] . "
 	            WHERE
-	                idclient = '".Contenido_Security::toInteger($idclient)."'";
-	
-	    $db->query($sql);
-	
-	    $db->next_record();
-	
-	    $form = '<form name="client_properties" method="post" action="'.$sess->url("main.php?").'">
-	                 '.$sess->hidden_session().'
-	                 <input type="hidden" name="area" value="'.$area.'">
+	                idclient = '" . Contenido_Security::toInteger($idclient) . "'";
+
+        $db->query($sql);
+
+        $db->next_record();
+
+        $form = '<form name="client_properties" method="post" action="' . $sess->url("main.php?") . '">
+	                 ' . $sess->hidden_session() . '
+	                 <input type="hidden" name="area" value="' . $area . '">
 	                 <input type="hidden" name="action" value="client_edit">
-	                 <input type="hidden" name="frame" value="'.$frame.'">
-	                 <input type="hidden" name="new" value="'.$new.'">
-	                 <input type="hidden" name="oldpath" value="'.$db->f("frontendpath").'">
-	                 <input type="hidden" name="idclient" value="'.$idclient.'">';
-	    
-	    $tpl->set('s', 'JAVASCRIPT', $javascript);
-	    $tpl->set('s', 'FORM', $form);
-	    $tpl->set('s', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-	    $tpl->set('s', 'BGCOLOR', $cfg["color"]["table_dark"]);
-	    $tpl->set('s', 'SUBMITTEXT', i18n("Save changes"));
-	    $tpl->set('s', 'CANCELTEXT', i18n("Discard changes"));
-	    $tpl->set('s', 'CANCELLINK', $sess->url("main.php?area=$area&frame=4&idclient=$idclient"));
-	
-	    if ($error)
-	    {
-	        echo $error;
-	    }
-	
-	    $tpl->set('d', 'CATNAME', i18n("Property"));
-	    $tpl->set('d', 'BGCOLOR',  $cfg["color"]["table_header"]);
-	    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', i18n("Value"));
-			$tpl->set('d', 'BRDRT', 1);
-			$tpl->set('d', 'BRDRB', 0);
-			$tpl->set('d', 'FONT', 'textg_medium');
-	    $tpl->next();
-	    
-	    $tpl->set('d', 'CATNAME', i18n("Client name"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', formGenerateField ("text", "clientname", clHtmlSpecialChars($db->f("name")), 50, 255));
-			$tpl->set('d', 'BRDRT', 0);
-			$tpl->set('d', 'BRDRB', 1);
-			$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();
-	
-	    $serverpath = $db->f("frontendpath");
-	
-	    if ($serverpath == "")
-	    {
-	        $serverpath = $cfg['path']['frontend'];
-	    }
-	    
-	    $tpl->set('d', 'CATNAME', i18n("Server path"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD',  formGenerateField ("text", "frontendpath", clHtmlSpecialChars($serverpath), 50, 255));
-			$tpl->set('d', 'BRDRT', 0);
-			$tpl->set('d', 'BRDRB', 1);
-			$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();   
-	
-	    $htmlpath = $db->f("htmlpath");
-	
-	    if ($htmlpath == "")
-	    {
-	        $htmlpath = "http://";
-	    }
-	    
-	    $tpl->set('d', 'CATNAME', i18n("Web address"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', formGenerateField ("text", "htmlpath", clHtmlSpecialChars($htmlpath), 50, 255));
-			$tpl->set('d', 'BRDRT', 0);
-			$tpl->set('d', 'BRDRB', 1);
-			$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();      
-	
-	    $tpl->set('d', 'CATNAME', i18n("Error page category"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', formGenerateField ("text", "errsite_cat", $db->f("errsite_cat"), 10, 10));
-			$tpl->set('d', 'BRDRT', 0);
-			$tpl->set('d', 'BRDRB', 1);
-			$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();  
-	
-	    $tpl->set('d', 'CATNAME', i18n("Error page article"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', formGenerateField ("text", "errsite_art", $db->f("errsite_art"), 10, 10));
-		$tpl->set('d', 'BRDRT', 0);
-		$tpl->set('d', 'BRDRB', 1);
-		$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next(); 
-	    
-	    $clientLogo = $properties->getValue ("idclient", $idclient, "backend", "clientimage");
-	    
-	    $tpl->set('d', 'CATNAME', i18n("Client logo"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-	    $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', formGenerateField ("text", "clientlogo", $clientLogo, 50, 255));
-			$tpl->set('d', 'BRDRT', 0);
-			$tpl->set('d', 'BRDRB', 1);
-			$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();
-	
-	    $aChoices = array("html" => i18n("HTML"), "xhtml" => i18n("XHTML"), "html5" => i18n("HTML5"));
-	    				  
-	    $oXHTMLSelect = new cHTMLSelectElement("generate_xhtml");
-	    $oXHTMLSelect->autoFill($aChoices);
-	    
-		$cApiClient = new cApiClient; 
-		$cApiClient->loadByPrimaryKey($idclient);     
-		if ($cApiClient->getProperty("generator", "xhtml") == "true") {
-      $oXHTMLSelect->setDefault("xhtml");
-  } else if ($cApiClient->getProperty("generator", "html5") == "true") {
-      $oXHTMLSelect->setDefault("html5");
-		} else {
-      $oXHTMLSelect->setDefault("html");
-  }
-	    	    
-	    $tpl->set('d', 'CATNAME', i18n("Generate"));
-	    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-	    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-	    $tpl->set('d', 'CATFIELD', $oXHTMLSelect->render());
-		$tpl->set('d', 'BRDRT', 0);
-	    $tpl->set('d', 'BRDRB', 1);
-		$tpl->set('d', 'FONT', 'text_medium');
-	    $tpl->next();
-	
-	    if ($new == true)
-	    {
-	        $tpl->set('d', 'CATNAME', i18n("Copy frontend template"));
-	        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-	        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-	        $tpl->set('d', 'CATFIELD', formGenerateCheckbox ("copytemplate", "checked", 1));
-	        $tpl->next();
-	    }
-        
+	                 <input type="hidden" name="frame" value="' . $frame . '">
+	                 <input type="hidden" name="new" value="' . $new . '">
+	                 <input type="hidden" name="oldpath" value="' . $db->f("frontendpath") . '">
+	                 <input type="hidden" name="idclient" value="' . $idclient . '">';
+
+        $tpl->set('s', 'JAVASCRIPT', $javascript);
+        $tpl->set('s', 'FORM', $form);
+        $tpl->set('s', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+        $tpl->set('s', 'BGCOLOR', $cfg["color"]["table_dark"]);
+        $tpl->set('s', 'SUBMITTEXT', i18n("Save changes"));
+        $tpl->set('s', 'CANCELTEXT', i18n("Discard changes"));
+        $tpl->set('s', 'CANCELLINK', $sess->url("main.php?area=$area&frame=4&idclient=$idclient"));
+
+        if ($error) {
+            echo $error;
+        }
+
+        $tpl->set('d', 'CATNAME', i18n("Property"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_header"]);
+        $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', i18n("Value"));
+        $tpl->set('d', 'BRDRT', 1);
+        $tpl->set('d', 'BRDRB', 0);
+        $tpl->set('d', 'FONT', 'textg_medium');
+        $tpl->next();
+
+        $tpl->set('d', 'CATNAME', i18n("Client name"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "clientname", clHtmlSpecialChars($db->f("name")), 50, 255));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $serverpath = $db->f("frontendpath");
+
+        if ($serverpath == "") {
+            $serverpath = $cfg['path']['frontend'];
+        }
+
+        $tpl->set('d', 'CATNAME', i18n("Server path"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "frontendpath", clHtmlSpecialChars($serverpath), 50, 255));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $htmlpath = $db->f("htmlpath");
+
+        if ($htmlpath == "") {
+            $htmlpath = "http://";
+        }
+
+        $tpl->set('d', 'CATNAME', i18n("Web address"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "htmlpath", clHtmlSpecialChars($htmlpath), 50, 255));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $tpl->set('d', 'CATNAME', i18n("Error page category"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "errsite_cat", $db->f("errsite_cat"), 10, 10));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $tpl->set('d', 'CATNAME', i18n("Error page article"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "errsite_art", $db->f("errsite_art"), 10, 10));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $clientLogo = $properties->getValue("idclient", $idclient, "backend", "clientimage");
+
+        $tpl->set('d', 'CATNAME', i18n("Client logo"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+        $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "clientlogo", $clientLogo, 50, 255));
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        $aChoices = array("html" => i18n("HTML"), "xhtml" => i18n("XHTML"), "html5" => i18n("HTML5"));
+
+        $oXHTMLSelect = new cHTMLSelectElement("generate_xhtml");
+        $oXHTMLSelect->autoFill($aChoices);
+
+        $cApiClient = new cApiClient;
+        $cApiClient->loadByPrimaryKey($idclient);
+        var_dump($cApiClient->getProperty("generator", "xhtml"));
+        if ($cApiClient->getProperty("generator", "xhtml") === TRUE) {
+            $oXHTMLSelect->setDefault("xhtml");
+        } else if ($cApiClient->getProperty("generator", "html5") === TRUE) {
+            $oXHTMLSelect->setDefault("html5");
+        } else {
+            $oXHTMLSelect->setDefault("html");
+        }
+
+        $tpl->set('d', 'CATNAME', i18n("Generate"));
+        $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+        $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+        $tpl->set('d', 'CATFIELD', $oXHTMLSelect->render());
+        $tpl->set('d', 'BRDRT', 0);
+        $tpl->set('d', 'BRDRB', 1);
+        $tpl->set('d', 'FONT', 'text_medium');
+        $tpl->next();
+
+        if ($new == true) {
+            $tpl->set('d', 'CATNAME', i18n("Copy frontend template"));
+            $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+            $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
+            $tpl->set('d', 'CATFIELD', formGenerateCheckbox("copytemplate", "checked", 1));
+            $tpl->next();
+        }
+
         $tpl->set('s', 'IDCLIENT', $idclient);
-        
-	    # Generate template
-	    $tpl->generate($cfg['path']['templates'] . $cfg['templates']['client_edit']);
-	}
+
+        # Generate template
+        $tpl->generate($cfg['path']['templates'] . $cfg['templates']['client_edit']);
+    }
 }
 ?>
