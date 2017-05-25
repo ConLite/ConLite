@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -17,15 +18,14 @@
  * 
  *   $Id: config.misc.php 390 2015-11-09 21:02:55Z oldperl $:
  */
-
 if (!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+    die('Illegal call');
 }
 
 global $cfg;
 
 /* IMPORTANT! Put your modifications into the file "config.local.php"
-   to prevent that your changes are overwritten during a system update. */
+  to prevent that your changes are overwritten during a system update. */
 
 /* Misc settings
  * ----------------------------------
@@ -35,7 +35,7 @@ global $cfg;
  */
 
 /* Current Version. You shouldn't change this
-   value unless you know what you are doing. */
+  value unless you know what you are doing. */
 $cfg['version'] = CL_VERSION;
 
 /* Login languages. Temporarly hardcoded due to recode of language selection */
@@ -60,12 +60,12 @@ $cfg["pseudocron"]["logging"] = TRUE;
 $cfg["debug"]["functiontiming"] = false;
 
 /* If you want to measure backend page rendering times, set this
-   to true */
+  to true */
 
 $cfg["debug"]["rendering"] = false;
 
 /* To output the code when editing and browsing the frontend, set
-   this to true */
+  this to true */
 $cfg["debug"]["codeoutput"] = false;
 
 /**
@@ -103,7 +103,7 @@ $cfg['AvailableCharsets'] = array(
     'iso-8859-13',
     'iso-8859-14',
     'iso-8859-15',
-	'iso-8859-16',
+    'iso-8859-16',
     'windows-1250',
     'windows-1251',
     'windows-1252',
@@ -134,28 +134,31 @@ $cfg['AvailableCharsets'] = array(
  */
 
 /* Don't display errors */
-@ini_set("display_errors",false);
+@ini_set("display_errors", false);
 
 /* Log errors to a file */
-@ini_set("log_errors",true);
+@ini_set("log_errors", true);
 
 /* The file in which we write the error log */
-@ini_set("error_log",$cfg['path']['conlite_logs']."errorlog.txt");
+@ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
 
 /* Report all errors except warnings */
-if($cfg["develop"]["show_errors"] && $_SERVER['SERVER_NAME'] == "localhost") {
+if ($cfg["develop"]["show_errors"] && $_SERVER['SERVER_NAME'] == "localhost") {
     error_reporting(E_ALL);
 } else {
-    if($cfg["develop"]["show_deprecated"]) {
-        error_reporting (E_ALL ^E_NOTICE);
+    if ($cfg["develop"]["show_deprecated"]) {
+        error_reporting(E_ALL ^ E_NOTICE);
     } else {
-        if(version_compare(PHP_VERSION, '5.3.0', '<')) { // remove unknown deprecated for PHP < 5.3
-                error_reporting (E_ALL ^E_NOTICE);
-            } else if(version_compare(PHP_VERSION, '5.4.0', '>=')) {
-                error_reporting (E_ALL ^E_NOTICE ^E_DEPRECATED ^E_USER_DEPRECATED ^E_STRICT);
-            } else {
-                error_reporting (E_ALL ^E_NOTICE ^E_DEPRECATED ^E_USER_DEPRECATED);
-            }
+        if (version_compare(PHP_VERSION, '5.3.0', '<')) { // remove unknown deprecated for PHP < 5.3
+            error_reporting(E_ALL ^ E_NOTICE);
+        } else
+            if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+            error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_WARNING);
+        } else if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+            error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_STRICT);
+        } else {
+            error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED);
+        }
     }
 }
 
@@ -216,7 +219,7 @@ $cfg['cache']['disable'] = true;
 
 // (string)  Directory, where to store cache files.
 //           NOTE: This setting doesn't affects frontend caching
-$cfg['cache']['dir']	 = 'cache/';
+$cfg['cache']['dir'] = 'cache/';
 
 // (int)  Lifetime of cached files in seconds.
 //        NOTE: This setting doesn't affects frontend caching
@@ -282,7 +285,7 @@ $cfg["contenido"]["notifyinterval"] = 20;
 //           Check out Contenido_UrlBuilderFactory::getUrlBuilder() in
 //           contenido/classes/UrlBuilder/Contenido_UrlBuilderFactory.class.php for more details 
 //           about this setting.
-$cfg['url_builder']['name']   = 'front_content';
+$cfg['url_builder']['name'] = 'front_content';
 
 // (array)  Default UrlBuilder configuration.
 //          An associative configuration array which will be passed to the UrlBuilder instance.
