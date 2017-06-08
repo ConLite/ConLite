@@ -421,8 +421,9 @@ function parseCronFile($PC_cronTabFile, $PC_debug) {
             }
         }
     }
-    if ($PC_debug)
+    if ($PC_debug) {
         var_dump($jobs);
+    }
     return $jobs;
 }
 
