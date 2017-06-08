@@ -458,25 +458,28 @@ class cSetupSystemtest extends cSetupMask {
             $this->logFilePrediction("data/logs/errorlog.txt");
             $this->logFilePrediction("data/logs/setuplog.txt");
         }
-
-        // cronjobs
-        $this->logFilePrediction("conlite/cronjobs/pseudo-cron.log");
-        $this->logFilePrediction("conlite/cronjobs/session_cleanup.php.job");
-        $this->logFilePrediction("conlite/cronjobs/send_reminder.php.job");
-        $this->logFilePrediction("conlite/cronjobs/optimize_database.php.job");
-        $this->logFilePrediction("conlite/cronjobs/move_old_stats.php.job");
-        $this->logFilePrediction("conlite/cronjobs/move_articles.php.job");
-        $this->logFilePrediction("conlite/cronjobs/linkchecker.php.job");
-        $this->logFilePrediction("conlite/cronjobs/run_newsletter_job.php.job");
-        $this->logFilePrediction("conlite/cronjobs/setfrontenduserstate.php.job");
-        $this->logFilePrediction("conlite/cronjobs/advance_workflow.php.job");
-
+        
         // new folders in data-folder
         $this->logFilePrediction("data/cache/");
         $this->logFilePrediction("data/temp/");
         $this->logFilePrediction("data/config/" . CL_ENVIRONMENT . "/");
         $this->logFilePrediction("data/logs/");
         $this->logFilePrediction("data/backup/");
+
+        // cronjobs
+        $sFolder = 'data/cronlog/';
+        $this->logFilePrediction($sFolder."pseudo-cron.log");
+        $this->logFilePrediction($sFolder."session_cleanup.php.job");
+        $this->logFilePrediction($sFolder."send_reminder.php.job");
+        $this->logFilePrediction($sFolder."optimize_database.php.job");
+        $this->logFilePrediction($sFolder."move_old_stats.php.job");
+        $this->logFilePrediction($sFolder."move_articles.php.job");
+        $this->logFilePrediction($sFolder."linkchecker.php.job");
+        $this->logFilePrediction($sFolder."run_newsletter_job.php.job");
+        $this->logFilePrediction($sFolder."setfrontenduserstate.php.job");
+        $this->logFilePrediction($sFolder."advance_workflow.php.job");
+
+        
 
         if ($_SESSION["setuptype"] == "setup" || ($_SESSION["setuptype"] == "migration" && is_dir("../cms/"))) {
             $this->logFilePrediction("cms/cache/");

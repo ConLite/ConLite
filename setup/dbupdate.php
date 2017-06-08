@@ -112,30 +112,30 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
 
 $pluginChunks = array();
 
-$baseChunks = explode("\n", file_get_contents('data/base.txt'));
+$baseChunks = txtFileToArray('data/base.txt');
 
-$clientChunks = explode("\n", file_get_contents('data/client.txt'));
+$clientChunks = txtFileToArray('data/client.txt');
 
-$clientNoContentChunks = explode("\n", file_get_contents('data/client_no_content.txt'));
+$clientNoContentChunks = txtFileToArray('data/client_no_content.txt');
 
-$moduleChunks = explode("\n", file_get_contents('data/standard.txt'));
+$moduleChunks = txtFileToArray('data/standard.txt');
 
-$contentChunks = explode("\n", file_get_contents('data/examples.txt'));
+$contentChunks = txtFileToArray('data/examples.txt');
 
-$sysadminChunk = explode("\n", file_get_contents('data/sysadmin.txt'));
+$sysadminChunk = txtFileToArray('data/sysadmin.txt');
 
 if ($_SESSION['plugin_newsletter'] == 'true') {
-    $newsletter = explode("\n", file_get_contents('data/plugin_newsletter.txt'));
+    $newsletter = txtFileToArray('data/plugin_newsletter.txt');
     $pluginChunks = array_merge($pluginChunks, $newsletter);
 }
 
 if ($_SESSION['plugin_content_allocation'] == 'true') {
-    $content_allocation = explode("\n", file_get_contents('data/plugin_content_allocation.txt'));
+    $content_allocation = txtFileToArray('data/plugin_content_allocation.txt');
     $pluginChunks = array_merge($pluginChunks, $content_allocation);
 }
 
 if ($_SESSION['plugin_mod_rewrite'] == 'true') {
-    $mod_rewrite = explode("\n", file_get_contents('data/plugin_mod_rewrite.txt'));
+    $mod_rewrite = txtFileToArray('data/plugin_mod_rewrite.txt');
     $pluginChunks = array_merge($pluginChunks, $mod_rewrite);
 }
 
@@ -258,5 +258,13 @@ if ($currentstep < $totalsteps) {
 
     printf('<script type="text/javascript">parent.document.getElementById("installing").style.visibility="hidden";parent.document.getElementById("installingdone").style.visibility="visible";</script>');
     printf('<script type="text/javascript">parent.document.getElementById("next").style.visibility="visible"; window.setTimeout("nextStep()", 10); function nextStep () { window.location.href=\'makeconfig.php\'; }</script>');
+}
+
+function txtFileToArray($sFile) {
+    $aFileArray = array();
+    if(file_exists($sFile) && is_readable($sFile)) {
+        $aFileArray = explode("\n", file_get_contents($sFile));
+    }
+    return $aFileArray;
 }
 ?>
