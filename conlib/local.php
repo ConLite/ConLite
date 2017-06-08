@@ -110,7 +110,6 @@ class DB_ConLite extends DB_Sql {
         
         $aMetadata = $this->metadata($sTable);
         
-
         if (!is_array($aMetadata) || count($aMetadata) == 0) {
             return false;
         }

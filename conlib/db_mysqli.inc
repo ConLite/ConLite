@@ -173,7 +173,7 @@ class DB_Sql extends DB_Sql_Abstract {
         $this->Row = 0;
         $this->Errno = $this->_getErrorNumber();
         $this->Error = $this->_getErrorMessage();
-        if (!$this->Query_ID) {
+        if (!is_resource($this->Query_ID)) {
             $this->halt($sQuery);
         }
     }
@@ -182,6 +182,9 @@ class DB_Sql extends DB_Sql_Abstract {
      * @see DB_Sql_Abstract::next_record()
      */
     public function next_record() {
+        if (!$this->Query_ID instanceof mysqli_result) {
+            return false;
+        }
         $this->Record = mysqli_fetch_array($this->Query_ID, MYSQLI_BOTH);
         $this->Row += 1;
         $this->Errno = $this->_getErrorNumber();
@@ -323,74 +326,87 @@ class DB_Sql extends DB_Sql_Abstract {
     }
 
     /**
-     * @see DB_Sql_Abstract::_metaData()
+    * @see DB_Sql_Abstract::_metaData()
+    *  * Due to compatibility problems with Table we changed the behavior
+    * of metadata();
+    * depending on $full, metadata returns the following values:
+    *
+    * - full is false (default):
+    * $result[]:
+    *   [0]["table"]  table name
+    *   [0]["name"]   field name
+    *   [0]["type"]   field type
+    *   [0]["len"]    field length
+    *   [0]["flags"]  field flags
+    *
+    * - full is true
+    * $result[]:
+    *   ["num_fields"] number of metadata records
+    *   [0]["table"]  table name
+    *   [0]["name"]   field name
+    *   [0]["type"]   field type
+    *   [0]["len"]    field length
+    *   [0]["flags"]  field flags
+    *   ["meta"][field name]  index of field named "field name"
+    *   This last one could be used if you have a field name, but no index.
+    *   Test:  if (isset($result['meta']['myfield'])) { ...
      */
     protected function _metaData($table = '', $full = false) {
         $count = 0;
         $id = 0;
         $res = array();
-
-        /*
-         * Due to compatibility problems with Table we changed the behavior
-         * of metadata();
-         * depending on $full, metadata returns the following values:
-         *
-         * - full is false (default):
-         * $result[]:
-         *   [0]["table"]  table name
-         *   [0]["name"]   field name
-         *   [0]["type"]   field type
-         *   [0]["len"]    field length
-         *   [0]["flags"]  field flags
-         *
-         * - full is true
-         * $result[]:
-         *   ["num_fields"] number of metadata records
-         *   [0]["table"]  table name
-         *   [0]["name"]   field name
-         *   [0]["type"]   field type
-         *   [0]["len"]    field length
-         *   [0]["flags"]  field flags
-         *   ["meta"][field name]  index of field named "field name"
-         *   This last one could be used if you have a field name, but no index.
-         *   Test:  if (isset($result['meta']['myfield'])) { ...
-         */
-
         // if no $table specified, assume that we are working with a query
         // result
-        if ($table) {
+        if (!empty($table)) {
             $this->connect();
             $id = mysqli_query($this->Link_ID, sprintf("SELECT * FROM `%s` LIMIT 1", $table));
-            if (!$id) {
+            if (!is_resource($id)) {
                 $this->halt('Metadata query failed.');
                 return false;
             }
         } else {
+            //var_dump($this->Query_ID);
             $id = $this->Query_ID;
-            if (!$id) {
+            if (!$id instanceof mysqli_result) {
+                echo "back";
                 $this->halt('No query specified.');
                 return false;
             }
         }
 
-        $count = mysqli_num_fields($id);
+        //$count = mysqli_num_fields($id);
 
-        // made this IF due to performance (one if is faster than $count if's)
-        for ($i = 0; $i < $count; $i ++) {
-            $finfo = mysqli_fetch_field($id);
-            if (is_object($finfo)) {
-                $res[$i]['table'] = $finfo->table;
-                $res[$i]['name'] = $finfo->name;
-                $res[$i]['type'] = $this->_aDataTypes[$finfo->type];
-                $res[$i]['len'] = $finfo->max_length;
-                $res[$i]['flags'] = $finfo->flags;
-                if ($full) {
-                    $res['meta'][$res[$i]['name']] = $i;
-                }
+        /*
+          // made this IF due to performance (one if is faster than $count if's)
+          for ($i = 0; $i < $count; $i ++) {
+          $finfo = mysqli_fetch_field($id);
+          $res[$i]['table'] = $finfo->table;
+          $res[$i]['name'] = $finfo->name;
+          $res[$i]['type'] = $this->_aDataTypes[$finfo->type];
+          $res[$i]['len'] = $finfo->max_length;
+          $res[$i]['flags'] = $finfo->flags;
+          if ($full) {
+          $res['meta'][$res[$i]['name']] = $i;
+          }
+
+          } */
+
+        $count = 0;
+        while ($finfo = $id->fetch_field()) {
+           //rint_r($finfo);
+            $res[$count]['table'] = $finfo->table;
+            $res[$count]['name'] = $finfo->name;
+            $res[$count]['type'] = $this->_aDataTypes[$finfo->type];
+            $res[$count]['len'] = $finfo->length;
+            $res[$count]['flags'] = $finfo->flags;
+            if ($full) {
+                $res['meta'][$res[$count]['name']] = $count;
             }
+
+            $count++;
         }
         if ($full) {
-            $res['num_fields'] = $count;
+            $res['num_fields'] = $count + 1;
         }
 
         // free the result only if we were called on a table
