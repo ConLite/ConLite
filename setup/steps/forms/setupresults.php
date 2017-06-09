@@ -53,13 +53,8 @@ class cSetupResults extends cSetupMask {
 
             $cHTMLButtonLink = new cHTMLButtonLink("http://www.conlite.org/", "Conlite Website");
             $this->_oStepTemplate->set("s", "WEBSITE", $cHTMLButtonLink->render());
-            /*
-              $cHTMLButtonLink = new cHTMLButtonLink("http://forum.contenido.org/", "Contenido Forum");
-              $this->_oStepTemplate->set("s", "FORUM", $cHTMLButtonLink->render());
-             * 
-             */
-
-            $this->_oStepTemplate->set("s", "FORUM", '');
+            $cHTMLButtonLink = new cHTMLButtonLink("http://forum.conlite.org/", "ConLite Forum");
+            $this->_oStepTemplate->set("s", "FORUM", $cHTMLButtonLink->render());
 
             $cHTMLButtonLink = new cHTMLButtonLink("https://faq.conlite.org/", "ConLite FAQ");
             $this->_oStepTemplate->set("s", "FAQ", $cHTMLButtonLink->render());
