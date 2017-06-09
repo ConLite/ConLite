@@ -173,7 +173,7 @@ class DB_Sql extends DB_Sql_Abstract {
         $this->Row = 0;
         $this->Errno = $this->_getErrorNumber();
         $this->Error = $this->_getErrorMessage();
-        if (!is_resource($this->Query_ID)) {
+        if (!$this->Query_ID) {
             $this->halt($sQuery);
         }
     }
@@ -360,15 +360,14 @@ class DB_Sql extends DB_Sql_Abstract {
         if (!empty($table)) {
             $this->connect();
             $id = mysqli_query($this->Link_ID, sprintf("SELECT * FROM `%s` LIMIT 1", $table));
-            if (!is_resource($id)) {
+            if (!$id) {
                 $this->halt('Metadata query failed.');
                 return false;
             }
         } else {
             //var_dump($this->Query_ID);
             $id = $this->Query_ID;
-            if (!$id instanceof mysqli_result) {
-                echo "back";
+            if (!$id) {
                 $this->halt('No query specified.');
                 return false;
             }
