@@ -38,7 +38,7 @@ if (!defined('CON_FRAMEWORK')) {
 }
 
 
-$debug = true;
+$debug = FALSE;
 
 $tmp_area = "str";
 
