@@ -31,7 +31,7 @@
  * @since      file available since Contenido release >= 4.8.15
  *
  * {@internal
- *     created  2017-06-09
+ *     created  2017-07-06
  * }}
  */
 
@@ -154,7 +154,7 @@ return array(
     'cModuleInputHelper' => 'conlite/classes/class.input.helper.php',
     'Contenido_Security_Exception' => 'conlite/classes/class.security.php',
     'Contenido_Security' => 'conlite/classes/class.security.php',
-    'PHPMailer' => 'conlite/classes/class.phpmailer.php',
+    'cSecurity' => 'conlite/classes/class.security.php',
     'cCharacterConverter' => 'conlite/classes/class.chartable.php',
     'XmlTree' => 'conlite/classes/class.xmltree.php',
     'XmlNode' => 'conlite/classes/class.xmltree.php',
@@ -179,7 +179,7 @@ return array(
     'Contenido_FrontendNavigation_Breadcrumb' => 'conlite/classes/Contenido_FrontendNavigation/Contenido_FrontendNavigation_Breadcrumb.class.php',
     'Contenido_FrontendNavigation' => 'conlite/classes/Contenido_FrontendNavigation/Contenido_FrontendNavigation.class.php',
     'Contenido_FrontendNavigation_Base' => 'conlite/classes/Contenido_FrontendNavigation/Contenido_FrontendNavigation_Base.class.php',
-    'SMTP' => 'conlite/classes/class.smtp.php',
+    'SMTP' => 'conlite/external/PHPMailer/class.smtp.php',
     'DBFSCollection' => 'conlite/classes/class.dbfs.php',
     'DBFSItem' => 'conlite/classes/class.dbfs.php',
     'clCounterFunctionParser' => 'conlite/classes/template/class.clCounterFunctionParser.php',
@@ -333,5 +333,13 @@ return array(
     'Contenido_Category_Language' => 'conlite/classes/Contenido_Category/Contenido_Category.class.php',
     'Contenido_Category_Base' => 'conlite/classes/Contenido_Category/Contenido_Category.class.php',
     'Table' => 'conlite/classes/class.table.php',
-    'Art' => 'conlite/classes/class.art.php'
+    'Art' => 'conlite/classes/class.art.php',
+    'ntlm_sasl_client_class' => 'conlite/external/PHPMailer/extras/ntlm_sasl_client.php',
+    'EasyPeasyICS' => 'conlite/external/PHPMailer/extras/EasyPeasyICS.php',
+    'PHPMailer' => 'conlite/external/PHPMailer/class.phpmailer.php',
+    'phpmailerException' => 'conlite/external/PHPMailer/class.phpmailer.php',
+    'POP3' => 'conlite/external/PHPMailer/class.pop3.php',
+    'Google' => 'conlite/external/PHPMailer/get_oauth_token.php',
+    'PHPMailerOAuth' => 'conlite/external/PHPMailer/class.phpmaileroauth.php',
+    'PHPMailerOAuthGoogle' => 'conlite/external/PHPMailer/class.phpmaileroauthgoogle.php'
 );
