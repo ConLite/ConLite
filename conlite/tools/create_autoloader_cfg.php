@@ -78,6 +78,7 @@ $context->destinationFile = $context->contenidoInstallPath . 'data/config/'.CL_E
 // list of paths from where all class/interface names should be found
 $context->pathsToParse = array(
     $context->contenidoInstallPath . 'conlite/classes/',
+    $context->contenidoInstallPath . 'conlite/external/PHPMailer/',
 );
 
 // class type finder options
