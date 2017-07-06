@@ -46,10 +46,10 @@ if ((int) $client > 0) {
                 continue;
             }
             if($oModule->isLoadedFromFile('output')) {
-                $oModule->set("output", addslashes(stripslashes($oModule->get('output'))));
+                $oModule->set("output", addslashes($oModule->get('output')));
             }
             if($oModule->isLoadedFromFile('input')) {
-                $oModule->set("input", addslashes(stripslashes($oModule->get('input'))));
+                $oModule->set("input", addslashes($oModule->get('input')));
             }
             $oModule->set("lastmodified", date("Y-m-d H:i:s"));
             $oModule->store();
