@@ -129,17 +129,6 @@ class cPage extends cHTML {
     }
 
     /**
-     * old constructor
-     * 
-     * @deprecated since version 2.0.0
-     * @param obj $object
-     */
-    public function cPage($object = false) {
-        cDeprecated(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        self::__construct($object);
-    }
-
-    /**
      * use HTML5 for page output
      */
     public function setHtml5() {

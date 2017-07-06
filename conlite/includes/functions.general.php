@@ -787,8 +787,7 @@ function setSystemProperty($type, $name, $value, $idsystemprop = 0) {
     }
 
     $idsystemprop = Contenido_Security::toInteger($idsystemprop);
-
-    $db_systemprop = new DB_ConLite;
+    $db_systemprop = new DB_ConLite();
 
     if ($idsystemprop == 0) {
         $sql = "SELECT idsystemprop FROM " . $cfg["tab"]["system_prop"] . " WHERE type='" . Contenido_Security::escapeDB($type, $db_systemprop) . "' AND name='" . Contenido_Security::escapeDB($name, $db_systemprop) . "'";

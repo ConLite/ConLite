@@ -31,7 +31,7 @@
  * @since      file available since Contenido release >= 4.8.15
  *
  * {@internal
- *     created  2017-03-09
+ *     created  2017-06-09
  * }}
  */
 
