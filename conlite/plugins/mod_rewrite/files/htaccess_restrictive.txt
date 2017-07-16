@@ -1,5 +1,5 @@
 ################################################################################
-# Contenido AMR plugin restrictive rewrite rules set.
+# CONTENIDO AMR plugin restrictive rewrite rules set.
 #
 # Contains strict rules, each rewrite exclusion must be set manually.
 # - Exclude requests to directories usage/, contenido/, setup/, cms/upload/
@@ -12,9 +12,8 @@
 # @license    http://www.contenido.org/license/LIZENZ.txt
 # @link       http://www.4fb.de
 # @link       http://www.contenido.org
-# @since      file available since Contenido release 4.8.15
 #
-# $Id: htaccess_restrictive.txt 447 2016-07-08 14:04:12Z oldperl $
+# $Id: htaccess_restrictive.txt 3503 2012-10-19 19:49:39Z xmurrix $
 ################################################################################
 
 
@@ -53,10 +52,9 @@
     RewriteRule ^cms/front_content.php.*$ - [L]
 
 
-    # One RewriteRule to rule them all.
     # Exclude common extensions from rewriting and pass remaining requests to
     # front_content.php.
-    RewriteRule !\.(avi|css|doc|flv|gif|gzip|ico|jpeg|jpg|js|mov|mp3|pdf|png|ppt|rar|txt|wav|wmv|xml|zip)$ front_content.php [NC,QSA,L]
+    RewriteRule !\.(avi|css|doc|flv|gif|gzip|ico|jpeg|jpg|js|mov|mp3|pdf|png|ppt|rar|swf|txt|wav|wmv|xml|zip)$ front_content.php [NC,QSA,L]
 
 </IfModule>
 

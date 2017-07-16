@@ -1,6 +1,6 @@
 /**
  * Project:
- * Contenido Content Management System
+ * CONTENIDO Content Management System
  *
  * Description:
  * Plugin Advanced Mod Rewrite JavaScript functions.
@@ -9,19 +9,19 @@
  * @con_php_req 5.0
  *
  *
- * @package    Contenido Backend plugins
+ * @package    CONTENIDO Plugins
  * @version    0.1
  * @author     Murat Purc <murat@purc.de>
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
- * @since      file available since Contenido release 4.8.15
+ * @since      file available since CONTENIDO release 4.9.0
  *
  * {@internal
  *   created  2011-04-11
  *
- *   $Id: mod_rewrite.js 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */
@@ -42,20 +42,29 @@ var mrPlugin = {
 
     initializeSettingsPage: function() {
         $(document).ready(function() {
-            $("#mr_use_language").click(function() {
-                $("#mr_use_language_name").attr("disabled", ($(this).attr("checked") ? "" : "disabled"));
-            });
-
-            $("#mr_use_client").click(function() {
-                $("#mr_use_client_name").attr("disabled", ($(this).attr("checked") ? "" : "disabled"));
-            });
-
-            $("#mr_add_startart_name_to_url").click(function() {
-                $("#mr_default_startart_name").attr("disabled", ($(this).attr("checked") ? "" : "disabled"));
-                if ($(this).attr("checked")) {
-                    $("#mr_default_startart_name").removeClass("disabled");
+            $("#mr_use_language").change(function() {
+                if (true == $(this).attr("checked")) {
+                    $("#mr_use_language_name").removeAttr("disabled");
                 } else {
-                    $("#mr_default_startart_name").addClass("disabled");
+                    $("#mr_use_language_name").attr("disabled", "disabled");
+                }
+            });
+
+            $("#mr_use_client").change(function() {
+                if (true == $(this).attr("checked")) {
+                    $("#mr_use_client_name").removeAttr("disabled");
+                } else {
+                    $("#mr_use_client_name").attr("disabled", "disabled");
+                }
+            });
+
+            $("#mr_add_startart_name_to_url").change(function() {
+                if (true == $(this).attr("checked")) {
+                    $("#mr_default_startart_name").removeAttr("disabled")
+                                                  .removeClass("disabled");
+                } else {
+                    $("#mr_default_startart_name").attr("disabled", "disabled")
+                                                  .addClass("disabled");
                 }
             });
 

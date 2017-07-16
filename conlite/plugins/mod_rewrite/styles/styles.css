@@ -1,6 +1,6 @@
 /**
  * Project: 
- * Contenido Content Management System
+ * CONTENIDO Content Management System
  * 
  * Description: 
  * Plugin Advanced Mod Rewrite JavaScript functions.
@@ -9,19 +9,19 @@
  * @con_php_req 5.0
  * 
  *
- * @package    Contenido Backend plugins
+ * @package    CONTENIDO Plugins
  * @version    0.1
  * @author     Murat Purc <murat@purc.de>
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
- * @since      file available since Contenido release 4.8.15
+ * @since      file available since CONTENIDO release 4.9.0
  * 
  * {@internal 
  *   created  2011-04-11
  *
- *   $Id: styles.css 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */
@@ -50,6 +50,7 @@ body.mrPlugin {margin:10px;}
 .mrPlugin .clear {clear:both; font-size:0pt !important; height:0pt !important; line-height:0pt !important;}
 .mrPlugin .blockLeft {display:block; float:left;}
 .mrPlugin .blockRight {display:block; float:right;}
+.mrPlugin .nodisplay {display:none;}
 
 
 /* Header box */

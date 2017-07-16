@@ -1,13 +1,9 @@
 <?php
 /**
- * Project:
- * Contenido Content Management System
- *
- * Description:
  * Plugin Advanced Mod Rewrite default settings. This file will be included if
  * mod rewrite settings of an client couldn't loaded.
  *
- * Containing settings are taken over from contenido-4.6.15mr setup installer
+ * Containing settings are taken over from CONTENIDO-4.6.15mr setup installer
  * template beeing made originally by stese.
  *
  * NOTE:
@@ -16,29 +12,20 @@
  * PHP needs write permissions to the folder, where this file resides. Mod Rewrite
  * configuration files will be created in this folder.
  *
- * Requirements:
- * @con_php_req 5.0
- *
- *
- * @package    Contenido Backend plugins
- * @version    0.1
- * @author     Murat Purc <murat@purc.de>
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since Contenido release 4.8.15
- *
- * {@internal
- *   created  2008-05-xx
- *
- *   $Id: config.mod_rewrite_default.php 2 2011-07-20 12:00:48Z oldperl $:
- * }}
- *
+ * @package     plugin
+ * @subpackage  Mod Rewrite
+ * @version     SVN Revision $Rev:$
+ * @id          $Id$:
+ * @author      Murat Purc <murat@purc.de>
+ * @copyright   four for business AG <www.4fb.de>
+ * @license     http://www.contenido.org/license/LIZENZ.txt
+ * @link        http://www.4fb.de
+ * @link        http://www.contenido.org
  */
 
-
-defined('CON_FRAMEWORK') or die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
+}
 
 
 global $cfg;
@@ -101,7 +88,6 @@ $cfg['mod_rewrite']['rewrite_urls_at_front_content_output'] = 1;
 // Changes of these settings causes a reset of all aliases, see Advanced Mod Rewrite settings in
 // backend.
 // NOTE: category_seperator and article_seperator must contain different character.
-
 // Separator for categories
 $cfg['mod_rewrite']['category_seperator'] = '/';
 

@@ -1,5 +1,5 @@
 ################################################################################
-# Contenido AMR plugin simple rewrite rules set.
+# CONTENIDO AMR plugin simple rewrite rules set.
 #
 # Contains few easy to handle rewrite rules.
 #
@@ -9,9 +9,8 @@
 # @license    http://www.contenido.org/license/LIZENZ.txt
 # @link       http://www.4fb.de
 # @link       http://www.contenido.org
-# @since      file available since Contenido release 4.8.15
 #
-# $Id: htaccess_simple.txt 2 2011-07-20 12:00:48Z oldperl $
+# $Id: htaccess_simple.txt 3503 2012-10-19 19:49:39Z xmurrix $
 ################################################################################
 
 
@@ -46,7 +45,8 @@
 
 
     # Exclude following request from rewriting
-    # tests for valid symlinks (-s), not empty files (-l) and folders (-d)
+    # tests for favicon.ico, valid symlinks (-s), not empty files (-l) and folders (-d)
+    RewriteCond %{REQUEST_URI} ^/favicon.ico$ [OR]
     RewriteCond %{REQUEST_FILENAME} -s [OR]
     RewriteCond %{REQUEST_FILENAME} -l [OR]
     RewriteCond %{REQUEST_FILENAME} -d

@@ -1,9 +1,5 @@
 <?php
 /**
- * Project:
- * Contenido Content Management System
- *
- * Description:
  * Mod Rewrite front_content.php controller. Does some preprocessing jobs, tries
  * to set following variables, depending on mod rewrite configuration and if
  * request part exists:
@@ -14,32 +10,23 @@
  * - $idart
  * - $idcat
  *
- * Requirements:
- * @con_php_req 5.0
- *
- *
- * @package    Contenido Backend plugins
- * @version    0.1
- * @author     Murat Purc <murat@purc.de>
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since Contenido release 4.8.15
- *
- * {@internal
- *   created  2008-05-xx
- *
- *   $Id: front_content_controller.php 220 2013-02-14 08:40:43Z Mansveld $:
- * }}
- *
+ * @package     plugin
+ * @subpackage  Mod Rewrite
+ * @version     SVN Revision $Rev:$
+ * @id          $Id$:
+ * @author      Murat Purc <murat@purc.de>
+ * @copyright   four for business AG <www.4fb.de>
+ * @license     http://www.contenido.org/license/LIZENZ.txt
+ * @link        http://www.4fb.de
+ * @link        http://www.contenido.org
  */
 
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
+}
 
-defined('CON_FRAMEWORK') or die('Illegal call');
 
-
-global $client, $changeclient, $cfgClient, $lang, $changelang, $idart, $idcat, $path;
+global $client, $changeclient, $cfgClient, $lang, $changelang, $idart, $idcat, $path, $mr_preprocessedPageError;
 
 ModRewriteDebugger::add(ModRewrite::getConfig(), 'front_content_controller.php mod rewrite config');
 
@@ -57,21 +44,19 @@ if ($oMRController->errorOccured()) {
     if ($iRedirToErrPage == 1 && (int) $client > 0 && (int) $lang > 0) {
         global $errsite_idcat, $errsite_idart;
 
-        if ($cfgClient['set'] != 'set')    {
+        if ($cfgClient['set'] != 'set')	{
             rereadClients();
         }
 
         // errorpage
         $aParams = array(
             'client' => $client, 'idcat' => $errsite_idcat[$client], 'idart' => $errsite_idart[$client],
-            'lang' => $lang, 'error'=> '1'
+            'lang' => $lang, 'error' => '1'
         );
         $errsite = 'Location: ' . Contenido_Url::getInstance()->buildRedirect($aParams);
-        header("HTTP/1.0 404 Not found");
         mr_header($errsite);
         exit();
     }
-
 } else {
 
     // set some global variables
@@ -103,11 +88,13 @@ if ($oMRController->errorOccured()) {
     if ($oMRController->getPath()) {
         $path = $oMRController->getPath();
     }
-
 }
 
 // some debugs
 ModRewriteDebugger::add($mr_preprocessedPageError, 'mr $mr_preprocessedPageError', __FILE__);
+if ($oMRController->getError()) {
+    ModRewriteDebugger::add($oMRController->getError(), 'mr error', __FILE__);
+}
 ModRewriteDebugger::add($idart, 'mr $idart', __FILE__);
 ModRewriteDebugger::add($idcat, 'mr $idcat', __FILE__);
 ModRewriteDebugger::add($lang, 'mr $lang', __FILE__);

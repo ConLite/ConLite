@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- Contenido XML language file -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CONTENIDO XML language file -->
 <language>
     <navigation>
-        <content>
+        <extras>
             <mod_rewrite>
                 <main>AMR</main>
                 <settings>Settings</settings>
                 <expert>Functions</expert>
                 <test>Test</test>
             </mod_rewrite>
-        </content>
+        </extras>
     </navigation>
 </language>
