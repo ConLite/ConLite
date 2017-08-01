@@ -14,6 +14,10 @@
  * $Id: config.autoloader.php 368 2015-10-27 10:32:42Z oldperl $
  */
 
+if(!defined('CON_FRAMEWORK')) {
+	die('Illegal call');
+}
+
 $sAutoloadClassPath = 'conlite/plugins/content_allocation/classes/';
 return array(
     'pApiContentAllocation' => $sAutoloadClassPath.'class.content_allocation.php',

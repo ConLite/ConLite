@@ -108,5 +108,7 @@ class pApiContentAllocationComplexList extends pApiTree {
             return $tree;
         }
     }
+
 }
+
 ?>
