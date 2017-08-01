@@ -37,7 +37,7 @@ if (!defined('CON_FRAMEWORK')) {
 if (isset($_GET['idnewsletter']))
 {
 	# Set template data
-	$sCaption = i18n("Edit");
+	$sCaption = i18n("Edit", "newsletter");
 
 	$tpl->set("d", "ID",		'c_'.$tpl->dyn_cnt);
 	$tpl->set("d", "CLASS",	 	'');
@@ -46,7 +46,7 @@ if (isset($_GET['idnewsletter']))
 	$tpl->next();
 
 	# Set template data
-	$sCaption = i18n("Edit Message");
+	$sCaption = i18n("Edit Message", "newsletter");
 
 	$tpl->set("d", "ID",		'c_'.$tpl->dyn_cnt);
 	$tpl->set("d", "CLASS",	 	'');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -27,18 +28,17 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
 ##################################
 # Initialization
 ##################################
-$oPage	= new cPage;
-$oMenu	= new UI_Menu;
-$oUser	= new cApiUser($auth->auth["uid"]);
+$oPage = new cPage;
+$oMenu = new UI_Menu;
+$oUser = new cApiUser($auth->auth["uid"]);
 
 // Specify fields for search, sort and validation. Design makes enhancements 
 // using plugins possible (currently not implemented). If you are changing things here, 
@@ -48,125 +48,120 @@ $oUser	= new cApiUser($auth->auth["uid"]);
 // base:	Elements from core code (other type may be: "plugin")
 // sort: 	Element can be used to be sorted by
 // search:	Element can be used to search in
-$aFields			= array();
-$aFields["name"]	= array("field" => "groupname", "caption" => i18n("Name"), "type" => "base,sort,search");
+$aFields = array();
+$aFields["name"] = array("field" => "groupname", "caption" => i18n("Name", "newsletter"), "type" => "base,sort,search");
 
 ##################################
 # Check external input
 ##################################
 // Items per page (value stored per area in user property)
 if (!isset($_REQUEST["elemperpage"]) || !is_numeric($_REQUEST["elemperpage"]) || $_REQUEST["elemperpage"] < 0) {
-	$_REQUEST["elemperpage"] = $oUser->getProperty("itemsperpage", $area);
+    $_REQUEST["elemperpage"] = $oUser->getProperty("itemsperpage", $area);
 }
 if (!is_numeric($_REQUEST["elemperpage"])) {
-	// This is the case, if the user property has never been set (first time user)
-	$_REQUEST["elemperpage"] = 25;
+    // This is the case, if the user property has never been set (first time user)
+    $_REQUEST["elemperpage"] = 25;
 }
-if ($_REQUEST["elemperpage"] > 0) { 
-	// -- All -- will not be stored, as it may be impossible to change this back to something more useful
-	$oUser->setProperty("itemsperpage", $area, $_REQUEST["elemperpage"]);
+if ($_REQUEST["elemperpage"] > 0) {
+    // -- All -- will not be stored, as it may be impossible to change this back to something more useful
+    $oUser->setProperty("itemsperpage", $area, $_REQUEST["elemperpage"]);
 }
-$_REQUEST["page"] = (int)$_REQUEST["page"];
+$_REQUEST["page"] = (int) $_REQUEST["page"];
 if ($_REQUEST["page"] <= 0 || $_REQUEST["elemperpage"] == 0) {
-	$_REQUEST["page"] = 1;
+    $_REQUEST["page"] = 1;
 }
 // Sort order
 if ($_REQUEST["sortorder"] != "DESC") {
-	$_REQUEST["sortorder"]  = "ASC";
+    $_REQUEST["sortorder"] = "ASC";
 }
 
 // Don't need to check sort by and search in criteria - just set it
-$_REQUEST["sortby"]		= "groupname"; // Default sort by field, possible values see above
-$_REQUEST["searchin"]	= "--all--";
+$_REQUEST["sortby"] = "groupname"; // Default sort by field, possible values see above
+$_REQUEST["searchin"] = "--all--";
 
 // Free memory
-unset ($oUser);
-unset ($oClient);
+unset($oUser);
+unset($oClient);
 
 ##################################
 # Get data
 ##################################
 $oRcpGroups = new RecipientGroupCollection;
-$oRcpGroups->setWhere("idclient",	$client);
-$oRcpGroups->setWhere("idlang",		$lang);
+$oRcpGroups->setWhere("idclient", $client);
+$oRcpGroups->setWhere("idlang", $lang);
 
-if ($_REQUEST["filter"] != "")
-{
-	if ($_REQUEST["searchin"] == "--all--" || $_REQUEST["searchin"] == "")
-	{
-		foreach ($aFields as $sKey => $aData)
-		{
-			if (strpos($aData["type"], "search") !== false) {
-				$oRcpGroups->setWhereGroup("filter", $aData["field"], $_REQUEST["filter"], "LIKE");
-			}
-		}
-		$oRcpGroups->setInnerGroupCondition("filter", "OR");
-	} else {
-		$oRcpGroups->setWhere($_REQUEST["searchin"], $_REQUEST["filter"], "LIKE");
-	}
+if ($_REQUEST["filter"] != "") {
+    if ($_REQUEST["searchin"] == "--all--" || $_REQUEST["searchin"] == "") {
+        foreach ($aFields as $sKey => $aData) {
+            if (strpos($aData["type"], "search") !== false) {
+                $oRcpGroups->setWhereGroup("filter", $aData["field"], $_REQUEST["filter"], "LIKE");
+            }
+        }
+        $oRcpGroups->setInnerGroupCondition("filter", "OR");
+    } else {
+        $oRcpGroups->setWhere($_REQUEST["searchin"], $_REQUEST["filter"], "LIKE");
+    }
 }
 
-if ($_REQUEST["elemperpage"] > 0) 
-{
-	// Getting item count without limit (for page function) - better idea anyone (performance)?
+if ($_REQUEST["elemperpage"] > 0) {
+    // Getting item count without limit (for page function) - better idea anyone (performance)?
     $oRcpGroups->query();
     $iItemCount = $oRcpGroups->count();
 
-    if ($_REQUEST["elemperpage"]*($_REQUEST["page"]) >= $iItemCount+$_REQUEST["elemperpage"] && $_REQUEST["page"]  != 1) {
-        $_REQUEST["page"]--;
+    if ($_REQUEST["elemperpage"] * ($_REQUEST["page"]) >= $iItemCount + $_REQUEST["elemperpage"] && $_REQUEST["page"] != 1) {
+        $_REQUEST["page"] --;
     }
- 
+
     $oRcpGroups->setLimit($_REQUEST["elemperpage"] * ($_REQUEST["page"] - 1), $_REQUEST["elemperpage"]);
 } else {
     $iItemCount = 0;
 }
-    
-$oRcpGroups->setOrder("defaultgroup DESC, ".$_REQUEST["sortby"]." ".$_REQUEST["sortorder"]);
+
+$oRcpGroups->setOrder("defaultgroup DESC, " . $_REQUEST["sortby"] . " " . $_REQUEST["sortorder"]);
 $oRcpGroups->query();
 
 // Output data
-$oMenu	= new UI_Menu;
-$iMenu		= 0;
+$oMenu = new UI_Menu;
+$iMenu = 0;
 
 // Store messages for repeated use (speeds performance, as i18n translation is only needed once)
 $aMsg = array();
-$aMsg["DelTitle"]	= i18n("Delete recipient group");
-$aMsg["DelDescr"]	= i18n("Do you really want to delete the following newsletter recipient group:<br>"); 
+$aMsg["DelTitle"] = i18n("Delete recipient group", "newsletter");
+$aMsg["DelDescr"] = i18n("Do you really want to delete the following newsletter recipient group:<br>", "newsletter");
 
-while ($oRcpGroup = $oRcpGroups->next())
-{
-	$iMenu++;
-	$iIDGroup = $oRcpGroup->get("idnewsgroup");
-	            	
-	$sName = $oRcpGroup->get("groupname");
-	if ($oRcpGroup->get("defaultgroup")) {
-		$sName = $sName . "*";
-	}
+while ($oRcpGroup = $oRcpGroups->next()) {
+    $iMenu++;
+    $iIDGroup = $oRcpGroup->get("idnewsgroup");
 
-	// Create the link to show/edit the recipient group
-	$oLnk = new cHTMLLink;
-	$oLnk->setMultiLink("recipientgroups","","recipientgroups","");
-	$oLnk->setCustom("idrecipientgroup", $iIDGroup);
+    $sName = $oRcpGroup->get("groupname");
+    if ($oRcpGroup->get("defaultgroup")) {
+        $sName = $sName . "*";
+    }
 
-	#$oMenu->setImage($iMenu, $cfg["path"]["images"] . "groups.gif");
-	$oMenu->setTitle($iMenu, $sName);
-	$oMenu->setLink($iMenu, $oLnk);
-	
-	if ($perm->have_perm_area_action($area, recipientgroup_delete)) {
-		$oMenu->setActions($iMenu, 'delete', '<a title="'.$aMsg["DelTitle"].'" href="javascript://" onclick="showDelMsg('.$iIDGroup.',\''.addslashes($sName).'\')"><img src="'.$cfg['path']['images'].'delete.gif" border="0" title="'.$aMsg["DelTitle"].'" alt="'.$aMsg["DelTitle"].'"></a>');
-	} 
+    // Create the link to show/edit the recipient group
+    $oLnk = new cHTMLLink;
+    $oLnk->setMultiLink("recipientgroups", "", "recipientgroups", "");
+    $oLnk->setCustom("idrecipientgroup", $iIDGroup);
+
+    #$oMenu->setImage($iMenu, $cfg["path"]["images"] . "groups.gif");
+    $oMenu->setTitle($iMenu, $sName);
+    $oMenu->setLink($iMenu, $oLnk);
+
+    if ($perm->have_perm_area_action($area, recipientgroup_delete)) {
+        $oMenu->setActions($iMenu, 'delete', '<a title="' . $aMsg["DelTitle"] . '" href="javascript://" onclick="showDelMsg(' . $iIDGroup . ',\'' . addslashes($sName) . '\')"><img src="' . $cfg['path']['images'] . 'delete.gif" border="0" title="' . $aMsg["DelTitle"] . '" alt="' . $aMsg["DelTitle"] . '"></a>');
+    }
 }
 
 $sExecScript = '
 	<script type="text/javascript">
 		// Session-ID
-		var sid = "'.$sess->id.'";
+		var sid = "' . $sess->id . '";
 
 		// Create messageBox instance
 		box = new messageBox("", "", "", 0, 0);
 
 		function showDelMsg(lngId, strElement) {
-			box.confirm("'.$aMsg["DelTitle"].'", "'.$aMsg["DelDescr"].'<b>" + strElement + "</b>", "deleteRecipientGroup(\'" + lngId + "\')");
+			box.confirm("' . $aMsg["DelTitle"] . '", "' . $aMsg["DelDescr"] . '<b>" + strElement + "</b>", "deleteRecipientGroup(\'" + lngId + "\')");
 		}
 
 		// Function for deleting recipient groups
@@ -187,16 +182,16 @@ $sExecScript = '
 			parent.parent.right.right_bottom.location.href = url;
 		}
 
-	</script>';		
+	</script>';
 
 $oPage->setMargin(0);
-$oPage->addScript('messagebox', '<script type="text/javascript" src="scripts/messageBox.js.php?contenido='.$sess->id.'"></script>');
+$oPage->addScript('messagebox', '<script type="text/javascript" src="scripts/messageBox.js.php?contenido=' . $sess->id . '"></script>');
 $oPage->addScript('delete', $sExecScript);
 //$oPage->addScript('cfoldingrow.js', '<script language="JavaScript" src="scripts/cfoldingrow.js"></script>');
 $oPage->addScript('parameterCollector.js', '<script language="JavaScript" src="scripts/parameterCollector.js"></script>');
 
 // Generate current content for Object Pager
-$sPagerId 	= "0ed6d632-6adf-4f09-a0c6-1e38ab60e305";
+$sPagerId = "0ed6d632-6adf-4f09-a0c6-1e38ab60e305";
 $oPagerLink = new cHTMLLink;
 $oPagerLink->setLink("main.php");
 $oPagerLink->setTargetFrame('left_bottom');
@@ -225,16 +220,15 @@ $oPage->addScript('setpager', '<script type="text/javascript" src="scripts/setPa
 
 $sRefreshPager = '
 	<script type="text/javascript">
-		var sNavigation = \''.$sPagerContent.'\';
+		var sNavigation = \'' . $sPagerContent . '\';
 
 		// Activate time to refresh pager folding row in left top
 		var oTimer = window.setInterval("fncSetPager(\'' . $sPagerId . '\',\'' . $_REQUEST["page"] . '\')", 200);
 	</script>';
 
-$oPage->addScript('refreshpager', $sRefreshPager);  
+$oPage->addScript('refreshpager', $sRefreshPager);
 
 //$oPage->setContent(array('<table border="0" cellspacing="0" cellpadding="0" width="100%">', '</table>', $oMenu->render(false)));
 $oPage->setContent($oMenu->render(false));
 $oPage->render();
-
 ?>

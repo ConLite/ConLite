@@ -36,7 +36,7 @@ if (!defined('CON_FRAMEWORK')) {
 
 if (isset($_GET['idnewsjob']) && (int)$_GET['idnewsjob'] > 0)
 {
-    $sCaption = i18n("View");
+    $sCaption = i18n("View", "newsletter");
     $tmp_area = "foo2";
 
     # Set template data
@@ -46,7 +46,7 @@ if (isset($_GET['idnewsjob']) && (int)$_GET['idnewsjob'] > 0)
     $tpl->set("d", "CAPTION",   '<a class="white" onclick="sub.clicked(this)" target="right_bottom" href="'.$sess->url("main.php?area=news_jobs&frame=4&idnewsjob=$idnewsjob").'">'.$sCaption.'</a>');
     $tpl->next();
 
-    $sCaption = i18n("Details");
+    $sCaption = i18n("Details", "newsletter");
     $tmp_area = "foo2";
 
     # Set template data

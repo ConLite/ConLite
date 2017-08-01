@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -28,7 +29,6 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -36,22 +36,20 @@ if (!defined('CON_FRAMEWORK')) {
 /**
  * Recipient group management class
  */
-class RecipientGroupCollection extends ItemCollection
-{
+class RecipientGroupCollection extends ItemCollection {
+
     /**
      * Constructor Function
      * @param none
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg["tab"]["news_groups"], "idnewsgroup");
         $this->_setItemClass("RecipientGroup");
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientGroupCollection()
-    {
+    public function RecipientGroupCollection() {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct();
     }
@@ -61,12 +59,11 @@ class RecipientGroupCollection extends ItemCollection
      * @param $groupname string Specifies the groupname
      * @param $defaultgroup integer Specfies, if group is default group (optional)
      */
-    public function create($groupname, $defaultgroup = 0)
-    {
+    public function create($groupname, $defaultgroup = 0) {
         global $client, $lang;
 
         $client = Contenido_Security::toInteger($client);
-        $lang   = Contenido_Security::toInteger($lang);
+        $lang = Contenido_Security::toInteger($lang);
 
         $group = new RecipientGroup();
 
@@ -74,7 +71,7 @@ class RecipientGroupCollection extends ItemCollection
 
         $mangledGroupName = $group->_inFilter($groupname);
         $this->setWhere("idclient", $client);
-        $this->setWhere("idlang",     $lang);
+        $this->setWhere("idlang", $lang);
         $this->setWhere("groupname", $mangledGroupName);
         $this->query();
 
@@ -99,8 +96,7 @@ class RecipientGroupCollection extends ItemCollection
      *
      * @param $itemID int specifies the newsletter recipient group
      */
-    public function delete($itemID)
-    {
+    public function delete($itemID) {
         $oAssociations = new RecipientGroupMemberCollection;
         $oAssociations->setWhere("idnewsgroup", $itemID);
         $oAssociations->query();
@@ -110,20 +106,19 @@ class RecipientGroupCollection extends ItemCollection
         }
         parent::delete($itemID);
     }
-}
 
+}
 
 /**
  * Single RecipientGroup Item
  */
-class RecipientGroup extends Item
-{
+class RecipientGroup extends Item {
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["news_groups"], "idnewsgroup");
         if ($mId !== false) {
@@ -132,21 +127,19 @@ class RecipientGroup extends Item
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientGroup($mId = false)
-    {
+    public function RecipientGroup($mId = false) {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct($mId);
     }
 
     /**
      * Overriden store() method to ensure, that there is only one default group
-     **/
-    public function store()
-    {
+     * */
+    public function store() {
         global $client, $lang;
 
         $client = Contenido_Security::toInteger($client);
-        $lang   = Contenido_Security::toInteger($lang);
+        $lang = Contenido_Security::toInteger($lang);
 
         if ($this->get("defaultgroup") == 1) {
             $oItems = new RecipientGroupCollection();
@@ -163,30 +156,28 @@ class RecipientGroup extends Item
         }
         parent::store();
     }
-}
 
+}
 
 /**
  * Recipient group member management class
  */
-class RecipientGroupMemberCollection extends ItemCollection
-{
+class RecipientGroupMemberCollection extends ItemCollection {
+
     /**
      * Constructor Function
      * @param none
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg["tab"]["news_groupmembers"], "idnewsgroupmember");
-        $this->_setJoinPartner ('RecipientGroupCollection');
-        $this->_setJoinPartner ('RecipientCollection');
+        $this->_setJoinPartner('RecipientGroupCollection');
+        $this->_setJoinPartner('RecipientCollection');
         $this->_setItemClass("RecipientGroupMember");
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientGroupMemberCollection()
-    {
+    public function RecipientGroupMemberCollection() {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct();
     }
@@ -196,10 +187,9 @@ class RecipientGroupMemberCollection extends ItemCollection
      * @param $idrecipientgroup int specifies the newsletter group
      * @param $idrecipient  int specifies the newsletter user
      */
-    public function create($idrecipientgroup, $idrecipient)
-    {
+    public function create($idrecipientgroup, $idrecipient) {
         $idrecipientgroup = Contenido_Security::toInteger($idrecipientgroup);
-        $idrecipient      = Contenido_Security::toInteger($idrecipient);
+        $idrecipient = Contenido_Security::toInteger($idrecipient);
 
         $this->setWhere("idnewsgroup", $idrecipientgroup);
         $this->setWhere("idnewsrcp", $idrecipient);
@@ -223,10 +213,9 @@ class RecipientGroupMemberCollection extends ItemCollection
      * @param $idrecipientgroup int specifies the newsletter group
      * @param $idrecipient  int specifies the newsletter user
      */
-    public function remove($idrecipientgroup, $idrecipient)
-    {
+    public function remove($idrecipientgroup, $idrecipient) {
         $idrecipientgroup = Contenido_Security::toInteger($idrecipientgroup);
-        $idrecipient      = Contenido_Security::toInteger($idrecipient);
+        $idrecipient = Contenido_Security::toInteger($idrecipient);
 
         $this->setWhere("idnewsgroup", $idrecipientgroup);
         $this->setWhere("idnewsrcp", $idrecipient);
@@ -241,8 +230,7 @@ class RecipientGroupMemberCollection extends ItemCollection
      * Removes all associations from any newsletter group
      * @param $idrecipient  int specifies the newsletter recipient
      */
-    public function removeRecipientFromGroups($idrecipient)
-    {
+    public function removeRecipientFromGroups($idrecipient) {
         $idrecipient = Contenido_Security::toInteger($idrecipient);
 
         $this->setWhere("idnewsrcp", $idrecipient);
@@ -257,8 +245,7 @@ class RecipientGroupMemberCollection extends ItemCollection
      * Removes all associations of a newsletter group
      * @param $idgroup  int specifies the newsletter recipient group
      */
-    public function removeGroup($idgroup)
-    {
+    public function removeGroup($idgroup) {
         $idgroup = Contenido_Security::toInteger($idgroup);
 
         $this->setWhere("idnewsgroup", $idgroup);
@@ -275,8 +262,7 @@ class RecipientGroupMemberCollection extends ItemCollection
      * @param $asObjects boolean specifies if the function should return objects
      * @return array RecipientRecipient items
      */
-    public function getRecipientsInGroup($idrecipientgroup, $asObjects = true)
-    {
+    public function getRecipientsInGroup($idrecipientgroup, $asObjects = true) {
         $idrecipientgroup = Contenido_Security::toInteger($idrecipientgroup);
 
         $this->setWhere("idnewsgroup", $idrecipientgroup);
@@ -297,20 +283,19 @@ class RecipientGroupMemberCollection extends ItemCollection
 
         return ($aObjects);
     }
-}
 
+}
 
 /**
  * Single RecipientGroup Item
  */
-class RecipientGroupMember extends Item
-{
+class RecipientGroupMember extends Item {
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["news_groupmembers"], "idnewsgroupmember");
         if ($mId !== false) {
@@ -319,11 +304,11 @@ class RecipientGroupMember extends Item
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientGroupMember($mId = false)
-    {
+    public function RecipientGroupMember($mId = false) {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct($mId);
     }
+
 }
 
 ?>

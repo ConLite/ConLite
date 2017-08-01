@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -28,31 +29,27 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
 /**
  * Recipient management class
  */
-class RecipientCollection extends ItemCollection
-{
+class RecipientCollection extends ItemCollection {
+
     /**
      * Constructor Function
      * @param none
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg["tab"]["news_rcp"], "idnewsrcp");
         $this->_setItemClass("Recipient");
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientCollection()
-    {
+    public function RecipientCollection() {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct();
     }
@@ -65,12 +62,11 @@ class RecipientCollection extends ItemCollection
      * @param string  $sJoinID       Specifies additional recipient group ids to join (optional, e.g. 47,12,...)
      * @param int     $iMessageType  Specifies the message type for the recipient (0 = text, 1 = html)
      */
-    public function create($sEMail, $sName = "", $iConfirmed = 0, $sJoinID = "", $iMessageType = 0)
-    {
+    public function create($sEMail, $sName = "", $iConfirmed = 0, $sJoinID = "", $iMessageType = 0) {
         global $client, $lang, $auth;
 
-        $iConfirmed   = (int)$iConfirmed;
-        $iMessageType = (int)$iMessageType;
+        $iConfirmed = (int) $iConfirmed;
+        $iMessageType = (int) $iMessageType;
 
         /* Check if the e-mail adress already exists */
         $email = strtolower($email); // e-mail always lower case
@@ -80,14 +76,14 @@ class RecipientCollection extends ItemCollection
         $this->query();
 
         if ($this->next()) {
-            return $this->create($sEMail."_".substr(md5(rand()),0,10), $sName, 0, $sJoinID, $iMessageType); // 0: Deactivate 'confirmed'
+            return $this->create($sEMail . "_" . substr(md5(rand()), 0, 10), $sName, 0, $sJoinID, $iMessageType); // 0: Deactivate 'confirmed'
         }
         $oItem = parent::createNewItem();
         $oItem->set("idclient", $client);
         $oItem->set("idlang", $lang);
         $oItem->set("name", $sName);
         $oItem->set("email", $sEMail);
-        $oItem->set("hash", substr(md5(rand()),0,17) . uniqid("")); // Generating UID, 30 characters
+        $oItem->set("hash", substr(md5(rand()), 0, 17) . uniqid("")); // Generating UID, 30 characters
         $oItem->set("confirmed", $iConfirmed);
         $oItem->set("news_type", $iMessageType);
 
@@ -100,9 +96,8 @@ class RecipientCollection extends ItemCollection
         $oItem->store();
 
         $iIDRcp = $oItem->get("idnewsrcp"); // Getting internal id of new recipient
-
         // Add this recipient to the default recipient group (if available)
-        $oGroups       = new RecipientGroupCollection();
+        $oGroups = new RecipientGroupCollection();
         $oGroupMembers = new RecipientGroupMemberCollection();
 
         $oGroups->setWhere("idclient", $client);
@@ -135,8 +130,7 @@ class RecipientCollection extends ItemCollection
      *
      * @param $itemID int specifies the recipient
      */
-    public function delete($itemID)
-    {
+    public function delete($itemID) {
         $oAssociations = new RecipientGroupMemberCollection();
         $oAssociations->setWhere("idnewsrcp", $itemID);
         $oAssociations->query();
@@ -152,8 +146,7 @@ class RecipientCollection extends ItemCollection
      * @param  $timeframe int    Days after creation a not confirmed recipient will be removed
      * @return int             Count of deleted recipients
      */
-    public function purge($timeframe)
-    {
+    public function purge($timeframe) {
         global $client, $lang;
 
         $oRecipientCollection = new RecipientCollection();
@@ -172,14 +165,12 @@ class RecipientCollection extends ItemCollection
         return $oRecipientCollection->count();
     }
 
-
     /**
      * checkEMail returns true, if there is no recipient with the same e-mail address; otherwise false
      * @param  $email string    e-mail
      * @return recpient item if item with e-mail exists, false otherwise
      */
-    public function emailExists($sEmail)
-    {
+    public function emailExists($sEmail) {
         global $client, $lang;
 
         $oRecipientCollection = new RecipientCollection();
@@ -200,33 +191,31 @@ class RecipientCollection extends ItemCollection
      * Sets a key for all recipients without key or an old key (len(key) <> 30)
      * @param none
      */
-    public function updateKeys()
-    {
+    public function updateKeys() {
         $this->setWhere("LENGTH(hash)", 30, "<>");
         $this->query();
 
         $iUpdated = $this->count();
         while ($oItem = $this->next()) {
-            $oItem->set("hash", substr(md5(rand()),0,17) . uniqid("")); /* Generating UID, 30 characters */
+            $oItem->set("hash", substr(md5(rand()), 0, 17) . uniqid("")); /* Generating UID, 30 characters */
             $oItem->store();
         }
 
         return $iUpdated;
     }
-}
 
+}
 
 /**
  * Single Recipient Item
  */
-class Recipient extends Item
-{
+class Recipient extends Item {
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["news_rcp"], "idnewsrcp");
         if ($mId !== false) {
@@ -235,8 +224,7 @@ class Recipient extends Item
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function Recipient($mId = false)
-    {
+    public function Recipient($mId = false) {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct($mId);
     }
@@ -247,8 +235,7 @@ class Recipient extends Item
      * @return boolean True if the hash matches, false otherwise
      * @deprecated 4.6.15 - 10.08.2006
      */
-    public function checkMD5Email($md5email)
-    {
+    public function checkMD5Email($md5email) {
         if ($md5email == md5($this->get("email"))) {
             return true;
         } else {
@@ -256,8 +243,7 @@ class Recipient extends Item
         }
     }
 
-    public function store()
-    {
+    public function store() {
         global $auth;
 
         $this->set("lastmodified", date("Y-m-d H:i:s"), false);
@@ -265,7 +251,7 @@ class Recipient extends Item
         parent::store();
 
         // Update name, email and newsletter type for recipients in pending newsletter jobs
-        $sName  = $this->get("name");
+        $sName = $this->get("name");
         $sEmail = $this->get("email");
         if ($sName == "") {
             $sName = $sEmail;
@@ -284,6 +270,7 @@ class Recipient extends Item
             $oLog->store();
         }
     }
+
 }
 
 ?>

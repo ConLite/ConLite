@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -28,31 +29,27 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
 /**
  * Collection management class
  */
-class cNewsletterLogCollection extends ItemCollection
-{
+class cNewsletterLogCollection extends ItemCollection {
+
     /**
      * Constructor Function
      * @param none
      */
-    public function __construct()
-    {
+    public function __construct() {
         global $cfg;
         parent::__construct($cfg["tab"]["news_log"], "idnewslog");
         $this->_setItemClass("cNewsletterLog");
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterLogCollection()
-    {
+    public function cNewsletterLogCollection() {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct();
     }
@@ -64,14 +61,13 @@ class cNewsletterLogCollection extends ItemCollection
      * @param $rcp_name    string    Name of the recipient (-> recipient may be deleted)
      * @param $rcp_email    string    E-Mail of the recipient (-> recipient may be deleted)
      */
-    public function create($idnewsjob, $idnewsrcp)
-    {
+    public function create($idnewsjob, $idnewsrcp) {
         global $client, $lang, $auth;
 
-        $idnewsjob  = Contenido_Security::toInteger($idnewsjob);
-        $idnewsrcp  = Contenido_Security::toInteger($idnewsrcp);
-        $client     = Contenido_Security::toInteger($client);
-        $lang       = Contenido_Security::toInteger($lang);
+        $idnewsjob = Contenido_Security::toInteger($idnewsjob);
+        $idnewsrcp = Contenido_Security::toInteger($idnewsrcp);
+        $client = Contenido_Security::toInteger($client);
+        $lang = Contenido_Security::toInteger($lang);
 
         $this->resetQuery();
         $this->setWhere("idnewsjob", $idnewsjob);
@@ -90,7 +86,7 @@ class cNewsletterLogCollection extends ItemCollection
             $oItem->set("idnewsrcp", $idnewsrcp);
 
             $sEMail = $oRecipient->get("email");
-            $sName  = $oRecipient->get("name");
+            $sName = $oRecipient->get("name");
 
             if ($sName == "") {
                 $oItem->set("rcpname", $sEMail);
@@ -118,51 +114,50 @@ class cNewsletterLogCollection extends ItemCollection
      * @param integer    $idnews        ID of newsletter
      * @return integer    Recipient count
      */
-    public function initializeJob($idnewsjob, $idnews)
-    {
+    public function initializeJob($idnewsjob, $idnews) {
         global $cfg;
 
         $idnewsjob = Contenido_Security::toInteger($idnewsjob);
-        $idnews    = Contenido_Security::toInteger($idnews);
+        $idnews = Contenido_Security::toInteger($idnews);
 
         $oNewsletter = new Newsletter();
         if ($oNewsletter->loadByPrimaryKey($idnews)) {
             $sDestination = $oNewsletter->get("send_to");
-            $iIDClient    = $oNewsletter->get("idclient");
-            $iIDLang      = $oNewsletter->get("idlang");
+            $iIDClient = $oNewsletter->get("idclient");
+            $iIDLang = $oNewsletter->get("idlang");
 
             switch ($sDestination) {
                 case "all" :
                     $sDistinct = "";
-                    $sFrom     = "";
-                    $sSQL      = "deactivated='0' AND confirmed='1' AND idclient='".$iIDClient."' AND idlang='".$iIDLang."'";
+                    $sFrom = "";
+                    $sSQL = "deactivated='0' AND confirmed='1' AND idclient='" . $iIDClient . "' AND idlang='" . $iIDLang . "'";
                     break;
                 case "default" :
                     $sDistinct = "distinct";
-                    $sFrom     = $cfg["tab"]["news_groups"]." AS groups, ".$cfg["tab"]["news_groupmembers"]." AS groupmembers ";
-                    $sSQL      = "recipientcollection.idclient = '".$iIDClient."' AND ".
-                                 "recipientcollection.idlang = '".$iIDLang."' AND ".
-                                 "recipientcollection.deactivated = '0' AND ".
-                                 "recipientcollection.confirmed = '1' AND ".
-                                 "recipientcollection.idnewsrcp = groupmembers.idnewsrcp AND ".
-                                 "groupmembers.idnewsgroup = groups.idnewsgroup AND ".
-                                 "groups.defaultgroup = '1' AND groups.idclient = '".$iIDClient."' AND ".
-                                 "groups.idlang = '".$iIDLang."'";
+                    $sFrom = $cfg["tab"]["news_groups"] . " AS groups, " . $cfg["tab"]["news_groupmembers"] . " AS groupmembers ";
+                    $sSQL = "recipientcollection.idclient = '" . $iIDClient . "' AND " .
+                            "recipientcollection.idlang = '" . $iIDLang . "' AND " .
+                            "recipientcollection.deactivated = '0' AND " .
+                            "recipientcollection.confirmed = '1' AND " .
+                            "recipientcollection.idnewsrcp = groupmembers.idnewsrcp AND " .
+                            "groupmembers.idnewsgroup = groups.idnewsgroup AND " .
+                            "groups.defaultgroup = '1' AND groups.idclient = '" . $iIDClient . "' AND " .
+                            "groups.idlang = '" . $iIDLang . "'";
                     break;
                 case "selection" :
-                    $aGroups = unserialize ($oNewsletter->get("send_ids"));
+                    $aGroups = unserialize($oNewsletter->get("send_ids"));
 
                     if (is_array($aGroups) && count($aGroups) > 0) {
-                        $sGroups    = "'" . implode("','", $aGroups) . "'";
+                        $sGroups = "'" . implode("','", $aGroups) . "'";
 
-                        $sDistinct  = "distinct";
-                        $sFrom      = $cfg["tab"]["news_groupmembers"]." AS groupmembers ";
-                        $sSQL       = "recipientcollection.idclient = '".$iIDClient."' AND ".
-                                      "recipientcollection.idlang = '".$iIDLang."' AND ".
-                                      "recipientcollection.deactivated = '0' AND ".
-                                      "recipientcollection.confirmed = '1' AND ".
-                                      "recipientcollection.idnewsrcp = groupmembers.idnewsrcp AND ".
-                                      "groupmembers.idnewsgroup IN (".$sGroups.")";
+                        $sDistinct = "distinct";
+                        $sFrom = $cfg["tab"]["news_groupmembers"] . " AS groupmembers ";
+                        $sSQL = "recipientcollection.idclient = '" . $iIDClient . "' AND " .
+                                "recipientcollection.idlang = '" . $iIDLang . "' AND " .
+                                "recipientcollection.deactivated = '0' AND " .
+                                "recipientcollection.confirmed = '1' AND " .
+                                "recipientcollection.idnewsrcp = groupmembers.idnewsrcp AND " .
+                                "groupmembers.idnewsgroup IN (" . $sGroups . ")";
                     } else {
                         $sDestination = "unknown";
                     }
@@ -171,8 +166,8 @@ class cNewsletterLogCollection extends ItemCollection
                     $iID = $oNewsletter->get("send_ids");
                     if (is_numeric($iID)) {
                         $sDistinct = "";
-                        $sFrom     = "";
-                        $sSQL      = "idnewsrcp = '".$iID."'";
+                        $sFrom = "";
+                        $sSQL = "idnewsrcp = '" . $iID . "'";
                     } else {
                         $sDestination = "unknown";
                     }
@@ -180,7 +175,7 @@ class cNewsletterLogCollection extends ItemCollection
                 default:
                     $sDestination = "unknown";
             }
-            unset ($oNewsletter);
+            unset($oNewsletter);
 
             if ($sDestination == "unknown") {
                 return 0;
@@ -205,8 +200,7 @@ class cNewsletterLogCollection extends ItemCollection
      * Overriden delete function to update recipient count if removing recipient from the list
      * @param integer $idnewslog ID
      */
-    public function delete($idnewslog)
-    {
+    public function delete($idnewslog) {
         $idnewslog = Contenido_Security::toInteger($idnewslog);
 
         $oLog = new cNewsletterLog($idnewslog);
@@ -216,13 +210,12 @@ class cNewsletterLogCollection extends ItemCollection
         $oJob = new cNewsletterJob($iIDNewsJob);
         $oJob->set("rcpcount", $oJob->get("rcpcount") - 1);
         $oJob->store();
-        unset ($oJob);
+        unset($oJob);
 
         parent::delete($idnewslog);
     }
 
-    public function deleteJob($idnewsjob)
-    {
+    public function deleteJob($idnewsjob) {
         $idnewsjob = Contenido_Security::toInteger($idnewsjob);
         $this->setWhere("idnewsjob", $idnewsjob);
         $this->query();
@@ -233,20 +226,19 @@ class cNewsletterLogCollection extends ItemCollection
 
         return true;
     }
-}
 
+}
 
 /**
  * Single NewsletterLog Item
  */
-class cNewsletterLog extends Item
-{
+class cNewsletterLog extends Item {
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["news_log"], "idnewslog");
         if ($mId !== false) {
@@ -255,11 +247,11 @@ class cNewsletterLog extends Item
     }
 
     /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterLog($mId = false)
-    {
+    public function cNewsletterLog($mId = false) {
         cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
         $this->__construct($mId);
     }
+
 }
 
 ?>
