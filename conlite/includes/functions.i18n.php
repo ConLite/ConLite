@@ -35,7 +35,7 @@ if(!defined('CON_FRAMEWORK')) {
  * @deprecated since 4.8.16 CL, use i18n instead, function will be deleted in one of next versions
  */
 function trans($string) {
-    return i18n($string);
+    return cI18n::__i18n($string);
 }
 /**
  * i18n($string)
@@ -48,45 +48,7 @@ function trans($string) {
  * @return string  Returns the translation
  */
 function i18n($string, $domain = "conlite") {
-    global $cfg, $i18nLanguage, $I18N_EMULATE_GETTEXT;
-	
-    // Auto initialization
-    if (!isset($i18nLanguage))	{
-        if (!isset($GLOBALS['belang'])) {
-            if(isset($contenido) && $contenido) {
-                // This is backend, we should trigger an error message here
-                $stack = @debug_backtrace();
-                $file = $stack[0]['file'];
-                $line = $stack[0]['line'];
-                cWarning ($file, $line, "i18nInit \$belang is not set");
-            } // only send warning in backend	
-            $GLOBALS['belang'] = false; // Needed - otherwise this won't work
-        }
-        i18nInit($cfg["path"]["contenido"].$cfg["path"]["locale"], $GLOBALS['belang']);
-    }
-
-    cInitializeArrayKey($cfg, "native_i18n", false);
-
-    if($I18N_EMULATE_GETTEXT || $cfg["native_i18n"]) {
-        return i18nEmulateGettext($string, $domain);
-    }
-    
-    if(extension_loaded("gettext")) {      
-        if(function_exists("dgettext")) {
-            // use utf-8 as default
-            bind_textdomain_codeset($domain, 'UTF-8');
-            if($domain != "conlite") {
-                $translation = dgettext($domain, $string);
-            } else {
-                $translation = gettext($string);
-            }
-            if(!empty($translation)) {
-                return $translation;
-            }
-            return $string;
-        }
-    }
-    return i18nEmulateGettext($string, $domain);
+    return cI18n::__($string, $domain);
 }
 
 /**
@@ -99,65 +61,7 @@ function i18n($string, $domain = "conlite") {
  * @return string  Returns the translation
  */
 function i18nEmulateGettext($string, $domain = "conlite") {
-    global $cfg, $i18nLanguage, $transFile, $i18nDomains, $_i18nTranslationCache;
-    if(!is_array($_i18nTranslationCache)) {
-        $_i18nTranslationCache = array();
-    }
-    if(array_key_exists($string, $_i18nTranslationCache)) {
-        return $_i18nTranslationCache[$string];
-    }
-    
-    // Bad thing, gettext is not available. Let's emulate it
-    if(!isset($i18nDomains[$domain]) || !file_exists($i18nDomains[$domain].$i18nLanguage."/LC_MESSAGES/".$domain.".po")) {
-        return $string;
-    }
-    
-    if (!isset($transFile[$domain])) {
-        $transFile[$domain] = implode('',file($i18nDomains[$domain].$i18nLanguage."/LC_MESSAGES/".$domain.".po"));
-        
-        // Remove comments from file
-        $transFile[$domain] = preg_replace('/^#.+/m', '', $transFile[$domain]);
-        
-        // Prepare for special po edit format 
-              /* Something like: 
-         #, php-format
-         msgid ""
-         "Hello %s,\n"
-         "\n"
-         "you've got a new reminder for the client '%s' at\n"
-         "%s:\n"
-         "\n"
-         "%s"
-         msgstr ""
-         "Hallo %s,\n"
-         "\n"
-         "du hast eine Wiedervorlage erhalten für den Mandanten '%s' at\n"
-         "%s:\n"
-         "\n"
-         "%s"
-         has to be converted to:
-         msgid "Hello %s,\n\nyou've got a new reminder for the client '%s' at\n%s:\n\n%s"
-         msgstr "Hallo %s,\n\ndu hast eine Wiedervorlage erhalten f�r den Mandanten '%s' at\n%s:\n\n%s"
-         */ 
-        $transFile[$domain] = preg_replace('/\\\n"\\s+"/m', '\\\\n', $transFile[$domain]);
-        $transFile[$domain] = preg_replace('/(""\\s+")/m', '"', $transFile[$domain]);
-    }
-    
-    $stringStart = strpos($transFile[$domain], '"'.str_replace(Array("\n", "\r", "\t"), Array('\n', '\r', '\t'), $string).'"');
-    if($stringStart === false) {
-        return $string;
-    }
-    
-    $results = array();
-    preg_match("/msgid.*\"(".preg_quote(str_replace(Array("\n", "\r", "\t"), Array('\n', '\r', '\t'), $string),"/").")\"(?:\s*)?\nmsgstr(?:\s*)\"(.*)\"/", $transFile[$domain], $results);
-    # Old: preg_match("/msgid.*\"".preg_quote($string,"/")."\".*\nmsgstr(\s*)\"(.*)\"/", $transFile[$domain], $results);
-    //print_r($results);
-    if(array_key_exists(1, $results) && !empty($results[2])) {
-        $_i18nTranslationCache[$string] = stripslashes(str_replace(Array('\n', '\r', '\t'), Array("\n", "\r", "\t"), $results[2]));
-        return $_i18nTranslationCache[$string];
-    } else {
-        return $string;
-    }
+    return cI18n::emulateGettext($string, $domain);
 }
 
 /**
@@ -170,48 +74,8 @@ function i18nEmulateGettext($string, $domain = "conlite") {
  * @param string $localePath
  * @param string $langCode 
  */
-function i18nInit ($localePath, $langCode) {
-    global $i18nLanguage, $i18nDomains, $I18N_EMULATE_GETTEXT;
-    
-    if(!is_array($i18nDomains)) {
-        $i18nDomains = array();
-    }
-    /*
-    echo setlocale(LC_ALL, 0);     // read the current locale
-    setlocale(LC_ALL, "de");       // try to write your locale
-    echo setlocale(LC_ALL, 0);
-     * 
-     */
-    
-    $mTestLocale = setlocale(LC_ALL, 0);
-    if($mTestLocale === FALSE) {
-        $I18N_EMULATE_GETTEXT = true;
-    } else if($mTestLocale != $langCode) {
-        $tmpLocale = setlocale(LC_ALL, $langCode);
-        if($tmpLocale != $langCode) {
-            $I18N_EMULATE_GETTEXT = true;
-        }
-    }
-    if(!array_key_exists("conlite", $i18nDomains)) {
-        if(function_exists("bindtextdomain")) {
-            if(defined("LC_MESSAGES")) {
-                setlocale(LC_MESSAGES, $langCode);
-            }
-            setlocale(LC_CTYPE, $langCode);
-            /* Half brute-force to set the locale. */
-            if(!ini_get("safe_mode")) {
-                putenv("LANG=$langCode");
-            }
-            /* Bind the domain "conlite" to our locale path */
-            bindtextdomain("conlite", $localePath);
-
-            /* Set the default text domain to "conlite" */
-            textdomain("conlite");            
-        }
-
-        $i18nDomains["conlite"] = $localePath;    
-        $i18nLanguage = $langCode;
-    }
+function i18nInit($localePath, $langCode, $domain = 'conlite') {
+    cI18n::init($localePath, $langCode, $domain);
 }
 
 /**
@@ -222,20 +86,7 @@ function i18nInit ($localePath, $langCode) {
  * @param string $localePath
  */
 function i18nRegisterDomain($domain, $localePath) {
-    global $i18nDomains;
-    
-    if(!is_array($i18nDomains)) {
-        $i18nDomains = array();
-    }
-    
-    if(!array_key_exists($domain, $i18nDomains)) {
-        if(function_exists("bindtextdomain")) {
-            /* Bind the domain "conlite" to our locale path */
-            bindtextdomain($domain, ""); // clear cache of gettext
-            bindtextdomain($domain, $localePath);
-        }
-        $i18nDomains[$domain] = $localePath;
-    }
+    cI18n::registerDomain($domain, $localePath);
 }
 
 /**
