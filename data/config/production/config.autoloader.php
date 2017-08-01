@@ -31,7 +31,7 @@
  * @since      file available since Contenido release >= 4.8.15
  *
  * {@internal
- *     created  2017-07-06
+ *     created  2017-07-16
  * }}
  */
 
@@ -244,6 +244,7 @@ return array(
     'TODOCollection' => 'conlite/classes/class.todo.php',
     'TODOItem' => 'conlite/classes/class.todo.php',
     'TODOLink' => 'conlite/classes/class.todo.php',
+    'cI18n' => 'conlite/classes/class.i18n.php',
     'ArtSpecCollection' => 'conlite/classes/class.artspec.php',
     'ArtSpecItem' => 'conlite/classes/class.artspec.php',
     'Layout' => 'conlite/classes/class.layout.php',
