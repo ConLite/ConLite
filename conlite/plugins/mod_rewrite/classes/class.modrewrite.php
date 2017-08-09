@@ -53,7 +53,6 @@ class ModRewrite extends ModRewriteBase {
      */
     public static function initialize($clientId) {
         mr_loadConfiguration($clientId, true);
-        parent::initialize();
         self::$_db = new DB_Contenido();
         self::$_lookupTable = array();
     }

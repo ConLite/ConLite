@@ -1153,7 +1153,14 @@ abstract class ItemCollection extends cItemBaseAbstract
     public function createNewItem($aData = NULL)
     {   /* @var $oDb DB_ConLite */
         $oDb     = $this->_getSecondDBInstance();
-        $iNextId = $oDb->nextid($this->table);
+        if(is_null($aData) || empty($aData)) {
+            $iNextId = $oDb->nextid($this->table);
+        } else if(is_array($aData) && key_exists($this->primaryKey, $aData)) {
+            $iNextId = (int) $aData[$this->primaryKey];
+        } else {
+            $iNextId = (int) $aData;
+        }        
+        
         $sql     = 'INSERT INTO `%s` (%s) VALUES (%d)';
         $oDb->query($sql, $this->table, $this->primaryKey, $iNextId);
         return $this->loadItem($iNextId);

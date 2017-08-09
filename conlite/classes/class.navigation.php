@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -32,14 +33,12 @@
  * }}
  *
  */
-
-if(!defined('CON_FRAMEWORK')) {
+if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
 cInclude('includes', 'functions.api.string.php');
 cInclude('includes', 'functions.api.images.php');
-
 
 /**
  * Backend navigaton class. Renders the header navigation document containing the navigtion structure.
@@ -62,7 +61,6 @@ class Contenido_Navigation {
      */
     var $data = array();
 
-
     /**
      * Constructor. Loads the XML language file using XML_Doc.
      */
@@ -79,7 +77,6 @@ class Contenido_Navigation {
             }
         }
     }
-
 
     /**
      * Extracts caption from the XML language file including plugins extended multilang version.
@@ -98,25 +95,25 @@ class Contenido_Navigation {
         # second is xpath location in xml file
         if (strstr($location, ';')) {
 
-            $locs  = explode(';', $location);
-            $file  = trim($locs[0]);
+            $locs = explode(';', $location);
+            $file = trim($locs[0]);
             $xpath = trim($locs[1]);
 
             $filepath = explode('/', $file);
-            $counter = count($filepath)-1;
+            $counter = count($filepath) - 1;
 
             if ($filepath[$counter] == '') {
                 unset($filepath[$counter]);
                 $counter--;
             }
 
-            if(strstr($filepath[$counter], '.xml')) {
+            if (strstr($filepath[$counter], '.xml')) {
                 $filename = $filepath[$counter];
                 unset($filepath[$counter]);
                 $counter--;
             }
 
-            $filepath[($counter+1)] = '';
+            $filepath[($counter + 1)] = '';
 
             $filepath = implode('/', $filepath);
 
@@ -129,7 +126,6 @@ class Contenido_Navigation {
                 }
             }
             $caption = $this->plugxml->valueOf($xpath);
-
         } else {
             $caption = $this->xml->valueOf($location);
         }
@@ -137,20 +133,19 @@ class Contenido_Navigation {
         return $caption;
     }
 
-
-   /**
-    * Reads and fills the navigation structure data
-    *
-    * @return  void
-    */
+    /**
+     * Reads and fills the navigation structure data
+     *
+     * @return  void
+     */
     function _buildHeaderData() {
         global $cfg, $perm, $belang;
 
-        $db  = new DB_ConLite();
+        $db = new DB_ConLite();
         $db2 = new DB_ConLite();
 
         # Load main items
-        $sql = "SELECT idnavm, location FROM ".$cfg['tab']['nav_main']." ORDER BY idnavm";
+        $sql = "SELECT idnavm, location FROM " . $cfg['tab']['nav_main'] . " ORDER BY idnavm";
 
         $db->query($sql);
 
@@ -166,9 +161,9 @@ class Contenido_Navigation {
             $sql = "SELECT
                         a.location AS location, b.name AS area, b.relevant
                     FROM
-                        ".$cfg['tab']['nav_sub']." AS a, ".$cfg['tab']['area']." AS b
+                        " . $cfg['tab']['nav_sub'] . " AS a, " . $cfg['tab']['area'] . " AS b
                     WHERE
-                        a.idnavm = '".$db->f('idnavm')."' AND
+                        a.idnavm = '" . $db->f('idnavm') . "' AND
                         a.level  = '0' AND
                         b.idarea = a.idarea AND
                         a.online = '1' AND
@@ -180,13 +175,12 @@ class Contenido_Navigation {
 
             while ($db2->next_record()) {
                 $area = $db2->f('area');
-                if ($perm->have_perm_area_action($area) || $db2->f('relevant') == 0){
+                if ($perm->have_perm_area_action($area) || $db2->f('relevant') == 0) {
                     # Extract names from the XML document.
                     $name = $this->getName($db2->f('location'));
                     $this->data[$db->f('idnavm')][] = array($name, $area);
                 }
             }
-
         }
 
         # debugging information
@@ -194,7 +188,6 @@ class Contenido_Navigation {
             echo '<pre>' . print_r($this->data, true) . '</pre>';
         }
     }
-
 
     /**
      * Function to build the Contenido header document for backend
@@ -208,7 +201,7 @@ class Contenido_Navigation {
         $this->_buildHeaderData();
 
         $main = new Template();
-        $sub  = new Template();
+        $sub = new Template();
 
         $cnt = 0;
         $t_sub = '';
@@ -224,7 +217,7 @@ class Contenido_Navigation {
 
             foreach ($item as $key => $value) {
                 if (is_array($value)) {
-                    $sub->set('s', 'SUBID', 'sub_'.$id);
+                    $sub->set('s', 'SUBID', 'sub_' . $id);
 
                     // create sub menu link
                     $link = new cHTMLLink();
@@ -236,7 +229,7 @@ class Contenido_Navigation {
                     $link->setContent($value[0]);
 
                     if ($cfg['help'] == true) {
-                        $sJsEvents .= "\n\t" . '$("#sub_' . $value[1] . '").click(function(){ $("#help").attr("data", "'.$value[1].'"); });';
+                        $sJsEvents .= "\n\t" . '$("#sub_' . $value[1] . '").click(function(){ $("#help").attr("data", "' . $value[1] . '"); });';
                     }
                     $sub->set('d', 'CAPTION', $link->render());
 
@@ -257,7 +250,6 @@ class Contenido_Navigation {
                 $main->next();
 
                 $numSubMenus++;
-
             } else {
                 # first entry in array is a main menu item
             }
@@ -266,7 +258,7 @@ class Contenido_Navigation {
             $t_sub .= $sub->generate($cfg['path']['templates'] . $cfg['templates']['submenu'], true);
             $cnt ++;
         }
-        
+
         if ($cfg['help'] == true) {
             $sJsEvents .= "\n\t" . 'help.setArea("mycontenido");';
         }
@@ -284,8 +276,8 @@ class Contenido_Navigation {
         $oMyConLink->setTargetFrame('content');
         $oMyConLink->attachEventDefinition('help_mycontenido', 'onclick', 'help.setArea("mycontenido")');
         $oMyConLink->setLink($sess->url("frameset.php?area=mycontenido&frame=4"));
-        $oMyConLink->setContent('<img src="'.$cfg['path']['contenido_fullhtml'].$cfg['path']['images'].'my_contenido.gif" border="0" alt="MyContenido" id="imgMyContenido" title="MyContenido">');
-        $main->set('s', 'MYCONTENIDO', $oMyConLink->render());
+        $oMyConLink->setContent('<img src="' . $cfg['path']['contenido_fullhtml'] . $cfg['path']['images'] . 'my_contenido.gif" border="0" alt="MyConLite" id="imgMyContenido" title="MyConLite">');
+        $main->set('s', 'MYCONLITE', $oMyConLink->render());
 
         // info link
         $oInfoLink = new cHTMLLink();
@@ -293,7 +285,7 @@ class Contenido_Navigation {
         $oInfoLink->setTargetFrame('content');
         $oInfoLink->attachEventDefinition('help_info', 'onclick', 'help.setArea("info")');
         $oInfoLink->setLink($sess->url('frameset.php?area=info&frame=4'));
-        $oInfoLink->setContent('<img src="'.$cfg['path']['contenido_fullhtml'].$cfg['path']['images'].'info.gif" border="0" alt="Info" title="Info" id="imgInfo">');
+        $oInfoLink->setContent('<img src="' . $cfg['path']['contenido_fullhtml'] . $cfg['path']['images'] . 'info.gif" border="0" alt="Info" title="Info" id="imgInfo">');
         $main->set('s', 'INFO', $oInfoLink->render());
 
         $main->set('s', 'LOGOUT', $sess->url('logout.php'));
@@ -305,7 +297,7 @@ class Contenido_Navigation {
             $oHelpLink->setClass('main');
             $oHelpLink->setLink('javascript://');
             $oHelpLink->setEvent('click', 'callHelp($(\'#help\').attr(\'data\'));');
-            $oHelpLink->setContent('<img src="'.$cfg['path']['contenido_fullhtml'].$cfg['path']['images'].'but_help.gif" border="0" alt="Hilfe" title="Hilfe">');
+            $oHelpLink->setContent('<img src="' . $cfg['path']['contenido_fullhtml'] . $cfg['path']['images'] . 'but_help.gif" border="0" alt="Hilfe" title="Hilfe">');
             $main->set('s', 'HELP', $oHelpLink->render());
         } else {
             $main->set('s', 'HELP', '');
@@ -321,9 +313,9 @@ class Contenido_Navigation {
         } else {
             // set delay menu
             $mouseOver = getEffectiveSetting('system', 'delaymenu_mouseover', 300);
-            $mouseOot  = getEffectiveSetting('system', 'delaymenu_mouseout', 1000);
+            $mouseOot = getEffectiveSetting('system', 'delaymenu_mouseout', 1000);
             $main->set('s', 'HEADER_MENU_OBJ', 'HeaderDelayMenu');
-            $main->set('s', 'HEADER_MENU_OPTIONS', '{menuId: "main_0", subMenuId: "sub_0", mouseOverDelay: '.$mouseOver.', mouseOutDelay: '.$mouseOot.'}');
+            $main->set('s', 'HEADER_MENU_OPTIONS', '{menuId: "main_0", subMenuId: "sub_0", mouseOverDelay: ' . $mouseOver . ', mouseOutDelay: ' . $mouseOot . '}');
         }
 
         $main->set('s', 'ACTION', $sess->url('index.php'));
@@ -334,30 +326,30 @@ class Contenido_Navigation {
         if (strlen($sClientName) > 25) {
             $sClientName = capiStrTrimHard($sClientName, 25);
         }
-		
-		$client = Contenido_Security::toInteger($client);
-		if ( $client == 0 ) {
-			$sClientNameTemplate = '<b>' . i18n("Client") . ':</b> %s';
-			$main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientName));
-		} else {
-			$sClientNameTemplate = '<b>' . i18n("Client") . ':</b> <a href="%s" target="_blank">%s</a>';
-			
-			$sClientName 	= $classclient->getClientName($client).' ('.$client.')';
-			$sClientUrl 	= $cfgClient[$client]["path"]["htmlpath"];
 
-			if ($clientImage !== false && $clientImage != "" && file_exists($cfgClient[$client]['path']['frontend'].$clientImage)) {
-				$sClientImageTemplate = '<img src="%s" alt="%s" title="%s" />';
-				
-				$sThumbnailPath 	= capiImgScale($cfgClient[$client]['path']['frontend'].$clientImage, 80, 25, 0, 1);
-				$sClientImageTag 	= sprintf($sClientImageTemplate, $sThumbnailPath, $sClientName, $sClientName);
-				
-				$main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientUrl, $sClientImageTag));
-			} else {
-				$main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientUrl, $sClientName));
-			}
-		}
-		
-		$main->set('s', 'CHOSENUSER', "<b>".i18n("User").":</b> ".$classuser->getRealname($auth->auth["uid"], true));
+        $client = Contenido_Security::toInteger($client);
+        if ($client == 0) {
+            $sClientNameTemplate = '<b>' . i18n("Client") . ':</b> %s';
+            $main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientName));
+        } else {
+            $sClientNameTemplate = '<b>' . i18n("Client") . ':</b> <a href="%s" target="_blank">%s</a>';
+
+            $sClientName = $classclient->getClientName($client) . ' (' . $client . ')';
+            $sClientUrl = $cfgClient[$client]["path"]["htmlpath"];
+
+            if ($clientImage !== false && $clientImage != "" && file_exists($cfgClient[$client]['path']['frontend'] . $clientImage)) {
+                $sClientImageTemplate = '<img src="%s" alt="%s" title="%s" />';
+
+                $sThumbnailPath = capiImgScale($cfgClient[$client]['path']['frontend'] . $clientImage, 80, 25, 0, 1);
+                $sClientImageTag = sprintf($sClientImageTemplate, $sThumbnailPath, $sClientName, $sClientName);
+
+                $main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientUrl, $sClientImageTag));
+            } else {
+                $main->set('s', 'CHOSENCLIENT', sprintf($sClientNameTemplate, $sClientUrl, $sClientName));
+            }
+        }
+
+        $main->set('s', 'CHOSENUSER', "<b>" . i18n("User") . ":</b> " . $classuser->getRealname($auth->auth["uid"], true));
         $main->set('s', 'SID', $sess->id);
         $main->set('s', 'MAINLOGINLINK', $sess->url("frameset.php?area=mycontenido&frame=4"));
 
@@ -371,7 +363,6 @@ class Contenido_Navigation {
         $main->generate($cfg['path']['templates'] . $cfg['templates']['header']);
     }
 
-
     /**
      * Renders the language select box
      * 
@@ -379,8 +370,7 @@ class Contenido_Navigation {
      *
      * @return  string
      */
-    function _renderLanguageSelect()
-    {
+    function _renderLanguageSelect() {
         global $cfg, $client, $lang;
 
         $tpl = new Template();
@@ -402,13 +392,13 @@ class Contenido_Navigation {
 
         if ($availableLanguages->count() > 0) {
             while ($myLang = $availableLanguages->nextAccessible()) {
-                $key   = $myLang->get('idlang');
+                $key = $myLang->get('idlang');
                 $value = $myLang->get('name');
 
                 // I want to get rid of such silly constructs very soon :)
 
-                $sql = "SELECT idclient FROM ".$cfg['tab']['clients_lang']." WHERE
-                        idlang = '".Contenido_Security::toInteger($key)."'";
+                $sql = "SELECT idclient FROM " . $cfg['tab']['clients_lang'] . " WHERE
+                        idlang = '" . Contenido_Security::toInteger($key) . "'";
 
                 $db->query($sql);
 
@@ -425,7 +415,7 @@ class Contenido_Navigation {
                         }
 
                         $tpl->set('d', 'VALUE', $key);
-                        $tpl->set('d', 'CAPTION', $value.' ('.$key.')');
+                        $tpl->set('d', 'CAPTION', $value . ' (' . $key . ')');
                         $tpl->next();
                     }
                 }
@@ -438,4 +428,5 @@ class Contenido_Navigation {
 
         return $tpl->generate($cfg['path']['templates'] . $cfg['templates']['generic_select'], true);
     }
+
 }
