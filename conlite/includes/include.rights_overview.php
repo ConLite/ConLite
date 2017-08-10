@@ -403,6 +403,7 @@ $tpl->next();
 
 $sCurrentValueTo = str_replace('00:00:00', '', $oUser->getField('valid_to'));
 $sCurrentValueTo = trim(str_replace('0000-00-00', '', $sCurrentValueTo));
+$sCurrentValueTo = trim(str_replace('1000-01-01', '', $sCurrentValueTo));
 
 $sInputValidTo  = '<input type="text" id="valid_to" name="valid_to" value="'.$sCurrentValueTo.'" />&nbsp;<img src="images/calendar.gif" id="trigger_to" /">';
 $sInputValidTo .= '<script type="text/javascript">

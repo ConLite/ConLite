@@ -83,11 +83,11 @@ if (file_exists(dirname(dirname(dirname(__FILE__)))."/setup")) {
 $sDate = date('Y-m-d');
 $sSQL = "SELECT * FROM ".$cfg["tab"]["phplib_auth_user_md5"]." 
                  WHERE (username = 'sysadmin' AND password = '48a365b4ce1e322a55ae9017f3daf0c0'
-            AND (valid_from <= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_from = '0000-00-00' OR valid_from is NULL) AND 
+            AND (valid_from <= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_from = '0000-00-00' OR valid_from = '1000-01-01' OR valid_from is NULL) AND 
            (valid_to >= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_to = '0000-00-00' OR valid_to is NULL)) 
                          OR (username = 'admin' AND password = '21232f297a57a5a743894a0e4a801fc3'
-             AND (valid_from <= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_from = '0000-00-00' OR valid_from is NULL) AND 
-            (valid_to >= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_to = '0000-00-00' OR valid_to is NULL))
+             AND (valid_from <= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_from = '0000-00-00' OR valid_from = '1000-01-01' OR valid_from is NULL) AND 
+            (valid_to >= '".Contenido_Security::escapeDB($sDate, $db)."' OR valid_to = '0000-00-00' OR valid_to = '1000-01-01' OR valid_to is NULL))
            ";
 $db->query($sSQL);
 

@@ -17,7 +17,7 @@ function frontendusers_valid_from_display ()
 	$currentValue = $feuser->get("valid_from");
 	
 	if ($currentValue == '') {
-		$currentValue = '0000-00-00';
+		$currentValue = '1000-01-01';
 	}
 	$currentValue = str_replace('00:00:00', '', $currentValue);
 	
@@ -58,7 +58,8 @@ function frontendusers_valid_from_store ($variables) {
     if(Contenido_Security::isMySQLDate($variables["valid_from"], true)
             || Contenido_Security::isMySQLDateTime($variables["valid_from"], true)
             || empty($variables["valid_from"])
-            || $variables["valid_from"] == "0000-00-00") {
+            || $variables["valid_from"] == "0000-00-00"
+            || $variables["valid_from"] == "1000-01-01") {
         
         $feuser->set("valid_from", $variables["valid_from"], false);
     }

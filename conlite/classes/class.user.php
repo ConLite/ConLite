@@ -626,8 +626,8 @@ class User
                     perms LIKE \"%sysadmin%\"";
 
         if ($forceActive === true) {
-            $sql.= " AND (valid_from <= NOW() OR valid_from = '0000-00-00')
-                AND (valid_to >= NOW() OR valid_to = '0000-00-00') ";
+            $sql.= " AND (valid_from <= NOW() OR valid_from = '0000-00-00' OR valid_from = '1000-01-01')
+                AND (valid_to >= NOW() OR valid_to = '0000-00-00' OR valid_to = '1000-01-01') ";
         }
 
         $db->query($sql);

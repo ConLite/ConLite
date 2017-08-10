@@ -311,7 +311,8 @@ function writeSystemValuesOutput($usage)
 	    		a.idclient
 	    		FROM
 	    		".$cfg["tab"]["clients"]." a
-	    		GROUP BY a.name";
+	    		GROUP BY a.name,
+                        a.idclient";
 	$db->query($sql);
 
 	// create 'value' output

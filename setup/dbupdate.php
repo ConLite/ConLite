@@ -1,5 +1,6 @@
 <?php
- /**
+
+/**
  * Project:
  * Contenido Content Management System
  *
@@ -17,7 +18,6 @@
  *
  *   $Id: dbupdate.php 377 2015-11-09 19:10:37Z oldperl $:
  */
-
 if (!defined('CON_FRAMEWORK')) {
     define('CON_FRAMEWORK', true);
 }
@@ -73,7 +73,7 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
         } else {
             $drop = false;
         }
-        dbUpgradeTable($db, $_SESSION['dbprefix'].'_'.$data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
+        dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
 
         if ($db->errno != 0) {
             $_SESSION['install_failedupgradetable'] = true;
@@ -99,7 +99,7 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
         } else {
             $drop = false;
         }
-        dbUpgradeTable($db, $_SESSION['dbprefix'].'_'.$data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
+        dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
 
         if ($db->errno != 0) {
             $_SESSION['install_failedupgradetable'] = true;
@@ -163,7 +163,7 @@ $fullChunks = array_merge($fullChunks, $pluginChunks);
 
 list($root_path, $root_http_path) = getSystemDirectories();
 
-$totalsteps = ceil($fullcount/50) + count($fullChunks) + 1;
+$totalsteps = ceil($fullcount / 50) + count($fullChunks) + 1;
 foreach ($fullChunks as $fullChunk) {
     $step++;
     if ($step == $currentstep) {
@@ -191,7 +191,7 @@ foreach ($fullChunks as $fullChunk) {
 $percent = intval((100 / $totalsteps) * ($currentstep));
 $width = ((700 / 100) * $percent) + 10;
 
-echo '<script type="text/javascript">parent.updateProgressbar('.$percent.');</script>';
+echo '<script type="text/javascript">parent.updateProgressbar(' . $percent . ');</script>';
 //echo '<script type="text/javascript">parent.document.getElementById("progressbar").style.width = '.$width.';</script>';
 if ($currentstep < $totalsteps) {
     printf('<script type="text/javascript">window.setTimeout("nextStep()", 10); function nextStep () { window.location.href=\'dbupdate.php?step=%s\'; }</script>', $currentstep + 1);
@@ -215,28 +215,28 @@ if ($currentstep < $totalsteps) {
     }
 
     foreach ($tables as $table) {
-        dbUpdateSequence($_SESSION['dbprefix'].'_sequence', $table, $db);
+        dbUpdateSequence($_SESSION['dbprefix'] . '_sequence', $table, $db);
     }
 
-    updateContenidoVersion($db, $_SESSION['dbprefix'].'_system_prop', C_SETUP_VERSION);
-    updateSystemProperties($db, $_SESSION['dbprefix'].'_system_prop');
+    updateContenidoVersion($db, $_SESSION['dbprefix'] . '_system_prop', C_SETUP_VERSION);
+    updateSystemProperties($db, $_SESSION['dbprefix'] . '_system_prop');
 
     if (isset($_SESSION['sysadminpass']) && $_SESSION['sysadminpass'] != '') {
-        updateSysadminPassword($db, $_SESSION['dbprefix'].'_phplib_auth_user_md5', 'sysadmin');
+        updateSysadminPassword($db, $_SESSION['dbprefix'] . '_phplib_auth_user_md5', 'sysadmin');
     }
 
     $sql = 'DELETE FROM %s';
-    $db->query(sprintf($sql, $_SESSION['dbprefix'].'_code'));
+    $db->query(sprintf($sql, $_SESSION['dbprefix'] . '_code'));
 
     // As con_code has been emptied, force code creation (on update)
     $sql = "UPDATE %s SET createcode = '1'";
-    $db->query(sprintf($sql, $_SESSION['dbprefix'].'_cat_art'));
+    $db->query(sprintf($sql, $_SESSION['dbprefix'] . '_cat_art'));
 
     if ($_SESSION['setuptype'] == 'migration') {
-        $aClients = listClients($db, $_SESSION['dbprefix'].'_clients');
+        $aClients = listClients($db, $_SESSION['dbprefix'] . '_clients');
 
         foreach ($aClients as $iIdClient => $aInfo) {
-            updateClientPath($db, $_SESSION['dbprefix'].'_clients', $iIdClient, $_SESSION['frontendpath'][$iIdClient], $_SESSION['htmlpath'][$iIdClient]);
+            updateClientPath($db, $_SESSION['dbprefix'] . '_clients', $iIdClient, $_SESSION['frontendpath'][$iIdClient], $_SESSION['htmlpath'][$iIdClient]);
         }
     }
 
@@ -244,7 +244,7 @@ if ($currentstep < $totalsteps) {
 
     if ($_SESSION['setuptype'] == 'upgrade') {
         $sql = "SELECT is_start FROM %s WHERE is_start = 1";
-        $db->query(sprintf($sql, $_SESSION['dbprefix'].'_cat_art'));
+        $db->query(sprintf($sql, $_SESSION['dbprefix'] . '_cat_art'));
 
         if ($db->next_record()) {
             $_SESSION['start_compatible'] = true;
@@ -256,15 +256,26 @@ if ($currentstep < $totalsteps) {
 
     injectSQL($db, $_SESSION['dbprefix'], 'data/indexes.sql', array(), $aNothing);
 
+    // logging query stuff
+    $aSqlArray = $db->getProfileData();
+    if (is_array($aSqlArray) && count($aSqlArray) > 0) {
+        $fp = fopen('../data/logs/setup_queries.txt', 'w');
+            foreach ($aSqlArray as $failedChunk) {
+                fwrite($fp, print_r($aSqlArray, TRUE));
+            }
+            fclose($fp);
+    }
+
     printf('<script type="text/javascript">parent.document.getElementById("installing").style.visibility="hidden";parent.document.getElementById("installingdone").style.visibility="visible";</script>');
     printf('<script type="text/javascript">parent.document.getElementById("next").style.visibility="visible"; window.setTimeout("nextStep()", 10); function nextStep () { window.location.href=\'makeconfig.php\'; }</script>');
 }
 
 function txtFileToArray($sFile) {
     $aFileArray = array();
-    if(file_exists($sFile) && is_readable($sFile)) {
+    if (file_exists($sFile) && is_readable($sFile)) {
         $aFileArray = explode("\n", file_get_contents($sFile));
     }
     return $aFileArray;
 }
+
 ?>

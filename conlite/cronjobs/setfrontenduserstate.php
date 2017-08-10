@@ -48,11 +48,11 @@ if (!isRunningFromWeb() || function_exists("runJob") || $area == "cronjobs")
 	$db = new DB_ConLite();
 
 	$sSql = "UPDATE " . $cfg['tab']['frontendusers'] . "
-				SET active = 0
-				WHERE
-					(valid_to < NOW() AND valid_to != '0000-00-00 00:00:00')
-					OR
-					(valid_from > NOW() AND valid_from != '0000-00-00 00:00:00') ";
+                SET active = 0
+                WHERE
+                        (valid_to < NOW() AND valid_to != '0000-00-00' AND valid_to != '1000-01-01')
+                        OR
+                        (valid_from > NOW() AND valid_from != '0000-00-00' AND valid_from != '1000-01-01')";
 	//echo $sSql;
 	$db->query($sSql);
 

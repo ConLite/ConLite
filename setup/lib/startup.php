@@ -105,6 +105,8 @@ checkAndInclude('lib/defines.php');
 checkAndInclude($cfg['path']['frontend'].'/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.filehandler.php');
+checkAndInclude($cfg['path']['conlite'] . 'includes/functions.php54.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.i18n.php');
 checkAndInclude($cfg['path']['conlite'] . 'includes/functions.i18n.php');
 checkAndInclude('lib/class.setupcontrols.php');

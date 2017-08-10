@@ -607,8 +607,8 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
         $sDate = date('Y-m-d');
 
         $this->db->query(sprintf("SELECT user_id, perms, password FROM %s WHERE username = '%s' AND
-            (valid_from <= '" . $sDate . "' OR valid_from = '0000-00-00' OR valid_from is NULL) AND
-            (valid_to >= '" . $sDate . "' OR valid_to = '0000-00-00' OR valid_to is NULL)", $this->database_table, Contenido_Security::escapeDB($username, $this->db)
+            (valid_from <= '" . $sDate . "' OR valid_from = '1000-01-01' OR valid_from = '0000-00-00' OR valid_from is NULL) AND
+            (valid_to >= '" . $sDate . "' OR valid_to = '1000-01-01' OR valid_to = '0000-00-00' OR valid_to is NULL)", $this->database_table, Contenido_Security::escapeDB($username, $this->db)
         ));
 
         $sMaintenanceMode = getSystemProperty('maintenance', 'mode');

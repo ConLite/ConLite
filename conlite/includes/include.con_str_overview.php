@@ -491,7 +491,7 @@ if ($syncoptions == -1) {
         $sql2 = "SELECT
                             c.idcat AS idcat,
                             SUM(a.online) AS online,
-							              d.startidartlang
+                            d.startidartlang
                         FROM
                             " . $cfg["tab"]["art_lang"] . " AS a,
                             " . $cfg["tab"]["art"] . " AS b,
@@ -503,7 +503,8 @@ if ($syncoptions == -1) {
                             b.idclient = '" . Contenido_Security::toInteger($client) . "' AND
                             b.idart = c.idart AND
                             c.idcat = d.idcat
-                        GROUP BY c.idcat
+                        GROUP BY c.idcat,
+                        d.startidartlang
                         ";
     }
 } else {
@@ -525,7 +526,7 @@ if ($syncoptions == -1) {
         $sql2 = "SELECT
                             c.idcat AS idcat,
                             SUM(a.online) AS online,
-							              d.startidartlang
+                            d.startidartlang
                         FROM
                             " . $cfg["tab"]["art_lang"] . " AS a,
                             " . $cfg["tab"]["art"] . " AS b,
@@ -536,7 +537,8 @@ if ($syncoptions == -1) {
                             b.idclient = '" . Contenido_Security::toInteger($client) . "' AND
                             b.idart = c.idart AND 
                             c.idcat = d.idcat
-                        GROUP BY c.idcat";
+                        GROUP BY c.idcat,
+                        d.startidartlang";
     }
 }
 
@@ -675,6 +677,7 @@ $sql = "SELECT DISTINCT " .
         "b.visible, " .
         "b.public, " .
         "c.level, " .
+        "c.idtree, " .
         "d.idtpl " .
         $sql_fallback_lang_field.
         "FROM {$cfg['tab']['cat']} AS a " .

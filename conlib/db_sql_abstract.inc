@@ -755,6 +755,9 @@ abstract class DB_Sql_Abstract {
         self::$_aProfileData[] = array(
             'time' => $fEndTime - $fStartTime,
             'query' => $sQuery
+                /*,
+            'ErrNo' => static::_getErrorNumber(),
+            'ErrMess' => static::_getErrorMessage()*/
         );
     }
 

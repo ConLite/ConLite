@@ -64,7 +64,9 @@ function doMySQLConnect ($host, $username, $password)
         ),
     );
 	$db = new DB_Contenido($aOptions);
-	
+        $sFile = '../data/logs/setup_queries.txt';
+	file_put_contents($sFile, $db->getServerInfo(), FILE_APPEND);
+        chmod($sFile, 0666);
 	if ($db->connect() == 0)
 	{
 		return array($db, false);
@@ -98,6 +100,8 @@ function getSetupMySQLDBConnection($full = true)
             'sequenceTable'  => $_SESSION['dbprefix'].'_sequence'
         );
     }
+    
+    //$aOptions['enableProfiling'] = TRUE;
     $db = new DB_Contenido($aOptions);
     return $db;
 }
