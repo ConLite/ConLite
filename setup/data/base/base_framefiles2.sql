@@ -1,0 +1,13 @@
+INSERT INTO !PREFIX!_frame_files VALUES('605', '604', '3', '11151');
+INSERT INTO !PREFIX!_frame_files VALUES('606', '604', '4', '605');
+INSERT INTO !PREFIX!_frame_files VALUES('700', '52', '3', '700');
+INSERT INTO !PREFIX!_frame_files VALUES('701', '700', '4', '701');
+INSERT INTO !PREFIX!_frame_files VALUES('702', '701', '4', '702');
+INSERT INTO !PREFIX!_frame_files VALUES('703', '702', '4', '703');
+INSERT INTO !PREFIX!_frame_files VALUES('800', '801', '1', '800');
+INSERT INTO !PREFIX!_frame_files VALUES('801', '801', '2', '801');
+INSERT INTO !PREFIX!_frame_files VALUES('803', '801', '4', '803');
+INSERT INTO !PREFIX!_frame_files VALUES('804', '802', '4', '804');
+INSERT INTO !PREFIX!_frame_files VALUES('990', '990', '4', '990');
+INSERT INTO !PREFIX!_frame_files VALUES('1007', '811', '4', '813');
+INSERT INTO !PREFIX!_frame_files VALUES('1008', '812', '4', '814');

@@ -1,0 +1,2 @@
+INSERT INTO !PREFIX!_content VALUES('1', '3', '1', '1', '%3Cp%3EWelcome+to+ConLite+2.0%21%3C%2Fp%3E', '', 'sysadmin', '2016-05-23 15:25:20', '2016-05-23 15:43:54');
+INSERT INTO !PREFIX!_content VALUES('2', '3', '2', '1', '%3Cp%3EYou+have+successfully+installed+ConLite+2.0%21%3C%2Fp%3E%0D%0A%3Cp%3EPlease+take+a+moment+to+check+out+this+demo+client.+If+you+need+help+or+searching+for+more+information+about+ConLite+use+the+following+buttons+to+visit+our+forum%2C+faq+or+bugtracker.%3C%2Fp%3E', '', 'sysadmin', '2016-05-23 15:33:19', '2016-05-23 15:46:24');

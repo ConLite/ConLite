@@ -1,0 +1,17 @@
+INSERT INTO !PREFIX!_mod_translations VALUES('1', '13', '1', 'Meet+us+on+Twitter', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('2', '13', '1', 'Link+in+Modul-Output', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('3', '12', '1', 'This+site+uses+cookies.+Some+of+the+cookies+we+use+are+essential+for+parts+of+the+site+to+operate+and+have+already+been+set.', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('4', '12', '1', 'We+have+placed+cookies+on+your+computer+to+help+make+this+website+better.', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('5', '12', '1', 'We+use', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('6', '12', '1', 'and', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('7', '12', '1', 'scripts%2C+which+all+set+cookies.', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('8', '12', '1', 'We+use+a', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('9', '12', '1', 'script+which+sets+cookies.', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('10', '12', '1', 'You+may+delete+and+block+all+cookies+from+this+site%2C+but+parts+of+the+site+will+not+work.', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('11', '12', '1', 'To+find+out+more+about+cookies+on+this+website%2C+see+our', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('12', '12', '1', 'privacy+policy', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('13', '12', '1', 'You+must+tick+the+%5C%22I+accept+cookies+from+this+site%5C%22+box+to+accept', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('14', '12', '1', 'I+accept+cookies+from+this+site', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('15', '12', '1', 'Continue', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('16', '12', '1', 'More+details+can+be+found+in+our', '');
+INSERT INTO !PREFIX!_mod_translations VALUES('17', '12', '1', 'Do+not+show+this+message+again', '');
