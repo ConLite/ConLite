@@ -52,7 +52,7 @@ class cApiStatCollection extends ItemCollection {
         if (FALSE !== $oItem = $this->next()) {
             $oItem->setField('visited', ((int) $oItem->getField('visited')+1));
         } else {
-            $oItem = $this->create();
+            $oItem = $this->createNewItem();
             if($oItem->isLoaded()) {
                 $oItem->setField('idcatart', $iIdCatArt);
                 $oItem->setField('idlang', $iIdLang);
