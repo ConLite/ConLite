@@ -53,14 +53,13 @@ foreach ($aPlugins as $sPluginName) {
     // language support
     if (file_exists($sPluginLocaleDir)) {
         i18nRegisterDomain($sPluginName, $sPluginLocaleDir);
+    }// autoloader config
+    if (file_exists($sPluginAutoloaderFile)) {
+        cAutoload::addClassmapConfigFile($sPluginAutoloaderFile);
     }
     // config file
     if (file_exists($sPluginConfigFile)) {
         include_once($sPluginConfigFile);
-    }
-    // autoloader config
-    if (file_exists($sPluginAutoloaderFile)) {
-        cAutoload::addClassmapConfigFile($sPluginAutoloaderFile);
     }
 }
 
