@@ -15,7 +15,7 @@ require_once(SMARTY_DIR . 'Autoloader.php');
 Smarty_Autoloader::register();
 
 try {
-    new cSmartyFrontend($cfg, $cfgClient[$client], true);
+    new cSmartyFrontend(cRegistry::getConfig(), cRegistry::getClientConfig(cRegistry::getClientId()), true);
 } catch (Exception $e) {
     cWarning($e->getFile(), $e->getLine(), $e->getMessage());
 }
