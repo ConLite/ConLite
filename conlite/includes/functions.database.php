@@ -233,9 +233,9 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
             " . $parameter['NULL'] . " " . $parameter['DEFAULT'] . " " . $parameter['KEY'];
             $db->query($createField);
             $sDebugData = sprintf("%s:%s:ErrorNo. %s:%s\n", $createField, $parameter['DEFAULT'], $db->getErrorNumber(), $db->getErrorMessage());
-            file_put_contents('../data/logs/setup_queries.txt', $sDebugData, FILE_APPEND);
 
             if ($bDebug) {
+                file_put_contents('../data/logs/setup_queries.txt', $sDebugData, FILE_APPEND);
                 echo 'createField:' . $createField . '<br />';
             }
             $columnCache[$table] = "";
