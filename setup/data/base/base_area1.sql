@@ -99,11 +99,6 @@ INSERT INTO !PREFIX!_area VALUES('601', 'workflow', 'workflow_common', '1', '1',
 INSERT INTO !PREFIX!_area VALUES('602', 'workflow', 'workflow_steps', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('603', 'workflow', 'workflow_step_edit', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('604', 'con', 'con_workflow', '0', '1', '0');
-INSERT INTO !PREFIX!_area VALUES('700', '0', 'mod_rewrite', '1', '1', '1');
-INSERT INTO !PREFIX!_area VALUES('701', 'mod_rewrite', 'mod_rewrite_expert', '1', '1', '1');
-INSERT INTO !PREFIX!_area VALUES('702', 'mod_rewrite', 'mod_rewrite_test', '1', '1', '1');
-INSERT INTO !PREFIX!_area VALUES('801', '0', 'content_allocation', '1', '1', '0');
-INSERT INTO !PREFIX!_area VALUES('802', 'con', 'con_contentallocation', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('811', 'system', 'system_purge', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('812', 'system', 'db_backup', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('990', '0', 'pluginmanager', '1', '1', '1');

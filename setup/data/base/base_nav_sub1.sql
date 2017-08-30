@@ -82,10 +82,3 @@ INSERT INTO !PREFIX!_nav_sub VALUES('397', '0', '71', '1', 'navigation/style/tpl
 INSERT INTO !PREFIX!_nav_sub VALUES('403', '0', '403', '1', 'navigation/style/tpleditor/history', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('805', '0', '811', '1', 'navigation/administration/system/purge', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('806', '0', '812', '1', 'navigation/administration/system/db_backup', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('610', '3', '16', '0', 'navigation/extra/newsletter', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('800', '3', '801', '0', 'content_allocation/xml/;navigation/extra/content_allocation/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('801', '0', '802', '1', 'content_allocation/xml/;navigation/extra/content_allocation/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('700', '3', '700', '0', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('701', '0', '700', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/settings', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('702', '0', '701', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/expert', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('703', '0', '702', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/test', '1');

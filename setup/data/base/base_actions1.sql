@@ -168,9 +168,6 @@ INSERT INTO !PREFIX!_actions VALUES('615', '1', '', 'workflow_do_action', '', ''
 INSERT INTO !PREFIX!_actions VALUES('616', '6', '', 'workflow_inherit_down', '', '', '1');
 INSERT INTO !PREFIX!_actions VALUES('617', '604', '', 'workflow_task_user_select', '', '', '1');
 INSERT INTO !PREFIX!_actions VALUES('618', '604', '', 'workflow_do_action', '', '', '1');
-INSERT INTO !PREFIX!_actions VALUES('700', '700', '', 'mod_rewrite', '', '', '1');
-INSERT INTO !PREFIX!_actions VALUES('701', '700', '', 'mod_rewrite_expert', '', '', '1');
-INSERT INTO !PREFIX!_actions VALUES('702', '700', '', 'mod_rewrite_test', '', '', '1');
 INSERT INTO !PREFIX!_actions VALUES('800', '802', '', 'storeallocation', '', '', '1');
 INSERT INTO !PREFIX!_actions VALUES('801', '400', 'history_truncate', 'history_truncate', '', '', '1');
 INSERT INTO !PREFIX!_actions VALUES('802', '401', 'history_truncate', 'history_truncate', '', '', '1');
