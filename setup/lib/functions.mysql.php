@@ -59,9 +59,9 @@ function doMySQLConnect($host, $username, $password) {
         ),
     );
     $db = new DB_Contenido($aOptions);
-    $sFile = '../data/logs/setup_queries.txt';
+    //$sFile = '../data/logs/setup_queries.txt';
     //file_put_contents($sFile, $db->getServerInfo(), FILE_APPEND);
-    chmod($sFile, 0666);
+    //chmod($sFile, 0666);
     if ($db->connect() == 0) {
         return array($db, false);
     } else {
