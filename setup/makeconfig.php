@@ -71,6 +71,8 @@ if ($_SESSION['setuptype'] == 'setup') {
 	$tpl->set('s', 'CON_UTF8', '');
 }
 
+$tpl->set('s','MYSQL_CHARSET', '');
+
 if ($_SESSION['configmode'] == 'save') {
     $sCfgFileOld = $root_path . '/conlite/includes/config.php';
     $sCfgFileNew = $root_path . '/data/config/'.CL_ENVIRONMENT.'/config.php';
