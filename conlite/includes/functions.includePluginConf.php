@@ -34,7 +34,7 @@ if (file_exists($sPluginsPath."pluginmanager") && cRegistry::getConfigValue('deb
     while (($oPlugin = $oPluginColl->next()) !== false) {
         $sPluginName = $oPlugin->get('folder');
         $sPluginFolder = $sPluginsPath . $sPluginName . DIRECTORY_SEPARATOR;
-        if (is_dir($sPluginFolder) && file_exists($sPluginFolder . "plugin.xml")) {
+        if (is_dir($sPluginFolder) && file_exists($sPluginFolder . "cl_plugin.xml")) {
             $aPlugins[] = $sPluginName;
         }
     }
@@ -120,7 +120,7 @@ if ($contenido) {
         foreach ($plugins as $key => $ipc_plugin) {
             if (!is_dir($ipc_conpluginpath . $ipc_plugin . "/") 
                     || in_array($ipc_plugin, $dirsToExclude)
-                    || file_exists($ipc_conpluginpath . $ipc_plugin . "/plugin.xml")) {
+                    || file_exists($ipc_conpluginpath . $ipc_plugin . "/cl_plugin.xml")) {
                 unset($plugins[$key]);
             }
         }
@@ -141,7 +141,7 @@ if ($contenido) {
  */
 foreach ($plugins as $key => $ipc_plugin) {
     if (!is_dir($ipc_conpluginpath . $ipc_plugin . "/")
-            || file_exists($ipc_conpluginpath . $ipc_plugin . "/plugin.xml")) {
+            || file_exists($ipc_conpluginpath . $ipc_plugin . "/cl_plugin.xml")) {
         unset($plugins[$key]);
     } else {
         $ipc_localedir = $ipc_conpluginpath . $ipc_plugin . "/locale/";
