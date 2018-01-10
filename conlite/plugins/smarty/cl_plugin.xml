@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <plugin>
     <general active="1">
         <plugin_name>Smarty Wrapper</plugin_name>
@@ -15,5 +15,5 @@
     <requirements php="5.6">
         <conlite minversion="2.0" />
     </requirements>
-    <contenido />
+    <conlite />
 </plugin>

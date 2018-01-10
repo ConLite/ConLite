@@ -67,7 +67,7 @@ class cSmartyFrontend {
 
         self::$oSmarty = new cSmartyWrapper();
         self::$aDefaultPaths = array(
-            'template_dir' => $aClientCfg['module']['path'],
+            'template_dir' => $aClientCfg['tpl']['path'],
             'cache_dir' => $aClientCfg['cache']['path'] . 'templates_c',
             'compile_dir' => $aClientCfg['cache']['path'] . 'templates_c'
         );
