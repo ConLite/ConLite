@@ -9,11 +9,11 @@
         <copyright>(c) 2017 Ortwin Pinke, PHP-Backoffice.de</copyright>
         <mail>info@php-backoffice.de</mail>
         <website>http://php-backoffice.de</website>
-        <version>1.0.0</version>
+        <version>1.0.2</version>
         <license>GNU Lesser General Public License</license>
     </general>
     <requirements php="5.6">
-        <conlite minversion="2.0" />
+        <conlite minversion="2.0.2" />
     </requirements>
     <conlite />
 </plugin>

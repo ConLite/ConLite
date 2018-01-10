@@ -4,11 +4,23 @@
  *
  * @package Plugin
  * @subpackage SmartyWrapper
+ * @version $Rev$
+ * @since 2.0.2
+ * @author Ortwin Pinke <o.pinke@conlite.org>
+ * @copyright (c) 2018, conlite.org
+ * @license http://www.gnu.de/documents/gpl.en.html GPL v3 (english version)
+ * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
+ * @link http://www.conlite.org ConLite.org
+ * 
+ * $Id$
+ */
+/**
+ * This file contains the frontend class for smarty wrapper plugin.
+ *
+ * @package Plugin
+ * @subpackage SmartyWrapper
  * @author Andreas Dieter
  * @copyright four for business AG <www.4fb.de>
- * @license http://www.contenido.org/license/LIZENZ.txt
- * @link http://www.4fb.de
- * @link http://www.contenido.org
  */
 defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization - request aborted.');
 
@@ -67,7 +79,7 @@ class cSmartyFrontend {
 
         self::$oSmarty = new cSmartyWrapper();
         self::$aDefaultPaths = array(
-            'template_dir' => $aClientCfg['tpl']['path'],
+            'template_dir' => $aClientCfg['template']['path'],
             'cache_dir' => $aClientCfg['cache']['path'] . 'templates_c',
             'compile_dir' => $aClientCfg['cache']['path'] . 'templates_c'
         );
