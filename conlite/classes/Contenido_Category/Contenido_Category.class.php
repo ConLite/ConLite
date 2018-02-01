@@ -35,6 +35,87 @@ if(!defined('CON_FRAMEWORK')) {
 }
 
 
+
+/**
+ * Base class for Contenido_Category, Contenido_Categories, Contenido_Category_Language.
+ * @version 0.9.0
+ * @author Rudi Bieller
+ * @copyright four for business AG <www.4fb.de>
+ * {@internal
+ * created 2008-02-15
+ * }}
+ */
+class Contenido_Category_Base {
+    /**
+     * @var obj
+     * @access protected
+     */
+    protected $oDb;
+    /**
+     * @var array
+     * @access protected
+     */
+    protected $aCfg;
+    /**
+     * @var boolean
+     * @access protected
+     */
+    protected $bDbg;
+    /**
+     * @var string
+     * @access protected
+     */
+    protected $sDbgMode;
+    /**
+     * @var obj
+     * @access protected
+     */
+    protected $oDbg;
+    
+    /**
+     * Constructor.
+     * @access public
+     * @param DB_ConLite $oDb
+     * @param array $aCfg
+     * @return void
+     * @author Rudi Bieller
+     */
+    public function __construct(DB_ConLite $oDb, array $aCfg) {
+        $this->oDb = $oDb;
+        $this->aCfg = $aCfg;
+        $this->bDbg = false;
+        $this->oDbg = null;
+    }
+    
+    /**
+     * Set internal property for debugging on/off and choose appropriate debug object
+     * @access public
+     * @param boolean $bDebug
+     * @param string $sDebugMode
+     * @return  void
+     * @author Rudi Bieller
+     */
+    public function setDebug($bDebug = true, $sDebugMode = 'visible') {
+        if ($bDebug === false) {
+            $this->bDbg = false;
+            $this->oDbg = null;
+            $this->sDbgMode = 'hidden';
+        } else {
+	        if (!in_array($sDebugMode, array('visible', 'visible_adv', 'file', 'devnull', 'hidden'))) {
+	            $sDebugMode = 'devnull';
+	        }
+            try {
+                $this->sDbgMode = $sDebugMode;
+                $this->bDbg = true;
+                $this->oDbg = DebuggerFactory::getDebugger($sDebugMode);
+            } catch (InvalidArgumentException $e) {
+                throw $e;
+            }
+        }
+    }
+}
+
+
 /**
  * Implementation of a Contenido Category.
  * @version 0.9.0
@@ -820,85 +901,6 @@ class Contenido_Category_Language extends Contenido_Category_Base {
     }
     public function getUrlName() {
         return !is_null($this->sUrlname) ? (string) $this->sUrlname : '';
-    }
-}
-
-/**
- * Base class for Contenido_Category, Contenido_Categories, Contenido_Category_Language.
- * @version 0.9.0
- * @author Rudi Bieller
- * @copyright four for business AG <www.4fb.de>
- * {@internal
- * created 2008-02-15
- * }}
- */
-class Contenido_Category_Base {
-    /**
-     * @var obj
-     * @access protected
-     */
-    protected $oDb;
-    /**
-     * @var array
-     * @access protected
-     */
-    protected $aCfg;
-    /**
-     * @var boolean
-     * @access protected
-     */
-    protected $bDbg;
-    /**
-     * @var string
-     * @access protected
-     */
-    protected $sDbgMode;
-    /**
-     * @var obj
-     * @access protected
-     */
-    protected $oDbg;
-    
-    /**
-     * Constructor.
-     * @access public
-     * @param DB_ConLite $oDb
-     * @param array $aCfg
-     * @return void
-     * @author Rudi Bieller
-     */
-    public function __construct(DB_ConLite $oDb, array $aCfg) {
-        $this->oDb = $oDb;
-        $this->aCfg = $aCfg;
-        $this->bDbg = false;
-        $this->oDbg = null;
-    }
-    
-    /**
-     * Set internal property for debugging on/off and choose appropriate debug object
-     * @access public
-     * @param boolean $bDebug
-     * @param string $sDebugMode
-     * @return  void
-     * @author Rudi Bieller
-     */
-    public function setDebug($bDebug = true, $sDebugMode = 'visible') {
-        if ($bDebug === false) {
-            $this->bDbg = false;
-            $this->oDbg = null;
-            $this->sDbgMode = 'hidden';
-        } else {
-	        if (!in_array($sDebugMode, array('visible', 'visible_adv', 'file', 'devnull', 'hidden'))) {
-	            $sDebugMode = 'devnull';
-	        }
-            try {
-                $this->sDbgMode = $sDebugMode;
-                $this->bDbg = true;
-                $this->oDbg = DebuggerFactory::getDebugger($sDebugMode);
-            } catch (InvalidArgumentException $e) {
-                throw $e;
-            }
-        }
     }
 }
 ?>
