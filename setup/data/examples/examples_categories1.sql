@@ -8,9 +8,9 @@ INSERT INTO !PREFIX!_cat VALUES('7', '1', '0', '1', '2', '0', 'sysadmin', '2016-
 INSERT INTO !PREFIX!_cat VALUES('8', '1', '3', '0', '11', '0', 'sysadmin', '2016-03-15 18:44:09', '2016-03-15 18:48:31');
 INSERT INTO !PREFIX!_cat VALUES('11', '1', '3', '8', '12', '0', 'sysadmin', '2016-03-15 18:48:31', '2016-03-15 18:48:42');
 INSERT INTO !PREFIX!_cat VALUES('12', '1', '3', '11', '0', '0', 'sysadmin', '2016-03-15 18:48:42', '2016-03-15 18:48:42');
-INSERT INTO !PREFIX!_cat_art VALUES('1', '3', '1', '0', '0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1');
-INSERT INTO !PREFIX!_cat_art VALUES('2', '4', '2', '0', '0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1');
-INSERT INTO !PREFIX!_cat_art VALUES('3', '5', '3', '0', '0', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '1');
+INSERT INTO !PREFIX!_cat_art VALUES('1', '3', '1', '0', '0', '', '1970-01-01 00:00:01', '1970-01-01 00:00:01', '1');
+INSERT INTO !PREFIX!_cat_art VALUES('2', '4', '2', '0', '0', '', '1970-01-01 00:00:01', '1970-01-01 00:00:01', '1');
+INSERT INTO !PREFIX!_cat_art VALUES('3', '5', '3', '0', '0', '', '1970-01-01 00:00:01', '1970-01-01 00:00:01', '1');
 INSERT INTO !PREFIX!_cat_lang VALUES('1', '1', '1', '2', 'Hauptnavigation', '1', '1', '0', 'sysadmin', '2015-06-22 14:39:53', '2015-06-22 14:39:53', '0', 'Hauptnavigation', 'Hauptnavigation');
 INSERT INTO !PREFIX!_cat_lang VALUES('2', '2', '1', '3', 'Systemseiten', '1', '1', '0', 'sysadmin', '2015-06-22 14:40:21', '2015-06-22 14:40:21', '0', 'Systemseiten', 'Systemseiten');
 INSERT INTO !PREFIX!_cat_lang VALUES('3', '3', '1', '4', 'Features', '1', '1', '0', 'sysadmin', '2015-06-22 14:40:53', '2016-03-15 18:40:59', '1', 'Features', 'Hauptnavigation/Features');
