@@ -85,6 +85,8 @@ abstract class cItemBaseAbstract {
      * @var  string
      */
     protected $_className;
+    
+    protected $_bDebug;
 
     /**
      * Sets some common properties

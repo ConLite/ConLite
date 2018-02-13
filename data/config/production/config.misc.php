@@ -125,6 +125,11 @@ $cfg['AvailableCharsets'] = array(
     'SHIFT_JIS'
 );
 
+// (bool) Flag to use native i18n.
+//        Note: Enabling this could create unwanted side effects, because of
+//        native gettext() behavior.
+$cfg['native_i18n'] = false;
+
 
 /* Error handling settings
  * ----------------------------------

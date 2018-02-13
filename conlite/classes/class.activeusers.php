@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -17,277 +18,266 @@
  *
  *   $Id: class.activeusers.php 362 2015-10-05 16:31:26Z oldperl $;
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 class ActiveUsers {
 
-	var $oDb;
-	var $oCfg;
-	var $oAuth;
-	var $iUserId;
+    var $oDb;
+    var $oCfg;
+    var $oAuth;
+    var $iUserId;
 
-	/**
-	 * Constructor 
-	 * 
-	 * @param object $db - Contenido Database Object
-	 * @param object $cfg 
-	 * @param object $auth 
-	 * 
-	 * @return  
-	 **/
-	function ActiveUsers($oDb, $oCfg, $oAuth) {
+    /**
+     * Constructor 
+     * 
+     * @param object $db - Contenido Database Object
+     * @param object $cfg 
+     * @param object $auth 
+     * 
+     * @return  
+     * */
+    function ActiveUsers($oDb, $oCfg, $oAuth) {
 
-		$this->oCfg= $oCfg;
-		$this->oAuth= $oAuth;
-		$this->oDb= $oDb;
+        $this->oCfg = $oCfg;
+        $this->oAuth = $oAuth;
+        $this->oDb = $oDb;
 
-		// init db object
-		if (!is_object($this->oDb) || (is_null($this->oDb))) {
-			$this->oDb= new DB_ConLite;
-		}
+        // init db object
+        if (!is_object($this->oDb) || (is_null($this->oDb))) {
+            $this->oDb = new DB_ConLite;
+        }
 
-		if (!is_resource($this->oDb->Link_ID)) {
-			$this->oDb->connect();
-		} 
+        if (!is_resource($this->oDb->Link_ID)) {
+            $this->oDb->connect();
+        }
 
-		// Load the userid
-		$this->iUserId= $this->oAuth->auth["uid"];
-	}
+        // Load the userid
+        $this->iUserId = $this->oAuth->auth["uid"];
+    }
 
-	/**
-	 * Start the User Tracking:
-	 * 1) First delete all inactive users with timelimit is off
-	 * 2) If find user in the table, do update
-	 * 3) Else there is no current user do insert new user
-	 * 
-	 * 
-	 * @return  
-	 **/
-	function startUsersTracking() {
+    /**
+     * Start the User Tracking:
+     * 1) First delete all inactive users with timelimit is off
+     * 2) If find user in the table, do update
+     * 3) Else there is no current user do insert new user
+     * 
+     * 
+     * @return  
+     * */
+    function startUsersTracking() {
 
-		// Delete all Contains in the table "online_user" that is older as timeout(current is 60 minutes)
-		$this->deleteInactiveUser();
+        // Delete all Contains in the table "online_user" that is older as timeout(current is 60 minutes)
+        $this->deleteInactiveUser();
 
-		$bResult= $this->findUser($this->iUserId);
-		if ($bResult) {
-			// update the curent user
-			$this->updateUser($this->iUserId);
-		} else {
-			// User not found, we can insert the new user
-			$this->insertOnlineUser($this->iUserId);
-		}
-	}
+        $bResult = $this->findUser($this->iUserId);
+        if ($bResult) {
+            // update the curent user
+            $this->updateUser($this->iUserId);
+        } else {
+            // User not found, we can insert the new user
+            $this->insertOnlineUser($this->iUserId);
+        }
+    }
 
-	/**
-	 * Insert this user in online_user table
-	 * 
-	 * @param object $db - Contenido Database Object
-	 * 
-	 * @return  Returns true if successful else false
-	 **/
-	function insertOnlineUser($sUserId) {
-        
-		$userid = (string) $sUserId;
-		$sql= "INSERT INTO `" . $this->oCfg["tab"]["online_user"] . "`(`user_id`,`lastaccessed`) VALUES('".Contenido_Security::escapeDB($userid, $this->oDb)."', NOW())";
+    /**
+     * Insert this user in online_user table
+     * 
+     * @param object $db - Contenido Database Object
+     * 
+     * @return  Returns true if successful else false
+     * */
+    function insertOnlineUser($sUserId) {
 
-		if ($this->oDb->query($sql)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+        $userid = (string) $sUserId;
+        $sql = "INSERT INTO `" . $this->oCfg["tab"]["online_user"] . "`(`user_id`,`lastaccessed`) VALUES('" . Contenido_Security::escapeDB($userid, $this->oDb) . "', NOW())";
 
-	/**
-	 * Find the this user if exists in the table "online_user"
-	 *
-	 * @param integer $iUserId - Is the User-Id (get from auth object)
-	 * 
-	 * @return Returns true if this User is found, else false
-	 **/
-	function findUser($sUserId) {
+        if ($this->oDb->query($sql)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-		$userid = (string) $sUserId;
-		$bReturn = false;
-		$sql= "SELECT user_id FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id`='".Contenido_Security::escapeDB($userid, $this->oDb)."'";
-		$this->oDb->query($sql);
-		if ($this->oDb->next_record()) {
-			$bReturn= true;
-		}
-		return $bReturn;
-	}
+    /**
+     * Find the this user if exists in the table "online_user"
+     *
+     * @param integer $iUserId - Is the User-Id (get from auth object)
+     * 
+     * @return Returns true if this User is found, else false
+     * */
+    function findUser($sUserId) {
 
-	/**
-	 * Find all user_ids in the table 'online_user' for get rest information from 
-	 * table 'con_phplib_auth_user_md5' 
-	 *
-	 * 
-	 * @return Returns array of user-information
-	 **/
-	function findAllUser() {
+        $userid = (string) $sUserId;
+        $bReturn = false;
+        $sql = "SELECT user_id FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id`='" . Contenido_Security::escapeDB($userid, $this->oDb) . "'";
+        $this->oDb->query($sql);
+        if ($this->oDb->next_record()) {
+            $bReturn = true;
+        }
+        return $bReturn;
+    }
 
-		$aAllUser= array ();
-		$aUser= array ();
-		$sWebsiteName= "";
-		// get all user_ids
-		$sql= "SELECT `user_id` FROM `" . $this->oCfg["tab"]["online_user"]."`";
+    /**
+     * Find all user_ids in the table 'online_user' for get rest information from 
+     * table 'con_phplib_auth_user_md5' 
+     *
+     * 
+     * @return Returns array of user-information
+     * */
+    function findAllUser() {
 
-		if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        $aAllUser = array();
+        $aUser = array();
+        $sWebsiteName = "";
+        // get all user_ids
+        $sql = "SELECT `user_id` FROM `" . $this->oCfg["tab"]["online_user"] . "`";
 
-			if ($this->oDb->num_rows() > 0) {
-				while ($this->oDb->next_record()) { // Table Online User
+        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
 
-					$aUser[]= "'" . $this->oDb->f('user_id') . "'";
-				}
-			}
-		}
-		// get data of those users
-		$aAllUser= array ();
+            if ($this->oDb->num_rows() > 0) {
+                while ($this->oDb->next_record()) { // Table Online User
+                    $aUser[] = "'" . $this->oDb->f('user_id') . "'";
+                }
+            }
+        }
+        // get data of those users
+        $aAllUser = array();
 
-		$sSqlIn= implode(', ', $aUser); // '1','2','5','8'
-		$sql= "SELECT user_id, realname, username, perms " .
-		"FROM " . $this->oCfg["tab"]["phplib_auth_user_md5"] . " " .
-		"WHERE user_id IN(" . $sSqlIn . ")";
-        
-		if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        $sSqlIn = implode(', ', $aUser); // '1','2','5','8'
+        $sql = "SELECT user_id, realname, username, perms " .
+                "FROM " . $this->oCfg["tab"]["phplib_auth_user_md5"] . " " .
+                "WHERE user_id IN(" . $sSqlIn . ")";
 
-			if ($this->oDb->num_rows() > 0) {
-				while ($this->oDb->next_record()) { // Table Online User
+        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+
+            if ($this->oDb->num_rows() > 0) {
+                while ($this->oDb->next_record()) { // Table Online User
                     $sWebsiteNames = '';
-					$sUserId= $this->oDb->f("user_id");
-					$aAllUser[$sUserId]['realname']= $this->oDb->f("realname");
-					$aAllUser[$sUserId]['username']= $this->oDb->f("username");
-					$sPerms= $this->oDb->f("perms");
+                    $sUserId = $this->oDb->f("user_id");
+                    $aAllUser[$sUserId]['realname'] = $this->oDb->f("realname");
+                    $aAllUser[$sUserId]['username'] = $this->oDb->f("username");
+                    $sPerms = $this->oDb->f("perms");
 
-					$aPerms= explode(",", $sPerms); //Alle Rechte als array in aPerms packen
+                    $aPerms = explode(",", $sPerms); //Alle Rechte als array in aPerms packen
 
-					if (in_array("sysadmin", $aPerms)) {
-						$aAllUser[$sUserId]['perms']= 'Systemadministrator';
+                    if (in_array("sysadmin", $aPerms)) {
+                        $aAllUser[$sUserId]['perms'] = 'Systemadministrator';
+                    } else {
 
-					} else {
-
-						$bIsAdmin= false;
-						$iCounter= 0;
-						foreach ($aPerms as $sPerm) {
+                        $bIsAdmin = false;
+                        $iCounter = 0;
+                        foreach ($aPerms as $sPerm) {
                             $aResults = array();
-							if (preg_match('/^admin\[(\d+)\]$/', $sPerm, $aResults)) {
-								$iClientId= $aResults[1];
-								$bIsAdmin= true;
-								$sWebsiteName = $this->getWebsiteName($iClientId);
-								if ($iCounter == 0 && $sWebsiteName != "") {
-									$sWebsiteNames .= $sWebsiteName;
-								} else if ($sWebsiteName != "") {
-									$sWebsiteNames .= ', ' . $sWebsiteName;
-								}
+                            if (preg_match('/^admin\[(\d+)\]$/', $sPerm, $aResults)) {
+                                $iClientId = $aResults[1];
+                                $bIsAdmin = true;
+                                $sWebsiteName = $this->getWebsiteName($iClientId);
+                                if ($iCounter == 0 && $sWebsiteName != "") {
+                                    $sWebsiteNames .= $sWebsiteName;
+                                } else if ($sWebsiteName != "") {
+                                    $sWebsiteNames .= ', ' . $sWebsiteName;
+                                }
 
-								$aAllUser[$sUserId]['perms']= "Administrator (" . $sWebsiteNames . ")";
-								$iCounter++;
+                                $aAllUser[$sUserId]['perms'] = "Administrator (" . $sWebsiteNames . ")";
+                                $iCounter++;
+                            } else if (preg_match('/^client\[(\d+)\]$/', $sPerm, $aResults) && !$bIsAdmin) {
+                                $iClientId = $aResults[1];
+                                $sWebsiteName = $this->getWebsiteName($iClientId);
+                                if ($iCounter == 0 && $sWebsiteName != "") {
+                                    $sWebsiteNames .= $sWebsiteName;
+                                } else if ($sWebsiteName != "") {
+                                    $sWebsiteNames .= ', ' . $sWebsiteName;
+                                }
 
-							} else if (preg_match('/^client\[(\d+)\]$/', $sPerm, $aResults) && !$bIsAdmin) {
-									$iClientId= $aResults[1];
-									$sWebsiteName = $this->getWebsiteName($iClientId);
-									if ($iCounter == 0 && $sWebsiteName != "") {
-										$sWebsiteNames .= $sWebsiteName;
-									} else if ($sWebsiteName != "") {
-										$sWebsiteNames .= ', ' . $sWebsiteName;
-									}
+                                $aAllUser[$sUserId]['perms'] = '(' . $sWebsiteNames . ')';
+                                $iCounter++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-									$aAllUser[$sUserId]['perms']= '(' . $sWebsiteNames . ')';
-									$iCounter++;
-							}
+        return $aAllUser;
+    }
 
-						}
+    /**
+     * This function do an update of current timestamp in "online_user"
+     *
+     * @param integer $iUserId - Is the User-Id (get from auth object)
+     * 
+     * @return  Returns true if successful, else false
+     * */
+    function updateUser($sUserId) {
 
-					}
+        $userid = (string) $sUserId;
+        $sql = "UPDATE `" . $this->oCfg["tab"]["online_user"] . "` SET `lastaccessed`=NOW() WHERE `user_id`='" . Contenido_Security::escapeDB($userid, $this->oDb) . "'";
+        if ($this->oDb->query($sql)) {
+            return true;
+        } else
+            return false;
+    }
 
-				}
+    /**
+     * Delete all Contains in the table "online_user" that is older as 
+     * Backend timeout(currently is $cfg["backend"]["timeout"] = 60)
+     *
+     * 
+     * @return Returns true if successful else false
+     * */
+    function deleteInactiveUser() {
 
-			}
-		}
+        cInclude("config", "config.misc.php");
+        $iSetTimeOut = $this->oCfg["backend"]["timeout"];
+        if ($iSetTimeOut == 0)
+            $iSetTimeOut = 10;
+        $sql = "";
+        $sql = "DELETE FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE  DATE_SUB(now(), INTERVAL '$iSetTimeOut' Minute) >= `lastaccessed`";
+        if ($this->oDb->query($sql)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-		return $aAllUser;
-	}
+    /**
+     * Get the number of users from the table "online_user" 
+     *
+     * 
+     * @return Returns if exists a number of users
+     * */
+    function getNumberOfUsers() {
 
-	/**
-	 * This function do an update of current timestamp in "online_user"
-	 *
-	 * @param integer $iUserId - Is the User-Id (get from auth object)
-	 * 
-	 * @return  Returns true if successful, else false
-	 **/
-	function updateUser($sUserId) {
+        $iAnzahl = 0;
+        $sql = "SELECT user_id  FROM `" . $this->oCfg["tab"]["online_user"] . "`";
+        if ($this->oDb->query($sql)) {
+            $iAnzahl = $this->oDb->num_rows();
+        }
 
-		$userid= (string) $sUserId;
-		$sql= "UPDATE `" . $this->oCfg["tab"]["online_user"] . "` SET `lastaccessed`=NOW() WHERE `user_id`='".Contenido_Security::escapeDB($userid, $this->oDb)."'";
-		if ($this->oDb->query($sql)) {
-			return true;
-		} else
-			return false;
+        return $iAnzahl;
+    }
 
-	}
+    /**
+     * Delete this user from 'online user' table
+     *
+     * @param integer $iUserId - Is the User-Id (get from auth object)
+     * 
+     * @return  Returns true if successful, else false
+     * */
+    function deleteUser($sUserId) {
 
-	/**
-	 * Delete all Contains in the table "online_user" that is older as 
-	 * Backend timeout(currently is $cfg["backend"]["timeout"] = 60)
-	 *
-	 * 
-	 * @return Returns true if successful else false
-	 **/
-	function deleteInactiveUser() {
+        $userid = (string) $sUserId;
+        $sql = "DELETE FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id` = '" . Contenido_Security::escapeDB($userid, $this->oDb) . "'";
 
-		cInclude("config", "config.misc.php");
-		$iSetTimeOut= $this->oCfg["backend"]["timeout"];
-		if ($iSetTimeOut == 0)
-			$iSetTimeOut= 10;
-		$sql= "";
-		$sql= "DELETE FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE  DATE_SUB(now(), INTERVAL '$iSetTimeOut' Minute) >= `lastaccessed`";
-		if ($this->oDb->query($sql)) {
-			return true;
-		} else {
-			return false;
-		}
+        if ($this->oDb->query($sql)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	}
-
-	/**
-	 * Get the number of users from the table "online_user" 
-	 *
-	 * 
-	 * @return Returns if exists a number of users
-	 **/
-	function getNumberOfUsers() {
-
-		$iAnzahl= 0;
-		$sql= "SELECT user_id  FROM `" . $this->oCfg["tab"]["online_user"]."`";
-		if ($this->oDb->query($sql)) {
-			$iAnzahl= $this->oDb->num_rows();
-		}
-
-		return $iAnzahl;
-	}
-
-	/**
-	 * Delete this user from 'online user' table
-	 *
-	 * @param integer $iUserId - Is the User-Id (get from auth object)
-	 * 
-	 * @return  Returns true if successful, else false
-	 **/
-	function deleteUser($sUserId) {
-
-		$userid= (string) $sUserId;
-		$sql= "DELETE FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id` = '".Contenido_Security::escapeDB($userid, $this->oDb)."'";
-
-		if ($this->oDb->query($sql)) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
-    
     /**
      * Get the website name from table con_clients
      * 
@@ -298,5 +288,7 @@ class ActiveUsers {
         $oClient = new cApiClient($iIdClient);
         return $oClient->get('name');
     }
+
 }
+
 ?>
