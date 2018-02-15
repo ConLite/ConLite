@@ -33,7 +33,7 @@ abstract class ModRewriteBase {
      * Initialization, is to call at least once by an child.
      * @deprecated
      */
-    protected static function initialize() {
+    protected static function initialize($clientId) {
     }
 
     /**
