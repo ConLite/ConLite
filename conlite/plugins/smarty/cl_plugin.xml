@@ -12,7 +12,7 @@
         <version>1.0.2</version>
         <license>GNU Lesser General Public License</license>
     </general>
-    <requirements php="5.6">
+    <requirements php="5.4">
         <conlite minversion="2.0.2" />
     </requirements>
     <conlite />

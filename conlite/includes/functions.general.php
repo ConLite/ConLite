@@ -737,6 +737,7 @@ function rereadClients() {
     }
 
     $sql = "SELECT
+        name,
         idclient,
         frontendpath,
         htmlpath,
@@ -752,14 +753,14 @@ function rereadClients() {
     }
     while ($db->next_record()) {
         $cfgClient["set"] = "set";
-        $cfgClient[$db->f("idclient")]["path"]["frontend"] = $db->f("frontendpath");
-        $cfgClient[$db->f("idclient")]["path"]["htmlpath"] = $db->f("htmlpath");
-        $errsite_idcat[$db->f("idclient")] = $db->f("errsite_cat");
-        $errsite_idart[$db->f("idclient")] = $db->f("errsite_art");
+        $cfgClient[$db->f("idclient")]["name"] = $db->f("name");
 
+        $cfgClient[$db->f("idclient")]["errsite"]["idcat"] = $db->f("errsite_cat");
+        $cfgClient[$db->f("idclient")]["errsite"]["idart"] = $db->f("errsite_art");
         $cfgClient[$db->f("idclient")]["images"] = $db->f("htmlpath") . "images/";
         $cfgClient[$db->f("idclient")]["upload"] = "upload/";
-
+        $cfgClient[$db->f("idclient")]["path"]["frontend"] = $db->f("frontendpath");
+        $cfgClient[$db->f("idclient")]["path"]["htmlpath"] = $db->f("htmlpath");
         $cfgClient[$db->f("idclient")]["htmlpath"]["frontend"] = $cfgClient[$db->f("idclient")]["path"]["htmlpath"];
         $cfgClient[$db->f("idclient")]["upl"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "upload/";
         $cfgClient[$db->f("idclient")]["upl"]["htmlpath"] = $cfgClient[$db->f("idclient")]["htmlpath"]["frontend"] . "upload/";
@@ -767,6 +768,30 @@ function rereadClients() {
         $cfgClient[$db->f("idclient")]["css"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "css/";
         $cfgClient[$db->f("idclient")]["js"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "js/";
         $cfgClient[$db->f("idclient")]["tpl"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "templates/";
+        // added new path variables since v2.0.2
+        $cfgClient[$db->f("idclient")]["cache"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "cache/";
+        $cfgClient[$db->f("idclient")]["cache"]["frontendpath"] = "cache/";
+        $cfgClient[$db->f("idclient")]["code"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "cache/code/";
+        $cfgClient[$db->f("idclient")]["code"]["frontendpath"] = "cache/code/";
+
+        $cfgClient[$db->f("idclient")]["xml"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "xml/";
+        $cfgClient[$db->f("idclient")]["xml"]["frontendpath"] = "xml/";
+        $cfgClient[$db->f("idclient")]["template"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "templates/";
+        $cfgClient[$db->f("idclient")]["template"]["frontendpath"] = "templates/";
+        $cfgClient[$db->f("idclient")]["data"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/";
+        $cfgClient[$db->f("idclient")]["module"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/modules/";
+        $cfgClient[$db->f("idclient")]["module"]["frontendpath"] = "data/modules/";
+        $cfgClient[$db->f("idclient")]["config"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/config/production/";
+        $cfgClient[$db->f("idclient")]["config"]["frontendpath"] = "data/config/";
+        $cfgClient[$db->f("idclient")]["layout"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/layouts/";
+        $cfgClient[$db->f("idclient")]["layout"]["frontendpath"] = "data/layouts/";
+        $cfgClient[$db->f("idclient")]["log"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/logs/";
+        $cfgClient[$db->f("idclient")]["log"]["frontendpath"] = "data/logs/";
+        $cfgClient[$db->f("idclient")]["version"]["path"] = $cfgClient[$db->f("idclient")]["path"]["frontend"] . "data/version/";
+        $cfgClient[$db->f("idclient")]["version"]["frontendpath"] = "data/version/";
+
+        $errsite_idcat[$db->f("idclient")] = $db->f("errsite_cat");
+        $errsite_idart[$db->f("idclient")] = $db->f("errsite_art");
     }
 }
 
@@ -1965,7 +1990,7 @@ function checkMySQLConnectivity() {
             $res = NULL;
         }
     } else {
-        if(function_exists("mysql_connect")) {
+        if (function_exists("mysql_connect")) {
             $res = mysql_connect($contenido_host, $contenido_user, $contenido_password);
         } else {
             $res = NULL;
