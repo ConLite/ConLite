@@ -659,7 +659,7 @@ function getPhpModuleInfo($moduleName) {
 
         if (isset($moduleName)) { // if $moduleName is specified
             if (extension_loaded($moduleName)) { //check if specified extension exists or is loaded
-                if ($sub_key[1] == $moduleName) { //create array only for specified $moduleName
+                if (!empty($sub_key[1]) && $sub_key[1] == $moduleName) { //create array only for specified $moduleName
                     foreach ($sub[0] as $key => $val) {
                         $moduleSettings[strip_tags($sub[1][$key])] = array(strip_tags($sub[2][$key]));
                     }

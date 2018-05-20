@@ -112,7 +112,7 @@ class cI18n {
 
             // CON-2165
             // initialise localisation of plugins correctly in frontend
-            if ($domain === self::i18n_DEFAULT_DOMAIN) {
+            if (!empty($cfg['path']['contenido_locale']) && $domain === self::i18n_DEFAULT_DOMAIN) {
                 self::init($cfg['path']['contenido_locale'], $belang, $domain);
             } else {
                 if (empty($belang)) {

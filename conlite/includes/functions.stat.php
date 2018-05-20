@@ -116,7 +116,7 @@ function statsArchive($yearmonth) {
                           ".Contenido_Security::toInteger($db->f(0)).",
                           ".Contenido_Security::toInteger($db->f(2)).",
                           ".Contenido_Security::toInteger($db->f(1)).",
-                          '0000-00-00 00:00:00')";
+                          '1000-01-01 00:00:00')";
 
         $db2->query($insertSQL);
     }

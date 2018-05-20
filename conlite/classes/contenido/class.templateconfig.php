@@ -54,8 +54,8 @@ class cApiTemplateConfigurationCollection extends ItemCollection {
         $item->set("idtpl", $idtpl);
         $item->set("author", $auth->auth['uname']);
         $item->set("status", 0);
-        $item->set("created", date('YmdHis'));
-        $item->set("lastmodified", '0000-00-00 00:00:00');
+        $item->set("created", date("Y-m-d H:i:s"));
+        $item->set("lastmodified", '1000-01-01 00:00:00');
         $item->store();
 
         $iNewTplCfgId = $item->get("idtplcfg");

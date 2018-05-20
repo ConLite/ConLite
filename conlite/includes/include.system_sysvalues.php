@@ -64,6 +64,7 @@ if(file_exists($sNewErrorLogPath)) {
     $bHasLog = true;
 }
 if($bHasLog) {
+    $errorLogBuffer = '';
     $errorLogHandle = fopen ($sUseLog, "rb");
     $txtAreaHeight = "200";
     

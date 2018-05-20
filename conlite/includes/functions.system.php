@@ -134,20 +134,20 @@ function isIPv4($strHostAdress)
 }
 
 /**
-* must be done
-*
-* must be done
-*
-* @param string contenido fullhtmlPath
-* @param string current browser string
-*
-* @return string status of path comparement
-*/
+ * 
+ * @param string $strConUrl contenido fullhtmlPath
+ * @param string $strBrowserUrl current browser string
+ * @return boolean|string status of path comparement or false
+ */
 function checkPathInformation($strConUrl, $strBrowserUrl)
 {
 	// parse url
 	$arrConUrl = parse_url($strConUrl);
 	$arrBrowserUrl = parse_url($strBrowserUrl);
+        
+        if($arrConUrl === FALSE || $arrBrowserUrl === FALSE) {
+            return false;
+        }
 
 	if (isIPv4($arrConUrl['host']))
 	{ // is
@@ -206,10 +206,13 @@ function checkPathInformation($strConUrl, $strBrowserUrl)
 }
 
 /**
-* check path informations
-*
-* checks two path informations against each other to get potential nonconformities
-*/
+ * checks two path informations against each other to get potential nonconformities
+ * 
+ * @param array $arrConUrl
+ * @param array $arrBrowserUrl
+ * @param boolean $isIP not used, don' t know if needed
+ * @return boolean
+ */
 function compareUrlStrings($arrConUrl, $arrBrowserUrl, $isIP = false)
 {
 		// && $isIP == false
