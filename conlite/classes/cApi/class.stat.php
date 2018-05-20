@@ -62,7 +62,7 @@ class cApiStatCollection extends ItemCollection {
                 return FALSE;
             }
         }        
-        $oItem->setField('visitdate', date("Y-m-d H:i:s"));
+        $oItem->setField('visitdate', date('Y-m-d H:i:s'), FALSE);
         return $oItem->store();
     }
 }
