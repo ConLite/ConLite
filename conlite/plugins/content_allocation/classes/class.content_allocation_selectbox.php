@@ -27,7 +27,7 @@ class pApiContentAllocationSelectBox extends pApiTree {
     public function __construct($uuid) {
         global $cfg;
 
-        parent::pApiTree($uuid);
+        parent::__construct($uuid);
     }
 
     public function _buildRenderTree($tree) {
