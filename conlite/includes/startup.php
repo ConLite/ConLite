@@ -95,7 +95,7 @@ $sClConfigFile = $sPathCfgDir.'config.php';
 if (!file_exists(dirname(__FILE__) . '/config.php') && !file_exists($sClConfigFile)) {
     $msg  = "<h1>Fatal Error</h1><br>";
     $msg .= "Could not open the configuration file <b>config.php</b>.<br><br>";
-    $msg .= "Please make sure that you saved the file in the setup program. If you had to place the file manually on your webserver, make sure that it is placed in your contenido/includes directory.";
+    $msg .= "Please make sure that you saved the file in the setup program. If you had to place the file manually on your webserver, make sure that it is placed in your data/config/ENVIROMENT directory.";
     die($msg);
 }
 
