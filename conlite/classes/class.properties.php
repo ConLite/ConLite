@@ -168,7 +168,7 @@ class PropertyCollection extends ItemCollection
         $name     = Contenido_Security::escapeDB($name, null);
         
         if($mValue = cPropertyCache::getProp($itemtype, $itemid, $type, $name)) {
-            return (string) $mValue;
+            return $mValue;
         }
 
         if (isset($this->client)) {
