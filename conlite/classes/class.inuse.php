@@ -65,6 +65,10 @@ class InUseCollection extends ItemCollection
         $objectid = Contenido_Security::escapeDB($objectid, null);
         $session  = Contenido_Security::escapeDB($session, null);
         $user     = Contenido_Security::escapeDB($user, null);
+        
+        if(empty($type)) {
+            $type = "unknown";
+        }
 
         $this->select("type = '".$type."' AND objectid = '".$objectid."'");
 

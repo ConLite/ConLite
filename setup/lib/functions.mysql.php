@@ -62,7 +62,7 @@ function doMySQLConnect($host, $username, $password) {
     //$sFile = '../data/logs/setup_queries.txt';
     //file_put_contents($sFile, $db->getServerInfo(), FILE_APPEND);
     //chmod($sFile, 0666);
-    if ($db->connect() == 0) {
+    if (empty($db->connect())) {
         return array($db, false);
     } else {
         return array($db, true);

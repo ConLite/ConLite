@@ -52,11 +52,7 @@ if (checkMySQLDatabaseCreation($db, $_SESSION['dbname'])) {
     $db = getSetupMySQLDBConnection();
 }
 
-$currentstep = $_GET['step'];
-
-if ($currentstep == 0) {
-    $currentstep = 1;
-}
+$currentstep = (empty($_GET['step']))?1:filter_input(INPUT_GET, "step", FILTER_SANITIZE_NUMBER_INT);
 
 // Count DB Chunks
 $file = fopen('data/tables.txt', 'r');

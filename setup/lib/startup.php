@@ -28,7 +28,7 @@ if (!defined('CON_FRAMEWORK')) {
 define('CON_BE_PATH', '../conlite/');
 
 // uncomment this lines during development if needed
-error_reporting(E_ALL ^E_NOTICE);
+error_reporting(E_ALL ^ E_NOTICE);
 ini_set("display_errors", true);
 ini_set("log_errors", true);
 ini_set("error_log", "../data/logs/setup_errorlog.txt");
@@ -36,15 +36,14 @@ ini_set("error_log", "../data/logs/setup_errorlog.txt");
 header('Content-Type: text/html; charset=UTF-8');
 
 // Check version in the 'first' line, as class.security.php uses
-// PHP5 object syntax not compatible with PHP < 5.2
-if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-    die("You need PHP >= 5.3.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+if (version_compare(PHP_VERSION, '5.6.0', '<')) {
+    die("You need PHP >= 5.6.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 // Check version
-//PHP >= 5.0.0 and < 6.0.0
-if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
-    die("You need PHP >= 5.3.0  < 7.2.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+//PHP >= 5.6.0 and < 7.3.0
+if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+    die("You need PHP >= 5.6.0  < 7.3.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 
@@ -97,6 +96,11 @@ global $cfg;
 $cfg['path']['frontend'] = CON_FRONTEND_PATH;
 $cfg['path']['conlite'] = $cfg['path']['frontend'] . '/conlite/';
 $cfg['path']['conlite_config'] = CON_FRONTEND_PATH . '/data/config/' . CL_ENVIRONMENT . '/';
+
+// (bool) Flag to use native i18n.
+//        Note: Enabling this could create unwanted side effects, because of
+//        native gettext() behavior.
+$cfg['native_i18n'] = false;
 
 session_start();
 
