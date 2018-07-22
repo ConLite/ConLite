@@ -136,15 +136,15 @@ if (!$perm->have_perm_area_action($area)) {
                     $notification->displayNotification("warning", i18n("You changed the client path. You might need to copy the frontend to the new location"));
                 }
                 $sql = "UPDATE 
-	                    " . $cfg["tab"]["clients"] . "
-	                    SET
-							name = '" . Contenido_Security::escapeDB($clientname, $db) . "',
-							frontendpath = '" . Contenido_Security::escapeDB($frontendpath, $db) . "',
-							htmlpath = '" . Contenido_Security::escapeDB($htmlpath, $db) . "',
-							errsite_cat = '" . Contenido_Security::toInteger($errsite_cat) . "',
-							errsite_art = '" . Contenido_Security::toInteger($errsite_art) . "'
-						WHERE
-							idclient = '" . Contenido_Security::toInteger($idclient) . "'";
+                            " . $cfg["tab"]["clients"] . "
+                            SET
+                            name = '" . Contenido_Security::escapeDB($clientname, $db) . "',
+                            frontendpath = '" . Contenido_Security::escapeDB($frontendpath, $db) . "',
+                            htmlpath = '" . Contenido_Security::escapeDB($htmlpath, $db) . "',
+                            errsite_cat = '" . Contenido_Security::toInteger($errsite_cat) . "',
+                            errsite_art = '" . Contenido_Security::toInteger($errsite_art) . "'
+                            WHERE
+                            idclient = '" . Contenido_Security::toInteger($idclient) . "'";
             }
 
             $db->query($sql);
@@ -304,10 +304,9 @@ if (!$perm->have_perm_area_action($area)) {
 
         $cApiClient = new cApiClient;
         $cApiClient->loadByPrimaryKey($idclient);
-        var_dump($cApiClient->getProperty("generator", "xhtml"));
-        if ($cApiClient->getProperty("generator", "xhtml") === TRUE) {
+        if ($cApiClient->getProperty("generator", "xhtml") == 'true') {
             $oXHTMLSelect->setDefault("xhtml");
-        } else if ($cApiClient->getProperty("generator", "html5") === TRUE) {
+        } else if ($cApiClient->getProperty("generator", "html5") == 'true') {
             $oXHTMLSelect->setDefault("html5");
         } else {
             $oXHTMLSelect->setDefault("html");

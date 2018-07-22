@@ -167,8 +167,8 @@ class PropertyCollection extends ItemCollection
         $type     = Contenido_Security::escapeDB($type, null);
         $name     = Contenido_Security::escapeDB($name, null);
         
-        if($mValue = cPropertyCache::getProp($itemtype, $itemid, $type, $name) !== FALSE) {
-            return $mValue;
+        if($mValue = cPropertyCache::getProp($itemtype, $itemid, $type, $name)) {
+            return (string) $mValue;
         }
 
         if (isset($this->client)) {
@@ -182,7 +182,7 @@ class PropertyCollection extends ItemCollection
             return (Contenido_Security::unescapeDB($item->get('value')));
         }
 
-        return $default;
+        //return $default;
     }
 
 
@@ -473,29 +473,56 @@ class PropertyItem extends Item
 
 class cPropertyCache {
     
+    /**
+     * Property cache array
+     * @var array 
+     */
     public static $_aEntries;
     
+    /**
+     * add item to cache
+     * 
+     * @param object $oEntry
+     */
     public static function addProp($oEntry) {
+        if(!is_array(self::$_aEntries)) {
+            self::$_aEntries = array();
+        }
         $aData = $oEntry->toArray();
+        
         self::$_aEntries[$aData['idproperty']] = $aData;
     }
     
+    /**
+     * Delete item from cache
+     * 
+     * @param int $iId id of prperty
+     */
     public static function deleteProp($iId) {
         if(isset(self::$_aEntries[$iId]) && is_array(self::$_aEntries[$iId])) {
             unset(self::$_aEntries[$iId]);
         }
     }
     
+    /**
+     * get property from cache
+     * 
+     * @param string $itemtype
+     * @param int $itemid
+     * @param string $type
+     * @param string $name
+     * @return string|boolean string of entry or false
+     */
     public static function getProp($itemtype, $itemid, $type, $name) {
-        if(!is_array(self::$_aEntries)) {
-            self::$_aEntries = array();
+        if(!is_array(self::$_aEntries) || empty(self::$_aEntries)) {
+            return false;
         }
         foreach (self::$_aEntries as $id => $entry) {
             if ($entry['itemtype'] == $itemtype && $entry['itemid'] == $itemid && $entry['type'] == $type && $entry['name'] == $name) {
-                return Contenido_Security::unescapeDB($entry['value']);
+                return (string) $entry['value'];
             }
         }
-        return FALSE;
+        return false;
     }
 }
 ?>
