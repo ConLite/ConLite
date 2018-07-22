@@ -379,6 +379,7 @@ $tpl->next();
 // account active data (from-to)
 $sCurrentValueFrom = str_replace('00:00:00', '', $oUser->getField('valid_from'));
 $sCurrentValueFrom = trim(str_replace('0000-00-00', '', $sCurrentValueFrom));
+$sCurrentValueFrom = trim(str_replace('1000-01-01', '', $sCurrentValueFrom));
 
 $sInputValidFrom = '<style type="text/css">@import url(./scripts/jscalendar/calendar-contenido.css);</style>
                 <script type="text/javascript" src="./scripts/jscalendar/calendar.js"></script>
