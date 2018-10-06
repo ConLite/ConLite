@@ -418,7 +418,7 @@ class Contenido_UpdateNotifier {
 
         if ($this->sXMLContent != "") {
             $this->oXML = simplexml_load_string($this->sXMLContent);
-            if ($this->oXML === false ||  !is_object($this->oXML)) {
+            if ($this->oXML === false || !is_object($this->oXML)) {
                 $sErrorMessage = i18n('Unable to check for new updates!') . " " . i18n('Could not handle server response!');
                 $this->sErrorOutput = $this->renderOutput($sErrorMessage);
             } else {
@@ -523,7 +523,7 @@ class Contenido_UpdateNotifier {
                 curl_close($ch);
             }
         } else {
-            $source = file_get_contents("http://" .$sHost . $sFile);
+            $source = file_get_contents("http://" . $sHost . $sFile);
             if ($source !== false AND ! empty($source)) {
                 $response = $source;
             }
@@ -690,19 +690,17 @@ class Contenido_UpdateNotifier {
         }
 
         if ($this->sRSSContent != '') {
-                $temp = mb_convert_encoding( file_get_contents($this->sCacheDirectory . $this->sRSSFile), 'UTF-8', "ISO-8859-1" );
-                $oRss = simplexml_load_file($this->sCacheDirectory . $this->sRSSFile);
-
-            //$oRss->parse();
+            $oRss = simplexml_load_file($this->sCacheDirectory . $this->sRSSFile);
 
             $iCnt = 0;
             foreach ($oRss->channel->item as $aItem) {
+                //print_r($aItem);
                 $sText = clHtmlEntities(utf8_decode($aItem->description), ENT_QUOTES);
                 if (strlen($sText) > 150) {
                     $sText = capiStrTrimAfterWord($sText, 150) . '...';
                 }
-
-                $oTpl->set("d", "NEWS_DATE", $aItem->pubdate);
+                 //echo $aItem->title;
+                $oTpl->set("d", "NEWS_DATE", $aItem->pubDate);
                 $oTpl->set("d", "NEWS_TITLE", utf8_decode($aItem->title));
                 $oTpl->set("d", "NEWS_TEXT", $sText);
                 $oTpl->set("d", "NEWS_URL", $aItem->link);
