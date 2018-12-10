@@ -38,7 +38,7 @@ class ActiveUsers {
      * 
      * @return  
      * */
-    function ActiveUsers($oDb, $oCfg, $oAuth) {
+    function __construct($oDb, $oCfg, $oAuth) {
 
         $this->oCfg = $oCfg;
         $this->oAuth = $oAuth;

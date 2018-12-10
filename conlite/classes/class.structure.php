@@ -38,7 +38,7 @@ class Structure {
      * Constructor Function
      * @param
      */
-    function Structure() {
+    function __construct() {
         // empty
     } // end function
 

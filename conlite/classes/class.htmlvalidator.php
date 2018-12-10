@@ -34,7 +34,7 @@ class cHTMLValidator
 	var $nestingNodes;
 	var $_existingTags;
 
-	function cHTMLValidator()
+	function __construct()
 	{
 		$this->doubleTags = array ("form", "head", "body", "html", "td", "tr", "table", "a", "tbody", "title", "container", "span", "div");
 

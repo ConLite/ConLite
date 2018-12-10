@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -26,14 +27,13 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
 
 define("QUESTIONACTION_PROMPT", "prompt");
-define("QUESTIONACTION_YESNO" , "yesno");
+define("QUESTIONACTION_YESNO", "yesno");
 
 /**
  * class cApiClickableAction
@@ -42,10 +42,8 @@ define("QUESTIONACTION_YESNO" , "yesno");
  * their constructors; on-the-fly-implementations should call it directly after
  * creating an object instance.
  */
-class cApiClickableAction extends cApiAction
-{
-
-    /*** Attributes: ***/
+class cApiClickableAction extends cApiAction {
+    /*     * * Attributes: ** */
 
     /**
      * Help text
@@ -65,19 +63,17 @@ class cApiClickableAction extends cApiAction
      */
     private $_img;
 
-
-    public function __construct()
-    {
+    public function __construct() {
         global $area;
 
         parent::__construct();
 
-        $this->_area  = $area;
+        $this->_area = $area;
         $this->_frame = 4;
         $this->_target = "right_bottom";
 
         $this->_link = new cHTMLLink;
-        $this->_img  = new cHTMLImage;
+        $this->_img = new cHTMLImage;
         $this->_img->setBorder(0);
         $this->_img->setStyle("padding-left: 1px; padding-right: 1px;");
 
@@ -86,26 +82,17 @@ class cApiClickableAction extends cApiAction
         $this->setEnabled();
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiClickableAction()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Sets the action icon for this action.
      *
      * @param string icon Path to the icon. Relative to the backend, if not passed as absolute path.
      * @return void
      */
-    public function setIcon($icon)
-    {
+    public function setIcon($icon) {
         $this->_img->setSrc($icon);
     }
 
-    public function getIcon()
-    {
+    public function getIcon() {
         return $this->_img;
     }
 
@@ -116,10 +103,8 @@ class cApiClickableAction extends cApiAction
      * using it, otherwise, this method will fail.
      * @return void
      */
-    public function setNamedAction($actionName)
-    {
-        if ($this->loadBy("name", $actionName) !== false)
-        {
+    public function setNamedAction($actionName) {
+        if ($this->loadBy("name", $actionName) !== false) {
             $a = new cApiArea;
             $a->loadByPrimaryKey($this->get("idarea"));
 
@@ -131,36 +116,32 @@ class cApiClickableAction extends cApiAction
         }
     }
 
-    public function setDisabled()
-    {
+    public function setDisabled() {
         $this->_enabled = false;
         $this->_onDisable();
     }
 
-    public function setEnabled()
-    {
+    public function setEnabled() {
         $this->_enabled = true;
         $this->_onEnable();
     }
 
-    protected function _onDisable()
-    {
+    protected function _onDisable() {
+        
     }
 
-    protected function _onEnable()
-    {
+    protected function _onEnable() {
+        
     }
 
     /**
      * Change linked area
      */
-    public function changeArea($sArea)
-    {
+    public function changeArea($sArea) {
         $this->_area = $sArea;
     }
 
-    public function wantParameter($parameter)
-    {
+    public function wantParameter($parameter) {
         $this->_wantParameters[] = $parameter;
 
         $this->_wantParameters = array_unique($this->_wantParameters);
@@ -172,29 +153,24 @@ class cApiClickableAction extends cApiAction
      * @param string helptext The helptext to apply
      * @return void
      */
-    public function setHelpText($helptext)
-    {
+    public function setHelpText($helptext) {
         $this->_helpText = $helptext;
     }
 
-    public function getHelpText()
-    {
+    public function getHelpText() {
         return $this->_helpText;
     }
 
-    public function setParameter($name, $value)
-    {
+    public function setParameter($name, $value) {
         $this->_parameters[$name] = $value;
     }
 
-    public function process($parameters)
-    {
+    public function process($parameters) {
         echo "Process should be overridden";
         return false;
     }
 
-    public function render()
-    {
+    public function render() {
         $this->_img->setAlt($this->_helpText);
 
         foreach ($this->_parameters as $name => $value) {
@@ -229,52 +205,39 @@ class cApiClickableAction extends cApiAction
             return ($this->_helpText);
         }
     }
+
 }
 
+class cApiClickableQuestionAction extends cApiClickableAction {
 
-class cApiClickableQuestionAction extends cApiClickableAction
-{
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiClickableQuestionAction()
-    {
-        $this->__construct();
-    }
-
-    public function setQuestionMode($mode)
-    {
+    public function setQuestionMode($mode) {
         $this->_mode = $mode;
     }
 
-    public function setQuestion($question)
-    {
+    public function setQuestion($question) {
         $this->_question = $question;
     }
 
-    public function setResultVar($var)
-    {
+    public function setResultVar($var) {
         $this->_resultVar = $var;
     }
 
-    public function render()
-    {
-        switch ($this->_mode)
-        {
+    public function render() {
+        switch ($this->_mode) {
             case QUESTIONACTION_PROMPT:
-                $this->_link->attachEventDefinition("_".get_class($this).rand(), "onclick", 'var answer = prompt("'.clHtmlSpecialChars($this->_question).'");if (answer == null) {return false;} else { this.href = this.href + "&'.$this->_resultVar.'="+answer; return true;}');
+                $this->_link->attachEventDefinition("_" . get_class($this) . rand(), "onclick", 'var answer = prompt("' . clHtmlSpecialChars($this->_question) . '");if (answer == null) {return false;} else { this.href = this.href + "&' . $this->_resultVar . '="+answer; return true;}');
                 break;
             case QUESTIONACTION_YESNO:
             default:
-                 $this->_link->attachEventDefinition("_".get_class($this).rand(), "onclick", 'var answer = confirm("'.clHtmlSpecialChars($this->_question).'");if (answer == false) {return false;} else { return true;}');
-                 break;
+                $this->_link->attachEventDefinition("_" . get_class($this) . rand(), "onclick", 'var answer = confirm("' . clHtmlSpecialChars($this->_question) . '");if (answer == false) {return false;} else { return true;}');
+                break;
         }
 
         return parent::render();
     }
-}
 
-?>
+}

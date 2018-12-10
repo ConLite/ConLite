@@ -38,7 +38,7 @@ class Area {
      * Constructor Function
      * @param
      */
-    function Area() {
+    function __construct() {
         // empty
     } // end function
 

@@ -64,7 +64,7 @@ class Contenido_Navigation {
     /**
      * Constructor. Loads the XML language file using XML_Doc.
      */
-    function Contenido_Navigation() {
+    function __construct() {
         global $cfg, $belang;
 
         $this->xml = new XML_Doc();

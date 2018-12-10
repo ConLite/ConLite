@@ -96,13 +96,6 @@ class PropertyCollection extends ItemCollection
         $this->_setItemClass('PropertyItem');
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function PropertyCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a new property item.
      *
@@ -430,13 +423,6 @@ class PropertyItem extends Item
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function PropertyItem($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 
     /**

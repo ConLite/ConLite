@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -25,71 +26,61 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
+class cDateChooser extends cDatefield {
 
-class cDateChooser extends cDatefield
-{
-	var $_oCalendar;
-	var $_oImage;
-	var $_oButton;
-	
-	function cDateChooser ($name, $initValue = false)
-	{
-		parent::cDatefield($name, "");
-		
-		$this->_oImage = new cHTMLImage;
-		$this->_oImage->setSrc("images/pfeil_runter.gif");
-		$this->_oImage->setStyle("margin-left: 2px; cursor: pointer;");
+    var $_oCalendar;
+    var $_oImage;
+    var $_oButton;
 
-		
-		$this->_oCalendar = new cCalendarControl;
-		
-		$this->_oDate->setSourceFormat(cDateTime_ISO);
-		$this->_oDate->setTargetFormat(cDateTime_Locale_DateOnly);
-		
-		if ($initValue === false)
-		{
-			$this->_oDate->set(date("Y-m-d H:i:s"));
-		} else {
-			$this->_oDate->set($initValue);
-		}
-		
-		$this->_aSelectIDs = array();
-	}
-	
-	function setSelectsToHide ($aSelectIDs)
-	{
-		if (!is_array($aSelectIDs))
-		{
-			return;	
-		}
-		foreach ($aSelectIDs as $key => $data)
-		{
-			$aSelectIDs[$key] = '"'.$data.'"';	
-		}
-		$this->_aSelectIDs = $aSelectIDs;	
-	}
+    function __construct($name, $initValue = false) {
+        parent::__construct($name, "");
 
-	function setReadOnly ($bReadOnly = true)
-	{
-		$this->_bReadOnly = $bReadOnly;
-	}
-		
-	function render ()
-	{
-		if ($this->_bReadOnly)
-		{
-			$this->updateAttributes(array ("readonly" => "readonly"));
-		}
-				
-		$sDatefield = parent::render();
-		$sTimeformat = getEffectiveSetting("backend", "timeformat_date", "Y-m-d");
-		
-		$parseScript = '
+        $this->_oImage = new cHTMLImage;
+        $this->_oImage->setSrc("images/pfeil_runter.gif");
+        $this->_oImage->setStyle("margin-left: 2px; cursor: pointer;");
+
+
+        $this->_oCalendar = new cCalendarControl;
+
+        $this->_oDate->setSourceFormat(cDateTime_ISO);
+        $this->_oDate->setTargetFormat(cDateTime_Locale_DateOnly);
+
+        if ($initValue === false) {
+            $this->_oDate->set(date("Y-m-d H:i:s"));
+        } else {
+            $this->_oDate->set($initValue);
+        }
+
+        $this->_aSelectIDs = array();
+    }
+
+    function setSelectsToHide($aSelectIDs) {
+        if (!is_array($aSelectIDs)) {
+            return;
+        }
+        foreach ($aSelectIDs as $key => $data) {
+            $aSelectIDs[$key] = '"' . $data . '"';
+        }
+        $this->_aSelectIDs = $aSelectIDs;
+    }
+
+    function setReadOnly($bReadOnly = true) {
+        $this->_bReadOnly = $bReadOnly;
+    }
+
+    function render() {
+        if ($this->_bReadOnly) {
+            $this->updateAttributes(array("readonly" => "readonly"));
+        }
+
+        $sDatefield = parent::render();
+        $sTimeformat = getEffectiveSetting("backend", "timeformat_date", "Y-m-d");
+
+        $parseScript = '
 			<script language="JavaScript">
 
 			function {wid}_passToWidget (dateFormat, date)
@@ -105,7 +96,7 @@ class cDateChooser extends cDatefield
 
 			function {wid}_datefieldSetter ()
 			{
-				document.getElementById("'.$this->getId().'").value = {wid}_renderLocaleDate("'.$sTimeformat.'", {cid}_markedYear, {cid}_markedMonth, {cid}_markedDay);
+				document.getElementById("' . $this->getId() . '").value = {wid}_renderLocaleDate("' . $sTimeformat . '", {cid}_markedYear, {cid}_markedMonth, {cid}_markedDay);
 				document.getElementById("{did}_display").style.display = "none";
 				{wid}_hideselects (false);
 
@@ -127,7 +118,7 @@ class cDateChooser extends cDatefield
 
 			function {wid}_hideselects (bhide)
 			{
-				var hide = new Array('.implode(",",$this->_aSelectIDs).');
+				var hide = new Array(' . implode(",", $this->_aSelectIDs) . ');
 
 				for (var i=0; i < hide.length; i++)
 				{
@@ -185,24 +176,22 @@ class cDateChooser extends cDatefield
 			}
 			</script>
 		';
-		
-		$sEventRegister = '<script language="JavaScript">{cid}_attachClickCallback({wid}_datefieldSetter);</script>';
-		$clickScript = "if (!document.getElementById('{wid}').disabled) { if (document.getElementById('{did}_display').style.display == 'none') { {wid}_passToWidget('".getEffectiveSetting("backend", "timeformat_date", "Y-m-d")."', document.getElementById('".$this->getId()."').value); document.getElementById('{did}_display').style.display = 'block'; {wid}_hideselects(true); } else { document.getElementById('{did}_display').style.display = 'none'; {wid}_hideselects(false); } }";
-		
-		$div = new cHTMLDiv;
-		
-		$this->_oImage->setEvent("click", $clickScript);
-		
-		$final = $parseScript.'<table cellspacing="0" cellpadding="0"><tr><td>'.$sDatefield.'</td><td>'.$this->_oImage->render().'</td></tr></table><div id="{did}_display" style="background-color: #E8E8EE; display: none; position: absolute; border: 1px solid black;">'.$this->_oCalendar->render().'</div>'.$sEventRegister;
-		
-		$final = str_replace("{wid}", $this->getId(), $final);
-		$final = str_replace("{cid}", $this->_oCalendar->getId(), $final);
-		
-		$final = str_replace("{did}", $div->getId(), $final);
-		
-		return ($final);
-		
-			
-	}
+
+        $sEventRegister = '<script language="JavaScript">{cid}_attachClickCallback({wid}_datefieldSetter);</script>';
+        $clickScript = "if (!document.getElementById('{wid}').disabled) { if (document.getElementById('{did}_display').style.display == 'none') { {wid}_passToWidget('" . getEffectiveSetting("backend", "timeformat_date", "Y-m-d") . "', document.getElementById('" . $this->getId() . "').value); document.getElementById('{did}_display').style.display = 'block'; {wid}_hideselects(true); } else { document.getElementById('{did}_display').style.display = 'none'; {wid}_hideselects(false); } }";
+
+        $div = new cHTMLDiv;
+
+        $this->_oImage->setEvent("click", $clickScript);
+
+        $final = $parseScript . '<table cellspacing="0" cellpadding="0"><tr><td>' . $sDatefield . '</td><td>' . $this->_oImage->render() . '</td></tr></table><div id="{did}_display" style="background-color: #E8E8EE; display: none; position: absolute; border: 1px solid black;">' . $this->_oCalendar->render() . '</div>' . $sEventRegister;
+
+        $final = str_replace("{wid}", $this->getId(), $final);
+        $final = str_replace("{cid}", $this->_oCalendar->getId(), $final);
+
+        $final = str_replace("{did}", $div->getId(), $final);
+
+        return ($final);
+    }
+
 }
-?>

@@ -52,7 +52,7 @@ class cCharacterConverter
 	var $_aAliasCache;
 	var $_aCharCache;
 	
-	function cCharacterConverter ()
+	function __construct ()
 	{
 		$this->_oDB = new DB_ConLite;
 		$this->_aAliasCache = array();
@@ -155,4 +155,3 @@ class cCharacterConverter
 		return $sEncoding;			
 	}
 }
-?>

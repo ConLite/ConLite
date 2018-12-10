@@ -78,19 +78,19 @@ class cPage extends cHTML {
      * @access private
      */
     var $extra;
-    
+
     /**
      * Switch if HTML5
      * @var boolean 
      */
     protected $_isHtml5 = false;
-    
+
     /**
      * CSS files to add
      * @var array 
      */
     protected $_css;
-    
+
     /**
      * JS files to add
      * @var array 
@@ -143,20 +143,20 @@ class cPage extends cHTML {
     function setMargin($margin) {
         $this->_margin = $margin;
     }
-    
+
     /**
      * 
      * @param string $sFile path to file
      */
     public function addCssFile($sFile) {
-        if(!is_array($this->_css)) {
+        if (!is_array($this->_css)) {
             $this->_css = array();
         }
         $this->_css[] = $sFile;
     }
-    
+
     public function addJsFile($sFile) {
-        if(!is_array($this->_css)) {
+        if (!is_array($this->_css)) {
             $this->_js = array();
         }
         $this->_js[] = $sFile;
@@ -271,7 +271,7 @@ class cPage extends cHTML {
     function setEncoding($encoding) {
         $this->_encoding = $encoding;
     }
-    
+
     public function sendNoCacheHeaders() {
         header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
         header("Pragma: no-cache"); // HTTP 1.0.
@@ -296,13 +296,13 @@ class cPage extends cHTML {
 
         if ($this->_object !== false && method_exists($this->_object, "render") && is_array($this->_requiredScripts)) {
             foreach ($this->_requiredScripts as $key => $value) {
-                $scripts .= '<script type="text/javascript" src="scripts/' . $value . '"></script>'."\n";
+                $scripts .= '<script type="text/javascript" src="scripts/' . $value . '"></script>' . "\n";
             }
         }
-        
-        if(is_array($this->_js) && count($this->_js) > 0) {
-            foreach($this->_js as $sFilename) {
-                $scripts .= '<script type="text/javascript" src="' . $sFilename . '"></script>'."\n";
+
+        if (is_array($this->_js) && count($this->_js) > 0) {
+            foreach ($this->_js as $sFilename) {
+                $scripts .= '<script type="text/javascript" src="' . $sFilename . '"></script>' . "\n";
             }
         }
 
@@ -311,14 +311,14 @@ class cPage extends cHTML {
             $scripts .= 'parent.frames["right_top"].location.href = "' . $sess->url("main.php?area=" . $this->_subnavArea . "&frame=3&" . $this->_subnav) . '";';
             $scripts .= '</script>';
         }
-        
+
         $css = "";
-        if(is_array($this->_css)) {
-            foreach($this->_css as $sFilename) {
-                $css .= '<link rel="stylesheet" type="text/css" href="'.$sFilename.'" />'."\n";
+        if (is_array($this->_css)) {
+            foreach ($this->_css as $sFilename) {
+                $css .= '<link rel="stylesheet" type="text/css" href="' . $sFilename . '" />' . "\n";
             }
         }
-        
+
         $meta = '';
         if ($this->_encoding != "" && !$this->_isHtml5) {
             $meta .= '<meta http-equiv="Content-type" content="text/html;charset=' . $this->_encoding . '">' . "\n";
@@ -332,13 +332,13 @@ class cPage extends cHTML {
             $this->_content .= "\n" . '<script type="text/javascript" src="scripts/jquery/jquery.js"></script>';
             $this->_content .= "\n" . '<script type="text/javascript" src="scripts/jquery/jquery-ui.js"></script>';
         }
-        
+
         $tpl->set('s', 'META', $meta);
         $tpl->set('s', 'SCRIPTS', $scripts);
         $tpl->set('s', 'CSS', $css);
         $tpl->set('s', 'CONTENT', $this->_content);
         $tpl->set('s', 'MARGIN', $this->_margin);
-        $tpl->set('s', 'EXTRA', $this->extra);        
+        $tpl->set('s', 'EXTRA', $this->extra);
         $tpl->set('s', 'SESSION_ID', $sess->id);
 
         if ($print == true) {
@@ -374,7 +374,7 @@ class cPageLeftTop extends cPage {
      *
      * @param $showCloser boolean True if the closer should be shown (default)
      */
-    function cPageLeftTop($showCloser = true) {
+    function __construct($showCloser = true) {
         $this->showCloser($showCloser);
     }
 
@@ -390,11 +390,11 @@ class cPageLeftTop extends cPage {
     function render($print = true) {
         global $cfg;
 
-        $tpl = new Template;
+        $tpl = new Template();
         $tpl->set('s', 'CONTENT', $content);
         $this->setContent($tpl->generate($cfg['path']['contenido'] . $cfg['path']['templates'] . $cfg['templates']['widgets']['left_top'], true));
 
-        cPage::render($print);
+        parent::render($print);
     }
 
 }
@@ -429,10 +429,10 @@ class cPageLeftTopMultiPane extends cPageLeftTop {
      *
      * @param $items array All items passed as multi array (see constructor description)
      */
-    function cPageLeftTopMultiPane($items) {
+    function __construct($items) {
         $this->_items = $items;
 
-        cPageLeftTop::cPageLeftTop();
+        parent::__construct();
     }
 
     /**
@@ -494,21 +494,21 @@ class cPageLeftTopMultiPane extends cPageLeftTop {
         $tpl->set('s', 'CONTENT', $content);
         $this->setContent($tpl->generate($cfg['path']['templates'] . $cfg['templates']['widgets']['left_top'], true));
 
-        cPage::render();
+        parent::render();
     }
 
 }
 
 class cNewPageLeftTopMultiPane extends cPageLeftTopMultiPane {
 
-    function cNewPageLeftTopMultiPane($items) {
-        cPageLeftTopMultiPane::cPageLeftTopMultiPane($items);
+    function __construct($items) {
+        parent::__construct($items);
     }
 
     function render($print = true) {
         global $cfg;
 
-        $infodiv = new cHTMLDiv;
+        $infodiv = new cHTMLDiv();
 
         if (count($this->_items) > 0) {
             foreach ($this->_items as $item) {
@@ -549,5 +549,3 @@ class cNewPageLeftTopMultiPane extends cPageLeftTopMultiPane {
     }
 
 }
-
-?>

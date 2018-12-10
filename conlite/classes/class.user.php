@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -32,13 +33,11 @@
  * }}
  *
  */
-
-if(!defined('CON_FRAMEWORK')) {
+if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-class Users
-{
+class Users {
 
     /**
      * Storage of the source table to use for the user informations
@@ -58,8 +57,7 @@ class Users
      * Constructor Function
      * @param string $table The table to use as information source
      */
-    function Users($table = '')
-    {
+    function __construct($table = '') {
         if ($table == '') {
             global $cfg;
             $this->table = $cfg['tab']['phplib_auth_user_md5'];
@@ -70,31 +68,28 @@ class Users
         $this->db = new DB_ConLite();
     }
 
-
     /**
      * Creates a new user by specifying its username.
      *
      * @param   string  $username  Specifies the username
      * @return  int     Userid of created user
      */
-    function create($username)
-    {
+    function create($username) {
         $newuserid = md5($username);
-        $sql = "SELECT user_id FROM ".$this->table
-             . " WHERE user_id = '".Contenido_Security::escapeDB($newuserid, $this->db)."'";
+        $sql = "SELECT user_id FROM " . $this->table
+                . " WHERE user_id = '" . Contenido_Security::escapeDB($newuserid, $this->db) . "'";
         $this->db->query($sql);
         if ($this->db->next_record()) {
             return false;
         }
 
-        $sql = "INSERT INTO ".$this->table
-             . " SET user_id = '".Contenido_Security::escapeDB($newuserid, $this->db)."',"
-             . " username = '".Contenido_Security::escapeDB($username, $this->db)."'";
+        $sql = "INSERT INTO " . $this->table
+                . " SET user_id = '" . Contenido_Security::escapeDB($newuserid, $this->db) . "',"
+                . " username = '" . Contenido_Security::escapeDB($username, $this->db) . "'";
         $this->db->query($sql);
 
         return $newuserid;
     }
-
 
     /**
      * Removes the specified user from the database.
@@ -102,14 +97,12 @@ class Users
      * @param   string  $userid  Specifies the user ID
      * @return  bool    True if the delete was successful
      */
-    function deleteUserByID($userid)
-    {
+    function deleteUserByID($userid) {
         $sql = "DELETE FROM " . $this->table
-             . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $this->db) . "'";
+                . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $this->db) . "'";
         $this->db->query($sql);
         return ($this->db->affected_rows() == 0) ? false : true;
     }
-
 
     /**
      * Removes the specified user from the database.
@@ -117,14 +110,12 @@ class Users
      * @param   string  $userid  Specifies the username
      * @return  bool    True if the delete was successful
      */
-    function deleteUserByUsername($username)
-    {
+    function deleteUserByUsername($username) {
         $sql = "DELETE FROM " . $this->table
-             . " WHERE username = '" . Contenido_Security::escapeDB($username, $this->db) . "'";
+                . " WHERE username = '" . Contenido_Security::escapeDB($username, $this->db) . "'";
         $this->db->query($sql);
         return ($this->db->affected_rows() == 0) ? false : true;
     }
-
 
     /**
      * Returns all users which are accessible by the current user.
@@ -133,8 +124,7 @@ class Users
      * @param   bool   $includeAdmins  Flag to get admins (admin and sysadmin) too
      * @return  array  Array of user objects
      */
-    function getAccessibleUsers($perms, $includeAdmins = false)
-    {
+    function getAccessibleUsers($perms, $includeAdmins = false) {
         global $cfg;
 
         $clientclass = new Client();
@@ -142,15 +132,15 @@ class Users
         $allClients = $clientclass->getAvailableClients();
 
         foreach ($allClients as $key => $value) {
-            if (in_array("client[".$key."]", $perms) || in_array("admin[".$key."]", $perms)) {
-                $limit[] = 'perms LIKE "%client['.$key.']%"';
+            if (in_array("client[" . $key . "]", $perms) || in_array("admin[" . $key . "]", $perms)) {
+                $limit[] = 'perms LIKE "%client[' . $key . ']%"';
                 if ($includeAdmins) {
-                    $limit[] = 'perms LIKE "%admin['.$key.']%"';
+                    $limit[] = 'perms LIKE "%admin[' . $key . ']%"';
                 }
             }
 
-            if (in_array("admin[".$key."]", $perms)) {
-                $limit[] = 'perms LIKE "%admin['.$key.']%"';
+            if (in_array("admin[" . $key . "]", $perms)) {
+                $limit[] = 'perms LIKE "%admin[' . $key . ']%"';
             }
         }
 
@@ -171,7 +161,7 @@ class Users
         $sql = "SELECT
                     user_id, username, realname
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5']. " WHERE 1 AND ".$limitSQL." ORDER BY realname, username";
+                " . $cfg['tab']['phplib_auth_user_md5'] . " WHERE 1 AND " . $limitSQL . " ORDER BY realname, username";
 
         $db->query($sql);
 
@@ -186,8 +176,8 @@ class Users
 
         return ($users);
     }
-}
 
+}
 
 /**
  * Class User
@@ -196,8 +186,7 @@ class Users
  * @version 1.0
  * @copyright four for business 2003
  */
-class User
-{
+class User {
 
     /**
      * Storage of the source table to use for the user informations
@@ -232,8 +221,7 @@ class User
      *
      * @param  string  $table  The table to use as information source
      */
-    function User($table = '')
-    {
+    function __construct($table = '') {
         if ($table == '') {
             global $cfg;
             $this->table = $cfg['tab']['phplib_auth_user_md5'];
@@ -244,18 +232,16 @@ class User
         $this->db = new DB_ConLite();
     }
 
-
     /**
      * Loads a user from the database by its username.
      *
      * @param   string  $username Specifies the username
      * @return  bool    True if the load was successful
      */
-    function loadUserByUsername($username)
-    {
+    function loadUserByUsername($username) {
         // SQL-Statement to select by username
         $sql = "SELECT * FROM " . $this->table
-             . " WHERE username = '".Contenido_Security::escapeDB($username, $this->db)."'";
+                . " WHERE username = '" . Contenido_Security::escapeDB($username, $this->db) . "'";
 
         // Query the database
         $this->db->query($sql);
@@ -269,7 +255,6 @@ class User
 
         return true;
     }
-
 
     /**
      * Loads a user from the database by its userID.
@@ -277,11 +262,10 @@ class User
      * @param   string  $userid  Specifies the userID
      * @return  bool    True if the load was successful
      */
-    function loadUserByUserID($userID)
-    {
+    function loadUserByUserID($userID) {
         // SQL-Statement to select by userID
         $sql = "SELECT * FROM " . $this->table
-             . " WHERE user_id = '".Contenido_Security::escapeDB($userID, $this->db)."'";
+                . " WHERE user_id = '" . Contenido_Security::escapeDB($userID, $this->db) . "'";
 
         // Query the database
         $this->db->query($sql);
@@ -296,15 +280,13 @@ class User
         return true;
     }
 
-
     /**
      * Function returns effective perms for user including group rights as perm string.
      *
      * @author Timo Trautmann
      * @return  string  Current users permissions
      */
-    function getEffectiveUserPerms()
-    {
+    function getEffectiveUserPerms() {
         global $cfg, $perm;
 
         //first get users own permissions and filter them into result array $aUserPerms
@@ -336,18 +318,15 @@ class User
         return implode(',', $aUserPerms);
     }
 
-
     /**
      * Gets the value of a specific field.
      *
      * @param   string  $field  Specifies the field to retrieve
      * @return  mixed   Value of the field
      */
-    function getField($field)
-    {
+    function getField($field) {
         return ($this->values[$field]);
     }
-
 
     /**
      * Sets the value of a specific field.
@@ -355,32 +334,29 @@ class User
      * @param  string  $field  Specifies the field to set
      * @param  string  $value  Specifies the value to set
      */
-    function setField($field, $value)
-    {
+    function setField($field, $value) {
         $this->modifiedValues[$field] = true;
         $this->values[$field] = $value;
     }
-
 
     /**
      * Stores the modified user object to the database
      * @return  bool
      */
-    function store()
-    {
-        $sql = "UPDATE " .$this->table ." SET ";
+    function store() {
+        $sql = "UPDATE " . $this->table . " SET ";
         $first = true;
 
         foreach ($this->modifiedValues as $key => $value) {
             if ($first == true) {
-                $sql .= "$key = '" . $this->values[$key] ."'";
+                $sql .= "$key = '" . $this->values[$key] . "'";
                 $first = false;
             } else {
-                $sql .= ", $key = '" . $this->values[$key] ."'";
+                $sql .= ", $key = '" . $this->values[$key] . "'";
             }
         }
 
-        $sql .= " WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'";
+        $sql .= " WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'";
 
         $this->db->query($sql);
 
@@ -391,7 +367,6 @@ class User
         }
     }
 
-
     /**
      * Stores the modified user object to the database
      * @param string type Specifies the type (class, category etc) for the property to retrieve
@@ -399,8 +374,7 @@ class User
      * @param boolean group Specifies if this function should recursively search in groups
      * @return string The value of the retrieved property
      */
-    function getUserProperty($type, $name, $group = false)
-    {
+    function getUserProperty($type, $name, $group = false) {
         global $cfg, $perm;
 
         if (!is_object($perm)) {
@@ -414,10 +388,10 @@ class User
 
             if (is_array($groups)) {
                 foreach ($groups as $value) {
-                    $sql = "SELECT value FROM " .$cfg['tab']['group_prop']."
-                    WHERE group_id = '".Contenido_Security::escapeDB($value, $this->db)."'
-                      AND type = '".Contenido_Security::escapeDB($type, $this->db)."'
-                      AND name = '".Contenido_Security::escapeDB($name, $this->db)."'";
+                    $sql = "SELECT value FROM " . $cfg['tab']['group_prop'] . "
+                    WHERE group_id = '" . Contenido_Security::escapeDB($value, $this->db) . "'
+                      AND type = '" . Contenido_Security::escapeDB($type, $this->db) . "'
+                      AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
                     $this->db->query($sql);
 
                     if ($this->db->next_record()) {
@@ -427,10 +401,10 @@ class User
             }
         }
 
-        $sql = "SELECT value FROM " .$cfg['tab']['user_prop']."
-                WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'
-                  AND type = '".Contenido_Security::escapeDB($type, $this->db)."'
-                  AND name = '".Contenido_Security::escapeDB($name, $this->db)."'";
+        $sql = "SELECT value FROM " . $cfg['tab']['user_prop'] . "
+                WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
+                  AND type = '" . Contenido_Security::escapeDB($type, $this->db) . "'
+                  AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
         $this->db->query($sql);
 
         if ($this->db->next_record()) {
@@ -444,44 +418,42 @@ class User
         }
     }
 
-
     /**
      * Stores the modified user object to the database
      *
      * @param   string    sType   Specifies the type (class, category etc) for the property to retrieve
      * @param   boolean   bGroup  Specifies if this function should recursively search in groups
      * @return  array             The value of the retrieved property
-     **/
-     function getUserPropertiesByType($sType, $bGroup = false)
-     {
-         global $cfg, $perm;
+     * */
+    function getUserPropertiesByType($sType, $bGroup = false) {
+        global $cfg, $perm;
 
-         if (!is_object($perm)) {
-             $perm = new Contenido_Perm();
-         }
+        if (!is_object($perm)) {
+            $perm = new Contenido_Perm();
+        }
 
-         $aResult = array();
+        $aResult = array();
 
-         if ($bGroup == true) {
-             $aGroups = $perm->getGroupsForUser($this->values['user_id']);
+        if ($bGroup == true) {
+            $aGroups = $perm->getGroupsForUser($this->values['user_id']);
 
-             if (is_array($aGroups)) {
-                 foreach ($aGroups as $iID) {
-                     $sSQL = "SELECT name, value FROM " .$cfg['tab']['group_prop']."
-                             WHERE group_id = '".Contenido_Security::escapeDB($iID, $this->db)."'
-                                AND type = '".Contenido_Security::escapeDB($sType, $this->db)."'";
+            if (is_array($aGroups)) {
+                foreach ($aGroups as $iID) {
+                    $sSQL = "SELECT name, value FROM " . $cfg['tab']['group_prop'] . "
+                             WHERE group_id = '" . Contenido_Security::escapeDB($iID, $this->db) . "'
+                                AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
                     $this->db->query($sSQL);
 
                     while ($this->db->next_record()) {
                         $aResult[$this->db->f('name')] = urldecode($this->db->f('value'));
                     }
                 }
-             }
-         }
+            }
+        }
 
-         $sSQL = "SELECT name, value FROM " .$cfg['tab']['user_prop']."
-                 WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'
-                 AND type = '".Contenido_Security::escapeDB($sType, $this->db)."'";
+        $sSQL = "SELECT name, value FROM " . $cfg['tab']['user_prop'] . "
+                 WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
+                 AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
         $this->db->query($sSQL);
 
         while ($this->db->next_record()) {
@@ -491,7 +463,6 @@ class User
         return $aResult;
     }
 
-
     /**
      * Retrieves all available properties of the user
      * @return  array  Assoziative properties list as follows:
@@ -499,14 +470,13 @@ class User
      *                 - $arr[iduserprop][type]
      *                 - $arr[iduserprop][value]
      */
-    function getUserProperties()
-    {
+    function getUserProperties() {
         global $cfg;
 
         $aProps = array();
 
-        $sql = "SELECT iduserprop, type, name, value FROM " .$cfg['tab']['user_prop']."
-                WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'";
+        $sql = "SELECT iduserprop, type, name, value FROM " . $cfg['tab']['user_prop'] . "
+                WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'";
         $this->db->query($sql);
 
         if ($this->db->num_rows() == 0) {
@@ -515,8 +485,8 @@ class User
 
         while ($this->db->next_record()) {
             $aProps[$this->db->f('iduserprop')] = array(
-                'name'  => $this->db->f('name'),
-                'type'  => $this->db->f('type'),
+                'name' => $this->db->f('name'),
+                'type' => $this->db->f('type'),
                 'value' => $this->db->f('value'),
             );
         }
@@ -524,65 +494,58 @@ class User
         return $aProps;
     }
 
-
     /**
      * Stores a property to the database
      * @param string type Specifies the type (class, category etc) for the property to retrieve
      * @param string name Specifies the name of the property to retrieve
      * @param string value Specifies the value to insert
      */
-    function setUserProperty($type, $name, $value)
-    {
+    function setUserProperty($type, $name, $value) {
         global $cfg;
 
         $value = urlencode($value);
 
         // Check if such an entry already exists
-        if ($this->getUserProperty($type, $name) !== false)
-        {
-            $sql = "UPDATE ".$cfg['tab']['user_prop']."
-                    SET value = '".Contenido_Security::escapeDB($value, $this->db)."'
-                    WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."'
-                      AND type = '".Contenido_Security::escapeDB($type, $this->db)."'
-                      AND name = '".Contenido_Security::escapeDB($name, $this->db)."'";
+        if ($this->getUserProperty($type, $name) !== false) {
+            $sql = "UPDATE " . $cfg['tab']['user_prop'] . "
+                    SET value = '" . Contenido_Security::escapeDB($value, $this->db) . "'
+                    WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "'
+                      AND type = '" . Contenido_Security::escapeDB($type, $this->db) . "'
+                      AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
             $this->db->query($sql);
         } else {
-            $sql = "INSERT INTO  ".$cfg['tab']['user_prop']."
-                    SET value = '".Contenido_Security::escapeDB($value, $this->db)."',
-                        user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."',
-                          type = '".Contenido_Security::escapeDB($type, $this->db)."',
-                          name = '".Contenido_Security::escapeDB($name, $this->db)."',
-                        iduserprop = '".Contenido_Security::toInteger($this->db->nextid($cfg['tab']['user_prop']))."'";
+            $sql = "INSERT INTO  " . $cfg['tab']['user_prop'] . "
+                    SET value = '" . Contenido_Security::escapeDB($value, $this->db) . "',
+                        user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "',
+                          type = '" . Contenido_Security::escapeDB($type, $this->db) . "',
+                          name = '" . Contenido_Security::escapeDB($name, $this->db) . "',
+                        iduserprop = '" . Contenido_Security::toInteger($this->db->nextid($cfg['tab']['user_prop'])) . "'";
             $this->db->query($sql);
         }
     }
-
 
     /**
      * Deletes a user property from the table
      * @param string type Specifies the type (class, category etc) for the property to retrieve
      * @param string name Specifies the name of the property to retrieve
      */
-    function deleteUserProperty($type, $name)
-    {
+    function deleteUserProperty($type, $name) {
         global $cfg;
 
         // Delete record from table
-        $sql = "DELETE FROM  ".$cfg['tab']['user_prop']."
-                    WHERE user_id = '".Contenido_Security::escapeDB($this->values['user_id'], $this->db)."' AND
-                          type = '".Contenido_Security::escapeDB($type, $this->db)."' AND
-                          name = '".Contenido_Security::escapeDB($name, $this->db)."'";
+        $sql = "DELETE FROM  " . $cfg['tab']['user_prop'] . "
+                    WHERE user_id = '" . Contenido_Security::escapeDB($this->values['user_id'], $this->db) . "' AND
+                          type = '" . Contenido_Security::escapeDB($type, $this->db) . "' AND
+                          name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
         $this->db->query($sql);
     }
-
 
     /**
      * Returns all users available in the system
      * @param   string  $sort  SQL sort part
      * @return  array          Array with id and name entries
      */
-    function getAvailableUsers($sort = 'ORDER BY realname ASC')
-    {
+    function getAvailableUsers($sort = 'ORDER BY realname ASC') {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -590,7 +553,7 @@ class User
         $sql = "SELECT
                     user_id, username, realname
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5']. " " . $sort;
+                " . $cfg['tab']['phplib_auth_user_md5'] . " " . $sort;
 
         $db->query($sql);
 
@@ -606,14 +569,12 @@ class User
         return ($users);
     }
 
-
     /**
      * Returns all system admins available in the system
      * @param   boolean  $forceActive  Is forceActive true return only activ Sysadmins
      * @return  array                  Array with id and name entries
      */
-    function getSystemAdmins($forceActive = false)
-    {
+    function getSystemAdmins($forceActive = false) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -621,12 +582,12 @@ class User
         $sql = "SELECT
                     user_id, username, realname, email
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5'] ."
+                " . $cfg['tab']['phplib_auth_user_md5'] . "
                 WHERE
                     perms LIKE \"%sysadmin%\"";
 
         if ($forceActive === true) {
-            $sql.= " AND (valid_from <= NOW() OR valid_from = '0000-00-00' OR valid_from = '1000-01-01')
+            $sql .= " AND (valid_from <= NOW() OR valid_from = '0000-00-00' OR valid_from = '1000-01-01')
                 AND (valid_to >= NOW() OR valid_to = '0000-00-00' OR valid_to = '1000-01-01') ";
         }
 
@@ -638,21 +599,19 @@ class User
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
-                'email'    => $db->f('email'),
+                'email' => $db->f('email'),
             );
         }
 
         return ($users);
     }
 
-
     /**
      * Returns all system admins available in the system
      * @param   int    $client
      * @return  array   Array with id and name entries
      */
-    function getClientAdmins($client)
-    {
+    function getClientAdmins($client) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -662,9 +621,9 @@ class User
         $sql = "SELECT
                     user_id, username, realname, email
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5'] ."
+                " . $cfg['tab']['phplib_auth_user_md5'] . "
                 WHERE
-                    perms LIKE \"%admin[".$client."]%\"";
+                    perms LIKE \"%admin[" . $client . "]%\"";
 
         $db->query($sql);
 
@@ -674,21 +633,19 @@ class User
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
-                'email'    => $db->f('email'),
+                'email' => $db->f('email'),
             );
         }
 
         return ($users);
     }
 
-
     /**
      * Returns the username of the given userid
      * @param  int     $userid
      * @return string  Username if found, or emptry string if not.
      */
-    function getUsername($userid)
-    {
+    function getUsername($userid) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -696,15 +653,14 @@ class User
         $sql = "SELECT
                     username
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5']."
+                " . $cfg['tab']['phplib_auth_user_md5'] . "
                 WHERE
-                    user_id = '".Contenido_Security::escapeDB($userid, $db)."'";
+                    user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
 
         $db->query($sql);
         $db->next_record();
         return ($db->f('username'));
     }
-
 
     /**
      * Returns the realname of the given userid
@@ -712,8 +668,7 @@ class User
      * @param   bool    $bAllowFallbackOnUsername
      * @return  string  Realname if found, or emptry string if not.
      */
-    function getRealname($userid, $bAllowFallbackOnUsername = false)
-    {
+    function getRealname($userid, $bAllowFallbackOnUsername = false) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -721,9 +676,9 @@ class User
         $sql = "SELECT
                     realname
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5']."
+                " . $cfg['tab']['phplib_auth_user_md5'] . "
                 WHERE
-                    user_id = '".Contenido_Security::escapeDB($userid, $db)."'";
+                    user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
 
         $db->query($sql);
         $db->next_record();
@@ -735,14 +690,12 @@ class User
         }
     }
 
-
     /**
      * Returns the realname of the given username
      * @param  string  $username
      * @return string  Realname if found, or emptry string if not.
      */
-    function getRealnameByUserName($username)
-    {
+    function getRealnameByUserName($username) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -750,23 +703,21 @@ class User
         $sql = "SELECT
                     realname
                 FROM
-                ". $cfg['tab']['phplib_auth_user_md5']."
+                " . $cfg['tab']['phplib_auth_user_md5'] . "
                 WHERE
-                    username = '".Contenido_Security::escapeDB($username, $db)."'";
+                    username = '" . Contenido_Security::escapeDB($username, $db) . "'";
 
         $db->query($sql);
         $db->next_record();
         return ($db->f('realname'));
     }
 
-
     /**
      * Returns the groups a user is in
      * @param   int    $userid
      * @return  array  Real names of groups
      */
-    function getGroupsByUserID($userid)
-    {
+    function getGroupsByUserID($userid) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -774,12 +725,12 @@ class User
         $sql = "SELECT
                     a.group_id
                 FROM
-                    ".$cfg['tab']['groups']." AS a,
-                    ".$cfg['tab']['groupmembers']." AS b
+                    " . $cfg['tab']['groups'] . " AS a,
+                    " . $cfg['tab']['groupmembers'] . " AS b
                 WHERE
                     (a.group_id  = b.group_id)
                     AND
-                    (b.user_id = '".Contenido_Security::escapeDB($userid, $db)."')
+                    (b.user_id = '" . Contenido_Security::escapeDB($userid, $db) . "')
                 ";
 
         $db->query($sql);
@@ -796,7 +747,7 @@ class User
             $sDescription = trim($oGroup->getField('description'));
 
             if ($sDescription != '') {
-                $sTemp.=' ('.$sDescription.')';
+                $sTemp .= ' (' . $sDescription . ')';
             }
 
             $arrGroups[] = $sTemp;
@@ -804,14 +755,12 @@ class User
         return $arrGroups;
     }
 
-
     /**
      * Returns the groups a user is in
      * @param   int    $userid
      * @return  array  Ids of groups
      */
-    function getGroupIDsByUserID($userid)
-    {
+    function getGroupIDsByUserID($userid) {
         global $cfg;
 
         $db = new DB_ConLite();
@@ -819,12 +768,12 @@ class User
         $sql = "SELECT
                     a.group_id
                 FROM
-                    ".$cfg['tab']['groups']." AS a,
-                    ".$cfg['tab']['groupmembers']." AS b
+                    " . $cfg['tab']['groups'] . " AS a,
+                    " . $cfg['tab']['groupmembers'] . " AS b
                 WHERE
                     (a.group_id  = b.group_id)
                     AND
-                    (b.user_id = '".Contenido_Security::escapeDB($userid, $db)."')
+                    (b.user_id = '" . Contenido_Security::escapeDB($userid, $db) . "')
                 ";
 
         $db->query($sql);
@@ -838,5 +787,3 @@ class User
     }
 
 }
-
-?>

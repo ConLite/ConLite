@@ -83,7 +83,7 @@ class XML_doc {
     /**
      * Class Construcor
      */
-    function XML_doc() {
+    function __construct() {
         global $encoding, $lang;
         
         $this->sys_encoding = $encoding[$lang];

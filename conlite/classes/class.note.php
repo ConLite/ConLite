@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -28,25 +29,15 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+class NoteCollection extends CommunicationCollection {
 
-class NoteCollection extends CommunicationCollection
-{
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->_setItemClass("NoteItem");
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    function NoteCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
     }
 
     /**
@@ -58,8 +49,7 @@ class NoteCollection extends CommunicationCollection
      * @access public
      * @see ItemCollection
      */
-    public function select($where = "", $group_by = "", $order_by = "", $limit = "")
-    {
+    public function select($where = "", $group_by = "", $order_by = "", $limit = "") {
         if ($where == "") {
             $where = "comtype='note'";
         } else {
@@ -80,8 +70,7 @@ class NoteCollection extends CommunicationCollection
      * @return object    The new item
      * @access public
      */
-    public function create($itemtype, $itemid, $idlang, $message, $category = "")
-    {
+    public function create($itemtype, $itemid, $idlang, $message, $category = "") {
         $item = parent::createNewItem();
 
         $item->set("subject", "Note Item");
@@ -102,30 +91,26 @@ class NoteCollection extends CommunicationCollection
 
 }
 
-class NoteItem extends CommunicationItem
-{
-
+class NoteItem extends CommunicationItem {
+    
 }
 
+class NoteView extends cHTMLIFrame {
 
-class NoteView extends cHTMLIFrame
-{
-    public function NoteView($sItemType, $sItemId)
-    {
+    public function __construct($sItemType, $sItemId) {
         global $sess, $cfg;
-        cHTMLIFrame::cHTMLIFrame();
+        parent::__construct();
         $this->setSrc($sess->url("main.php?itemtype=$sItemType&itemid=$sItemId&area=note&frame=2"));
         $this->setBorder(0);
-        $this->setStyleDefinition("border", "1px solid ".$cfg['color']['table_border']);
+        $this->setStyleDefinition("border", "1px solid " . $cfg['color']['table_border']);
     }
+
 }
 
+class NoteList extends cHTMLDiv {
 
-class NoteList extends cHTMLDiv
-{
-    public function NoteList($sItemType, $sItemId)
-    {
-        cHTMLDiv::cHTMLDiv();
+    public function __construct($sItemType, $sItemId) {
+        parent::__construct();
 
         $this->_sItemType = $sItemType;
         $this->_sItemId = $sItemId;
@@ -133,13 +118,11 @@ class NoteList extends cHTMLDiv
         $this->setStyleDefinition("width", "100%");
     }
 
-    public function setDeleteable($bDeleteable)
-    {
+    public function setDeleteable($bDeleteable) {
         $this->_bDeleteable = $bDeleteable;
     }
 
-    public function toHTML()
-    {
+    public function toHTML() {
         global $cfg, $lang;
 
         $sItemType = $this->_sItemType;
@@ -162,10 +145,10 @@ class NoteList extends cHTMLDiv
             $items[] = 0;
         }
 
-        $oNoteItems->select("idcommunication IN (".implode(", ", $items).')',"", "created DESC");
+        $oNoteItems->select("idcommunication IN (" . implode(", ", $items) . ')', "", "created DESC");
 
-        $i       = array();
-        $dark    = false;
+        $i = array();
+        $dark = false;
         while ($oNoteItem = $oNoteItems->next()) {
             if ($oNoteItem->getProperty("note", "itemtype") == $sItemType && $oNoteItem->getProperty("note", "itemid") == $sItemId) {
                 $j = new NoteListItem($sItemType, $sItemId, $oNoteItem->get("idcommunication"));
@@ -185,16 +168,15 @@ class NoteList extends cHTMLDiv
 
         $result = parent::toHTML();
 
-        return ('<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>'.$result.'</td></tr></table>');
+        return ('<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>' . $result . '</td></tr></table>');
     }
+
 }
 
+class NoteListItem extends cHTMLDiv {
 
-class NoteListItem extends cHTMLDiv
-{
-    public function NoteListItem($sItemType, $sItemId, $iDeleteItem)
-    {
-        cHTMLDiv::cHTMLDiv();
+    public function __construct($sItemType, $sItemId, $iDeleteItem) {
+        parent::__construct();
         $this->setStyleDefinition("padding", "2px");
         $this->setBackground();
         $this->setDeleteable(true);
@@ -202,16 +184,13 @@ class NoteListItem extends cHTMLDiv
         $this->_iDeleteItem = $iDeleteItem;
         $this->_sItemType = $sItemType;
         $this->_sItemId = $sItemId;
-
     }
 
-    public function setDeleteable($bDeleteable)
-    {
+    public function setDeleteable($bDeleteable) {
         $this->_bDeleteable = $bDeleteable;
     }
 
-    public function setBackground($dark = false)
-    {
+    public function setBackground($dark = false) {
         global $cfg;
 
         if ($dark) {
@@ -221,8 +200,7 @@ class NoteListItem extends cHTMLDiv
         }
     }
 
-    public function setAuthor($sAuthor)
-    {
+    public function setAuthor($sAuthor) {
         if (strlen($sAuthor) == 32) {
             $result = getGroupOrUserName($sAuthor);
 
@@ -234,8 +212,7 @@ class NoteListItem extends cHTMLDiv
         $this->_sAuthor = $sAuthor;
     }
 
-    public function setDate($iDate)
-    {
+    public function setDate($iDate) {
         $dateformat = getEffectiveSetting("backend", "timeformat", "Y-m-d H:i:s");
 
         if (is_string($iDate)) {
@@ -244,31 +221,29 @@ class NoteListItem extends cHTMLDiv
         $this->_sDate = date($dateformat, $iDate);
     }
 
-    public function setMessage($sMessage)
-    {
+    public function setMessage($sMessage) {
         $this->_sMessage = $sMessage;
     }
 
-    public function render()
-    {
+    public function render() {
         global $cfg, $sess;
 
         $itemtype = $this->_sItemType;
         $itemid = $this->_sItemId;
         $deleteitem = $this->_iDeleteItem;
 
-        $table  = '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><b>';
+        $table = '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr><td><b>';
         $table .= $this->_sAuthor;
         $table .= '</b></td><td align="right">';
         $table .= $this->_sDate;
 
         if ($this->_bDeleteable == true) {
             $oDeleteable = new cHTMLLink();
-            $oDeletePic = new cHTMLImage($cfg["path"]["contenido_fullhtml"]."/images/delete.gif");
+            $oDeletePic = new cHTMLImage($cfg["path"]["contenido_fullhtml"] . "/images/delete.gif");
             $oDeleteable->setContent($oDeletePic);
             $oDeleteable->setLink($sess->url("main.php?frame=2&area=note&itemtype=$itemtype&itemid=$itemid&action=note_delete&deleteitem=$deleteitem"));
 
-            $table .= '</td><td style="padding-left: 4px;" width="1">'.$oDeleteable->render();
+            $table .= '</td><td style="padding-left: 4px;" width="1">' . $oDeleteable->render();
         }
         $table .= '</td></tr></table>';
 
@@ -276,15 +251,15 @@ class NoteListItem extends cHTMLDiv
         $oMessage->setContent($this->_sMessage);
         $oMessage->setStyle("padding-bottom: 8px;");
 
-        $this->setContent(array($table, '<hr style="margin-top: 2px; margin-bottom: 2px; border: 0px; border-top: 1px solid' . $cfg['color']['table_border'].';">',$oMessage));
+        $this->setContent(array($table, '<hr style="margin-top: 2px; margin-bottom: 2px; border: 0px; border-top: 1px solid' . $cfg['color']['table_border'] . ';">', $oMessage));
 
         return parent::render();
     }
 
 }
 
-class NoteLink extends cHTMLLink
-{
+class NoteLink extends cHTMLLink {
+
     /**
      * @var string Object type
      * @access private
@@ -321,9 +296,8 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function NoteLink($sItemType, $sItemID)
-    {
-        parent::cHTMLLink();
+    public function __construct($sItemType, $sItemID) {
+        parent::__construct();
 
         $img = new cHTMLImage("images/note.gif");
         $img->setStyle("padding-left: 2px; padding-right: 2px;");
@@ -345,8 +319,7 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function enableHistory()
-    {
+    public function enableHistory() {
         $this->_bShowHistory = true;
     }
 
@@ -356,8 +329,7 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function disableHistory()
-    {
+    public function disableHistory() {
         $this->_bShowHistory = false;
     }
 
@@ -367,8 +339,7 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function enableHistoryDelete()
-    {
+    public function enableHistoryDelete() {
         $this->_bDeleteHistoryItems = true;
     }
 
@@ -378,8 +349,7 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function disableHistoryDelete()
-    {
+    public function disableHistoryDelete() {
         $this->_bDeleteHistoryItems = false;
     }
 
@@ -389,16 +359,14 @@ class NoteLink extends cHTMLLink
      * @return none
      * @access public
      */
-    public function render($return = false)
-    {
+    public function render($return = false) {
         global $sess;
 
         $itemtype = $this->_sItemType;
         $itemid = $this->_sItemID;
 
-        $this->setEvent("click",  'javascript:window.open('."'".$sess->url("main.php?area=note&frame=1&itemtype=$itemtype&itemid=$itemid")."', 'todo', 'resizable=yes, scrollbars=yes, height=360, width=550');");
+        $this->setEvent("click", 'javascript:window.open(' . "'" . $sess->url("main.php?area=note&frame=1&itemtype=$itemtype&itemid=$itemid") . "', 'todo', 'resizable=yes, scrollbars=yes, height=360, width=550');");
         return parent::render($return);
     }
-}
 
-?>
+}

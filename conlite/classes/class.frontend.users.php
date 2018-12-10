@@ -50,13 +50,6 @@ class FrontendUserCollection extends ItemCollection
         $this->_setItemClass("FrontendUser");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendUserCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Checks if a specific user already exists
      * @param $sUsername string specifies the username to search for
@@ -155,13 +148,6 @@ class FrontendUser extends Item
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendUser($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 
     /**

@@ -40,7 +40,7 @@ class ExcelWorksheet
 	var $_title;
 	var $_filename;
 	
-	function ExcelWorksheet ($title, $filename)
+	function __construct ($title, $filename)
 	{
 		$this->_title 		= Contenido_Security::escapeDB($title, null);
 		$this->_filename 	= Contenido_Security::escapeDB($filename, null);

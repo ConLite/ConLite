@@ -42,13 +42,6 @@ class TODOCollection extends CommunicationCollection
         $this->_setItemClass("TODOItem");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function TODOCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     public function select($where = "", $group_by = "", $order_by = "", $limit = "")
     {
         if ($where == "") {

@@ -38,7 +38,7 @@ class Client {
      * Constructor Function
      * @param
      */
-    function Client() {
+    function __construct() {
         // empty
     } // end function
 

@@ -152,7 +152,7 @@ class RequestPassword {
       * @param  array $aCfg - The contenido configuration array
       * @access public
       */
-    function RequestPassword ($oDb, $aCfg) {
+    function __construct ($oDb, $aCfg) {
         //generate new dbobject, if it does not exist
         if (!is_object($oDb)) {
             $this->oDb = new DB_ConLite();

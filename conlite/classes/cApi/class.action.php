@@ -33,12 +33,6 @@ class cApiActionCollection extends ItemCollection {
         parent::__construct($cfg['tab']['actions'], 'idaction');
         $this->_setItemClass("cApiAction");
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiActionCollection() {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
     
     /**
      * 
@@ -98,12 +92,6 @@ class cApiAction extends Item {
 
         // @todo  Where is this used???
         $this->_wantParameters = array();
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cApiAction($mId = false) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 }
 ?>

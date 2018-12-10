@@ -129,7 +129,7 @@ class TreeItem
 	 * @param string $id   The unique ID of that item
 	 * @param boolean $collapsed Is this item collapsed by default
      */		
-	function TreeItem($name ="", $id="", $collapsed = false)
+	function __construct($name ="", $id="", $collapsed = false)
 	{
 		$this->name = $name;
 		$this->id = $id;

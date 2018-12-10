@@ -43,13 +43,6 @@ class CategoryCollection extends ItemCollection
         parent::__construct($cfg["tab"]["cat"], "idcat");
         $this->_setItemClass("CategoryItem");
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CategoryCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
 }
 
 
@@ -67,13 +60,6 @@ class CategoryItem extends Item
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CategoryItem($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
     }
 
     public function loadByPrimaryKey($key)
@@ -101,13 +87,6 @@ class CategoryLanguageCollection extends ItemCollection
         parent::__construct($cfg["tab"]["cat_lang"], "idcatlang");
         $this->_setItemClass("CategoryLanguageItem");
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CategoryLanguageCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
 }
 
 
@@ -126,13 +105,4 @@ class CategoryLanguageItem extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CategoryLanguageItem($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-
-?>

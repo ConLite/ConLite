@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -32,11 +33,9 @@
  * }}
  *
  */
-
-if(!defined('CON_FRAMEWORK')) {
+if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
-
 
 /**
  * Abstract base search class. Provides general properties and functions 
@@ -44,8 +43,8 @@ if(!defined('CON_FRAMEWORK')) {
  *
  * @author  Murat Purc <murat@purc.de>
  */
-abstract class SearchBaseAbstract
-{
+abstract class SearchBaseAbstract {
+
     /**
      * Contenido database object
      * @var DB_ConLite
@@ -82,12 +81,11 @@ abstract class SearchBaseAbstract
      * @param  DB_ConLite  $oDB     Optional database instance
      * @param  bool          $bDebug  Optional, flag to enable debugging
      */
-    protected function __construct($oDB = null, $bDebug = false)
-    {
+    protected function __construct($oDB = null, $bDebug = false) {
         global $cfg, $lang, $client;
 
-        $this->cfg    = $cfg;
-        $this->lang   = $lang;
+        $this->cfg = $cfg;
+        $this->lang = $lang;
         $this->client = $client;
 
         $this->setDebug((bool) $bDebug);
@@ -104,8 +102,7 @@ abstract class SearchBaseAbstract
      *
      * @param  bool $bDebug
      */
-    public function setDebug($bDebug)
-    {
+    public function setDebug($bDebug) {
         $this->bDebug = (bool) $bDebug;
     }
 
@@ -115,8 +112,7 @@ abstract class SearchBaseAbstract
      * @param  string  $msg  Some text
      * @param  mixed   $var  The variable to dump
      */
-    protected function _debug($msg, $var)
-    {
+    protected function _debug($msg, $var) {
         if (!$this->bDebug) {
             return;
         }
@@ -129,8 +125,8 @@ abstract class SearchBaseAbstract
         $dump .= '</pre>' . "\n";
         echo $dump;
     }
-}
 
+}
 
 /**
  * Contenido API - Index Object
@@ -162,11 +158,10 @@ abstract class SearchBaseAbstract
  * Keep in mind that class Search and SearchResult uses an instance of object Index.
  * Consider character tables in relation 'con_chartable'.
  */
-
 cInclude('includes', 'functions.encoding.php');
 
-class Index extends SearchBaseAbstract
-{
+class Index extends SearchBaseAbstract {
+
     /**
      * the content of the cms-types of an article
      * @var array
@@ -243,8 +238,7 @@ class Index extends SearchBaseAbstract
      * @param  DB_ConLite  $oDB  Contenido Database object
      * @return void
      */
-    function Index($oDB = null)
-    {
+    function __construct($oDB = null) {
         parent::__construct($oDB);
 
         $this->setContentTypes();
@@ -269,9 +263,8 @@ class Index extends SearchBaseAbstract
      * @param   array   $aStopwords  Array with words which should not be indexed.
      * @return  void
      */
-    function start($idart, $aContent, $place = 'auto', $cms_options = array(), $aStopwords = array())
-    {
-        if (!is_int((int)$idart) || $idart < 0) {
+    function start($idart, $aContent, $place = 'auto', $cms_options = array(), $aStopwords = array()) {
+        if (!is_int((int) $idart) || $idart < 0) {
             return null;
         } else {
             $this->idart = $idart;
@@ -310,16 +303,15 @@ class Index extends SearchBaseAbstract
      * @param none
      * @return void
      */
-    function createKeywords()
-    {
+    function createKeywords() {
         $tmp_keys = array();
         $replace = array('&nbsp;', '&amp;', '&lt;', '&gt;', '&quot;', '&#039;');
 
         // Only create keycodes, if some are available
         if (is_array($this->keycode)) {
-            foreach($this->keycode as $idtype => $data) {
+            foreach ($this->keycode as $idtype => $data) {
                 if ($this->checkCmsType($idtype)) {
-                    foreach($data as $typeid => $code) {
+                    foreach ($data as $typeid => $code) {
                         $this->_debug('code', $code);
 
                         $code = stripslashes($code); // remove backslash
@@ -342,7 +334,7 @@ class Index extends SearchBaseAbstract
 
                                 if (strlen($value) > 1) {
                                     // do not index single characters
-                                    $this->keywords[$value] =  $this->keywords[$value] . $idtype . '-' . $typeid . ' ';
+                                    $this->keywords[$value] = $this->keywords[$value] . $idtype . '-' . $typeid . ' ';
                                 }
                             }
                         }
@@ -361,8 +353,7 @@ class Index extends SearchBaseAbstract
      * The index_string looks like "&12=2(CMS_HTMLHEAD-1,CMS_HTML-1)"
      * @return void
      */
-    function saveKeywords()
-    {
+    function saveKeywords() {
         $tmp_count = array();
 
         foreach ($this->keywords as $keyword => $count) {
@@ -379,10 +370,10 @@ class Index extends SearchBaseAbstract
 
                 $nextid = $this->db->nextid($this->cfg['tab']['keywords']);
 
-                $sql = "INSERT INTO ".$this->cfg['tab']['keywords']."
-                            (keyword, ".$this->place.", idlang, idkeyword)
+                $sql = "INSERT INTO " . $this->cfg['tab']['keywords'] . "
+                            (keyword, " . $this->place . ", idlang, idkeyword)
                         VALUES
-                            ('".Contenido_Security::escapeDB($keyword, $this->db)."', '".Contenido_Security::escapeDB($index_string, $this->db)."', ".Contenido_Security::toInteger($this->lang).", ".Contenido_Security::toInteger($nextid).")";
+                            ('" . Contenido_Security::escapeDB($keyword, $this->db) . "', '" . Contenido_Security::escapeDB($index_string, $this->db) . "', " . Contenido_Security::toInteger($this->lang) . ", " . Contenido_Security::toInteger($nextid) . ")";
             } else {
                 // if keyword allready exists, create new index_string
                 if (preg_match("/&$this->idart=/", $this->keywords_old[$keyword])) {
@@ -391,9 +382,9 @@ class Index extends SearchBaseAbstract
                     $index_string = $this->keywords_old[$keyword] . $index_string;
                 }
 
-                $sql = "UPDATE ".$this->cfg['tab']['keywords']."
-                        SET ".$this->place." = '".$index_string."'
-                        WHERE idlang='".Contenido_Security::toInteger($this->lang)."' AND keyword='".Contenido_Security::escapeDB($keyword, $this->db)."'";
+                $sql = "UPDATE " . $this->cfg['tab']['keywords'] . "
+                        SET " . $this->place . " = '" . $index_string . "'
+                        WHERE idlang='" . Contenido_Security::toInteger($this->lang) . "' AND keyword='" . Contenido_Security::escapeDB($keyword, $this->db) . "'";
             }
             $this->_debug('sql', $sql);
 
@@ -406,19 +397,18 @@ class Index extends SearchBaseAbstract
      * @param none
      * @return void
      */
-    function deleteKeywords()
-    {
+    function deleteKeywords() {
         foreach ($this->keywords_del as $key_del) {
             $index_string = preg_replace("/&$this->idart=[0-9]+\([\w-,]+\)/", "", $this->keywords_old[$key_del]);
 
             if (strlen($index_string) == 0) {
                 // keyword is not referenced by any article
-                $sql = "DELETE FROM ".$this->cfg['tab']['keywords']."
-                    WHERE idlang='".Contenido_Security::toInteger($this->lang)."' AND keyword='".Contenido_Security::escapeDB($key_del, $this->db)."'";
+                $sql = "DELETE FROM " . $this->cfg['tab']['keywords'] . "
+                    WHERE idlang='" . Contenido_Security::toInteger($this->lang) . "' AND keyword='" . Contenido_Security::escapeDB($key_del, $this->db) . "'";
             } else {
-                $sql = "UPDATE ".$this->cfg['tab']['keywords']."
-                    SET ".$this->place." = '".$index_string."'
-                    WHERE idlang='".Contenido_Security::toInteger($this->lang)."' AND keyword='".Contenido_Security::escapeDB($key_del, $this->db)."'";
+                $sql = "UPDATE " . $this->cfg['tab']['keywords'] . "
+                    SET " . $this->place . " = '" . $index_string . "'
+                    WHERE idlang='" . Contenido_Security::toInteger($this->lang) . "' AND keyword='" . Contenido_Security::escapeDB($key_del, $this->db) . "'";
             }
             $this->_debug('sql', $sql);
             $this->db->query($sql);
@@ -430,17 +420,16 @@ class Index extends SearchBaseAbstract
      * @param none
      * @return void
      */
-    function getKeywords()
-    {
+    function getKeywords() {
         $keys = implode("','", array_keys($this->keywords));
 
         $sql = "SELECT
                     keyword, auto, self
                 FROM
-                    ".$this->cfg['tab']['keywords']."
+                    " . $this->cfg['tab']['keywords'] . "
                 WHERE
-                    idlang=".Contenido_Security::toInteger($this->lang)."  AND
-                    (keyword IN ('".$keys."')  OR ".$this->place." REGEXP '&".Contenido_Security::toInteger($this->idart)."=')";
+                    idlang=" . Contenido_Security::toInteger($this->lang) . "  AND
+                    (keyword IN ('" . $keys . "')  OR " . $this->place . " REGEXP '&" . Contenido_Security::toInteger($this->idart) . "=')";
 
         $this->_debug('sql', $sql);
 
@@ -458,10 +447,9 @@ class Index extends SearchBaseAbstract
      * @param $key Keyword
      * @return $key
      */
-    function removeSpecialChars($key)
-    {
+    function removeSpecialChars($key) {
         $aSpecialChars = array(
-            "-", "_", "'", ".", "!", "\"", "#", "$", "%", "&", "(", ")", "*", "+", ",", "/", 
+            "-", "_", "'", ".", "!", "\"", "#", "$", "%", "&", "(", ")", "*", "+", ",", "/",
             ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "`", "{", "|", "}", "~"
         );
 
@@ -481,14 +469,14 @@ class Index extends SearchBaseAbstract
             $key = htmlentities_iso88592($key);
         }
 
-        $aUmlautMap = array (
-            '&Uuml;'   => 'ue',
-            '&uuml;'   => 'ue',
-            '&Auml;'   => 'ae',
-            '&auml;'   => 'ae',
-            '&Ouml;'   => 'oe',
-            '&ouml;'   => 'oe',
-            '&szlig;'  => 'ss'
+        $aUmlautMap = array(
+            '&Uuml;' => 'ue',
+            '&uuml;' => 'ue',
+            '&Auml;' => 'ae',
+            '&auml;' => 'ae',
+            '&Ouml;' => 'oe',
+            '&ouml;' => 'oe',
+            '&szlig;' => 'ss'
         );
 
         foreach ($aUmlautMap as $sUmlaut => $sMapped) {
@@ -508,17 +496,16 @@ class Index extends SearchBaseAbstract
      * @param $key Keyword
      * @return $key
      */
-    function addSpecialUmlauts($key)
-    {
+    function addSpecialUmlauts($key) {
         $key = clHtmlEntities($key, null, getEncodingByLanguage($this->db, $this->lang, $this->cfg));
-        $aUmlautMap = array (
-            'ue'    => '&Uuml;',
-            'ue'    => '&uuml;',
-            'ae'    => '&Auml;',
-            'ae'    => '&auml;',
-            'oe'    => '&Ouml;',
-            'oe'    => '&ouml;',
-            'ss'    => '&szlig;'
+        $aUmlautMap = array(
+            'ue' => '&Uuml;',
+            'ue' => '&uuml;',
+            'ae' => '&Auml;',
+            'ae' => '&auml;',
+            'oe' => '&Ouml;',
+            'oe' => '&ouml;',
+            'ss' => '&szlig;'
         );
 
         foreach ($aUmlautMap as $sUmlaut => $sMapped) {
@@ -534,8 +521,7 @@ class Index extends SearchBaseAbstract
      * @param array $aStopwords
      * @return void
      */
-    function setStopwords ($aStopwords)
-    {
+    function setStopwords($aStopwords) {
         if (is_array($aStopwords) && count($aStopwords) > 0) {
             $this->stopwords = $aStopwords;
         }
@@ -546,9 +532,8 @@ class Index extends SearchBaseAbstract
      * @param none
      * @return void
      */
-    function setContentTypes()
-    {
-        $sql = "SELECT type, idtype FROM ".$this->cfg['tab']['type'] . ' ';
+    function setContentTypes() {
+        $sql = "SELECT type, idtype FROM " . $this->cfg['tab']['type'] . ' ';
         $this->_debug('sql', $sql);
         $this->db->query($sql);
         while ($this->db->next_record()) {
@@ -562,10 +547,9 @@ class Index extends SearchBaseAbstract
      * @param none
      * @return void
      */
-    function setCmsOptions($cms_options)
-    {
+    function setCmsOptions($cms_options) {
         if (is_array($cms_options) && count($cms_options) > 0) {
-            foreach($cms_options as $opt) {
+            foreach ($cms_options as $opt) {
                 $opt = strtoupper($opt);
 
                 if (strlen($opt) > 0) {
@@ -591,14 +575,12 @@ class Index extends SearchBaseAbstract
      *
      * @return bolean
      */
-    function checkCmsType($idtype)
-    {
+    function checkCmsType($idtype) {
         $idtype = strtoupper($idtype);
         return (in_array($idtype, $this->cms_options)) ? false : true;
     }
 
 }
-
 
 /**
  * Contenido API - Search Object
@@ -703,9 +685,7 @@ class Index extends SearchBaseAbstract
  * @author Willi Man
  * @copyright four for business AG <www.4fb.de>
  */
-
-class Search extends SearchBaseAbstract
-{
+class Search extends SearchBaseAbstract {
 
     /**
      * Instance of class Index
@@ -803,8 +783,7 @@ class Search extends SearchBaseAbstract
      * @param  DB_ConLite  $oDB  Optional database instance
      * @return void
      */
-    function Search($options, $oDB = null)
-    {
+    function __construct($options, $oDB = null) {
         parent::__construct($oDB);
 
         $this->index = new Index($oDB);
@@ -835,8 +814,7 @@ class Search extends SearchBaseAbstract
      * @param string $searchwords_exclude The words, which should be excluded from search
      * @return void
      */
-    function searchIndex($searchwords, $searchwords_exclude = '')
-    {
+    function searchIndex($searchwords, $searchwords_exclude = '') {
         if (strlen(trim($searchwords)) > 0) {
             $this->search_words = $this->stripWords($searchwords);
         } else {
@@ -858,7 +836,7 @@ class Search extends SearchBaseAbstract
         }
 
         if (count($this->search_words_exclude) > 0) {
-            foreach($this->search_words_exclude as $word) {
+            foreach ($this->search_words_exclude as $word) {
                 if ($this->search_option == 'like') {
                     $word = "'%" . $word . "%'";
                 } elseif ($this->search_option == 'exact') {
@@ -868,8 +846,9 @@ class Search extends SearchBaseAbstract
                 array_push($this->search_words, $word);
             }
         }
-        
-        if(count($tmp_searchwords) == 0) return false;
+
+        if (count($tmp_searchwords) == 0)
+            return false;
 
         if ($this->search_option == 'regexp') {
             // regexp search
@@ -884,8 +863,8 @@ class Search extends SearchBaseAbstract
             $kwSql = "keyword LIKE '" . $search_exact;
         }
 
-        $sql = "SELECT keyword, auto FROM " . $this->cfg['tab']['keywords'] 
-             . " WHERE idlang=" . Contenido_Security::toInteger($this->lang) . " AND " . $kwSql . " ";
+        $sql = "SELECT keyword, auto FROM " . $this->cfg['tab']['keywords']
+                . " WHERE idlang=" . Contenido_Security::toInteger($this->lang) . " AND " . $kwSql . " ";
         $this->_debug('sql', $sql);
         $this->db->query($sql);
 
@@ -897,7 +876,7 @@ class Search extends SearchBaseAbstract
 
             $tmp_index = array();
             foreach ($tmp_index_string as $string) {
-                $tmp_string  = preg_replace('/[=\(\)]/', ' ', $string);
+                $tmp_string = preg_replace('/[=\(\)]/', ' ', $string);
                 $tmp_index[] = preg_split('/\s/', $tmp_string, -1, PREG_SPLIT_NO_EMPTY);
             }
             $this->_debug('tmp_index', $tmp_index);
@@ -908,9 +887,9 @@ class Search extends SearchBaseAbstract
                 // filter nonsearchable articles
                 if (in_array($artid, $this->searchable_arts)) {
 
-                    $cms_place  = $string[2];
-                    $keyword    = $this->db->f('keyword');
-                    $percent    = 0;
+                    $cms_place = $string[2];
+                    $keyword = $this->db->f('keyword');
+                    $percent = 0;
                     $similarity = 0;
                     foreach ($this->search_words as $word) {
                         similar_text($word, $keyword, $percent); // computes similarity between searchword and keyword in percent
@@ -946,7 +925,6 @@ class Search extends SearchBaseAbstract
                             }
                         }
                     }
-
                 }
             }
         }
@@ -981,8 +959,7 @@ class Search extends SearchBaseAbstract
      * @param $cms_options The cms-types (htmlhead, html, ...) which should explicitly be searched
      * @return void
      */
-    function setCmsOptions($cms_options)
-    {
+    function setCmsOptions($cms_options) {
         if (is_array($cms_options) && count($cms_options) > 0) {
             $this->index->setCmsOptions($cms_options);
         }
@@ -992,8 +969,7 @@ class Search extends SearchBaseAbstract
      * @param $searchwords The search-words
      * @return Array of stripped search-words
      */
-    function stripWords($searchwords)
-    {
+    function stripWords($searchwords) {
         $tmp_words = array();
         $searchwords = stripslashes($searchwords); // remove backslash
         $searchwords = strip_tags($searchwords); // remove html tags
@@ -1020,19 +996,18 @@ class Search extends SearchBaseAbstract
      * @return array  Category Tree
      * @todo   This is not the job for search, should be oursourced...
      */
-    function getSubTree($cat_start)
-    {
+    function getSubTree($cat_start) {
         $sql = "SELECT
                 B.idcat, B.parentid
             FROM
-                ".$this->cfg['tab']['cat_tree']." AS A,
-                ".$this->cfg['tab']['cat']." AS B,
-                ".$this->cfg['tab']['cat_lang']." AS C
+                " . $this->cfg['tab']['cat_tree'] . " AS A,
+                " . $this->cfg['tab']['cat'] . " AS B,
+                " . $this->cfg['tab']['cat_lang'] . " AS C
             WHERE
                 A.idcat  = B.idcat AND
                 B.idcat  = C.idcat AND
-                C.idlang = '".Contenido_Security::toInteger($this->lang)."' AND
-                B.idclient = '".Contenido_Security::toInteger($this->client)."'
+                C.idlang = '" . Contenido_Security::toInteger($this->lang) . "' AND
+                B.idclient = '" . Contenido_Security::toInteger($this->client) . "'
             ORDER BY
                 idtree";
         $this->_debug('sql', $sql);
@@ -1065,13 +1040,12 @@ class Search extends SearchBaseAbstract
      * @param   array  $search_range
      * @return  array  Articles in specified search range
      */
-    function getSearchableArticles($search_range)
-    {
+    function getSearchableArticles($search_range) {
 
         $cat_range = array();
         if (array_key_exists('cat_tree', $search_range) && is_array($search_range['cat_tree'])) {
             if (count($search_range['cat_tree']) > 0) {
-                foreach($search_range['cat_tree'] as $cat) {
+                foreach ($search_range['cat_tree'] as $cat) {
                     $cat_range = array_merge($cat_range, $this->getSubTree($cat));
                 }
             }
@@ -1108,18 +1082,18 @@ class Search extends SearchBaseAbstract
 
         if ($this->exclude == true) {
             // exclude searchrange
-            $sSearchRange = " A.idcat NOT IN  ('".$sCatRange."') AND B.idart NOT IN  ('".$sArtRange."') AND ";
+            $sSearchRange = " A.idcat NOT IN  ('" . $sCatRange . "') AND B.idart NOT IN  ('" . $sArtRange . "') AND ";
         } else {
             // include searchrange
             if (strlen($sArtRange) > 0) {
-                $sSearchRange = " A.idcat IN  ('".$sCatRange."') AND B.idart IN  ('".$sArtRange."') AND ";
+                $sSearchRange = " A.idcat IN  ('" . $sCatRange . "') AND B.idart IN  ('" . $sArtRange . "') AND ";
             } else {
-                $sSearchRange = " A.idcat IN  ('".$sCatRange."') AND ";
+                $sSearchRange = " A.idcat IN  ('" . $sCatRange . "') AND ";
             }
         }
 
         if (count($this->article_specs) > 0) {
-            $sArtSpecs = " B.artspec IN ('".implode("','", $this->article_specs)."') AND ";
+            $sArtSpecs = " B.artspec IN ('" . implode("','", $this->article_specs) . "') AND ";
         } else {
             $sArtSpecs = '';
         }
@@ -1127,17 +1101,17 @@ class Search extends SearchBaseAbstract
         $sql = "SELECT
                     A.idart
                 FROM
-                    ".$this->cfg["tab"]["cat_art"]." as A,
-                    ".$this->cfg["tab"]["art_lang"]." as B,
-                    ".$this->cfg["tab"]["cat_lang"]." as C
+                    " . $this->cfg["tab"]["cat_art"] . " as A,
+                    " . $this->cfg["tab"]["art_lang"] . " as B,
+                    " . $this->cfg["tab"]["cat_lang"] . " as C
                 WHERE
-                    ".$sSearchRange."
-                    B.idlang = '".Contenido_Security::toInteger($this->lang)."' AND
-                    C.idlang = '".Contenido_Security::toInteger($this->lang)."' AND
+                    " . $sSearchRange . "
+                    B.idlang = '" . Contenido_Security::toInteger($this->lang) . "' AND
+                    C.idlang = '" . Contenido_Security::toInteger($this->lang) . "' AND
                     A.idart = B.idart AND
                     A.idcat = C.idcat AND
-                    ".$sArtSpecs."
-                    ".$protected." ";
+                    " . $sArtSpecs . "
+                    " . $protected . " ";
         $this->_debug('sql', $sql);
         $this->db->query($sql);
         while ($this->db->next_record()) {
@@ -1151,15 +1125,14 @@ class Search extends SearchBaseAbstract
      *
      * @return  array  Array of article specification Ids
      */
-    function getArticleSpecifications()
-    {
+    function getArticleSpecifications() {
         $sql = "SELECT
                     idartspec
                 FROM
-                    ".$this->cfg['tab']['art_spec']."
+                    " . $this->cfg['tab']['art_spec'] . "
                 WHERE
-                    client = ".Contenido_Security::toInteger($this->client)." AND
-                    lang = ".Contenido_Security::toInteger($this->lang)." AND
+                    client = " . Contenido_Security::toInteger($this->client) . " AND
+                    lang = " . Contenido_Security::toInteger($this->lang) . " AND
                     online = 1 ";
         $this->_debug('sql', $sql);
         $this->db->query($sql);
@@ -1175,8 +1148,7 @@ class Search extends SearchBaseAbstract
      * @param  int  $iArtspecID
      * @return void
      */
-    function setArticleSpecification($iArtspecID)
-    {
+    function setArticleSpecification($iArtspecID) {
         array_push($this->article_specs, $iArtspecID);
     }
 
@@ -1185,8 +1157,7 @@ class Search extends SearchBaseAbstract
      * @param  string  $sArtSpecName
      * @return void
      */
-    function addArticleSpecificationsByName($sArtSpecName)
-    {
+    function addArticleSpecificationsByName($sArtSpecName) {
         if (!isset($sArtSpecName) || strlen($sArtSpecName) == 0) {
             return false;
         }
@@ -1194,10 +1165,10 @@ class Search extends SearchBaseAbstract
         $sql = "SELECT
                     idartspec
                 FROM
-                    ".$this->cfg['tab']['art_spec']."
+                    " . $this->cfg['tab']['art_spec'] . "
                 WHERE
-                    client = ".Contenido_Security::toInteger($this->client)." AND
-                    artspec = '".Contenido_Security::escapeDB($sArtSpecName, $this->db)."' ";
+                    client = " . Contenido_Security::toInteger($this->client) . " AND
+                    artspec = '" . Contenido_Security::escapeDB($sArtSpecName, $this->db) . "' ";
         $this->_debug('sql', $sql);
         $this->db->query($sql);
         while ($this->db->next_record()) {
@@ -1206,7 +1177,6 @@ class Search extends SearchBaseAbstract
     }
 
 }
-
 
 /**
  * Contenido API - SearchResult Object
@@ -1241,9 +1211,8 @@ class Search extends SearchBaseAbstract
  * @copyright four for business AG <www.4fb.de>
  *
  */
+class SearchResult extends SearchBaseAbstract {
 
-class SearchResult extends SearchBaseAbstract
-{
     /**
      * Instance of class Index
      * @var object
@@ -1310,8 +1279,7 @@ class SearchResult extends SearchBaseAbstract
      * @param  DB_ConLite  $oDB  Optional db instance
      * @param  bool  $bDebug  Optional flag to enable debugging
      */
-    function SearchResult($search_result, $result_per_page, $oDB = null, $bDebug = false)
-    {
+    function __construct($search_result, $result_per_page, $oDB = null, $bDebug = false) {
         parent::__construct($oDB, $bDebug);
 
         $this->index = new Index($oDB);
@@ -1338,8 +1306,7 @@ class SearchResult extends SearchBaseAbstract
      * @param $result_per_page
      * @return void
      */
-    function setOrderedSearchResult($ranked_search, $result_per_page)
-    {
+    function setOrderedSearchResult($ranked_search, $result_per_page) {
         asort($ranked_search);
 
         $sorted_rank = array_reverse($ranked_search, true);
@@ -1358,8 +1325,7 @@ class SearchResult extends SearchBaseAbstract
      * @param $art_id Id of an article
      * @return Content of an article, specified by it's content type
      */
-    function getContent($art_id, $cms_type, $id = 0)
-    {
+    function getContent($art_id, $cms_type, $id = 0) {
         $article = new Article($art_id, $this->client, $this->lang);
         return $article->getContent($cms_type, $id);
     }
@@ -1369,8 +1335,7 @@ class SearchResult extends SearchBaseAbstract
      * @param $art_id Id of an article
      * @return Content of an article in search result, specified by its type
      */
-    function getSearchContent($art_id, $cms_type, $cms_nr = NULL)
-    {
+    function getSearchContent($art_id, $cms_type, $cms_nr = NULL) {
         $cms_type = strtoupper($cms_type);
         if (strlen($cms_type) > 0) {
             if (!stristr($cms_type, 'cms_')) {
@@ -1399,14 +1364,14 @@ class SearchResult extends SearchBaseAbstract
                 //build consistent escaped string(Timo Trautmann) 2008-04-17
                 $cms_content = clHtmlEntities(clHtmlEntityDecode(strip_tags($article->getContent($cms_type, $cms_nr))));
                 if (count($this->replacement) == 2) {
-                    foreach($search_words as $word) {
+                    foreach ($search_words as $word) {
                         //build consistent escaped string, replace ae ue .. with original html entities (Timo Trautmann) 2008-04-17
                         $word = clHtmlEntities(clHtmlEntityDecode($this->index->addSpecialUmlauts($word)));
                         $match = array();
                         preg_match("/$word/i", $cms_content, $match);
                         if (isset($match[0])) {
                             $pattern = $match[0];
-                            $replacement = $this->replacement[0].$pattern.$this->replacement[1];
+                            $replacement = $this->replacement[0] . $pattern . $this->replacement[1];
                             $cms_content = preg_replace("/$pattern/i", $replacement, $cms_content); // emphasize located searchwords
                         }
                     }
@@ -1418,11 +1383,11 @@ class SearchResult extends SearchBaseAbstract
                     $cms_content = strip_tags($article->getContent($cms_type, $id));
 
                     if (count($this->replacement) == 2) {
-                        foreach($search_words as $word) {
+                        foreach ($search_words as $word) {
                             preg_match("/$word/i", $cms_content, $match);
                             if (isset($match[0])) {
                                 $pattern = $match[0];
-                                $replacement = $this->replacement[0].$pattern.$this->replacement[1];
+                                $replacement = $this->replacement[0] . $pattern . $this->replacement[1];
                                 $cms_content = preg_replace("/$pattern/i", $replacement, $cms_content); // emphasize located searchwords
                             }
                         }
@@ -1430,7 +1395,6 @@ class SearchResult extends SearchBaseAbstract
                     $content[] = $cms_content;
                 }
             }
-
         } else {
             // searchword was not found in cms_type
             if (isset($cms_nr) && is_numeric($cms_nr)) {
@@ -1453,8 +1417,7 @@ class SearchResult extends SearchBaseAbstract
      * @param   int    $page_id
      * @return  array  Artices in page $page_id
      */
-    function getSearchResultPage($page_id)
-    {
+    function getSearchResultPage($page_id) {
         $this->result_page = $page_id;
         $result_page = $this->ordered_search_result[$page_id - 1];
         return $result_page;
@@ -1464,8 +1427,7 @@ class SearchResult extends SearchBaseAbstract
      * Returns number of result pages
      * @return  int
      */
-    function getNumberOfPages()
-    {
+    function getNumberOfPages() {
         return $this->pages;
     }
 
@@ -1473,8 +1435,7 @@ class SearchResult extends SearchBaseAbstract
      * Returns number of results
      * @return  int
      */
-    function getNumberOfResults()
-    {
+    function getNumberOfResults() {
         return $this->results;
     }
 
@@ -1482,17 +1443,15 @@ class SearchResult extends SearchBaseAbstract
      * @param $art_id Id of an article
      * @return Similarity between searchword and matching word in article
      */
-    function getSimilarity($art_id)
-    {
-         return $this->search_result[$art_id]['similarity'];
+    function getSimilarity($art_id) {
+        return $this->search_result[$art_id]['similarity'];
     }
 
     /**
      * @param $art_id Id of an article
      * @return Number of matching searchwords found in article
      */
-    function getOccurrence($art_id)
-    {
+    function getOccurrence($art_id) {
         $aOccurence = $this->search_result[$art_id]['occurence'];
         $iSumOfOccurence = 0;
         for ($i = 0; $i < count($aOccurence); $i++) {
@@ -1507,8 +1466,7 @@ class SearchResult extends SearchBaseAbstract
      * @param string $rep2 The closing html-tag e.g. '</b>'
      * @return void
      */
-    function setReplacement($rep1, $rep2)
-    {
+    function setReplacement($rep1, $rep2) {
         if (strlen(trim($rep1)) > 0 && strlen(trim($rep2)) > 0) {
             array_push($this->replacement, $rep1);
             array_push($this->replacement, $rep2);
@@ -1520,10 +1478,9 @@ class SearchResult extends SearchBaseAbstract
      * @return Category Id
      * @todo  Is not job of search, should be outsourced!
      */
-    function getArtCat($artid)
-    {
-        $sql = "SELECT idcat FROM ".$this->cfg['tab']['cat_art']."
-                WHERE idart = ".Contenido_Security::toInteger($artid)." ";
+    function getArtCat($artid) {
+        $sql = "SELECT idcat FROM " . $this->cfg['tab']['cat_art'] . "
+                WHERE idart = " . Contenido_Security::toInteger($artid) . " ";
         $this->db->query($sql);
         if ($this->db->next_record()) {
             return $this->db->f('idcat');
@@ -1531,18 +1488,3 @@ class SearchResult extends SearchBaseAbstract
     }
 
 }
-
-/**
- * @deprecated
- * @since 2008-07-11
- *
- */
-class Search_helper {
-
-    var $oDb = NULL;
-
-    function search_helper ($oDb, $lang, $client) {
-    }
-}
-
-?>

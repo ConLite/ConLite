@@ -66,7 +66,7 @@ class cIterator
      * @param $aItems array Items to add
      * @return none
      */	
-	function cIterator ($aItems)
+	function __construct ($aItems)
 	{
 		if (is_array($aItems))
 		{

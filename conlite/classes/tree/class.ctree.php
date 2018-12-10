@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -25,45 +26,39 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
-
 
 /**
  * class cTree
  * 
  */
-class cTree extends cTreeItem
-{
-	
-	var $_treeIcon;
-	
-	function cTree ($name = "")
-	{
-		/* The root item currently has to be a "0".
-		 * This is a bug, feel free to fix it. */
-		cTreeItem::cTreeItem(0,$name);	
-	}
-	
-	/**
-	 * sets a new name for the tree.
-	 *
-	 * @param string name Name of the tree
-	 * @return void
-	 * @access public
-	 */
-	function setTreeName( $name )
-	{
-		$this->setName($name);	
-	} // end of member function setTreeName
+class cTree extends cTreeItem {
 
-	function setIcon ( $path )
-	{
-		$this->_treeIcon = $path;	
-	}
+    var $_treeIcon;
 
+    function __construct($name = "") {
+        /* The root item currently has to be a "0".
+         * This is a bug, feel free to fix it. */
+        cTreeItem::__construct(0, $name);
+    }
 
-} // end of cTree
-?>
+    /**
+     * sets a new name for the tree.
+     *
+     * @param string name Name of the tree
+     * @return void
+     * @access public
+     */
+    function setTreeName($name) {
+        $this->setName($name);
+    }
+
+// end of member function setTreeName
+
+    function setIcon($path) {
+        $this->_treeIcon = $path;
+    }
+
+}

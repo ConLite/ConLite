@@ -144,12 +144,6 @@ class Article extends Item
         $this->loadByPrimaryKey($this->_iIdArtLang);
         $this->_getArticleContent();
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    function Article($idart, $client, $lang, $idartlang = 0) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($idart, $client, $lang, $idartlang);
-    }
     
     /**
      * Getter for idartlang of article object
@@ -496,13 +490,6 @@ class ArticleCollection
 
         $this->_setObjectProperties($options);
         $this->_getArticlesByCatId($this->idcat);
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    function ArticleCollection($options)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($options);
     }
 
     /**

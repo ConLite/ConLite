@@ -41,7 +41,7 @@ class cWYSIWYGEditor
 	var $_sEditorContent;
 	var $_aSettings;
 	
-	function cWYSIWYGEditor ($sEditorName, $sEditorContent)
+	function __construct ($sEditorName, $sEditorContent)
 	{
 		global $cfg;
 		

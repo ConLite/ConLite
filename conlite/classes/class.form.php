@@ -99,7 +99,7 @@ class Form {
      * Constructor Function
      * @param
      */
-    function Form() {
+    function __construct() {
         // empty
     } // end function
 
@@ -279,7 +279,7 @@ class Form {
                 }
 
                 // FormField instance
-                $field = new FormField;
+                $field = new FormField();
 
                 // Get Code for one element
                 $tmp_replacements[] = $field->GenerateCode($this->fields[$i]);
@@ -364,7 +364,7 @@ class Form {
 
         foreach ($this->fields as $id => $element) {
 
-            $check = new FormCheck;
+            $check = new FormCheck();
 
             switch (strtolower($element['checktype'])) {
 
@@ -447,7 +447,7 @@ class FormField {
     /**
      * Constructor Function
      */
-    function FormField() {
+    function __construct() {
         // do nothing
     } // end function
 
@@ -625,7 +625,7 @@ class FormCheck {
      * Constructor function
      * @access private
      */
-    function FormCheck () {
+    function __construct () {
         // empty
     } // end function
 
@@ -679,5 +679,3 @@ class FormCheck {
     } // end function
 
 } // end class
-
-?>

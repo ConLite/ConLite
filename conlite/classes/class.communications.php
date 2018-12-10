@@ -47,13 +47,6 @@ class CommunicationCollection extends ItemCollection
         $this->_setItemClass("CommunicationItem");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CommunicationCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a new communication item
      */
@@ -91,13 +84,6 @@ class CommunicationItem extends Item
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function CommunicationItem($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
-
     function store()
     {
         global $auth;
@@ -107,5 +93,3 @@ class CommunicationItem extends Item
         parent::store();
     }
 }
-
-?>

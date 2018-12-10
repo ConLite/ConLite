@@ -70,7 +70,7 @@ class cMetaObject
 	
 	var $_payloadObject;
 		
-	function cMetaObject ($payload = false)
+	function __construct ($payload = false)
 	{
 		$this->_actions = array();
 		$this->_fields = array();

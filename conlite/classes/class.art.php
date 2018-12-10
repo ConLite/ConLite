@@ -38,7 +38,7 @@ class Art {
      * Constructor Function
      * @param
      */
-    function Art() {
+    function __construct() {
         // empty
     } // end function
 

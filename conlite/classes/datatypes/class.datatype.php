@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -25,46 +26,46 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
-class cDatatype
-{
-	/* Effective value */
-	var $_mValue;	
-	
-	/* Displayed value */
-	var $_mDisplayedValue;
-	
-	function cDatatype ()
-	{
-	}
-	
-	/* Sets this datatype to a specific value */
-	function set ($value)
-	{
-		
-	}
-	
-	/* Parses the given value to transfer into the datatype's format */
-	function parse ($value)
-	{
-		
-	}
-	
-	/* Returns the effective value */
-	function get ()
-	{
-		
-	}
-	
-	/* Renders the displayed value */
-	function render ()
-	{
-		
-	}
+class cDatatype {
+    /* Effective value */
+
+    var $_mValue;
+
+    /* Displayed value */
+    var $_mDisplayedValue;
+
+    function __construct() {
+        
+    }
+
+    /* Sets this datatype to a specific value */
+
+    function set($value) {
+        
+    }
+
+    /* Parses the given value to transfer into the datatype's format */
+
+    function parse($value) {
+        
+    }
+
+    /* Returns the effective value */
+
+    function get() {
+        
+    }
+
+    /* Renders the displayed value */
+
+    function render() {
+        
+    }
+
 }
 
 ?>

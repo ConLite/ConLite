@@ -50,13 +50,6 @@ class FrontendGroupCollection extends ItemCollection
         $this->_setItemClass("FrontendGroup");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendGroupCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a new group
      * @param $groupname string Specifies the groupname
@@ -122,13 +115,6 @@ class FrontendGroup extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendGroup($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
 }
 
 
@@ -148,13 +134,6 @@ class FrontendGroupMemberCollection extends ItemCollection
         $this->_setJoinPartner ('FrontendGroupCollection');
         $this->_setJoinPartner ('FrontendUserCollection');
         $this->_setItemClass("FrontendGroupMember");
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendGroupMemberCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
     }
 
     /**
@@ -237,13 +216,4 @@ class FrontendGroupMember extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendGroupMember($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-
-?>

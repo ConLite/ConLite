@@ -46,13 +46,6 @@ class ArtSpecCollection extends ItemCollection
         parent::__construct($cfg['tab']['art_spec'], "idartspec");
         $this->_setItemClass("ArtSpecItem");
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function ArtSpecCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
 }
 
 
@@ -72,13 +65,6 @@ class ArtSpecItem extends Item
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function ArtSpecItem($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 }
 

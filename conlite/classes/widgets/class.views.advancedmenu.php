@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -25,28 +26,28 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
+class cViewAdvancedMenu {
 
-class cViewAdvancedMenu
-{
-	function cViewAdvancedMenu ()
-	{
-	}
-	
-	function render ()
-	{
-	}
+    function __construct() {
+        
+    }
+
+    function render() {
+        
+    }
+
 }
 
+class cViewItems extends cHTMLIFrame {
 
-class cViewItems extends cHTMLIFrame
-{
-	function cViewItems()
-	{
-	}	
+    function __construct() {
+        
+    }
+
 }
+
 ?>

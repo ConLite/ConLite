@@ -691,6 +691,7 @@ class Contenido_UpdateNotifier {
 
         if ($this->sRSSContent != '') {
             $oRss = simplexml_load_file($this->sCacheDirectory . $this->sRSSFile);
+            //echo $sFeedContent;
 
             $iCnt = 0;
             foreach ($oRss->channel->item as $aItem) {

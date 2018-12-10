@@ -38,7 +38,7 @@ class UI_Left_Top {
     var $link;
     var $javascripts;
 
-    function UI_Left_Top() {
+    function __construct() {
         
     }
 
@@ -53,7 +53,7 @@ class UI_Left_Top {
     function render() {
         global $sess, $cfg;
 
-        $tpl = new Template;
+        $tpl = new Template();
 
         $tpl->reset();
         $tpl->set('s', 'SESSID', $sess->id);
@@ -100,7 +100,7 @@ class UI_Menu {
     var $show;
     var $bgColor;
 
-    function UI_Menu() {
+    function __construct() {
         $this->padding = 2;
         $this->border = 0;
         $this->rowmark = true;
@@ -147,7 +147,7 @@ class UI_Menu {
     function render($print = true) {
         global $sess, $cfg;
 
-        $tpl = new Template;
+        $tpl = new Template();
 
         $tpl->reset();
         $tpl->set('s', 'SID', $sess->id);
@@ -284,7 +284,7 @@ class UI_Table_Form {
     var $accesskey;
     var $width;
 
-    function UI_Table_Form($name, $action = "", $method = "post") {
+    function __construct($name, $action = "", $method = "post") {
         global $sess, $cfg;
 
         $this->formname = $name;
@@ -635,7 +635,7 @@ class UI_Page {
     var $content;
     var $margin;
 
-    function UI_Page() {
+    function __construct() {
         $this->margin = 10;
     }
 
@@ -674,7 +674,7 @@ class UI_Page {
     function render($print = true) {
         global $sess, $cfg;
 
-        $tpl = new Template;
+        $tpl = new Template();
 
         $scripts = "";
 
@@ -848,7 +848,7 @@ class UI_List {
     var $solid;
     var $width;
 
-    function UI_List() {
+    function __construct() {
         $this->padding = 2;
         $this->border = 0;
     }
@@ -897,8 +897,8 @@ class UI_List {
     function render($print = false) {
         global $sess, $cfg;
 
-        $tpl = new Template;
-        $tpl2 = new Template;
+        $tpl = new Template();
+        $tpl2 = new Template();
 
         $tpl->reset();
         $tpl->set('s', 'SID', $sess->id);
@@ -1075,45 +1075,45 @@ class cScrollList {
      *
      * @param $defaultstyle boolean use the default style for object initializing?
      */
-    function cScrollList($defaultstyle = true, $action = "") {
+    function __construct($defaultstyle = true, $action = "") {
         global $cfg, $area, $frame;
 
         $this->resultsPerPage = 0;
         $this->listStart = 1;
         $this->sortable = false;
 
-        $this->objTable = new cHTMLTable;
+        $this->objTable = new cHTMLTable();
         if ($defaultstyle == true) {
             $this->objTable->setStyle('border-collapse:collapse;border: 1px; border-style: solid; border-top:0px;border-color: ' . $cfg["color"]["table_border"] . ';');
             $this->objTable->updateAttributes(array("cellspacing" => 0, "cellpadding" => 2));
         }
 
-        $this->objHeaderRow = new cHTMLTableRow;
+        $this->objHeaderRow = new cHTMLTableRow();
         if ($defaultstyle == true) {
             $this->objHeaderRow->setClass("text_medium");
             $this->objHeaderRow->setStyle("background-color: #E2E2E2;white-space:nowrap;");
         }
 
 
-        $this->objHeaderItem = new cHTMLTableHead;
+        $this->objHeaderItem = new cHTMLTableHead();
         if ($defaultstyle == true) {
             $this->objHeaderItem->setClass("textg_medium");
             $this->objHeaderItem->setStyle('white-space:nowrap; border: 1px; border-style: solid;border-bottom: 0px;border-color: ' . $cfg["color"]["table_border"] . ';');
             $this->objHeaderItem->updateAttributes(array("align" => "left"));
         }
 
-        $this->objRow = new cHTMLTableRow;
+        $this->objRow = new cHTMLTableRow();
         if ($defaultstyle == true) {
             $this->objRow->setClass("text_medium");
         }
 
-        $this->objItem = new cHTMLTableData;
+        $this->objItem = new cHTMLTableData();
         if ($defaultstyle == true) {
             $this->objItem->setStyle('white-space:nowrap; border: 1px; border-style: solid;border-top:0px;border-color: ' . $cfg["color"]["table_border"] . ';');
         }
 
 
-        $this->sortlink = new cHTMLLink;
+        $this->sortlink = new cHTMLLink();
         $this->sortlink->setStyle("color: #666666;");
         $this->sortlink->setCLink($area, $frame, $action);
     }
@@ -1320,7 +1320,7 @@ class cScrollList {
      * @param $return	If true, returns the list
      */
     function render($return = true) {
-        
+
         $currentpage = $this->getCurrentPage();
 
         $itemstart = (($currentpage - 1) * $this->resultsPerPage) + 1;
@@ -1402,5 +1402,5 @@ class cScrollList {
             echo $output;
         }
     }
+
 }
-?>

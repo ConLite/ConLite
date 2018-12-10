@@ -41,7 +41,7 @@ class Action {
      * Constructor Function
      * @param
      */
-    function Action() {
+    function __construct() {
         // empty
     } // end function
 

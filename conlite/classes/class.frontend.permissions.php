@@ -54,13 +54,6 @@ class FrontendPermissionCollection extends ItemCollection
         $this->_setItemClass("FrontendPermission");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendPermissionCollection()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a new permission entry
      * @param $group string Specifies the frontend group
@@ -157,13 +150,4 @@ class FrontendPermission extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function FrontendPermission($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-
-?>

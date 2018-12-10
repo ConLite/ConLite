@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -29,7 +30,6 @@
  * }}
  *
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -43,21 +43,15 @@ if (!defined('CON_FRAMEWORK')) {
  * @copyright four for business 2003
  */
 class Languages extends cApiLanguageCollection {
+
     /**
      * Constructor
      * @param none
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function Languages()
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }    
 }
 
 /**
@@ -69,24 +63,17 @@ class Languages extends cApiLanguageCollection {
  * @copyright four for business 2003
  */
 class Language extends cApiLanguage {
+
     /**
      * Constructor Function
      * @param  mixed  $mId  Specifies the ID of item to load
      */
-    public function __construct($mId = false)
-    {
-        if($mId === false) {
+    public function __construct($mId = false) {
+        if ($mId === false) {
             parent::__construct();
         } else {
             parent::__construct($mId);
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function Language($mId = false)
-    {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
 }
-?>

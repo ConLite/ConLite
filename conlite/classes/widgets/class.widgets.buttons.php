@@ -60,9 +60,9 @@ class cWidgetButton extends cHTMLSpan
      * @param $alt string	Alternative text
 	 * @param $link string	Link
      */		
-	function cWidgetButton ($img, $alt, $link)
+	function __construct ($img, $alt, $link)
 	{
-		cHTMLSpan::cHTMLSpan();
+		cHTMLSpan::__construct();
 		
 		$this->_img = new cHTMLImage($img);
 		$this->_link = new cHTMLLink($link);
@@ -167,9 +167,9 @@ class cWidgetToggleButton extends cWidgetButton
 	 * @param $uplink string Link when the button is turned off (=up)
 	 * @param $downlink string Link when the button is turned on (=down)
      */		
-	function cWidgetToggleButton ($img, $alt, $uplink, $downlink)
+	function __construct ($img, $alt, $uplink, $downlink)
 	{
-		cHTMLSpan::cHTMLSpan();
+		cHTMLSpan::__construct();
 		
 		$this->_img = new cHTMLImage($img);
 		$this->_link = new cHTMLLink("#");
@@ -243,9 +243,9 @@ class cWidgetMultiToggleButton extends cWidgetButton
      * @param $alt string	Alternative text
 	 * @param $lnik string  Link to call when the button is clicked
      */	
-	function cWidgetMultiToggleButton ($img, $alt, $link)
+	function __construct ($img, $alt, $link)
 	{
-		cHTMLSpan::cHTMLSpan();
+		cHTMLSpan::__construct();
 		
 		$this->_img = new cHTMLImage($img);
 		$this->_link = new cHTMLLink($link);

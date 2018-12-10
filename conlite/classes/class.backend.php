@@ -72,7 +72,7 @@ class Contenido_Backend {
     /**
      * Constructor
      */
-    function Contenido_Backend() {
+    function __construct() {
         # do nothing
     } # end function
 

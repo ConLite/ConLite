@@ -128,7 +128,7 @@ class HttpInputValidator {
 	 * @param string $sConfigPath
 	 * @return HttpInputValidator
 	 */
-	function HttpInputValidator($sConfigPath) {
+	function __construct($sConfigPath) {
 		// check config and logging path
 		if (!empty($sConfigPath) && file_exists($sConfigPath)) {
 			$this->sConfigPath = realpath($sConfigPath);

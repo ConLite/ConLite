@@ -131,7 +131,7 @@ class clDbBackup {
         $data = "DROP TABLE IF EXISTS `$sTable`;\n";
         $this->_oDb->query('SHOW CREATE TABLE `' . $sTable . '`');
         $this->_oDb->next_record();
-        $row = $this->_oDb->toArray(); //@mysql_fetch_row($res);
+        $row = $this->_oDb->toArray();
         $data .= $row[1] . ';' . "\n\n";
         if (!$this->_noTableData($sTable)) {
             $data .= "/*!40000 ALTER TABLE `$sTable` DISABLE KEYS */;\n";
@@ -194,7 +194,7 @@ class clDbBackup {
                         if (!isset($rows[$column])) {
                             $insert.='NULL,';
                         } else if ($rows[$column] != '') {
-                            $insert.='\'' . mysql_escape_string($rows[$column]) . '\',';
+                            $insert.='\'' . $this->_oDb->escape($rows[$column]) . '\',';
                         } else {
                             $insert.='\'\',';
                         }

@@ -38,7 +38,7 @@ class Cat {
      * Constructor Function
      * @param
      */
-    function Cat() {
+    function __construct() {
         // empty
     } // end function
 
