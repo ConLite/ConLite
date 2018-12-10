@@ -17,4 +17,11 @@
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
 
-?>
+class nlHandler extends pluginHandlerAbstract {
+    
+}
+
+/*
+plugin_include(nlHandler::getName(), "includes/functions/demo1.php");
+plugin_include(nlHandler::getName(), "includes/functions/demo2.php");
+ */

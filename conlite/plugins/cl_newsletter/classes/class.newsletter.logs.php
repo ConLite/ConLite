@@ -48,12 +48,6 @@ class cNewsletterLogCollection extends ItemCollection {
         $this->_setItemClass("cNewsletterLog");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterLogCollection() {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a single new log item
      * @param $idnewsjob    integer ID of corresponding newsletter send job
@@ -246,12 +240,4 @@ class cNewsletterLog extends Item {
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterLog($mId = false) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
-
 }
-
-?>

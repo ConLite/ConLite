@@ -48,12 +48,6 @@ class RecipientCollection extends ItemCollection {
         $this->_setItemClass("Recipient");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function RecipientCollection() {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a new recipient
      * @param string  $sEMail        Specifies the e-mail adress
@@ -223,26 +217,6 @@ class Recipient extends Item {
         }
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function Recipient($mId = false) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
-    }
-
-    /**
-     * Checks if the given md5 matches the md5(email) in the database
-     * @param $md5email string md5 of E-Mail to check
-     * @return boolean True if the hash matches, false otherwise
-     * @deprecated 4.6.15 - 10.08.2006
-     */
-    public function checkMD5Email($md5email) {
-        if ($md5email == md5($this->get("email"))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function store() {
         global $auth;
 
@@ -272,5 +246,3 @@ class Recipient extends Item {
     }
 
 }
-
-?>

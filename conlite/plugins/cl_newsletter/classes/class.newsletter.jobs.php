@@ -48,12 +48,6 @@ class cNewsletterJobCollection extends ItemCollection {
         $this->_setItemClass("cNewsletterJob");
     }
 
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterJobCollection() {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct();
-    }
-
     /**
      * Creates a newsletter job
      * @param $name        string    Specifies the name of the newsletter, the same name may be used more than once
@@ -250,12 +244,6 @@ class cNewsletterJob extends Item {
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
         }
-    }
-
-    /** @deprecated  [2011-03-15] Old constructor function for downwards compatibility */
-    public function cNewsletterJob($mId = false) {
-        cWarning(__FILE__, __LINE__, "Deprecated method call, use __construct()");
-        $this->__construct($mId);
     }
 
     public function runJob() {

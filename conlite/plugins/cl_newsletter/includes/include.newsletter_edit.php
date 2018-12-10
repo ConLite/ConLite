@@ -35,10 +35,10 @@ if (!defined('CON_FRAMEWORK')) {
 
 
 // Initialization
-$oPage = new cPage;
-$oRcpGroups = new RecipientGroupCollection;
+$oPage = new cPage();
+$oRcpGroups = new RecipientGroupCollection();
 $oClientLang = new cApiClientLanguage(false, $client, $lang);
-$oNewsletters = new NewsletterCollection;
+$oNewsletters = new NewsletterCollection();
 
 // Include plugins
 if (is_array($cfg['plugins']['newsletters'])) {
