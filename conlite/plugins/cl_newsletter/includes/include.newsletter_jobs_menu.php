@@ -50,9 +50,9 @@ $oUser 	= new cApiUser($auth->auth["uid"]);
 // sort: 	Element can be used to be sorted by
 // search:	Element can be used to search in
 $aFields = array();
-$aFields["name"]	= array("field" => "name", 		"caption" => i18n("Name", "newsletter"),		"type" => "base,sort,search");
-$aFields["created"]	= array("field" => "created",	"caption" => i18n("Created", "newsletter"),	"type" => "base,sort");
-$aFields["status"]	= array("field" => "status",	"caption" => i18n("Status", "newsletter"),	"type" => "base,sort");
+$aFields["name"]	= array("field" => "name", 		"caption" => i18n("Name", "cl_newsletter"),		"type" => "base,sort,search");
+$aFields["created"]	= array("field" => "created",	"caption" => i18n("Created", "cl_newsletter"),	"type" => "base,sort");
+$aFields["status"]	= array("field" => "status",	"caption" => i18n("Status", "cl_newsletter"),	"type" => "base,sort");
 // Not needed, as no sort/search, but keep as memo: $aFields["cronjob"]	= array("field" => "use_cronjob", "caption" => i18n("Use cronjob"), "type" => "base");
 
 ##################################
@@ -158,11 +158,11 @@ $sDateFormat	= getEffectiveSetting("backend", "timeformat", "d.m.Y H:i");
 
 // Store messages for repeated use (speeds performance, as i18n translation is only needed once)
 $aMsg = array();
-$aMsg["DelTitle"]		= i18n("Delete dispatch job", "newsletter");
-$aMsg["DelDescr"]		= i18n("Do you really want to delete the following newsletter dispatch job:<br>", "newsletter");
+$aMsg["DelTitle"]		= i18n("Delete dispatch job", "cl_newsletter");
+$aMsg["DelDescr"]		= i18n("Do you really want to delete the following newsletter dispatch job:<br>", "cl_newsletter");
 
-$aMsg["SendTitle"]		= i18n("Run job", "newsletter");
-$aMsg["SendDescr"]		= i18n("Do you really want to run the following job:<br>", "newsletter");
+$aMsg["SendTitle"]		= i18n("Run job", "cl_newsletter");
+$aMsg["SendDescr"]		= i18n("Do you really want to run the following job:<br>", "cl_newsletter");
 
 // Prepare "send link" template
 $sTplSend = '<a title="'.$aMsg["SendTitle"].'" href="javascript://" onclick="showSendMsg(\'{ID}\',\'{NAME}\')"><img src="'.$cfg['path']['images'].'newsletter_16.gif" border="0" title="'.$aMsg["SendTitle"].'" alt="'.$aMsg["SendTitle"].'"></a>';

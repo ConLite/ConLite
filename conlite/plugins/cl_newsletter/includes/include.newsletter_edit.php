@@ -49,7 +49,7 @@ if (is_array($cfg['plugins']['newsletters'])) {
 
 if ($action == "news_create" && $perm->have_perm_area_action($area, "news_create")) {
     // Create new newsletter
-    $oNewsletter = $oNewsletters->create(i18n("-- new newsletter --", "newsletter"));
+    $oNewsletter = $oNewsletters->create(i18n("-- new newsletter --", "cl_newsletter"));
     $idnewsletter = $oNewsletter->get("idnews");
     $oPage->setSubnav("idnewsletter=$idnewsletter", "news");
     $oPage->setReload();
@@ -120,9 +120,9 @@ if ($action == "news_create" && $perm->have_perm_area_action($area, "news_create
     unset($oJobs);
 
     if ($oJob) {
-        $notis = $notification->returnNotification("info", i18n("Newsletter dispatch job has been added for this newsletter", "newsletter")) . "<br>";
+        $notis = $notification->returnNotification("info", i18n("Newsletter dispatch job has been added for this newsletter", "cl_newsletter")) . "<br>";
     } else {
-        $notis = $notification->returnNotification("error", i18n("Newsletter dispatch job has been not been added! Please check newsletter details", "newsletter")) . "<br>";
+        $notis = $notification->returnNotification("error", i18n("Newsletter dispatch job has been not been added! Please check newsletter details", "cl_newsletter")) . "<br>";
     }
 
     $oNewsletter = new Newsletter($idnewsletter);
@@ -160,7 +160,7 @@ if ($action == "news_create" && $perm->have_perm_area_action($area, "news_create
         if ($bSend) {
             $aRecipients[] = $sName . " (" . $sEMail . ")";
         } else {
-            $aRecipients[] = i18n("None", "newsletter");
+            $aRecipients[] = i18n("None", "cl_newsletter");
         }
     } else {
         $bSend = $oNewsletter->sendDirect($oClientLang->getProperty("newsletter", "idcatart"), 0, $iTestIDNewsGroup, $aRecipients, $sEncoding);
@@ -168,11 +168,11 @@ if ($action == "news_create" && $perm->have_perm_area_action($area, "news_create
     unset($oUser);
 
     if ($bSend) {
-        $notis = $notification->returnNotification("info", i18n("Test newsletter has been sent to:", "newsletter") . "<br />" . implode("<br />", $aRecipients) . "<br />");
+        $notis = $notification->returnNotification("info", i18n("Test newsletter has been sent to:", "cl_newsletter") . "<br />" . implode("<br />", $aRecipients) . "<br />");
     } else {
-        $notis = $notification->returnNotification("warning", i18n("Test newsletter has not been sent (partly or completely):", "newsletter") . "<br />" .
-                i18n("Successful:", "newsletter") . "<br />" . implode("<br />", $aRecipients) . "<br />" .
-                i18n("Error messages:", "newsletter") . "<br />" . $oNewsletter->_sError);
+        $notis = $notification->returnNotification("warning", i18n("Test newsletter has not been sent (partly or completely):", "cl_newsletter") . "<br />" .
+                i18n("Successful:", "cl_newsletter") . "<br />" . implode("<br />", $aRecipients) . "<br />" .
+                i18n("Error messages:", "cl_newsletter") . "<br />" . $oNewsletter->_sError);
     }
 } else {
     // No action, just get selected newsletter
@@ -230,7 +230,7 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
             $oNewsletters->query();
 
             if ($oNewsletters->next()) {
-                $aMessages[] = i18n("Could not set new newsletter name: name already exists", "newsletter");
+                $aMessages[] = i18n("Could not set new newsletter name: name already exists", "cl_newsletter");
             } else {
                 $oNewsletter->set("name", $sName);
                 if ($oNewsletter->get("idart") > 0) {
@@ -241,7 +241,7 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
                     $oArticles->query();
 
                     if ($oArticle = $oArticles->next()) {
-                        $oArticle->set("title", sprintf(i18n("Newsletter: %s", "newsletter"), $oNewsletter->get("name")));
+                        $oArticle->set("title", sprintf(i18n("Newsletter: %s", "cl_newsletter"), $oNewsletter->get("name")));
                         $oArticle->store();
                     }
                     unset($oArticle);
@@ -282,7 +282,7 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
         // If "selected groups" have been selected and no group specified, set
         // selection to "all" 
         if ($_REQUEST["optSendTo"] == "selection" && !is_array($_REQUEST["selGroup"])) {
-            $aMessages[] = i18n("'Send to recipients in selected groups' has been selected, but no group has been specified. Selection has been set to 'Send to all recipients'", "newsletter");
+            $aMessages[] = i18n("'Send to recipients in selected groups' has been selected, but no group has been specified. Selection has been set to 'Send to all recipients'", "cl_newsletter");
             $_REQUEST["optSendTo"] = "all";
         }
         $oNewsletter->set("send_to", $_REQUEST["optSendTo"]);
@@ -353,16 +353,16 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
     $oForm->setVar("action", "news_save");
     $oForm->setVar("idnewsletter", $oNewsletter->get("idnews"));
 
-    $oForm->addHeader(i18n("Edit newsletter", "newsletter"));
+    $oForm->addHeader(i18n("Edit newsletter", "cl_newsletter"));
 
     $oTxtName = new cHTMLTextbox("txtName", $oNewsletter->get("name"), 40);
-    $oForm->add(i18n("Name", "newsletter"), $oTxtName->render());
+    $oForm->add(i18n("Name", "cl_newsletter"), $oTxtName->render());
 
     $oSelType = new cHTMLSelectElement("selType");
     $aItems = array();
-    $aItems[] = array("text", i18n("Text only", "newsletter"));
+    $aItems[] = array("text", i18n("Text only", "cl_newsletter"));
     if ($oClientLang->getProperty("newsletter", "html_newsletter") == "true") {
-        $aItems[] = array("html", i18n("HTML and text", "newsletter"));
+        $aItems[] = array("html", i18n("HTML and text", "cl_newsletter"));
     } else {
         $oNewsletter->set("type", "text"); // just in case the global setting was switched off
         // TODO: Should this setting be stored?
@@ -370,15 +370,15 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
     $oSelType->autoFill($aItems);
     $oSelType->setDefault($oNewsletter->get("type"));
 
-    $oForm->add(i18n("Type", "newsletter"), $oSelType->render());
+    $oForm->add(i18n("Type", "cl_newsletter"), $oSelType->render());
 
     $oTxtFromEMail = new cHTMLTextbox("txtFromEMail", $oNewsletter->get("newsfrom"), 40);
     $oTxtFromName = new cHTMLTextbox("txtFromName", $oNewsletter->get("newsfromname"), 40);
     $oTxtSubject = new cHTMLTextarea("txtSubject", $oNewsletter->get("subject"), 80, 2);
 
-    $oForm->add(i18n("From (E-Mail)", "newsletter"), $oTxtFromEMail->render());
-    $oForm->add(i18n("From (Name)", "newsletter"), $oTxtFromName->render() . "&nbsp;" . i18n("optional", "newsletter"));
-    $oForm->add(i18n("Subject", "newsletter"), $oTxtSubject->render());
+    $oForm->add(i18n("From (E-Mail)", "cl_newsletter"), $oTxtFromEMail->render());
+    $oForm->add(i18n("From (Name)", "cl_newsletter"), $oTxtFromName->render() . "&nbsp;" . i18n("optional", "cl_newsletter"));
+    $oForm->add(i18n("Subject", "cl_newsletter"), $oTxtSubject->render());
 
     // Send options
     $oSendToAll = new cHTMLRadiobutton("optSendTo", "all");
@@ -406,7 +406,7 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
     $oSelGroup->setSize(10);
     $oSelGroup->setStyle("width: 350px; margin-top: 5px; margin-bottom: 5px; margin-left: 25px;");
     $oSelGroup->setMultiSelect();
-    $oSelGroup->setAlt(i18n("Note: Hold <Ctrl> to select multiple items.", "newsletter"));
+    $oSelGroup->setAlt(i18n("Note: Hold <Ctrl> to select multiple items.", "cl_newsletter"));
     $oSelGroup->autoFill($aItems);
 
     // No groups in the list, sendToGroups and group listbox disabled
@@ -438,9 +438,9 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
     }
 
     // Recipients	
-    $oForm->add(i18n("Recipients", "newsletter"), $oSendToAll->toHTML(false) . "&nbsp;" . i18n("Send newsletter to all recipients", "newsletter") . "<br />" . chr(10) .
-            $oSendToDefault->toHTML(false) . "&nbsp;" . i18n("Send newsletter to the members of the default group", "newsletter") . "<br />" . chr(10) .
-            $oSendToGroups->toHTML(false) . "&nbsp;" . i18n("Send newsletter to the members of the selected group(s):", "newsletter") . "<br />" . chr(10) .
+    $oForm->add(i18n("Recipients", "cl_newsletter"), $oSendToAll->toHTML(false) . "&nbsp;" . i18n("Send newsletter to all recipients", "cl_newsletter") . "<br />" . chr(10) .
+            $oSendToDefault->toHTML(false) . "&nbsp;" . i18n("Send newsletter to the members of the default group", "cl_newsletter") . "<br />" . chr(10) .
+            $oSendToGroups->toHTML(false) . "&nbsp;" . i18n("Send newsletter to the members of the selected group(s):", "cl_newsletter") . "<br />" . chr(10) .
             $oSelGroup->render());
 
     /* TODO: Work in progress
@@ -512,25 +512,25 @@ if ($oNewsletter->virgin == false && $oNewsletter->get("idclient") == $client &&
         $ckbCronJob->setDisabled("");
     } else {
         // Give the user a hint
-        $ckbCronJob->setAlt(i18n("Option has to be enabled as client setting - see techref for details", "newsletter"));
+        $ckbCronJob->setAlt(i18n("Option has to be enabled as client setting - see techref for details", "cl_newsletter"));
     }
 
     $oCkbDispatch = new cHTMLCheckbox("ckbDispatch", "enabled");
     $oCkbDispatch->setChecked($oNewsletter->get("dispatch"));
     $oTxtDispatchCount = new cHTMLTextbox("txtDispatchCount", $oNewsletter->get("dispatch_count"), 4);
     $oTxtDispatchDelay = new cHTMLTextbox("txtDispatchDelay", $oNewsletter->get("dispatch_delay"), 4);
-    $oTxtDispatchDelay->setAlt(i18n("Note: Set to 0 to send chunks manually.", "newsletter"));
+    $oTxtDispatchDelay->setAlt(i18n("Note: Set to 0 to send chunks manually.", "cl_newsletter"));
     $oCkbSaveAsDefault = new cHTMLCheckbox("ckbSetDefault", "1");
 
-    $oForm->add(i18n("Options", "newsletter"), $ckbWelcome->toHTML(false) . "&nbsp;" . i18n("Welcome-Newsletter", "newsletter") . "<br />" .
-            $ckbCronJob->toHTML(false) . "&nbsp;" . i18n("Use cronjob", "newsletter") . "<br />" .
-            $oCkbDispatch->toHTML(false) . "&nbsp;" . i18n("Send in blocks:", "newsletter") . "&nbsp;&nbsp;&nbsp;" .
-            i18n("Recipients per block:", "newsletter") . "&nbsp;" . $oTxtDispatchCount->render() . "&nbsp;" .
-            i18n("Delay between blocks:", "newsletter") . "&nbsp;" . $oTxtDispatchDelay->render() . "&nbsp;" . i18n("sec.", "newsletter") . "<br />" .
-            $oCkbSaveAsDefault->toHTML(false) . "&nbsp;" . i18n("Save option settings as default", "newsletter"));
+    $oForm->add(i18n("Options", "cl_newsletter"), $ckbWelcome->toHTML(false) . "&nbsp;" . i18n("Welcome-Newsletter", "cl_newsletter") . "<br />" .
+            $ckbCronJob->toHTML(false) . "&nbsp;" . i18n("Use cronjob", "cl_newsletter") . "<br />" .
+            $oCkbDispatch->toHTML(false) . "&nbsp;" . i18n("Send in blocks:", "cl_newsletter") . "&nbsp;&nbsp;&nbsp;" .
+            i18n("Recipients per block:", "cl_newsletter") . "&nbsp;" . $oTxtDispatchCount->render() . "&nbsp;" .
+            i18n("Delay between blocks:", "cl_newsletter") . "&nbsp;" . $oTxtDispatchDelay->render() . "&nbsp;" . i18n("sec.", "cl_newsletter") . "<br />" .
+            $oCkbSaveAsDefault->toHTML(false) . "&nbsp;" . i18n("Save option settings as default", "cl_newsletter"));
 
-    $oForm->add(i18n("Author", "newsletter"), $classuser->getUserName($oNewsletter->get("author")) . " (" . $oNewsletter->get("created") . ")");
-    $oForm->add(i18n("Last modified by", "newsletter"), $classuser->getUserName($oNewsletter->get("modifiedby")) . " (" . $oNewsletter->get("modified") . ")");
+    $oForm->add(i18n("Author", "cl_newsletter"), $classuser->getUserName($oNewsletter->get("author")) . " (" . $oNewsletter->get("created") . ")");
+    $oForm->add(i18n("Last modified by", "cl_newsletter"), $classuser->getUserName($oNewsletter->get("modifiedby")) . " (" . $oNewsletter->get("modified") . ")");
 
     $sExecScript = '
     <script type="text/javascript">

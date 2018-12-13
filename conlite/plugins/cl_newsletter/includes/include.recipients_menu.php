@@ -50,10 +50,10 @@ $oUser = new cApiUser($auth->auth["uid"]);
 // sort: 	Element can be used to be sorted by
 // search:	Element can be used to search in
 $aFields = array();
-$aFields["name"] = array("field" => "name", "caption" => i18n("Name", "newsletter"), "type" => "base,sort,search");
-$aFields["email"] = array("field" => "email", "caption" => i18n("E-Mail", "newsletter"), "type" => "base,sort,search");
-$aFields["confirmed"] = array("field" => "confirmed", "caption" => i18n("Confirmed", "newsletter"), "type" => "base");
-$aFields["deactivated"] = array("field" => "deactivated", "caption" => i18n("Deactivated", "newsletter"), "type" => "base");
+$aFields["name"] = array("field" => "name", "caption" => i18n("Name", "cl_newsletter"), "type" => "base,sort,search");
+$aFields["email"] = array("field" => "email", "caption" => i18n("E-Mail", "cl_newsletter"), "type" => "base,sort,search");
+$aFields["confirmed"] = array("field" => "confirmed", "caption" => i18n("Confirmed", "cl_newsletter"), "type" => "base");
+$aFields["deactivated"] = array("field" => "deactivated", "caption" => i18n("Deactivated", "cl_newsletter"), "type" => "base");
 
 ##################################
 # Store settings
@@ -127,7 +127,7 @@ $oRecipients = new RecipientCollection;
 $sMsg = "";
 if (getSystemProperty("newsletter", "updatekeys")) {
     $iUpdatedRecipients = $oRecipients->updateKeys();
-    $sMsg = $notification->returnNotification("info", sprintf(i18n("%d recipients, with no or incompatible key has been updated. Deactivate update function.", "newsletter"), $iUpdatedRecipients));
+    $sMsg = $notification->returnNotification("info", sprintf(i18n("%d recipients, with no or incompatible key has been updated. Deactivate update function.", "cl_newsletter"), $iUpdatedRecipients));
 }
 
 $oRecipients->setWhere("recipientcollection.idclient", $client);
@@ -178,8 +178,8 @@ $iMenu = 0;
 
 // Store messages for repeated use (speeds performance, as i18n translation is only needed once)
 $aMsg = array();
-$aMsg["DelTitle"] = i18n("Delete recipient", "newsletter");
-$aMsg["DelDescr"] = i18n("Do you really want to delete the following recipient:<br>", "newsletter");
+$aMsg["DelTitle"] = i18n("Delete recipient", "cl_newsletter");
+$aMsg["DelDescr"] = i18n("Do you really want to delete the following recipient:<br>", "cl_newsletter");
 
 while ($oRecipient = $oRecipients->next()) {
     $iMenu++;

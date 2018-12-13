@@ -35,7 +35,7 @@ if (!defined('CON_FRAMEWORK')) {
 
 
 if (isset($_GET['idrecipientgroup']) && (int) $_GET['idrecipientgroup'] > 0) {
-    $caption = i18n("Overview", "newsletter");
+    $caption = i18n("Overview", "cl_newsletter");
     $tmp_area = "foo2";
 
     # Set template data

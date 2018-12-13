@@ -49,7 +49,7 @@ $oUser = new cApiUser($auth->auth["uid"]);
 // sort: 	Element can be used to be sorted by
 // search:	Element can be used to search in
 $aFields = array();
-$aFields["name"] = array("field" => "groupname", "caption" => i18n("Name", "newsletter"), "type" => "base,sort,search");
+$aFields["name"] = array("field" => "groupname", "caption" => i18n("Name", "cl_newsletter"), "type" => "base,sort,search");
 
 ##################################
 # Check external input
@@ -126,8 +126,8 @@ $iMenu = 0;
 
 // Store messages for repeated use (speeds performance, as i18n translation is only needed once)
 $aMsg = array();
-$aMsg["DelTitle"] = i18n("Delete recipient group", "newsletter");
-$aMsg["DelDescr"] = i18n("Do you really want to delete the following newsletter recipient group:<br>", "newsletter");
+$aMsg["DelTitle"] = i18n("Delete recipient group", "cl_newsletter");
+$aMsg["DelDescr"] = i18n("Do you really want to delete the following newsletter recipient group:<br>", "cl_newsletter");
 
 while ($oRcpGroup = $oRcpGroups->next()) {
     $iMenu++;

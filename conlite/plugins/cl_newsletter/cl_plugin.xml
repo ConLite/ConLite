@@ -65,7 +65,7 @@
 
             <frame area="recipientgroups" filetype="main" name="cl_newsletter/includes/include.recipients.group.subnav.php" frameId="3" />
             <frame area="recipientgroups" filetype="main" name="cl_newsletter/includes/include.recipients.group_edit.php" frameId="4" />
-            <frame area="recipientgroups" filetype="main" name="cl_newsletter/includes/include.recipients.group_menu.php" frameId="2" />            
+            <frame area="recipientgroups" filetype="main" name="cl_newsletter/includes/include.recipients.group_menu.php" frameId="2" />
             
             <frame area="news_jobs" filetype="main" name="cl_newsletter/includes/include.newsletter_jobs_details.php" frameId="4" />
             <frame area="news_jobs" filetype="main" name="cl_newsletter/includes/include.newsletter_jobs_menu.php" frameId="2" />
@@ -74,9 +74,9 @@
             <frame area="recipients_import" filetype="main" name="cl_newsletter/includes/include.recipients_import.php" frameId="4" />
         </frames>
         <nav_sub>
-            <nav area="news" level="0" navm="extra">newsletter/xml/;navigation/extra/newsletter</nav>
-            <nav area="recipients" level="1" navm="extra">newsletter/xml/;navigation/extra/recipients</nav>
-            <nav area="recipientgroups" level="1" navm="extra">newsletter/xml/;navigation/extra/recipientgroups</nav>
+            <nav area="news" level="0" navm="extra">cl_newsletter/xml/;navigation/extra/newsletter</nav>
+            <nav area="recipients" level="1" navm="extra">cl_newsletter/xml/;navigation/extra/recipients</nav>
+            <nav area="recipientgroups" level="1" navm="extra">cl_newsletter/xml/;navigation/extra/recipientgroups</nav>
         </nav_sub>
     </conlite>
 </plugin>

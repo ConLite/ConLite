@@ -3,8 +3,8 @@
     <navigation>
         <extra>
             <newsletter>Newsletter</newsletter>
-            <recipients>Empfänger</recipients>
-            <recipientgroups>Empfängergruppe</recipientgroups>
+            <recipients>Recipients</recipients>
+            <recipientgroups>Recipient groups</recipientgroups>
         </extra>
     </navigation>
 </language>

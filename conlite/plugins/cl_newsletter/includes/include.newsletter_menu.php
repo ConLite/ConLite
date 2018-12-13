@@ -52,7 +52,7 @@ $lIDCatArt = (int) $oClientLang->getProperty("newsletter", "idcatart");
 // sort: 	Element can be used to be sorted by
 // search:	Element can be used to search in
 $aFields = array();
-$aFields["name"] = array("field" => "name", "caption" => i18n("Name", "newsletter"), "type" => "base,sort,search");
+$aFields["name"] = array("field" => "name", "caption" => i18n("Name", "cl_newsletter"), "type" => "base,sort,search");
 
 ##################################
 # Store settings/Get basic data
@@ -164,14 +164,14 @@ $iMenu = 0;
 
 // Store messages for repeated use (speeds performance, as i18n translation is only needed once)
 $aMsg = array();
-$aMsg["DelTitle"] = i18n("Delete newsletter", "newsletter");
-$aMsg["DelDescr"] = i18n("Do you really want to delete the following newsletter:<br>", "newsletter");
+$aMsg["DelTitle"] = i18n("Delete newsletter", "cl_newsletter");
+$aMsg["DelDescr"] = i18n("Do you really want to delete the following newsletter:<br>", "cl_newsletter");
 
-$aMsg["SendTestTitle"] = i18n("Send test newsletter", "newsletter");
-$aMsg["SendTestTitleOff"] = i18n("Send test newsletter (disabled, check newsletter sender e-mail address and handler article selection)", "newsletter");
-$aMsg["AddJobTitle"] = i18n("Add newsletter dispatch job", "newsletter");
-$aMsg["AddJobTitleOff"] = i18n("Add newsletter dispatch job (disabled, check newsletter sender e-mail address and handler article selection)", "newsletter");
-$aMsg["CopyTitle"] = i18n("Duplicate newsletter", "newsletter");
+$aMsg["SendTestTitle"] = i18n("Send test newsletter", "cl_newsletter");
+$aMsg["SendTestTitleOff"] = i18n("Send test newsletter (disabled, check newsletter sender e-mail address and handler article selection)", "cl_newsletter");
+$aMsg["AddJobTitle"] = i18n("Add newsletter dispatch job", "cl_newsletter");
+$aMsg["AddJobTitleOff"] = i18n("Add newsletter dispatch job (disabled, check newsletter sender e-mail address and handler article selection)", "cl_newsletter");
+$aMsg["CopyTitle"] = i18n("Duplicate newsletter", "cl_newsletter");
 
 while ($oNewsletter = $oNewsletters->next()) {
     $idnewsletter = $oNewsletter->get("idnews");
@@ -245,12 +245,12 @@ if ($_REQUEST["selTestDestination"] > 0 && $perm->have_perm_area_action($area, "
     $oRcpGroups->query();
 
     if ($oRcpGroup = $oRcpGroups->next()) {
-        $sSendTestTarget = sprintf(i18n("Recipient group: %s", "newsletter"), $oRcpGroup->get("groupname"));
+        $sSendTestTarget = sprintf(i18n("Recipient group: %s", "cl_newsletter"), $oRcpGroup->get("groupname"));
     }
     unset($oRcpGroups);
 }
 
-$aMsg["SendTestDescr"] = sprintf(i18n("Do you really want to send the newsletter to:<br><strong>%s</strong>", "newsletter"), $sSendTestTarget);
+$aMsg["SendTestDescr"] = sprintf(i18n("Do you really want to send the newsletter to:<br><strong>%s</strong>", "cl_newsletter"), $sSendTestTarget);
 
 $sExecScript = '
 	<script type="text/javascript">
