@@ -35,7 +35,7 @@ if(!defined('CON_FRAMEWORK')) {
 global $cfg;
 
 $cfg["tab"]["art"]			= $cfg['sql']['sqlprefix']."_art";
-$cfg["tab"]["art_lang"] 		= $cfg['sql']['sqlprefix']."_art_lang";
+$cfg["tab"]["art_lang"]                                     = $cfg['sql']['sqlprefix']."_art_lang";
 $cfg["tab"]["cat"]			= $cfg['sql']['sqlprefix']."_cat";
 $cfg["tab"]["cat_art"]			= $cfg['sql']['sqlprefix']."_cat_art";
 $cfg["tab"]["cat_tree"] 		= $cfg['sql']['sqlprefix']."_cat_tree";
@@ -47,17 +47,11 @@ $cfg["tab"]["content"]			= $cfg['sql']['sqlprefix']."_content";
 $cfg["tab"]["lang"] 			= $cfg['sql']['sqlprefix']."_lang";
 $cfg["tab"]["lay"]			= $cfg['sql']['sqlprefix']."_lay";
 $cfg["tab"]["mod"]			= $cfg['sql']['sqlprefix']."_mod";
-$cfg["tab"]["news"] 			= $cfg['sql']['sqlprefix']."_news";
-$cfg["tab"]["news_rcp"] 		= $cfg['sql']['sqlprefix']."_news_rcp";
-$cfg["tab"]["news_groups"]		= $cfg['sql']['sqlprefix']."_news_groups";
-$cfg["tab"]["news_groupmembers"]	= $cfg['sql']['sqlprefix']."_news_groupmembers";
-$cfg["tab"]["news_jobs"]                = $cfg['sql']['sqlprefix']."_news_jobs";
-$cfg["tab"]["news_log"]                 = $cfg['sql']['sqlprefix']."_news_log";
 $cfg["tab"]["stat"] 			= $cfg['sql']['sqlprefix']."_stat";
 $cfg["tab"]["stat_archive"] 		= $cfg['sql']['sqlprefix']."_stat_archive";
 $cfg["tab"]["status"]			= $cfg['sql']['sqlprefix']."_status";
 $cfg["tab"]["tpl"]			= $cfg['sql']['sqlprefix']."_template";
-$cfg["tab"]["tpl_conf"] 		= $cfg['sql']['sqlprefix']."_template_conf";
+$cfg["tab"]["tpl_conf"]                                     = $cfg['sql']['sqlprefix']."_template_conf";
 $cfg["tab"]["type"] 			= $cfg['sql']['sqlprefix']."_type";
 $cfg["tab"]["upl"]			= $cfg['sql']['sqlprefix']."_upl";
 $cfg["tab"]["keywords"] 		= $cfg['sql']['sqlprefix']."_keywords";
