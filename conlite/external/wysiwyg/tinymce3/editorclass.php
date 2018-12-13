@@ -59,7 +59,7 @@ class cTinyMCEEditor extends cWYSIWYGEditor {
     function cTinyMCEEditor($sEditorName, $sEditorContent) {
         global $belang, $cfg, $cfgClient, $client, $lang, $idart;
 
-        cWYSIWYGEditor::cWYSIWYGEditor($sEditorName, $sEditorContent);
+        parent::__construct($sEditorName, $sEditorContent);
         $this->_setEditor("tinymce3");
 
         // Retrieve all settings for tinymce
