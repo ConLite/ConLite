@@ -120,10 +120,13 @@ $contentChunks = txtFileToArray('data/examples.txt');
 
 $sysadminChunk = txtFileToArray('data/sysadmin.txt');
 
+/*
 if ($_SESSION['plugin_newsletter'] == 'true') {
     $newsletter = txtFileToArray('data/plugin_newsletter.txt');
     $pluginChunks = array_merge($pluginChunks, $newsletter);
 }
+ * 
+ */
 
 if ($_SESSION['plugin_content_allocation'] == 'true') {
     $content_allocation = txtFileToArray('data/plugin_content_allocation.txt');
