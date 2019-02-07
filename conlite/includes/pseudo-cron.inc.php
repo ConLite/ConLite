@@ -405,6 +405,9 @@ function parseCronFile($PC_cronTabFile, $PC_debug) {
     $file = @file($PC_cronTabFile);
     $job = Array();
     $jobs = Array();
+	if(!is_countable($file)) {
+		return $jobs;
+	}
     for ($i = 0; $i < count($file); $i++) {
         if ($file[$i][0] != '#') {
 //         old regex, without dow abbreviations:
