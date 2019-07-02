@@ -70,12 +70,13 @@ class cSession {
     ## call this function to register the things that should become persistent
 
     function register($things) {
-        $things = explode(",", $things);
-        reset($things);
-        while (list(, $thing) = each($things)) {
-            $thing = trim($thing);
-            if ($thing) {
-                $this->pt[$thing] = true;
+        $arr_things = explode(",", $things);
+        reset($arr_things);
+        //while (list(, $thing) = each($arr_things)) {
+        foreach($arr_things as $thing) {
+            $str_thing = trim($thing);
+            if ($str_thing) {
+                $this->pt[$str_thing] = true;
             }
         }
     }
@@ -295,6 +296,7 @@ class cSession {
         switch ($t) {
 
             case "array":
+                /*
                 ## $$var is an array. Enumerate the elements and serialize them.
                 eval("reset(\$$var); \$l = gettype(list(\$k)=each(\$$var));");
                 $str .= "\$$var = array(); ";
@@ -302,6 +304,15 @@ class cSession {
                     ## Structural recursion
                     $this->serialize($var . "['" . preg_replace("/([\\'])/", "\\\\1", $k) . "']", $str);
                     eval("\$l = gettype(list(\$k)=each(\$$var));");
+                }
+                
+                */
+                // $$var is an array. Enumerate the elements and serialize them.
+                $str .= "\$$var = array(); ";
+                eval("\$l = array(); foreach(\$$var as \$k => \$v) {\$l[] = array(\$k,gettype(\$k),\$v);}");
+                foreach ($l as $item) {
+                    // Structural recursion
+                    $this->serialize($var . "['" . preg_replace("/([\\'])/", "\\\\1", $item[0]) . "']", $str);
                 }
 
                 break;
@@ -344,12 +355,27 @@ class cSession {
         $this->serialize("this->pt", $str);
 
         reset($this->pt);
+        $int_cnt_pt = count($this->pt);
+        
+        for($i=0;$i<$int_cnt_pt;$i++) {
+            $thing = trim(key($this->pt));
+            if ($thing && isset($GLOBALS[$thing])) {
+                $this->serialize("GLOBALS['" . $thing . "']", $str);
+            }
+            next($this->pt);
+        }
+        /*
+        reset($this->pt); echo "\n";
         while (list($thing) = each($this->pt)) {
-            $thing = trim($thing);
+        //foreach($this->pt as $thing) {
+            echo "\n".$thing = trim($thing);
             if ($thing && isset($GLOBALS[$thing])) {
                 $this->serialize("GLOBALS['" . $thing . "']", $str);
             }
         }
+         * 
+         */
+        
 //return;
         $r = $this->that->ac_store($this->id, $this->name, $str);
         $this->release_lock();

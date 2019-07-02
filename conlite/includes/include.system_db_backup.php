@@ -358,7 +358,7 @@ function clStatusLine2Array($sLine) {
 <html>
     <head>
         <meta charset="utf-8">
-        <title><?php echo TITLE; ?></title>
+        <title><?php echo CL_BACKUP_VERSION; ?></title>
         <style type="text/css">
             body {position: relative; padding-bottom: 3em;}
             h2, p {margin: 0;}
