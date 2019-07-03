@@ -347,7 +347,7 @@ class MetaTagCreatorHtml5 {
      */
     protected function _checkCacheFile() {
         if(file_exists($this->_sCacheFile)) {
-            $iDiff = mktime() - filemtime($this->_sCacheFile);
+            $iDiff = time() - filemtime($this->_sCacheFile);
             if($iDiff < $this->_aConfig['cachetime']) {
                 return true;
             }

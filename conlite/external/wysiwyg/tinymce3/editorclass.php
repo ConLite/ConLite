@@ -56,7 +56,7 @@ class cTinyMCEEditor extends cWYSIWYGEditor {
      */
     var $_bUseGZIP = false;
 
-    function cTinyMCEEditor($sEditorName, $sEditorContent) {
+    public function __construct($sEditorName, $sEditorContent) {
         global $belang, $cfg, $cfgClient, $client, $lang, $idart;
 
         parent::__construct($sEditorName, $sEditorContent);

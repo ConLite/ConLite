@@ -328,7 +328,9 @@ class PropertyCollection extends ItemCollection
     public function getAllValues($field, $fieldValue, $auth=NULL)
     {
         $authString = '';
-        if (!is_null($auth) && sizeof($auth) > 0) {
+        if (!is_null($auth)
+                && is_countable($auth)
+                && sizeof($auth) > 0) {
             $authString .= " AND author = '" . $auth->auth["uid"] . "'";
         }
 
