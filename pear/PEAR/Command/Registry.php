@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Registry.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 require_once 'PEAR/Command/Common.php';
 require_once 'PEAR/Registry.php';

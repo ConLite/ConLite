@@ -3,7 +3,7 @@
  * $Header: /usr/local/cvsroot/59/contenido_sources/pear/Log.php,v 1.1 2004/09/28 13:08:11 timo.hummel Exp $
  * $Horde: horde/lib/Log.php,v 1.15 2000/06/29 23:39:45 jon Exp $
  *
- * @version $Revision: 2 $
+ * @version $Revision$
  * @package Log
  */
 

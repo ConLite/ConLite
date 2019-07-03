@@ -25,7 +25,7 @@
  *   modified 2009-10-27, Murat Purc, initialization of variable $bError to prevent PHP strict messages
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: functions.api.general.php 378 2015-11-09 20:01:25Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

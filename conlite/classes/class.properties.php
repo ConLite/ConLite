@@ -26,7 +26,7 @@
  *   modified 2011-02-05, Murat Purc, cleanup, formatting and documentation.
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.properties.php 2M 2016-07-22 10:48:29Z (local) $:
+ *   $Id$:
  * }}
  * 
  */

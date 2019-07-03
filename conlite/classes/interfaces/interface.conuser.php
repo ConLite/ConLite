@@ -8,7 +8,7 @@
  * @package Contenido Backend Classes
  * @subpackage Backend User
  *
- * @version $Revision: 2 $
+ * @version $Revision$
  * @author Holger Librenz
  * @copyright four for business AG
  *
@@ -16,7 +16,7 @@
  *  created 2008-11-16, H. Librenz
  *  modified 2008-12-04, Timo Trautman, Added Contenido $cfg as param for getErrorString()
  *
- *  $Id: interface.conuser.php 2 2011-07-20 12:00:48Z oldperl $
+ *  $Id$
  * }}
  */
 

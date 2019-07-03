@@ -11,7 +11,7 @@
  * @category   Web Services
  * @package    XML_RPC
  * @author     Christian Weiske <cweiske@php.net>
- * @version    CVS: $Id: Dump.php 2 2011-07-20 12:00:48Z oldperl $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/XML_RPC
  */
 

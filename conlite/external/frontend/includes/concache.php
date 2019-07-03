@@ -27,7 +27,7 @@
  *   created  2006-07-07
  *   modified 2008-07-03, bilal arslan, added security fix
  *
- *   $Id: concache.php 292 2014-01-20 09:49:37Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *
- *   $Id: include.left_top.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -4,7 +4,7 @@ $RCSfile$
 HOWTO INTEGRATE OR UPGRADE THE TinyMCE WYSIWYG EDITOR IN CONTENIDO
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
-$Id: TINYMCE_INTEGRATION_HOWTO.txt 2 2011-07-20 12:00:48Z oldperl $
+$Id$
 
 - Download the latest TinyMCE release from http://tinymce.moxiecode.com/download.php
   The basic structure is

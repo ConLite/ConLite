@@ -35,7 +35,7 @@
  *
  * {@internal
  *   created  2011-02-23
- *   $Id: phpcompatinfo.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

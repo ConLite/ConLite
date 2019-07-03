@@ -18,7 +18,7 @@
  * @see http://wiki.whatwg.org/wiki/MetaExtensions
  * @author Ortwin Pinke <ortwin.pinke@conlite.org>
  * 
- * $Id: MetaExtension.php 278 2013-11-20 14:28:48Z oldperl $
+ * $Id$
  */
 
 return array(

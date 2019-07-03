@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *
- *   $Id: include.note.display.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

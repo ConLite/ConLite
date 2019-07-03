@@ -5,13 +5,13 @@
  *
  * @package Plugins
  * @subpackage Newsletter
- * @version $Rev: 368 $
+ * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright 2015 CL-Team
  * @link http://www.conlite.org
  *
- * $Id: config.autoloader.php 368 2015-10-27 10:32:42Z oldperl $
+ * $Id$
  */
 
 if(!defined('CON_FRAMEWORK')) {

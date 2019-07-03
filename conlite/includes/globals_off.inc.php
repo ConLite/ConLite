@@ -25,7 +25,7 @@
  *   modified 2008-06-26 Removed $_SERVER and $_ENV because this global vars are read only
  *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready) and removed code for PHP older than 4.1.0
  *   modified 2011-02-04, Murat Purc, fixed potential attac by manipulated request variables (see http://forum.contenido.org/viewtopic.php?f=11&t=30812)
- *   $Id: globals_off.inc.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

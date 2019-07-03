@@ -8,14 +8,14 @@
  * 
  * @package    Backend
  * @subpackage Cronjobs
- * @version    $Rev: 144 $
+ * @version    $Rev$
  * @author     Timo A. Hummel
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: session_cleanup.php 144 2012-11-10 09:39:36Z Mansveld $:
+ *   $Id$:
  */
 
 if (!defined("CON_FRAMEWORK")) {

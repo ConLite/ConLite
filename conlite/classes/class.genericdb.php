@@ -15,7 +15,7 @@
  *
  *
  * @package    Contenido Backend classes
- * @version    $Id: class.genericdb.php 361 2015-10-04 16:56:50Z oldperl $
+ * @version    $Id$
  * @author     Timo A. Hummel
  * @author     Murat Purc <murat@purc.de>
  * @copyright  four for business AG <www.4fb.de>

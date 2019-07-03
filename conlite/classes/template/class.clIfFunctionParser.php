@@ -7,9 +7,9 @@
  * 
  * @package ConLite
  * @subpackage CoreClasses
- * @version $Rev: 206 $
+ * @version $Rev$
  * 
- * $Id: class.clIfFunctionParser.php 206 2013-01-15 16:55:48Z Mansveld $
+ * $Id$
  */
 /**
  * @package     ConLite Backend classes

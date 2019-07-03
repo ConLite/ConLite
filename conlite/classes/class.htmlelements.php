@@ -21,7 +21,7 @@
  * @since      file available since contenido release <= 4.6
  * 
  *
- *   $Id: class.htmlelements.php 365 2015-10-08 14:26:19Z oldperl $:
+ *   $Id$:
  */
 /**
  * 

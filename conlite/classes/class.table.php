@@ -25,7 +25,7 @@
  *   modified 2008-06-30, Frederic Schneider, add security fix
  *   modified 2008-07-03, Timo.Trautmann, added linebreaks for readable source code
  *
- *   $Id: class.table.php 2 2011-07-20 12:00:48Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

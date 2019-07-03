@@ -24,7 +24,7 @@
  *   modified 2008-07-03, bilal arslan, added security fix
  *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready)
  *
- *   $Id: ct_sql.inc 1094 2009-11-06 01:22:13Z xmurrix $:
+ *   $Id$:
  * }}
  * 
  */

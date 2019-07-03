@@ -21,7 +21,7 @@
  * {@internal 
  *   created 2012-12-15
  *
- *   $Id: class.output_compressor.php 261 2013-04-13 09:57:24Z Mansveld $:
+ *   $Id$:
  * }}
  * 
  */

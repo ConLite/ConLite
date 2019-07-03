@@ -23,7 +23,7 @@
  *   created 2003
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *
- *   $Id: functions.lay.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

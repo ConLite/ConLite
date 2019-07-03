@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2010-09-22, Murat Purc, Fixed setting of wrong initial translation id [#CON-347]
  *
- *   $Id: include.mod_translate.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

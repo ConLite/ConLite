@@ -9,7 +9,7 @@
  * 
  * @package Core
  * @subpackage cApiClasses
- * @version $Rev: 302M $
+ * @version $Rev$
  * @since 2.0.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012-2013, ConLite Team <www.conlite.org>
@@ -17,7 +17,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.system_property.php 302M 2016-07-21 16:39:58Z (local) $
+ * $Id$
  */
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');

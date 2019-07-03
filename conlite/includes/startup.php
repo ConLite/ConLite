@@ -18,7 +18,7 @@
  *
  *
  * @package    Contenido Backend includes
- * @version    $Rev: 374 $
+ * @version    $Rev$
  * @author     four for Business AG
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
@@ -26,7 +26,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: startup.php 374 2015-11-09 15:59:28Z oldperl $:
+ *   $Id$:
  */
 
 

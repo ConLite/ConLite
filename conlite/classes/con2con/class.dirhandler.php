@@ -4,7 +4,7 @@
  *
  * @package Core
  * @subpackage Util
- * @version SVN Revision $Rev: 399 $
+ * @version SVN Revision $Rev$
  *
  * @author Frederic Schneider
  * @copyright four for business AG <www.4fb.de>

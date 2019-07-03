@@ -25,7 +25,7 @@
  *   created 2007-06-05
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *
- *   $Id: functions.domxml-php4-to-php5.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

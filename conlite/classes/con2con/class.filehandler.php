@@ -4,7 +4,7 @@
  *
  * @package Core
  * @subpackage cClasses
- * @version $Rev: 372 $
+ * @version $Rev$
  *
  * @author Mischa Holz
  * @copyright four for business AG <www.4fb.de>

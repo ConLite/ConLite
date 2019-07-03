@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2008-07-03, Timo Trautmann, moved inline html to template
  *
- *   $Id: rights_str.inc.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

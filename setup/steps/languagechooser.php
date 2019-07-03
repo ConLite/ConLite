@@ -23,7 +23,7 @@
  *   created  unknown
  *   modified 2008-07-07, bilal arslan, added security fix
  *
- *   $Id: languagechooser.php 99 2012-07-17 12:39:31Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

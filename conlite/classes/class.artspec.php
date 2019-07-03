@@ -24,7 +24,7 @@
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.artspec.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

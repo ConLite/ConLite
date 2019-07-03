@@ -23,7 +23,7 @@
  *   created 2003-05-08
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.info.php 198 2012-12-19 14:46:01Z Mansveld $:
+ *   $Id$:
  * }}
  * 
  */

@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-30, Frederic Schneider, add security fix
  *
- *   $Id: class.frontend.logic.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

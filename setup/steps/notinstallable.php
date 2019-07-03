@@ -7,14 +7,14 @@
  * Description:
  *
  * @package    Setup
- * @version    $Rev: 137 $
+ * @version    $Rev$
  * @author     unknown
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: notinstallable.php 137 2012-10-02 12:00:00Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

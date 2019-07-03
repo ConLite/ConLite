@@ -8,7 +8,7 @@
  * 
  * @package    Backend
  * @subpackage Cronjobs
- * @version    $Rev: 306 $
+ * @version    $Rev$
  * @author     Frederic Schneider
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
@@ -24,7 +24,7 @@
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *   modified 2011-05-12, Dominik Ziegler, forced include of startup.php [#CON-390]
  *
- *   $Id: linkchecker.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -29,14 +29,14 @@
  *
  * @package    External
  * @subpackage TinyMCE
- * @version    $Rev: 441 $
+ * @version    $Rev$
  * @author     Timo Hummel
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: editorclass.php 441 2016-06-29 12:58:08Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

@@ -31,7 +31,7 @@
  *   modified   2012-10-30
  *   modified   2012-11-21
  *
- *   $Id: spider-it.functions.inc.php 450 2016-07-20 11:11:12Z oldperl $:
+ *   $Id$:
  * }
  * 
  */

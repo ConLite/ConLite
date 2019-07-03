@@ -27,7 +27,7 @@
  *   modified 2011-04-22, Murat Purc, Connect to DB server without database and more 
  *                                    readable connection settings.
  *
- *   $Id: $:
+ *   $Id$:
  * }}
  *
  */

@@ -5,7 +5,7 @@
  *
  * @package    Core
  * @subpackage XML
- * @version    SVN Revision $Rev: 353 $
+ * @version    SVN Revision $Rev$
  *
  * @author     Dominik Ziegler
  * @copyright  four for business AG <www.4fb.de>

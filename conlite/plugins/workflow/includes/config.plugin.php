@@ -20,7 +20,7 @@
  * 
  * @todo move functions to own file and add autoloader (Ortwin)  
  *  
- *   $Id: config.plugin.php 293 2014-01-20 14:48:39Z oldperl $
+ *   $Id$
  */
 
 if(!defined('CON_FRAMEWORK')) {

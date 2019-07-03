@@ -23,7 +23,7 @@
  *   created  unknown
  *   modified 2008-07-07, bilal arslan, added security fix
  *
- *   $Id: systemdata.php 393 2015-11-09 21:56:42Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-26, Dominik Ziegler, add security fix
  *
- *   $Id: grouprights_tpl.inc.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

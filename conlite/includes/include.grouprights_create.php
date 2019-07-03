@@ -25,7 +25,7 @@
  *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready)
  *   modified 2011-02-07, Murat Purc, Cleanup, optimization and formatting
  *
- *   $Id: include.grouprights_create.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

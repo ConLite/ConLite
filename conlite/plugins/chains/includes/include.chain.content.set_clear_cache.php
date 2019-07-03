@@ -30,7 +30,7 @@
  *
  * @package    Contenido Backend
  * @subpackage Contenido Chain
- * @version    $Id: include.chain.content.set_clear_cache.php 17 2011-08-09 10:49:01Z oldperl $
+ * @version    $Id$
  * @since      2011-07-14
  * @author     Ortwin Pinke
  * @copyright  DCEonline <www.dceonline.de>

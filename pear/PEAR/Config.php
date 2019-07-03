@@ -16,7 +16,7 @@
 // | Author: Stig Bakken <ssb@php.net>                                    |
 // +----------------------------------------------------------------------+
 //
-// $Id: Config.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 require_once 'PEAR.php';
 require_once 'System.php';

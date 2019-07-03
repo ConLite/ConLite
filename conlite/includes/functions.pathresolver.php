@@ -28,7 +28,7 @@
  * 	 						is found in current and at least one more language
  *   modified 2009-10-23, Murat Purc, removed deprecated function (PHP 5.3 ready) and formatting
  *
- *   $Id: functions.pathresolver.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

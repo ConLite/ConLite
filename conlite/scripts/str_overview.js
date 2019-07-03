@@ -1,13 +1,13 @@
 /*****************************************
 *
-* $Id: str_overview.js 2 2011-07-20 12:00:48Z oldperl $
+* $Id$
 *
 * File      :   $RCSfile: str_overview.js,v $
 * Project   : Contenido
 * Descr     : File contains functions for handling Content->Category forms and layers
 *
 * Author    :   $Author: timo.trautmann$
-* Modified  :   $Date: 2011-07-20 14:00:48 +0200 (Wed, 20 Jul 2011) $
+* Modified  :   $Date$
 *
 * © four for business AG, www.4fb.de
 ******************************************/

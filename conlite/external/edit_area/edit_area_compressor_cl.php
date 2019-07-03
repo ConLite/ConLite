@@ -4,9 +4,9 @@
  * 
  * @package EditArea
  * @author Ortwin Pinke <o.pinke@conlite.org>
- * @version $Rev: 400 $
+ * @version $Rev$
  * 
- * $Id: edit_area_compressor_cl.php 400 2015-11-12 00:09:59Z oldperl $
+ * $Id$
  */
 /* * ****
  *

@@ -16,7 +16,7 @@
  * @since      file available since contenido release <= 4.6
  * 
  * 
- * $Id: class.htmlvalidator.php 312 2014-06-18 11:01:08Z oldperl $:
+ * $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

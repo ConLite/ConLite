@@ -23,7 +23,7 @@
  *   created 2006-05-10
  *   modified 2008-05-23 Added Debug_DevNull and Debug_VisibleAdv
  *   
- *   $Id: class.gdb.mysql.php 401M 2016-07-20 15:15:27Z (local) $
+ *   $Id$
  * }}
  * 
  */

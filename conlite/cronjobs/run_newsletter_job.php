@@ -8,14 +8,14 @@
  *
  * @package    Backend
  * @subpackage Cronjobs
- * @version    $Rev: 80 $
+ * @version    $Rev$
  * @author     Björn Behrens
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: run_newsletter_job.php 80 2012-05-29 12:38:23Z oldperl $:
+ *   $Id$:
  */
 
 if (!defined("CON_FRAMEWORK")) {

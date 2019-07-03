@@ -24,7 +24,7 @@
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *   modified 2011-02-08, Dominik Ziegler, removed old PHP compatibility stuff as contenido now requires at least PHP 5
  *
- *   $Id: ajaxmain.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

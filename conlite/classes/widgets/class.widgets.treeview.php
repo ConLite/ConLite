@@ -4,11 +4,11 @@
  * File      :   $RCSfile: class.widgets.treeview.php,v $
  * Project   :   Contenido
  * Descr     :   Visual representation of a cTree
- * Modified  :   $Date: 2012-05-29 14:38:23 +0200 (Tue, 29 May 2012) $
+ * Modified  :   $Date$
  *
  * � four for business AG, www.4fb.de
  *
- * $Id: class.widgets.treeview.php 80 2012-05-29 12:38:23Z oldperl $
+ * $Id$
  * **************************************** */
 
 define("TREEVIEW_GRIDLINE_SOLID", "solid");

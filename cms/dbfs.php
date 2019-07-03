@@ -27,7 +27,7 @@
  *   modified 2008-07-03, bilal arslan, added security fix
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: dbfs.php 450 2016-07-20 11:11:12Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

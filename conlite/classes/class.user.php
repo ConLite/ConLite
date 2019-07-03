@@ -29,7 +29,7 @@
  *   modified 2011-02-05, Murat Purc, Cleanup/formatting, documentation, standardize
  *                                    getUserProperties()
  *
- *   $Id: class.user.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

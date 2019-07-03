@@ -51,7 +51,7 @@
  * @author  Markus Nix <mnix@docuverse.de>
  * @author  Matthias Sommerfeld <mso@phlylabs.de>
  * @package Net
- * @version $Id: php5.php 2 2011-07-20 12:00:48Z oldperl $
+ * @version $Id$
  */
 
 class Net_IDNA_php5

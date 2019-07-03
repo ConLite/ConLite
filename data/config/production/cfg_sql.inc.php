@@ -23,7 +23,7 @@
  *   created 2003-01-21
  *   modified 2008-06-25, Frederic Schneider, add security fix
  *
- *   $Id: cfg_sql.inc.php 381 2015-11-09 20:38:22Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

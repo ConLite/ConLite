@@ -7,9 +7,9 @@
  * 
  * @package ConLite
  * @subpackage CoreClasses
- * @version $Rev: 147 $
+ * @version $Rev$
  * 
- * $Id: class.clAbstractTemplateParser.php 147 2012-11-12 17:37:33Z Mansveld $
+ * $Id$
  */
 /**
  * @package     ConLite Backend classes

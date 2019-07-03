@@ -24,7 +24,7 @@
  *   created  2000-01-01
  *   modified 2008-07-03, bilal arslan, added security fix
  *
- *   $Id: ct_ldap.inc 1315 2011-03-03 00:02:52Z xmurrix $:
+ *   $Id$:
  * }}
  * 
  */

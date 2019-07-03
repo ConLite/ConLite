@@ -23,7 +23,7 @@
  *   created 2003-08-05
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.mycontenido_lastarticles.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

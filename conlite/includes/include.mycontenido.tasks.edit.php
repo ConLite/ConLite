@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready)
  *
- *   $Id: include.mycontenido.tasks.edit.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -24,7 +24,7 @@
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *   modified 2010-08-13, Dominik Ziegler, fixed CON-337 - added update of lastmodified
  *
- *   $Id: functions.mod.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

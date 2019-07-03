@@ -22,7 +22,7 @@
  *   created  unknown
  *   modified 2008-07-07, bilal arslan, added security fix
  *
- *   $Id: step2.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

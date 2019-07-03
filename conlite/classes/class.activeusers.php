@@ -16,7 +16,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: class.activeusers.php 362 2015-10-05 16:31:26Z oldperl $;
+ *   $Id$;
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

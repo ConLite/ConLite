@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2008-09-08
  *   modified 2009-06-25, Ingo van Peeren, added some array checks and initializing
- *   $Id: include.ajax.con.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

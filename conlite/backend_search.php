@@ -28,7 +28,7 @@
  *   modified 2008-09-08, Oliver Lohkemper, Fixed: "Fatal error: Class 'PropertyCollection' not found"
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: backend_search.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

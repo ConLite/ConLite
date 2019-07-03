@@ -24,7 +24,7 @@
  *   modified 2008-05-21 Added methods add(), reset(), showAll()
  *   modified 2008-06-25 Removed die() from show() method
  * 
- *   $Id: Debug_DevNull.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

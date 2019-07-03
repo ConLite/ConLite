@@ -18,7 +18,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: PEAR.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 //
 
 define('PEAR_ERROR_RETURN',     1);

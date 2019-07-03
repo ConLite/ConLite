@@ -29,7 +29,7 @@
  *                                    'Contenido.Frontend.PostprocessUrlBuilding'
  *   modified 2009-03-27, Andreas Lindner, Add title tag generation via chain    
  *
- *   $Id: config.chains.php 383 2015-11-09 20:39:22Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

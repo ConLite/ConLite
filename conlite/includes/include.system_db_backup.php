@@ -3,11 +3,11 @@
  * 
  * @package CL-Core
  * @subpackage DB-Backup
- * @version $Rev: 438 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012-2013, conlite.org
  * 
- * $Id: include.system_db_backup.php 438 2016-05-17 17:31:24Z oldperl $
+ * $Id$
  */
 /* @var $sess Contenido_Session */
 /* @var $perm Contenido_Perm */

@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2008-08-14, Timo Trautmann, Bilal Arslan - Functions for versionning and storing file meta data added
  *
- *   $Id: include.js_edit_form.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

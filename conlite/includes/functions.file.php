@@ -26,7 +26,7 @@
  *   modified 2008-08-14, Timo.Trautmann added file_information functions for storing file meta indormations
  *   modified 2009-10-23, Murat Purc, removed deprecated function (PHP 5.3 ready), added new function fileValidateFilename() and commented code
  *
- *   $Id: functions.file.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

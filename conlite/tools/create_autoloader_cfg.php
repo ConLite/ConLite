@@ -30,7 +30,7 @@
  * {@internal
  *   created  2010-12-27
  *   modified 2010-12-29, Murat Purc, removed parsing of pear folder
- *   $Id: create_autoloader_cfg.php 419 2016-01-23 16:48:40Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

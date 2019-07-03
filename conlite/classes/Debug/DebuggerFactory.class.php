@@ -23,7 +23,7 @@
  *   modified 2008-05-07 Added Debug_DevNull, extended Exception message.
  *   modified 2008-05-21 Added Debug_VisibleAdv
  *   
- *   $Id: DebuggerFactory.class.php 9 2011-07-27 06:22:34Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

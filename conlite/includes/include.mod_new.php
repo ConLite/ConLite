@@ -11,7 +11,7 @@
  * 
  *
  * @package    Contenido Backend includes
- * @version    $Id: include.mod_new.php 330 2015-06-22 11:59:04Z oldperl $
+ * @version    $Id$
  * @author     unknown
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt

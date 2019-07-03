@@ -23,7 +23,7 @@
  *   created 2005-06-27
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *
- *   $Id: class.wysiwyg_editor.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

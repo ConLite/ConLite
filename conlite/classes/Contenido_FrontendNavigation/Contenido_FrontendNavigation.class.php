@@ -29,7 +29,7 @@
  *                                      Added method isActiveChildOfRootOfCategory()
  *   modified 2009-04-29 Rudi Bieller Bugfix in isActiveChild()
  *
- *   $Id: Contenido_FrontendNavigation.class.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -19,7 +19,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: functions.stat.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

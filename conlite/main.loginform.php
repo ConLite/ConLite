@@ -27,7 +27,7 @@
  *   modified 2010-05-25, Dominik Ziegler, Remove password and username maxlength definitions at backend login [#CON-314]
  *   modified 2010-05-27, Dominik Ziegler, restored maxlength definition for username at backend login [#CON-314]
  *
- *   $Id: main.loginform.php 445 2016-07-08 09:27:16Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

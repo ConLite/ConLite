@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2008-01-05, Timo Trautmann, add clHtmlSpecialChars() instead of htmlentitydecode() because of UTF-8 Bug
  *
- *   $Id: include.CMS_HEAD.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -24,7 +24,7 @@
  *   modified 2008-12-22, Murat Purc, fixed file exists check of userdefined UrlBuilder
  *   modified 2009-01-01, Murat Purc, changed call of call_user_func to support php previous to 5.2.3
  *   
- *   $Id: Contenido_UrlBuilderFactory.class.php 2 2011-07-20 12:00:48Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

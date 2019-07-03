@@ -2,7 +2,7 @@
 /**
  * $Header: /usr/local/cvsroot/59/contenido_sources/pear/Log/win.php,v 1.1 2004/09/28 13:08:44 timo.hummel Exp $
  *
- * @version $Revision: 2 $
+ * @version $Revision$
  * @package Log
  */
 

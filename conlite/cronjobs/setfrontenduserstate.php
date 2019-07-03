@@ -8,14 +8,14 @@
  * 
  * @package    Backend
  * @subpackage Cronjobs
- * @version    $Rev: 306 $
+ * @version    $Rev$
  * @author     Rudi Bieller
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: setfrontenduserstate.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  */
 
 if (!defined("CON_FRAMEWORK")) {

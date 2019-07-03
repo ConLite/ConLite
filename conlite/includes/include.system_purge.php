@@ -6,7 +6,7 @@
  * Contenido Purge include file to reset some datas(con_code, con_cat_art) and files (log, cache, history)
  *
  * @package    Contenido Backend includes
- * @version    $Rev: 86 $
+ * @version    $Rev$
  * @author     Munkh-Ulzii Balidar
  * @author     Ortwin Pinke
  * @copyright  four for business AG <www.4fb.de>
@@ -15,7 +15,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.8.12
  *
- *   $Id: include.system_purge.php 86 2012-06-01 16:46:19Z oldperl $:
+ *   $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

@@ -21,7 +21,7 @@
  * 
  * {@internal 
  *   created 2008-08-05
- *   $Id: include.html_tpl_history.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

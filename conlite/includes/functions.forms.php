@@ -23,7 +23,7 @@
  *   created 2003-05-20
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *
- *   $Id: functions.forms.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

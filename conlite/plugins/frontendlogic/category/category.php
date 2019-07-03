@@ -21,7 +21,7 @@
  *   created
  *   modified 2008-08-06, Ingo van Peeren - replaced genericdb-code due to performance issues (ticket #)
  *
- *   $Id: category.php 306 2014-03-13 23:03:26Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

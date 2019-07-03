@@ -30,7 +30,7 @@
  *		- added new property aUsedTemplates and saved the information of used templates 
  *		- added new method getUsedTemplates
  *									
- *   $Id: class.layout.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

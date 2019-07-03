@@ -25,7 +25,7 @@
  *             changed method setDebug() in Contenido_Category_Base to allow all debug modes available
  *   modified 2009-01-05 Bugfix in Contenido_Categories::load() Subcategories will be loaded only if set so.
  *   modified 2009-01-14 Removed duplicate row in sql select at method load()
- *   $Id: Contenido_Category.class.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

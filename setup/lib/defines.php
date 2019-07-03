@@ -7,12 +7,12 @@
  * 
  * @package ConLite
  * @subpackage Setup
- * @version $Rev: 375 $
+ * @version $Rev$
  * @author 
  * @license http://www.gnu.de/documents/gpl-3.0.de.html GNU General Public License (GPL)
  * @link http://conlite.conrepo.org ConLite Portal
  * 
- * $Id: defines.php 375 2015-11-09 16:08:53Z oldperl $
+ * $Id$
  */
 
 /**

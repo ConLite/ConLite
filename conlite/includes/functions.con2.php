@@ -22,7 +22,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- * $Id: functions.con2.php 367 2015-10-19 10:08:51Z oldperl $:
+ * $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

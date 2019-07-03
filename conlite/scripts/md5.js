@@ -14,7 +14,7 @@
  * Of course, this soft is provided "as is" without express or implied
  * warranty of any kind.
  *
- * $Id: md5.js 2 2011-07-20 12:00:48Z oldperl $
+ * $Id$
  *
  */
 

@@ -23,7 +23,7 @@
  *   created 2002-01-21
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.left_top_blank.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

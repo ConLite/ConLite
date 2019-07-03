@@ -29,7 +29,7 @@
  *   modified 2010-01-15, Dominik Ziegler, added frontend url to client name
  *   modified 2011-01-28, Dominik Ziegler, added check for client existance for link to frontend [#CON-378]
  *
- *   $Id: class.navigation.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

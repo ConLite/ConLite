@@ -26,7 +26,7 @@
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.lang.php 123 2012-08-30 11:11:09Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

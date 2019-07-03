@@ -3,11 +3,11 @@
  * 
  * @package Core
  * @subpackage cApiClasses
- * @version $Rev: 350 $
+ * @version $Rev$
  * @author Ortwin Pinke
  * @copyright (c) 2015, CL-Team
  * 
- *   $Id: class.upload.meta.php 350 2015-09-24 11:52:45Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

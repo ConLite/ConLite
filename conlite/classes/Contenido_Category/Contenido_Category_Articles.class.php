@@ -30,7 +30,7 @@
  *  modified 2010-10-28 Ortwin Pinke, changed behaviour for $sOrderBy in getNonStartArticlesInCategory()
  *
  * 
- *  $Id: Contenido_Category_Articles.class.php 306 2014-03-13 23:03:26Z oldperl $:
+ *  $Id$:
  * }}
  *
  */

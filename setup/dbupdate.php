@@ -16,7 +16,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: dbupdate.php 377 2015-11-09 19:10:37Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     define('CON_FRAMEWORK', true);

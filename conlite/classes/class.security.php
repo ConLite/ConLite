@@ -8,7 +8,7 @@
  * This object makes contenido more secure
  *
  * @package    Contenido Backend classes
- * @version    $Id: class.security.php 312 2014-06-18 11:01:08Z oldperl $:
+ * @version    $Id$:
  * @author     Frederic Schneider
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt

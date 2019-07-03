@@ -13,7 +13,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  * 
- * $Id: class.csv.php 214 2013-01-25 15:50:04Z oldperl $:
+ * $Id$:
  */
 
 if (!defined('CON_FRAMEWORK')) {

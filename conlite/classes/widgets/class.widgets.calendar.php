@@ -22,7 +22,7 @@
  * {@internal 
  *   created 
  *   
- *   $Id: class.widgets.calendar.php 2 2011-07-20 12:00:48Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

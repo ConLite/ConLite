@@ -25,7 +25,7 @@
  *   modified 2008-07-23, Timo Trautmann optional db param added for langGetTextDirection (performance tuning)
  *   modified 2009-10-23, Murat Purc, removed deprecated function (PHP 5.3 ready) and some formatting
  *
- *   $Id: functions.lang.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

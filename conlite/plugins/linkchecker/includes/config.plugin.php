@@ -23,7 +23,7 @@
  *   created 2007-08-08
  *   modified 2007-12-13, 2008-05-15
  *
- *   $Id: config.plugin.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

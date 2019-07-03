@@ -25,7 +25,7 @@
  *  modified 2008-06-30, Dominik Ziegler, add security fix
  *  modified 2010-12-13, Ortwin Pinke, count up object id's in cScrollList while rendering
  *
- *   $Id: class.ui.php 75 2012-05-25 10:51:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

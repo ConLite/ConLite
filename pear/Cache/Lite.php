@@ -19,7 +19,7 @@
 *
 * @package Cache_Lite
 * @category Caching
-* @version $Id: Lite.php 2 2011-07-20 12:00:48Z oldperl $
+* @version $Id$
 * @author Fabien MARTY <fab@php.net>
 */
 

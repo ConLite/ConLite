@@ -24,7 +24,7 @@
  *   modified 2008-07-02, Frederic Schneider, add security fix and include security_class
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: include.backendedit.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

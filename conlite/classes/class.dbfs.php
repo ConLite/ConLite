@@ -27,7 +27,7 @@
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *   modified 2011-06-02, Murat Purc, Fixed typo in function write()
  *
- *   $Id: class.dbfs.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Autoloader.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 if (!extension_loaded("overload")) {
     // die hard without ext/overload

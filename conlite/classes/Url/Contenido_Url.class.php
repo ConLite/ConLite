@@ -29,7 +29,7 @@
  *   modified 2009-10-27, Murat Purc, fixed/modified CEC_Hook, see [#CON-256]
  *   modified 2011-05-20, Murat Purc, fixed wrong condition in function parse(), see [#CON-399]
  *
- *   $Id: Contenido_Url.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

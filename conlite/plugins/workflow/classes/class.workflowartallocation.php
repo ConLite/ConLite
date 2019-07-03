@@ -22,7 +22,7 @@
  *   created 2003-07-18
  *   modified : 2008-06-25 - use php mailer class instead of mail()
  *   
- *   $Id: class.workflowartallocation.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

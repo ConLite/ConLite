@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *
- *   $Id: config.plugin.php 275 2013-09-11 12:49:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

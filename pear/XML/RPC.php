@@ -32,7 +32,7 @@
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2005 The PHP Group
- * @version    CVS: $Id: RPC.php 2 2011-07-20 12:00:48Z oldperl $
+ * @version    CVS: $Id$
  * @link       http://pear.php.net/package/XML_RPC
  */
 

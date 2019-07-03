@@ -13,7 +13,7 @@
 # @link       http://www.4fb.de
 # @link       http://www.contenido.org
 #
-# $Id: htaccess_restrictive.txt 3503 2012-10-19 19:49:39Z xmurrix $
+# $Id$
 ################################################################################
 
 

@@ -7,7 +7,7 @@
  * Contenido In-Use classes
  *
  * @package    Contenido Backend classes
- * @version    $Rev: 89 $
+ * @version    $Rev$
  * @author     Timo A. Hummel
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
@@ -15,7 +15,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: class.inuse.php 89 2012-06-05 08:18:09Z oldperl $:
+ *   $Id$:
  */
 
 if (!defined('CON_FRAMEWORK')) {

@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *   modified 2008-08-03, Bj�rn Behrens (HerrB), complete makeover to fix bugs and reduce memory waste
  *
- *   $Id: include.newsletter_left_top.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

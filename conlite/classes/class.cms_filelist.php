@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2009-10-01
  *   modified 2010-10-29, Dominik Ziegler - fixed CON-362 (removed whitespace from client setting)
- *   $Id: class.cms_filelist.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -1,7 +1,7 @@
 <?php
 /**
  * 
- *   $Id: index.php 392 2015-11-09 21:29:56Z oldperl $:
+ *   $Id$:
  */
  /**
  * Project:

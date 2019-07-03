@@ -17,7 +17,7 @@
 // |          Vinai Kopp <kopp@netzarbeiter.de>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Output.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 cInclude('pear', 'Cache/Cache.php');
 

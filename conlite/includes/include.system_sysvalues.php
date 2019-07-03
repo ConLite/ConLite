@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2011-05-18, Ortwin Pinke, clean url due to validate page
  *
- *   $Id: include.system_sysvalues.php 378 2015-11-09 20:01:25Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

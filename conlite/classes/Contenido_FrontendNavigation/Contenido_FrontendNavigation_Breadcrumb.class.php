@@ -22,7 +22,7 @@
  *   created 2008-02-15
  *   @todo Add possibility to load subcategories
  * 
- *   $Id: Contenido_FrontendNavigation_Breadcrumb.class.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

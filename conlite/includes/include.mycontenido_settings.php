@@ -26,7 +26,7 @@
  *   modified 2008-11-17, H. Librenz - method calls on new ConUser object modified, comments added
  *   modified 2011-02-07, Dominik Ziegler, removed integration of not supported java module editor
  *
- *   $Id: include.mycontenido_settings.php 130 2012-09-13 10:34:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

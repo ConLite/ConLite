@@ -8,7 +8,7 @@
  * 
  * @package Core
  * @subpackage cApiClasses
- * @version $Rev: 438 $
+ * @version $Rev$
  * @since 2.0.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2016, ConLite Team <www.conlite.org>
@@ -16,7 +16,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.stat.php 438 2016-05-17 17:31:24Z oldperl $
+ * $Id$
  */
 
 // security check

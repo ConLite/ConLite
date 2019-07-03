@@ -7,9 +7,9 @@
  * @subpackage CL-Includes
  * @author Ortwin Pinke <ortwin.pinke@conlite.org>
  * @copyright (c) 2014, www.conlite.org
- * @version $Rev: 362 $
+ * @version $Rev$
  * 
- * $Id: functions.php54.php 362 2015-10-05 16:31:26Z oldperl $
+ * $Id$
  */
 
 // security

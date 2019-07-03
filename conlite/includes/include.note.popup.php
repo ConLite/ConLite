@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *
- *   $Id: include.note.popup.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

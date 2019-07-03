@@ -23,7 +23,7 @@
  *   created  unknown
  *   modified 2008-07-07, bilal arslan, added security fix
  *
- *   $Id: clientmode.php 137 2012-10-02 12:00:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

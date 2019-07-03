@@ -4,11 +4,11 @@
  * 
  * @package ConLite
  * @subpackage Setup
- * @version $Rev: 283 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2017, conlite.org
  * 
- * $Id: class.template.php 283 2014-01-09 14:48:38Z oldperl $:
+ * $Id$:
  */
 /**
  * @package    ContenidoBackendArea

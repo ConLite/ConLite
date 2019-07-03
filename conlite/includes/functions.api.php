@@ -23,7 +23,7 @@
  *   created 2003-08-08
  *   modified 2008-06-25, Frederic Schneider, add security fix
  *
- *   $Id: functions.api.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

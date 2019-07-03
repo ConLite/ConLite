@@ -27,7 +27,7 @@
  *   modified 2008-10-16, Oliver Lohkemper, add copyright in upl_meta - CON-212  
  *   modified 2010-09-20, Dominik Ziegler, implemented check for write permissions - CON-319
  *
- *   $Id: include.upl_edit.php 424 2016-02-25 06:28:41Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

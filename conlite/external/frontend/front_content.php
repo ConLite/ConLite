@@ -65,7 +65,7 @@
  *   modified 2011-02-07, Dominik Ziegler, added exit after redirections to force their execution
  *   modified 2011-02-10, Dominik Ziegler, moved function declaration of IP_match out of front_content.php
  *
- *   $Id: front_content.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -40,7 +40,7 @@
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *   modified 2011-05-19, Murat Purc, adapted to PHP 5, formatted and documented code
  *
- *   $Id: class.notification.php 75 2012-05-25 10:51:00Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

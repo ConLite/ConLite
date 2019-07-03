@@ -24,7 +24,7 @@
  *   modified unknown, Martin Horwath <horwath@dayside.net>
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *
- *   $Id: class.xml.php 374 2015-11-09 15:59:28Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

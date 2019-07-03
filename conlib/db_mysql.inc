@@ -31,7 +31,7 @@
  *                                    readable connection settings.
  *   modified 2011-05-17, Ortwin Pinke, bugfix in methode nextid().
  *
- *   $Id: db_mysql.inc 1359 2011-05-17 13:24:24Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

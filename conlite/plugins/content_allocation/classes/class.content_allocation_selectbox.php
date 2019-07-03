@@ -13,7 +13,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  * 
- * $Id: class.content_allocation_selectbox.php 2 2011-07-20 12:00:48Z oldperl $:
+ * $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

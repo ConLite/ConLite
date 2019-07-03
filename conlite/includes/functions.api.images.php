@@ -24,7 +24,7 @@
  *   created 2003-08-08
  *   modified 2008-06-25, Frederic Schneider, add security fix
  *
- *   $Id: functions.api.images.php 358 2015-09-28 17:53:12Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

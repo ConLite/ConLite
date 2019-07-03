@@ -25,7 +25,7 @@
  *   modified 2008-07-03, Frederic Schneider, fixed wrong escape
  *   modified 2008-07-03, Timo Trautmann, moved inline html to template
  *
- *   $Id: rights_mod.inc.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

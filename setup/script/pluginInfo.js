@@ -1,6 +1,6 @@
 /**
  *
- * $Id: pluginInfo.js 279 2013-11-21 14:34:53Z oldperl $
+ * $Id$
  */
 /*****************************************
 *
@@ -11,7 +11,7 @@
                     crorrecting its position, when browser window is resized
 *
 * Author    :   $Author: timo.trautmann$
-* Modified  :   $Date: 2013-11-21 15:34:53 +0100 (Thu, 21 Nov 2013) $
+* Modified  :   $Date$
 *
 * � four for business AG, www.4fb.de
 ******************************************/

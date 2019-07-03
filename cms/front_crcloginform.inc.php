@@ -4,7 +4,7 @@
  * 
  * @package    ConLite
  * @subpackage Frontend
- * @version    $Rev: 450 $
+ * @version    $Rev$
  * @author     Ortwin Pinke
  * @copyright  conrepo.org
  * @link       http://conlite.conrepo.org
@@ -14,7 +14,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: front_crcloginform.inc.php 450 2016-07-20 11:11:12Z oldperl $:
+ *   $Id$:
  */
 
 /**

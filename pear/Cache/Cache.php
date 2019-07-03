@@ -16,7 +16,7 @@
 // |          Sebastian Bergmann <sb@sebastian-bergmann.de>               |
 // +----------------------------------------------------------------------+
 //
-// $Id: Cache.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 
 cInclude('pear', 'PEAR.php');
@@ -60,7 +60,7 @@ cInclude('pear', 'Cache/Error.php');
 *          bad circumstances  (especially with the file container)
 *
 * @author   Ulf Wendel <ulf.wendel@phpdoc.de>
-* @version  $Id: Cache.php 2 2011-07-20 12:00:48Z oldperl $
+* @version  $Id$
 * @package  Cache
 * @access   public
 */

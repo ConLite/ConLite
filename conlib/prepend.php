@@ -25,7 +25,7 @@
  *   modified 2009-10-29, Murat Purc, automatic loading of configured database driver
  *   modified 2011-03-21, Murat Purc, inclusion of ct_session.inc
  *
- *   $Id: prepend.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -29,7 +29,7 @@
  *   modified 2011-03-18, Murat Purc, Fixed occuring "Duplicated entry" errors by using CT_Sql, see [CON-370]
  *   modified 2011-03-21, Murat Purc, added Contenido_CT_Session to uses PHP's session implementation
  *
- *   $Id: local.php 300 2014-01-30 14:28:53Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

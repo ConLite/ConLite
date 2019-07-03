@@ -36,7 +36,7 @@
  *   modified 2010-09-17, Ingo van Peeren, fixed some issues wrong level information causing garbled tree [#CON-348]
  *   modified 2010-10-13, Dominik Ziegler, No copy label per default when copying articles or categories (CON-352)
  *
- *   $Id: functions.str.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

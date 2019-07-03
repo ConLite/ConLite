@@ -22,7 +22,7 @@
  *   created  2008-02-21
  *   modified 2008-09-29, Murat Purc, added getHttpBasePath() method
  *   
- *   $Id: Contenido_UrlBuilder.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

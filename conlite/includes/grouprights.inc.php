@@ -24,7 +24,7 @@
  *   modified 2008-06-26, Dominik Ziegler, add security fix
  * 	 modified 2008-07-28, Bilal Arslan, moved inline html to template
  *
- *   $Id: grouprights.inc.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

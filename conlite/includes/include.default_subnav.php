@@ -23,7 +23,7 @@
  * {@internal 
  *   created 2010-08-23
  *
- *   $Id: include.default_subnav.php 75 2012-05-25 10:51:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

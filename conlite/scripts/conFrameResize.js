@@ -1,5 +1,5 @@
 /**
- * conFrameResize Class $Id: conFrameResize.js 2 2011-07-20 12:00:48Z oldperl $
+ * conFrameResize Class $Id$
  *
  * Controls the Contenido frame toggling and resizing
  *
@@ -7,7 +7,7 @@
  * @copyright four for business AG <www.4fb.de>
  * @version 0.9
  *
- * $Author: oldperl $ $Date: 2011-07-20 14:00:48 +0200 (Wed, 20 Jul 2011) $
+ * $Author: oldperl $ $Date$
  * $RCSfile: conFrameResize.js,v $
  */
 function conFrameResize(parentFrameId, frameOne, frameTwo, frameThree, frameFour)

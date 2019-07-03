@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2003-07-18
  *   
- *   $Id: class.workflow.php 306 2014-03-13 23:03:26Z oldperl $
+ *   $Id$
  * }}
  * 
  */

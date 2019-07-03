@@ -25,7 +25,7 @@
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *   modified 2010-07-03, Ortwin Pinke, removed '=&', causes deprecated runtime error with PHP >= 5.3
  *
- *   $Id: class.xmltree.php 374 2015-11-09 15:59:28Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

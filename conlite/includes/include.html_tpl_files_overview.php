@@ -24,7 +24,7 @@
  *   created 2004-07-14
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.html_tpl_files_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

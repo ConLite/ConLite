@@ -22,7 +22,7 @@
  *   created 2012-12-06
  *   modified 2012-12-20, Rene Mansveld
  *
- *   $Id: include.CMS_QRCODE.php 207 2013-01-23 09:23:45Z Mansveld $:
+ *   $Id$:
  * }}
  * 
  */

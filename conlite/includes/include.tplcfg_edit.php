@@ -25,7 +25,7 @@
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  *
- *   $Id: include.tplcfg_edit.php 367 2015-10-19 10:08:51Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

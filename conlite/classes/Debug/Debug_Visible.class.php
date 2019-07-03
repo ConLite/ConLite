@@ -24,7 +24,7 @@
  *   created 2007-01-01
  *   modified 2008-05-21 Added methods add(), reset(), showAll()
  *
- *   $Id: Debug_Visible.class.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -20,7 +20,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: include.upl_files_overview.php 374 2015-11-09 15:59:28Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

@@ -25,7 +25,7 @@
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  *   modified 2010-08-18, Munkh-Ulzii Balidar, added functionality to show the used information
  *
- *   $Id: include.tpl_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

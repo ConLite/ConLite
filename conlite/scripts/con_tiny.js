@@ -19,7 +19,7 @@
  *   created 2008-09-05
  *   modified 2009-01-23, Ortwin Pinke, BUG-Fix in setFocus first parameter for execInstanceCommand has to be the Id of Tinyobject, not the object itself 
  *
- *   $Id: con_tiny.js 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

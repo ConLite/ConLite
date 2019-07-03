@@ -19,7 +19,7 @@
  * than modifying calendar.js itself).
  */
 
-// $Id: calendar-setup.js 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 /**
  *  This function "patches" an input field (or other element) to use a calendar

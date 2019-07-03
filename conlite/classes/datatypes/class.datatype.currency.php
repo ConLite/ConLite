@@ -20,7 +20,7 @@
  * 
  * {@internal 
  *
- *   $Id: class.datatype.currency.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

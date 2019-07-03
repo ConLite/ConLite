@@ -8,7 +8,7 @@
  *
  * @package    Contenido Backend scripts
  * @subpackage Helpsystem
- * @version    $Id: help.js.php 342 2015-09-09 07:41:17Z oldperl $:
+ * @version    $Id$:
  * @author     Ortwin Pinke
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt

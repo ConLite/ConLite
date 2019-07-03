@@ -24,7 +24,7 @@
  *   modified 2008-07-07, bilal arslan, added security fix
  *   modified 2011-03-21, Murat Purc, usage of new db connection
  *
- *   $Id: clientadjust.php 431 2016-04-26 09:37:30Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

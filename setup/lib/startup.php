@@ -19,7 +19,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.8.15
  *
- *   $Id: startup.php 379 2015-11-09 20:32:17Z oldperl $
+ *   $Id$
  */
 
 if (!defined('CON_FRAMEWORK')) {

@@ -27,7 +27,7 @@
  *	                                       backend editing and preview 
  *	 modified 2008-09-17, Dominik Ziegler, added 'client' for backend editing and preview
  *
- *   $Id: config.http_check.php 390 2015-11-09 21:02:55Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

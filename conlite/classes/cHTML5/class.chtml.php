@@ -8,7 +8,7 @@
  * 
  * @package Core
  * @subpackage cHTML
- * @version $Rev: 442 $
+ * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012, conlite.org
@@ -16,7 +16,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.chtml.php 442 2016-06-30 09:15:43Z oldperl $
+ * $Id$
  */
 
 // security check

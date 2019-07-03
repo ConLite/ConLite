@@ -7,13 +7,13 @@
  * 
  * @package Core
  * @subpackage Classes
- * @version $Rev: 378 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @license http://www.gnu.de/documents/gpl-2.0.de.html GPL
  * @link http://conlite.org ConLite Portal
  * @todo recode and optimize methods, remove all contenido related stuff
  * 
- * $Id: class.update.notifier.php 378 2015-11-09 20:01:25Z oldperl $
+ * $Id$
  */
 /**
  * @package    Contenido Backend classes

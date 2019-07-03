@@ -26,7 +26,7 @@
  * {@internal 
  *   created 2008-05-20
  *
- *   $Id: Debug_VisibleAdv.class.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

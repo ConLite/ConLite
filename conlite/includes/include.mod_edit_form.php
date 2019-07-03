@@ -25,7 +25,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2011-02-07, Dominik Ziegler, removed integration of not supported java module editor
  *
- *   $Id: include.mod_edit_form.php 438 2016-05-17 17:31:24Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

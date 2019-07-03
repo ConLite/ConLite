@@ -23,7 +23,7 @@
  *   created 2003-05-08
  *   modified 2008-06-26, Dominik Ziegler, add security fix
  *
- *   $Id: include.client_menu.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

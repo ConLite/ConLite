@@ -27,7 +27,7 @@
  *   created  2000-01-01
  *   modified 2008-07-03, bilal arslan, added security fix
  *
- *   $Id: ct_file.inc 740 2008-08-27 10:45:04Z timo.trautmann $:
+ *   $Id$:
  * }}
  * 
  */

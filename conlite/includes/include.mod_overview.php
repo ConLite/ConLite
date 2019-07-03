@@ -25,7 +25,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2010-08-18, Munkh-Ulzii Balidar, add a functionality to show the used info
  *
- *   $Id: include.mod_overview.php 359 2015-10-01 10:55:49Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

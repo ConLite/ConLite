@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2006-10-05
  *   
- *   $Id: class.ctreeitem.php 2 2011-07-20 12:00:48Z oldperl $
+ *   $Id$
  * }}
  * 
  */

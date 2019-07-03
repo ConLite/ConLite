@@ -23,7 +23,7 @@
  *   created 2003-12-29
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.upl_search_results.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

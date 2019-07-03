@@ -23,7 +23,7 @@
  *   created  unknown
  *   modified 2011-03-15, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.widgets.actionbutton.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

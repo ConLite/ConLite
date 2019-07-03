@@ -8,7 +8,7 @@
  * 
  * @deprecated since version 2.0.0 no longer used, use CSS instead, will removed in the future
  * 
- *   $Id: config.colors.php 384 2015-11-09 20:39:40Z oldperl $:
+ *   $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

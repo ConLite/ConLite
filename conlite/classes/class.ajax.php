@@ -23,7 +23,7 @@
  * {@internal 
  *   created 2009-04-08
  *
- *   $Id: class.ajax.php 424 2016-02-25 06:28:41Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

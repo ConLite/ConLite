@@ -4,7 +4,7 @@
  *
  * @package	Includes
  * @subpackage  Plugins
- * @version	$Rev: 345 $
+ * @version	$Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2015, conlite.org
@@ -12,7 +12,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  *
- *   $Id: functions.includePluginConf.php 345 2015-09-14 11:16:10Z oldperl $:
+ *   $Id$:
  */
 defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization - request aborted.');
 

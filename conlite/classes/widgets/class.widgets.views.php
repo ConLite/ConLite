@@ -23,7 +23,7 @@
  *   created 2004-08-04
  *   modified 2010-05-11, Dominik Ziegler, removed output of "foo"
  *   
- *   $Id: class.widgets.views.php 160 2012-11-27 21:08:41Z oldperl $
+ *   $Id$
  * }}
  * 
  */

@@ -30,7 +30,7 @@
  *   modified 2011-04-22, Murat Purc, Connect to DB server without database and more 
  *                                    readable connection settings.
  *
- *   $Id: db_mysqli.inc 1350 2011-04-22 15:53:39Z xmurrix $:
+ *   $Id$:
  * }}
  *
  */

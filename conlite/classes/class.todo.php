@@ -24,7 +24,7 @@
  *   modified 2008-06-30, Frederic Schneider, add security fix
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.todo.php 78 2012-05-25 11:35:10Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

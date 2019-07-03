@@ -23,7 +23,7 @@
  *   created 2003-04-01
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.upl_left_top.php 283 2014-01-09 14:48:38Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

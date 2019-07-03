@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2010-08-18, Munkh-Ulzii Balidar, add a functionality to show the used info
  *
- *   $Id: include.lay_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

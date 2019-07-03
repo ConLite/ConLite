@@ -24,7 +24,7 @@
  *   modified 2008-06-25, Frederic Schneider, add security fix
  *   modified 2008-07-04, Dominik Ziegler, fixed bug CON-169
  *
- *   $Id: cfg_language_de.inc.php 80 2012-05-29 12:38:23Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

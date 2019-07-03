@@ -21,7 +21,7 @@
  * {@internal 
  *   created 2003-05-20
  *   
- *   $Id: include.workflow_edit.php 312 2014-06-18 11:01:08Z oldperl $
+ *   $Id$
  * }}
  * 
  */

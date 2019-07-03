@@ -29,7 +29,7 @@
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *   modified 2008-07-07, Frederic Schneider, fixed wrong language var
  *
- *   $Id: include.linkchecker.php 33 2012-01-09 17:43:55Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

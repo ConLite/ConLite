@@ -17,7 +17,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: RSS.php 437 2016-05-17 17:25:49Z oldperl $
+// $Id$
 //
 
 cInclude('pear', 'XML/Parser2.php');
@@ -30,7 +30,7 @@ cInclude('pear', 'XML/Parser2.php');
  * website of the RSS working group (http://www.purl.org/rss/).
  *
  * @author Martin Jansen <mj@php.net>
- * @version $Revision: 437 $
+ * @version $Revision$
  * @access  public
  */
 class XML_RSS extends XML_Parser2 {

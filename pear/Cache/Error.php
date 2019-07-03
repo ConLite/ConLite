@@ -15,7 +15,7 @@
 // | Authors: Ulf Wendel <ulf.wendel@phpdoc.de>                           |
 // +----------------------------------------------------------------------+
 //
-// $Id: Error.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 cInclude('pear', 'PEAR.php');
 

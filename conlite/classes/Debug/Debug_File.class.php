@@ -25,7 +25,7 @@
  *   modified 2008-05-21 Added methods add(), reset(), showAll()
  *   modified 2010-05-20 Murat Purc, Hey, last change was nearly 2 years ago ;-)... Fixed generated warnings, see [#CON-309]
  *
- *   $Id: Debug_File.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

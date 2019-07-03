@@ -25,7 +25,7 @@
  *    created 2008-05-07
  * }}
  *
- * $Id: class.edit_area.php 107 2012-07-24 15:35:34Z oldperl $
+ * $Id$
  */
 
 

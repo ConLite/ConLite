@@ -1,8 +1,8 @@
 /**
  * 
- * @version $Rev: 301 $
+ * @version $Rev$
  * 
- * $Id: cfoldingrow.js 301 2014-02-03 22:30:20Z oldperl $
+ * $Id$
  */
 /*****************************************
 * Project   :   Contenido

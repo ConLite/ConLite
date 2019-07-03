@@ -25,7 +25,7 @@
  *   created  ^2005-06-06
  *   modified 2008-07-04, bilal arslan, added security fix
  *
- *   $Id: tiny_mce_gzip.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

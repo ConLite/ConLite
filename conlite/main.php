@@ -28,7 +28,7 @@
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *   modified 2011-02-08, Dominik Ziegler, removed old PHP compatibility stuff as contenido now requires at least PHP 5
  *
- *   $Id: main.php 301 2014-02-03 22:30:20Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

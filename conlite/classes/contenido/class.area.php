@@ -9,7 +9,7 @@
  * 
  * @package Core
  * @subpackage cApi
- * @version $Rev: 352 $
+ * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2015, conlite.org
@@ -17,7 +17,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.area.php 352 2015-09-24 12:12:51Z oldperl $
+ * $Id$
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

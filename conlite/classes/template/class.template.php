@@ -7,9 +7,9 @@
  * 
  * @package ConLite
  * @subpackage CoreClasses
- * @version $Rev: 357 $
+ * @version $Rev$
  * 
- * $Id: class.template.php 357 2015-09-26 14:45:33Z oldperl $
+ * $Id$
  */
 /**
  * @package    Contenido Backend classes

@@ -23,7 +23,7 @@
  *   created  unknown
  *   modified 2008-07-07, bilal arslan, added security fix
  *
- *   $Id: class.setupcontrols.php 279 2013-11-21 14:34:53Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

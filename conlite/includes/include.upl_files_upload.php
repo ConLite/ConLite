@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2010-09-20, Dominik Ziegler, added path to error message when directory is not writable - CON-319
  *
- *   $Id: include.upl_files_upload.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

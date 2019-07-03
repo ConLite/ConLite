@@ -3,7 +3,7 @@
  * $Header: /usr/local/cvsroot/59/contenido_sources/pear/Log/syslog.php,v 1.1 2004/09/28 13:08:44 timo.hummel Exp $
  * $Horde: horde/lib/Log/syslog.php,v 1.6 2000/06/28 21:36:13 jon Exp $
  *
- * @version $Revision: 2 $
+ * @version $Revision$
  * @package Log
  */
 

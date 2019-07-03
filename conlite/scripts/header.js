@@ -19,7 +19,7 @@
  *   created  2004-03-22
  *   modified 2009-12-17  Murat Purc, Redesign of header menu handling, takeover menu code from template, added ContenidoRegistry, HeaderMenu, HeaderClickMenu, HeaderDelayMenu and Firebug Emulation
  *
- *   $Id: header.js 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -28,7 +28,7 @@
  * {@internal 
  *   created 2012-12-16
  *
- *   $Id: include.chain.frontend.output_compressor.php 312 2014-06-18 11:01:08Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

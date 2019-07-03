@@ -22,7 +22,7 @@
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *   modified 2009-10-23, Murat Purc, removed deprecated function (PHP 5.3 ready)
  *
- *   $Id: class.htmlparser.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -23,7 +23,7 @@
  *   modified 2008-07-02, Frederic Schneider, include security_class
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: rights.js.php 275 2013-09-11 12:49:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

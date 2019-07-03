@@ -15,7 +15,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: config.path.php 436 2016-05-17 17:25:09Z oldperl $:
+ *   $Id$:
  */
 
 if (!defined('CON_FRAMEWORK')) {

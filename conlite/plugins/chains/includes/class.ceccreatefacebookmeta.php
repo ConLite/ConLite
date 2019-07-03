@@ -8,7 +8,7 @@
  * 
  * @package Core
  * @subpackage Chains
- * @version $Rev: 291 $
+ * @version $Rev$
  * @since 2.0.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012-2013, ConLite Team <www.conlite.org>
@@ -16,7 +16,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.ceccreatefacebookmeta.php 291 2014-01-14 23:48:52Z oldperl $
+ * $Id$
  */
 
 // security check

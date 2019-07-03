@@ -28,7 +28,7 @@
  *   modified 2010-01-13, Ingo van Peeren, CON-295
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: list.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

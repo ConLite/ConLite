@@ -18,7 +18,7 @@
  * {@internal 
  *   created 2009-10-01
  *
- *   $Id: cmsFileList.js 33 2012-01-09 17:43:55Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

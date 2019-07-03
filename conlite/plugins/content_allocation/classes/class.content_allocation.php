@@ -28,7 +28,7 @@
  *   modified 2008-04-06, Holger Librenz, direct mysql_* calls remoced, using DB_ConLite:: methods instead
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *
- *   $Id: class.content_allocation.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

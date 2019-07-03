@@ -31,7 +31,7 @@
  *   modified 2008-06-10, I. van Peeren, initially set $this->bLog as $bLog in config file
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *
- *   $Id: class.httpinputvalidator.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

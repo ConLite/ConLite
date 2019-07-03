@@ -29,7 +29,7 @@
  *   modified 2008-11-12, Andreas Lindner, add special treatment for iso-8859-2
  *   modified 2011-02-08, Murat Purc, removed PHP 4.3 related code, cleanup and formatting, created SearchBaseAbstract class
  *
- *   $Id: class.search.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

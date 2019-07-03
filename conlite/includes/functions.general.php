@@ -8,7 +8,7 @@
  * Defines the general contenido functions
  *
  * @package    Contenido Backend includes
- * @version    $Rev: 378 $
+ * @version    $Rev$
  * @author     Jan Lengowski
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
@@ -16,7 +16,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  * 
- *   $Id: functions.general.php 378 2015-11-09 20:01:25Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -1004,7 +1004,7 @@ function getEffectiveSetting($type, $name, $default = "") {
  * 
  * You may use default array to preset settings, this will not override found settings
  * 
- * @version $Rev: 378 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org> 
  * 
  * @global object $auth

@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.frontend.group_menu.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

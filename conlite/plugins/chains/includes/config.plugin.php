@@ -20,7 +20,7 @@
  * {@internal 
  *   created 
  *
- *   $Id: config.plugin.php 291 2014-01-14 23:48:52Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

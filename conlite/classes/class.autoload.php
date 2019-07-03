@@ -38,7 +38,7 @@
  *
  * {@internal
  *   created  2010-12-27
- *   $Id: class.autoload.php 390 2015-11-09 21:02:55Z oldperl $:
+ *   $Id$:
  * }}
  */
 

@@ -8,7 +8,7 @@
  * Edit form for layout
  *
  * @package    Contenido Backend includes
- * @version    $Rev: 312 $
+ * @version    $Rev$
  * @author     Olaf Niemann
  * @author     Ortwin Pinke
  * @copyright  four for business AG <www.4fb.de>
@@ -17,7 +17,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id: include.lay_edit_form.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

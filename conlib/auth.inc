@@ -27,7 +27,7 @@
  *   created  2002-07-21
  *   modified 2008-07-03, bilal arslan, added security fix
  *
- *   $Id: auth.inc 1315 2011-03-03 00:02:52Z xmurrix $:
+ *   $Id$:
  * }}
  * 
  */

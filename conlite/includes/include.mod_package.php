@@ -25,7 +25,7 @@
  *   modified 2008-06-27, OliverL fix import module translation bug, checkin timo.trautmann (http://forum.contenido.org/viewtopic.php?t=19064)
  *   modified 2010-11-22, Dominik Ziegler, fixed check of directory existance [CON-354]
  *
- *   $Id: include.mod_package.php 417 2016-01-20 11:08:39Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

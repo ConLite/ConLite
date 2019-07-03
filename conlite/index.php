@@ -28,7 +28,7 @@
  *   modified 2009-10-16, Ortwin Pinke, added rewrite of ampersand in frameset url
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: index.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

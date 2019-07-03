@@ -28,7 +28,7 @@
  *  @modified 2008-09-18, Ingo van Peeren, moved template-changing to jquery      
  *  @modified 2010-06-16, Timo Trautmann, Fixed a bug wit the Syncselection (there was no right userright check)  
  *
- *   $Id: include.con_left_top.php 130 2012-09-13 10:34:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -28,7 +28,7 @@
  *   modified 2010-05-31, Ortwin Pinke, PHP >= 5.3, replace deprecated split-function with explode()
  *   modified 2011-02-07, Murat Purc, Cleanup, optimization and formatting
  *
- *   $Id: include.rights_create.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

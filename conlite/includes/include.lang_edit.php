@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2009-05-25, Oliver Lohkemper, add iso-639-2- & iso-3166-selecter
  *
- *   $Id: include.lang_edit.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -24,7 +24,7 @@
  *   modified 2007-12-13, 2008-05-09, 2008-05-15, Frederic Schneider
  *   modified 2008-06-02, Frederic Schneider, add security fix
  *
- *   $Id: include.linkchecker_whitelist.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

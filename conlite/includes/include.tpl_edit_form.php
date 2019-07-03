@@ -25,7 +25,7 @@
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *   modified 2009-12-04, Dominik Ziegler, added notice for default module and removed auto select of module if there is no module set
  *
- *   $Id: include.tpl_edit_form.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

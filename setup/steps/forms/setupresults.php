@@ -12,7 +12,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: setupresults.php 377 2015-11-09 19:10:37Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

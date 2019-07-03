@@ -24,7 +24,7 @@
  *   created 2007-01-01, Bj�rn Behrens (HerrB)
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *
- *   $Id: include.recipients_edit.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

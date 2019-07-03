@@ -26,7 +26,7 @@
  *   modified 2008-07-11, Dominik Ziegler, removed deprecated functions
  *   modified 2011-05-17, Murat Purc, documented functions and some optimizations
  *
- *   $Id: functions.database.php 320 2015-01-16 16:06:38Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

@@ -21,7 +21,7 @@
  * {@internal 
  *   created 
  *   modified 2008-07-04, bilal arslan, added security fix
- *   $Id: include.chain.frontend.cat_access.php 306 2014-03-13 23:03:26Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

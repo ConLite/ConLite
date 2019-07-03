@@ -22,7 +22,7 @@
  *   created 2007-01-01
  *   modified 2008-05-21 Added methods add(), reset(), showAll()
  *
- *   $Id: Debug_Hidden.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

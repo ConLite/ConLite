@@ -26,7 +26,7 @@
  *   modified 2008-07-02, Frederic Schneider, include security_class
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: iZoom.js.php 292 2014-01-20 09:49:37Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */ 

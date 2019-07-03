@@ -24,7 +24,7 @@
  *  modified 2008-06-16, H. Librenz - Hotfix: checking for potential unsecure calling 
  *  modified 2008-07-04, bilal arslan, added security fix
  *
- *   $Id: dbfs.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

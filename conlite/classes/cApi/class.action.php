@@ -4,7 +4,7 @@
  * @package Core
  * @subpackage cApiClasses
  * 
- *   $Id: class.action.php 305 2014-03-05 22:41:23Z oldperl $:
+ *   $Id$:
  */
 /**
  * based on

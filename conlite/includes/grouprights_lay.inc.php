@@ -25,7 +25,7 @@
  *   modified 2008-07-29, Bilal Arslan, moved inline html to template
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  * 
- *   $Id: grouprights_lay.inc.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -1,6 +1,6 @@
 /*****************************************
 *
-* $Id: group_association.js 2 2011-07-20 12:00:48Z oldperl $
+* $Id$
 *
 * File      :   $RCSfile: group_association.js,v $
 * Project   : Contenido
@@ -8,7 +8,7 @@
 *                This functions are used in template template.grouprights_memberselect.html
 *
 * Author    :   $Author: timo.trautmann$
-* Modified  :   $Date: 2011-07-20 14:00:48 +0200 (Wed, 20 Jul 2011) $
+* Modified  :   $Date$
 *
 * © four for business AG, www.4fb.de
 ******************************************/

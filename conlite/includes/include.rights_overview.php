@@ -29,7 +29,7 @@
  *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready)
  *   modified 2011-02-07, Murat Purc, Cleanup, optimization and formatting
  *
- *   $Id: include.rights_overview.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  * TODO error handling!!!

@@ -21,7 +21,7 @@
  * {@internal 
  *   created 2008-02-15
  *
- *   $Id: Contenido_FrontendNavigation_Base.class.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

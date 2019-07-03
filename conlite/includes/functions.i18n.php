@@ -7,7 +7,7 @@
  * Contenido i18n Functions
  * 
  * @package     Contenido Backend includes
- * @version     $Rev: 340 $
+ * @version     $Rev$
  * @author      Timo A. Hummel
  * @author      Ortwin Pinke <o.pinke@php-backoffice.de>
  * @copyright   four for business AG <www.4fb.de>
@@ -16,7 +16,7 @@
  * @link        http://www.contenido.org
  * @since       file available since contenido release <= 4.6
  * 
- *   $Id: functions.i18n.php 340 2015-08-20 13:31:29Z oldperl $
+ *   $Id$
  */
 
 if(!defined('CON_FRAMEWORK')) {

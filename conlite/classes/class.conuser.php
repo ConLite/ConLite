@@ -52,7 +52,7 @@
  * @author Bilal Arslan, Holger Librenz
  * @copyright four for business AG
  *
- *  $Id: class.conuser.php 306 2014-03-13 23:03:26Z oldperl $
+ *  $Id$
  **/
 
 if (! defined ( 'CON_FRAMEWORK' )) {

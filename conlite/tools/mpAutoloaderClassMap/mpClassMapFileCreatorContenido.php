@@ -7,7 +7,7 @@
  * @author		Murat Purc <murat@purc.de>
  * @copyright   Copyright (c) 2010 Murat Purc (http://www.purc.de)
  * @license     http://www.gnu.org/licenses/gpl-2.0.html - GNU General Public License, version 2
- * @version     $Id: mpClassMapFileCreatorContenido.php 2 2011-07-20 12:00:48Z oldperl $
+ * @version     $Id$
  */
 
 include_once('mpClassMapFileCreator.php');

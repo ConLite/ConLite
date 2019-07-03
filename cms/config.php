@@ -24,7 +24,7 @@
  *   created  unknown
  *   modified 2008-07-03, bilal arslan, added security fix
  *
- *   $Id: config.php 450 2016-07-20 11:11:12Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

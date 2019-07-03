@@ -8,7 +8,7 @@
  *
  * @package    ConLite Core
  * @subpackage Chains
- * @version    $Id: include.chain.content.createmetatags.php 306 2014-03-13 23:03:26Z oldperl $:
+ * @version    $Id$:
  * @author     Ortwin Pinke
  * 
  * based on CONTENIDO 4.8.15 [2011-07-31]

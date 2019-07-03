@@ -25,7 +25,7 @@
  *   modified 2005-06-23, Andreas Lindner
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.con_art_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

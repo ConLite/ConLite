@@ -16,7 +16,7 @@
 // |          Sebastian Bergmann <sb@sebastian-bergmann.de>               |
 // +----------------------------------------------------------------------+
 //
-// $Id: file.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 cInclude('pear', 'Cache/Container.php');
 
@@ -24,7 +24,7 @@ cInclude('pear', 'Cache/Container.php');
 * Stores cache contents in a file.
 *
 * @author   Ulf Wendel  <ulf.wendel@phpdoc.de>
-* @version  $Id: file.php 2 2011-07-20 12:00:48Z oldperl $
+* @version  $Id$
 */
 class Cache_Container_file extends Cache_Container {
 

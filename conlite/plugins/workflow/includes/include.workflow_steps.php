@@ -23,7 +23,7 @@
  * {@internal 
  *   created 
  *   
- *   $Id: include.workflow_steps.php 312 2014-06-18 11:01:08Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

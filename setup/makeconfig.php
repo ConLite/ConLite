@@ -24,7 +24,7 @@
  *   modified 2008-07-07, bilal arslan, added security fix
  *   modified 2011-02-28, Murat Purc, normalized setup startup process and some cleanup/formatting
  *
- *   $Id: makeconfig.php 377 2015-11-09 19:10:37Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

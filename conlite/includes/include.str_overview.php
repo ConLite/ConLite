@@ -29,7 +29,7 @@
  *                                         removed use of deprecated methods of class.template.php, see [CON-302]
  *   modified 2010-02-06, Ingo van Peeren, fixed small bug added by last modification
  *
- *   $Id: include.str_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

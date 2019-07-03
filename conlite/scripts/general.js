@@ -6,9 +6,9 @@
 *
 * Author    :   Jan Lengowski
 * Created   :   25.03.2003
-* Modified  :   $Date: 2011-07-20 14:00:48 +0200 (Wed, 20 Jul 2011) $
+* Modified  :   $Date$
 *
-* $Id: general.js 2 2011-07-20 12:00:48Z oldperl $
+* $Id$
 
 * © four for business AG
 ******************************************/

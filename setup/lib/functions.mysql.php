@@ -26,7 +26,7 @@
  *   modified 2011-03-21, Murat Purc, new method getSetupMySQLDBConnection() and usage of new db connection
  *   modified 2011-05-17, Ortwin Pinke, bug fixed in getSetupMySQLDBConnection(), sequenceTable has to be set in conf-array
  *
- *   $Id: functions.mysql.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

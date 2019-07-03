@@ -6,7 +6,7 @@
  * @subpackage Backend User
  *
  * @author Holger Librenz
- * @version $Revision: 2 $
+ * @version $Revision$
  * @copyright four for business AG <www.4fb.de>
  *
  * {@internal

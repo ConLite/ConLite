@@ -24,7 +24,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: class.input.helper.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

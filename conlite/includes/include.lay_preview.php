@@ -5,11 +5,11 @@
  * @package Core
  * @subpackage BackendIncludes
  * @author Ortwin Pinke <ortwin.pinke@conlite.org>
- * @version $Rev: 312 $
+ * @version $Rev$
  * @since 2.0
  * @link www.conlite.org ConLite Portal
  * 
- * $Id: include.lay_preview.php 312 2014-06-18 11:01:08Z oldperl $
+ * $Id$
  */
 /**
  * @copyright  four for business AG <www.4fb.de>

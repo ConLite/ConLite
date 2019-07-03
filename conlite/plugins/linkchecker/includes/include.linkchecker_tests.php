@@ -27,7 +27,7 @@
  *   modified 2010-01-07, Murat Purc, fixed usage of wrong variable, see [#CON-292]
  *   modified 2010-11-26, Dominik Ziegler, resetten array with redefinition of empty array instead of unsetting the variable [#CON-369]
  *
- *   $Id: include.linkchecker_tests.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

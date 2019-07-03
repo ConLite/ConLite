@@ -17,7 +17,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Packager.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 require_once 'PEAR/Common.php';
 require_once 'System.php';

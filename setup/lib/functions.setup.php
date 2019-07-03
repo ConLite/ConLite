@@ -26,7 +26,7 @@
  *   modified 2011-02-08, Dominik Ziegler, removed old PHP compatibility stuff as contenido now requires at least PHP 5
  *   modified 2011-05-19, Murat Purc, check for defined constant C_SETUP_STEPS to prevent thrown warnings
  *
- *   $Id: functions.setup.php 137 2012-10-02 12:00:00Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

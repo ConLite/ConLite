@@ -22,7 +22,7 @@
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *   modified 2011-02-05, Murat Purc, Added function buildUserOrGroupPermsFromRequest()
  *
- *   $Id: functions.rights.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

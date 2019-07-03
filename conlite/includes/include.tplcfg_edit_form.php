@@ -24,7 +24,7 @@
  *   created 2002
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *
- *   $Id: include.tplcfg_edit_form.php 367 2015-10-19 10:08:51Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

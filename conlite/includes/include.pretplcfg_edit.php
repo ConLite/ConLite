@@ -25,7 +25,7 @@
  *   modified 2009-10-23, Ortwin Pinke, deleted not needed idcat/idart part for better performance
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  *
- *   $Id: include.pretplcfg_edit.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

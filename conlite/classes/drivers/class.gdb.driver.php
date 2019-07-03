@@ -12,7 +12,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * 
- * $Id: class.gdb.driver.php 2 2011-07-20 12:00:48Z oldperl $
+ * $Id$
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');

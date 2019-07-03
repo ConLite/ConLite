@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2004-08-04
  *   
- *   $Id: class.widgets.foldingrow.php 301 2014-02-03 22:30:20Z oldperl $
+ *   $Id$
  * }}
  * 
  */

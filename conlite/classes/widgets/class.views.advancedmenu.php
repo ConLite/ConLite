@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2004-08-04
  *   
- *   $Id: class.views.advancedmenu.php 2 2011-07-20 12:00:48Z oldperl $
+ *   $Id$
  * }}
  * 
  */

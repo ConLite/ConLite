@@ -23,7 +23,7 @@
  *   created 2004-02-24
  *   modified 2008-06-25, Frederic Schneider, add security fix
  *
- *   $Id: config.templates.php 388 2015-11-09 20:41:14Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

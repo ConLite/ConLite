@@ -17,7 +17,7 @@
 // |          Christian Stocker <chregu@phant.ch>                         |
 // +----------------------------------------------------------------------+
 //
-// $Id: Container.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 cInclude('pear', 'Cache/Error.php');
 
@@ -39,7 +39,7 @@ cInclude('pear', 'Cache/Error.php');
 * not recommended!
 * 
 * @author   Ulf Wendel <ulf.wendel@phpdoc.de>
-* @version  $Id: Container.php 2 2011-07-20 12:00:48Z oldperl $
+* @version  $Id$
 * @package  Cache
 * @access   public
 * @abstract

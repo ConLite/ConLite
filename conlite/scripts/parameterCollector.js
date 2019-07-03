@@ -2,11 +2,11 @@
 * File      :   $RCSfile: class.article.php,v $
 * Project   :   Contenido
 * Descr     :   JavaScript parameter collector function
-* Modified  :   $Date: 2011-07-20 14:00:48 +0200 (Wed, 20 Jul 2011) $
+* Modified  :   $Date$
 *
 * © four for business AG, www.4fb.de
 *
-* $Id: parameterCollector.js 2 2011-07-20 12:00:48Z oldperl $
+* $Id$
 ******************************************/
 
 var m_documentParameters = new Array();

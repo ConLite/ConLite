@@ -24,7 +24,7 @@
  *   modified 2008-06-26, Frederic Schneider, add security fix
  *   modified 2008-11-12, Andreas Lindner, add function htmlentities_iso88592    
  *
- *   $Id: functions.encoding.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

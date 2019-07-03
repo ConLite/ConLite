@@ -28,7 +28,7 @@
  *   modified 2010-05-27, Oliver Lohkemper, check if user activ in handleNewPassword()
  *   modified 2011-02-26, Ortwin Pinke, added temporary pw request behaviour, so user may login with old and/or requested pw
  *
- *   $Id: class.request.password.php 340 2015-08-20 13:31:29Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

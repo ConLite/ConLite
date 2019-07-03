@@ -26,7 +26,7 @@
  *   modified 2009-04-30, Ortwin Pinke, CON-252
  *   modified 2010-01-07, Ingo van Peren, CON-293   
  *
- *   $Id: functions.api.string.php 401 2015-11-19 14:07:25Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

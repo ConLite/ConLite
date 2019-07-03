@@ -16,7 +16,7 @@
 // | Authors: Ian Eure <ieure@php.net>                                    |
 // +----------------------------------------------------------------------+
 //
-// $Id: Type.php 6 2010-11-23 17:57:24Z oldperl $
+// $Id$
 
 require_once 'PEAR.php';
 

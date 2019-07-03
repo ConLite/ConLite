@@ -27,7 +27,7 @@
  *                                    moved close(), table_names() and server_info() 
  *                                    from child implementations.
  *
- *   $Id:$:
+ *   $Id$:
  * }}
  *
  */

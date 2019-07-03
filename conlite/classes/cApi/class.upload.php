@@ -4,7 +4,7 @@
  * @package Core
  * @subpackage cApiClasses
  * 
- *   $Id: class.upload.php 347 2015-09-18 13:42:15Z oldperl $:
+ *   $Id$:
  */
 /**
  * based on

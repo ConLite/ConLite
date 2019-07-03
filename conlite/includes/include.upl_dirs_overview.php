@@ -23,7 +23,7 @@
  *   created 2003-12-28
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.upl_dirs_overview.php 298 2014-01-22 13:10:17Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

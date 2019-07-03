@@ -4,12 +4,12 @@
  * 
  * @package Core
  * @subpackage cSystemClasses
- * @version $Rev:$
+ * @version $Rev$
  * @author Ortwin Pinke <conlite@ortwinpinke.de>
  * @copyright (c) 2014, ConLite Team <www.conlite.org>
  * @link http://conlite.org ConLite Portal
  * 
- * $Id:$
+ * $Id$
  */
 
 /**

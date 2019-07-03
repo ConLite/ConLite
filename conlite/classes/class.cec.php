@@ -29,7 +29,7 @@
  *   modified 2009-12-30, Murat Purc, redesign of cApiCECRegistry and pApiCECChainItem bearing in mind of
  *                        downwards compatibility and documenting the code, see [#CON-291], also regards to [#CON-256]
  *
- *   $Id: class.cec.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

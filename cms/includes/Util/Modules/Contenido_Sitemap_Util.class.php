@@ -12,7 +12,7 @@
  * @author     Rudi Bieller
  * @copyright  four for business AG <www.4fb.de>
  *
- *   $Id: Contenido_Sitemap_Util.class.php 450 2016-07-20 11:11:12Z oldperl $
+ *   $Id$
  */
 class Contenido_Sitemap_Util {
     /**

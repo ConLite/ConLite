@@ -3,13 +3,13 @@
  *
  * @package Plugins
  * @subpackage ContentAllocation
- * @version $Rev: 368 $
+ * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright 2017 CL-Team
  * @link http://www.conlite.org
  *
- * $Id:$
+ * $Id$
  */
 
 if(!defined('CON_FRAMEWORK')) {

@@ -30,7 +30,7 @@
  *   modified 2009-01-03, Murat Purc, synchronized with cms/front_crcloginform.inc.php
  *   modified 2011-02-07, Dominik Ziegler, fixed check of but_ok.gif and changed input type button to submit
  *
- *   $Id: front_crcloginform.inc.php 67 2012-05-09 13:28:03Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

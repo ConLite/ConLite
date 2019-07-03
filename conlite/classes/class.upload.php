@@ -26,7 +26,7 @@
  *   modified 2008-10-03, Oliver Lohkemper, add CEC in UploadCollection::store()
  *   modified 2011-03-14, Murat Purc, adapted to new GenericDB, partly ported to PHP 5, formatting
  *
- *   $Id: class.upload.php 347 2015-09-18 13:42:15Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

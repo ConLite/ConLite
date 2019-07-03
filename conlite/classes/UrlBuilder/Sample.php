@@ -21,7 +21,7 @@
  * {@internal 
  *   created 2008-02-19
  *   
- *   $Id: Sample.php 2 2011-07-20 12:00:48Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

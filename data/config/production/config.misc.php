@@ -8,7 +8,7 @@
  * Contenido Misc Configurations
  *
  * @package    Contenido Backend includes
- * @version    $Rev: 390 $
+ * @version    $Rev$
  * @author     Holger Librenz
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
@@ -16,7 +16,7 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  * 
- *   $Id: config.misc.php 390 2015-11-09 21:02:55Z oldperl $:
+ *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -42,7 +42,7 @@ $cfg['version'] = CL_VERSION;
 $cfg["login_languages"] = array("de_DE", "en_US");
 
 /* SVN Date tag */
-$cfg['datetag'] = '$Date: 2015-11-09 22:02:55 +0100 (Mon, 09 Nov 2015) $';
+$cfg['datetag'] = '$Date$';
 
 /* Backend timeout */
 $cfg["backend"]["timeout"] = 60;

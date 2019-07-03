@@ -23,7 +23,7 @@
  *   modified 2008-07-07, bilal arslan, added security fix
  *   modified 2011-02-08, Dominik Ziegler, removed old PHP compatibility stuff as contenido now requires at least PHP 5
  *
- *   $Id: functions.phpinfo.php 279 2013-11-21 14:34:53Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

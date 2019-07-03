@@ -23,7 +23,7 @@
  *   created 2003-04-20
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.js_files_overview.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

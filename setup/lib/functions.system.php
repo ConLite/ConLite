@@ -26,7 +26,7 @@
  *   modified 2008-07-08  Thorsten Granz, added option to disable menu hover effect. clicking is now possible again
  *   modified 2011-05-17, Ortwin Pinke, cleanup and bugfixing
  *
- *   $Id: functions.system.php 137 2012-10-02 12:00:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

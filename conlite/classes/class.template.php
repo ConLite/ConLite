@@ -8,7 +8,7 @@
  * 
  * @package Core
  * @subpackage Template
- * @version $Rev: 195 $
+ * @version $Rev$
  * @deprecated since CL 2.0, classes moved to own folder, so this file is just to include new class files for compability.
  *              File will be removed in one of the next CL-versions 
  * @since 2.0
@@ -18,7 +18,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id: class.template.php 195 2012-12-19 06:09:48Z oldperl $
+ * $Id$
  */
 
 // security check

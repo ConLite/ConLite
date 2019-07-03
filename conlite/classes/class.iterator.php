@@ -11,7 +11,7 @@
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
  * 
- * $Id:$
+ * $Id$
  */
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');

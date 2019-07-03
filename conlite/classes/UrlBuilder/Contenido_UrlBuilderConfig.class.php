@@ -21,7 +21,7 @@
  * {@internal
  *   created  2008-02-28
  *   modified 2008-09-29, Murat Purc, added features to set and get configuration
- *   $Id: Contenido_UrlBuilderConfig.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  *
  */

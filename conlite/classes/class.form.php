@@ -24,7 +24,7 @@
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *   modified 2009-10-23, Murat Purc, removed deprecated function (PHP 5.3 ready)
  *
- *   $Id: class.form.php 80 2012-05-29 12:38:23Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

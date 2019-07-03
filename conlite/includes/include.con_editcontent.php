@@ -27,7 +27,7 @@
  *   modified 2009-10-29, Murat Purc, replaced deprecated functions (PHP 5.3 ready) and some formatting
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  *
- *   $Id: include.con_editcontent.php 404 2015-12-15 09:41:16Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

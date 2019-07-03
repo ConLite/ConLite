@@ -24,7 +24,7 @@
  *   modified 2008-07-02, Frederic Schneider, new code-header and include security_class
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: logout.php 284 2014-01-09 23:58:34Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

@@ -23,7 +23,7 @@
  *   created  2002-07-21
  *   modified 2008-07-04, bilal arslan, added security fix
  *
- *   $Id: page.inc 1315 2011-03-03 00:02:52Z xmurrix $:
+ *   $Id$:
  * }}
  * 
  */

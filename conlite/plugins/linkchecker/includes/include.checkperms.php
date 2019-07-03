@@ -25,7 +25,7 @@
  *   modified 2008-02-08, Andreas Lindner, Performance enhancements
  *   modified 2008-07-02, Frederic Schneider, add security fix
  *
- *   $Id: include.checkperms.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

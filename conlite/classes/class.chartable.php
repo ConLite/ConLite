@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-30, Dominik Ziegler, add security fix
  *
- *   $Id: class.chartable.php 306 2014-03-13 23:03:26Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

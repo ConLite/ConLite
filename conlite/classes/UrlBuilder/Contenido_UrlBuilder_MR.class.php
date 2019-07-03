@@ -22,7 +22,7 @@
  * {@internal
  *   created  2008-05-xx
  *
- *   $Id: Contenido_UrlBuilder_MR.class.php 217 2013-02-04 14:53:11Z Mansveld $:
+ *   $Id$:
  * }}
  *
  */

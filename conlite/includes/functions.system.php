@@ -6,9 +6,9 @@
  * 
  * @package Core
  * @subpackage Functions
- * @version $Rev: 378 $
+ * @version $Rev$
  * 
- * $Id: functions.system.php 378 2015-11-09 20:01:25Z oldperl $
+ * $Id$
  */
 /**
  * @package    Contenido Backend includes

@@ -26,7 +26,7 @@
  *   modified 2009-01-19 Rudi Bieller Bugfix in buildUrl() for idart (had idcat as param name...)
  *   @todo: add switch for & vs. &amp;
  * 
- *   $Id: Contenido_UrlBuilder_Frontcontent.class.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

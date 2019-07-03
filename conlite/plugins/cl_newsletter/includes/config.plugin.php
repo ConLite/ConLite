@@ -5,13 +5,13 @@
  *
  * @package Plugins
  * @subpackage Newsletter
- * @version $Rev: 121 $
+ * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright 2012 CL-Team
  * @link http://www.conlite.org
  *
- * $Id: config.plugin.php 121 2012-08-08 11:34:33Z oldperl $
+ * $Id$
  */
 
 // security check

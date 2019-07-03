@@ -8,14 +8,14 @@
  *
  * @package    Frontend
  * @subpackage Cache
- * @version    $Rev: 450 $
+ * @version    $Rev$
  * @author     Murat Purc <murat@purc.de>
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  *
- *   $Id: class.concache.php 450 2016-07-20 11:11:12Z oldperl $:
+ *   $Id$:
  */
 
 if(!defined('CON_FRAMEWORK')) {

@@ -25,7 +25,7 @@
  *   modified 2008-07-04, bilal arslan, added security fix
  *   modified 2009-10-29, Murat Purc, replaced deprecated functions (PHP 5.3 ready) and some formatting
  *
- *   $Id: perm.inc 1315 2011-03-03 00:02:52Z xmurrix $:
+ *   $Id$:
  * }}
  * 
  */

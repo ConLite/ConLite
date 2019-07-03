@@ -33,7 +33,7 @@
  *   modified 2009-10-16 - Dominik Ziegler, added manual date support
  *   modified 2010-01-21 - Dominik Ziegler, strip tags from manual teaser date
  *
- *   $Id: class.cms_teaser.php 312M 2016-08-12 13:28:16Z (local) $:
+ *   $Id$:
  * }}
  * 
  */

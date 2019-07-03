@@ -3,14 +3,14 @@
 /**
  * @package ConLite
  * @subpackage Setup
- * @version $Rev: 431 $
+ * @version $Rev$
  * @author Ortwin Pinke <ortwinpinke@conlite.org>
  * @license    http://www.conlite.org/license/LIZENZ.txt
  * @link       http://www.ortwinpinke.de
  * @link       http://www.conlite.org
  * 
  * 
- * $Id: systemtest.php 431 2016-04-26 09:37:30Z oldperl $:
+ * $Id$:
  */
 // security
 if (!defined('CON_FRAMEWORK')) {

@@ -4,11 +4,11 @@
  * 
  * @package ConLite
  * @subpackage Setup
- * @version $Rev: 279 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2017, conlite.org
  * 
- * $Id: class.setupmask.php 279 2013-11-21 14:34:53Z oldperl $:
+ * $Id$:
  */
 /**
  * @package    ContenidoBackendArea

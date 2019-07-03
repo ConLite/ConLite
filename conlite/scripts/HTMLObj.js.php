@@ -25,7 +25,7 @@
  *   modified 2008-07-02, Frederic Schneider, include security_class
  *   modified 2010-05-20, Murat Purc, standardized Contenido startup and security check invocations, see [#CON-307]
  *
- *   $Id: HTMLObj.js.php 2 2011-07-20 12:00:48Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

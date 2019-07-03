@@ -26,7 +26,7 @@
  *   modified 2010-07-03, Ortwin Pinke, CON-318, only return actions marked as relevant in getAvailableActions()
  *                        also fixed doc-comment for getActionName()
  *
- *   $Id: class.action.php 306 2014-03-13 23:03:26Z oldperl $;
+ *   $Id$;
  * }}
  * 
  */

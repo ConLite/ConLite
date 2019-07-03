@@ -9,7 +9,7 @@
  *
  *
  * @package    Contenido_API
- * @version    $Id: class.article.php 306 2014-03-13 23:03:26Z oldperl $:
+ * @version    $Id$:
  * @author     Ortwin Pinke
  * @author     Jan Lengowski
  * @copyright  four for business AG <www.4fb.de>

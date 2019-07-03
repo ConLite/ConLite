@@ -3,11 +3,11 @@
  * 
  * @package CL-Core
  * @subpackage Includes
- * @version $Rev: 330 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012-2015, conlite.org
  * 
- * $Id: include.mod_sync.php 330 2015-06-22 11:59:04Z oldperl $
+ * $Id$
  */
 
 /* @var $sess Contenido_Session */

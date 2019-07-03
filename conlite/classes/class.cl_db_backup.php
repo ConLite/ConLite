@@ -4,11 +4,11 @@
  * 
  * @package ConLite
  * @subpackage DB-Backup
- * @version $Rev: 374 $
+ * @version $Rev$
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012, conlite.org
  * 
- * $Id: class.cl_db_backup.php 374 2015-11-09 15:59:28Z oldperl $
+ * $Id$
  */
 /* @var $sess Contenido_Session */
 /* @var $perm Contenido_Perm */

@@ -16,7 +16,7 @@
 // | Authors: Stig Sæther Bakken <ssb@php.net>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Builder.php 2 2011-07-20 12:00:48Z oldperl $
+// $Id$
 
 require_once 'PEAR/Common.php';
 

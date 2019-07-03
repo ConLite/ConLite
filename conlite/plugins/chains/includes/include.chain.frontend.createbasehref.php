@@ -27,7 +27,7 @@
  *   created 2008-07-31
  *   modified 2008-08-05, Bj�rn Behrens (HerrB) - added missing parameter and refactored
  *   modified 2008-08-15, Oliver Lohkemper (OliverL) - run only Client-Properties return Array
- *   $Id: include.chain.frontend.createbasehref.php 306 2014-03-13 23:03:26Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

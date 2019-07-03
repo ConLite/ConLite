@@ -27,7 +27,7 @@
  *   created  2005-06-10
  *   modified 2008-07-04, bilal arslan, added security fix
  *
- *   $Id: editor.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

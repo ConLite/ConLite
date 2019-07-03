@@ -27,7 +27,7 @@
  *   modified 2010-05-20, Oliver Lohkemper, add param true for get active admins
  *   modified 2011-01-28, Dominik Ziegler, added missing notice in backend home when no clients are available [#CON-379]
  *
- *   $Id: main.login.php 309 2014-05-19 11:21:16Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

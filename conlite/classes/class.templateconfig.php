@@ -24,7 +24,7 @@
  *   modified 2008-06-30, Frederic Schneider, add security fix
  *   modified 2009-12-16, Dominik Ziegler, fixed sql table name
  *
- *   $Id: class.templateconfig.php 306 2014-03-13 23:03:26Z oldperl $: 
+ *   $Id$: 
  * }}
  * 
  */

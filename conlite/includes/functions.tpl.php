@@ -25,7 +25,7 @@
  *   modified 2008-06-30 timo.trautmann added fix module settings were also copied in function tplDuplicateTemplate
  *   modified 2009-01-08, Timo Trautmann fixed bug: Changes in Head Containers in visualedit were not stored
  *
- *   $Id: functions.tpl.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

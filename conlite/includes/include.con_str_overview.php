@@ -31,7 +31,7 @@
  *   modified 2009-12-18, Murat Purc, fixed usage of wrong db instance, see [#CON-282]
  *   modified 2010-01-30, Ingo van Peeren, optimized amount of db queries, removed unused variables 
  *
- *   $Id: include.con_str_overview.php 327 2015-06-11 14:07:00Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

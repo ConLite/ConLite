@@ -19,7 +19,7 @@
 // |          Michele Manzato <michele.manzato@verona.miz.it>             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tree.php 437 2016-05-17 17:25:49Z oldperl $
+// $Id$
 //
 
 require_once 'XML/Parser2.php';

@@ -22,7 +22,7 @@
  * {@internal 
  *   created 2007-01-30
  *   
- *   $Id: class.widgets.page.php 338 2015-07-24 09:51:47Z oldperl $
+ *   $Id$
  * }}
  * 
  */

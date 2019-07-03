@@ -23,7 +23,7 @@
  *   created unknown
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
- *   $Id: include.mod_translate_stringlist.php 123 2012-08-30 11:11:09Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

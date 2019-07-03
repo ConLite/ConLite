@@ -25,7 +25,7 @@
  *   modified 2008-06-26, Dominik Ziegler, add security fix
  *   modified 2008-11-13,  Timo Trautmann - Fixed wron escaping of chars
  *
- *   $Id: include.clientsettings.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

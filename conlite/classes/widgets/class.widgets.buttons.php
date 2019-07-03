@@ -21,7 +21,7 @@
  * {@internal 
  *   created 2005-08-22
  *   
- *   $Id: class.widgets.buttons.php 312 2014-06-18 11:01:08Z oldperl $
+ *   $Id$
  * }}
  * 
  */

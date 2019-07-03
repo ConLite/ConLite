@@ -28,7 +28,7 @@
  *   modified 2009-10-22, OliverL, fixed uplHasFiles is only one file in directory you can delete Directory
  *   modified 2009-10-29, Murat Purc, replaced deprecated functions (PHP 5.3 ready) and usage of is_dbfs()
  *
- *   $Id: functions.upl.php 350 2015-09-24 11:52:45Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

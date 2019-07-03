@@ -24,7 +24,7 @@
  *   modified 2008-06-27, Dominik Ziegler, add security fix
  *   modified 2010-05-20, Murat Purc, removed request check during processing ticket [#CON-307]
  *
- *   $Id: include.pretplcfg_edit_form.php 74 2012-05-24 18:49:58Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */

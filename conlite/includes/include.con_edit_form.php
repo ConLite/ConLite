@@ -26,7 +26,7 @@
  *   modified 2008-09-11, Andreas Lindner, added decoding of text and cat names
  *   					  with unFilter function
  *
- *   $Id: include.con_edit_form.php 312 2014-06-18 11:01:08Z oldperl $:
+ *   $Id$:
  * }}
  * 
  */
