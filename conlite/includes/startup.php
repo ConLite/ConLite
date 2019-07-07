@@ -76,6 +76,7 @@ if (!defined('CL_VERSION')) {
 }
 
 // fixed functions for PHP 5.4 and later
+// @todo: Check what is needed for PHP7+
 include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/includes/functions.php54.php');
 
 // simulate PHP 7.3 functions

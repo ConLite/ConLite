@@ -35,15 +35,15 @@ ini_set("error_log", "../data/logs/setup_errorlog.txt");
 
 header('Content-Type: text/html; charset=UTF-8');
 
-// Check version in the 'first' line, as class.security.php uses
-if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-    die("You need PHP >= 5.6.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+// Check php version
+if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+    die("You need PHP >= 7.0.0 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 // Check version
-//PHP >= 5.6.0 and < 7.3.0
-if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-    die("You need PHP >= 5.6.0  < 7.3.0 for ConLite. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+//PHP >= 7.0.0 and < 7.4
+if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
+    die("You need PHP >= 7.0 and < 7.4 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 

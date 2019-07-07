@@ -1,4 +1,5 @@
 <?php
+
 // /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -38,10 +39,10 @@ require_once "PEAR.php";
  * methods, an instance of each class providing separated methods is
  * stored and called every time the aggregated method is called.
  *
- * @author Stig Sæther Bakken <ssb@php.net>
+ * @author Stig Sï¿½ther Bakken <ssb@php.net>
  */
-class PEAR_Autoloader extends PEAR
-{
+class PEAR_Autoloader extends PEAR {
+
     /**
      * Map of methods and classes where they are defined
      *
@@ -76,8 +77,7 @@ class PEAR_Autoloader extends PEAR
      *
      * @access public
      */
-    function addAutoload($method, $classname = null)
-    {
+    function addAutoload($method, $classname = null) {
         if (is_array($method)) {
             $this->_autoload_map = array_merge($this->_autoload_map, $method);
         } else {
@@ -94,8 +94,7 @@ class PEAR_Autoloader extends PEAR
      *
      * @access public
      */
-    function removeAutoload($method)
-    {
+    function removeAutoload($method) {
         $ok = isset($this->_autoload_map[$method]);
         unset($this->_autoload_map[$method]);
         return $ok;
@@ -114,14 +113,13 @@ class PEAR_Autoloader extends PEAR
      *
      * @access public
      */
-    function addAggregateObject($classname)
-    {
+    function addAggregateObject($classname) {
         $classname = strtolower($classname);
         if (!class_exists($classname)) {
             $include_file = preg_replace('/[^a-z0-9]/i', '_', $classname);
             include_once $include_file;
         }
-        $obj =& new $classname;
+        $obj = & new $classname;
         $methods = get_class_methods($classname);
         foreach ($methods as $method) {
             // don't import priviate methods and constructors
@@ -140,12 +138,11 @@ class PEAR_Autoloader extends PEAR
      *
      * @access public
      */
-    function removeAggregateObject($classname)
-    {
+    function removeAggregateObject($classname) {
         $ok = false;
         $classname = strtolower($classname);
         reset($this->_method_map);
-        while (list($method, $obj) = each($this->_method_map)) {
+        foreach ($this->_method_map as $method => $obj) {
             if (get_class($obj) == $classname) {
                 unset($this->_method_map[$method]);
                 $ok = true;
@@ -168,8 +165,7 @@ class PEAR_Autoloader extends PEAR
      * @return mixed  The return value from the aggregated method, or a PEAR
      *                error if the called method was unknown.
      */
-    function __call($method, $args, &$retval)
-    {
+    function __call($method, $args, &$retval) {
         if (empty($this->_method_map[$method]) && isset($this->_autoload_map[$method])) {
             $this->addAggregateObject($this->_autoload_map[$method]);
         }
@@ -179,8 +175,8 @@ class PEAR_Autoloader extends PEAR
         }
         return false;
     }
+
 }
 
 overload("PEAR_Autoloader");
-
 ?>

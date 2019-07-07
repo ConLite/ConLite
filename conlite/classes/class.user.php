@@ -126,6 +126,7 @@ class Users {
      */
     function getAccessibleUsers($perms, $includeAdmins = false) {
         global $cfg;
+        $limit = array();
 
         $clientclass = new Client();
 

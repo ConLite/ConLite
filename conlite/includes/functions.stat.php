@@ -945,7 +945,8 @@ function statsOverviewTopYear($year, $top) {
                 A.archived LIKE '".Contenido_Security::escapeDB($year, $db)."%'
             AND
                 A.idlang = '".Contenido_Security::toInteger($lang)."'
-            GROUP BY A.idcatart
+            GROUP BY A.idcatart,
+            C.title
             ORDER BY
                 visited DESC
 

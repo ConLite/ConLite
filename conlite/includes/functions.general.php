@@ -367,7 +367,7 @@ function showTable($tablename) {
     $sql = "SELECT * FROM $tablename";
     $db->query($sql);
     while ($db->next_record()) {
-        while (list ($key, $value) = each($db->Record)) {
+        foreach ($db->Record as $key => $value) {
             print (is_string($key) ? "<b>$key</b>: $value | " : "");
         }
         print ("<br>");

@@ -174,7 +174,7 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
             $keystring  = "";
             $valuestring = "";
 
-            while (list($key, $value) = each($db->Record)) {
+            foreach($db->Record as $key => $value) {
                 if (is_string($key) && (strpos($key, 'idartlang') === false) && (strpos($key, 'idlang') !== 0) && (strpos($key, 'idclient') !== 0)) {
                     $keystring   = $keystring.",".$key;
                     $valuestring = $valuestring.",'".addslashes($value)."'";
@@ -206,7 +206,7 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
             while ($db2->next_record()) {
                 $keystring  = "";
                 $valuestring = "";
-                while (list($key, $value) = each($db2->Record)) {
+                foreach($db2->Record as $key => $value) {
                     if (is_string($key) && (strpos($key, 'idcontent') === false) && (strpos($key, 'idartlang') !== 0)) {
                         $keystring   = $keystring.",".$key;
                         $valuestring = $valuestring.",'".addslashes($value)."'";
@@ -269,7 +269,7 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
             $cfg_cat[] = array('idcatlang' => $nextid,
                                'idtplcfg'  => $db->f('idtplcfg'));
 
-            while (list($key, $value) = each($db->Record)) {
+                foreach($db->Record as $key => $value) {
                 if (is_string($key) && (strpos($key, 'idcatlang') === false) && (strpos($key, 'idlang') !== 0) &&
                    (strpos($key, 'idclient') !== 0) && (strpos($key, 'parentid') !== 0) && (strpos($key, 'preid') !== 0) &&
                    (strpos($key, 'postid') !== 0)) {
@@ -310,7 +310,7 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
         while ($db->next_record()) {
             $keystring  = "";
             $valuestring = "";
-            while (list($key, $value) = each($db->Record)) {
+            foreach($db->Record as $key => $value) {
                 if (is_string($key) && (strpos($key, 'idstat') === false) && (strpos($key, 'idlang') !== 0)) {
                         $keystring   = $keystring.",".$key;
                         $valuestring = $valuestring.",'".addslashes($value)."'";
@@ -353,7 +353,7 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
             $keystring   = "";
             $valuestring = "";
 
-            while (list($key, $value) = each($db->Record)) {
+            foreach($db->Record as $key => $value) {
                 if (is_string($key) && (strpos($key, 'idtplcfg') === false) && (strpos($key, 'idlang') !== 0)) {
                     $keystring   = $keystring.",".$key;
                     $valuestring = $valuestring.",'".addslashes($value)."'";

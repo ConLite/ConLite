@@ -291,6 +291,8 @@ function tplGetContainerTypes($idlay, $container) {
     global $db;
     global $cfg;
     global $containerinf;
+    
+    $list = array();
 
     if (is_array($containerinf[$idlay])) {
         if (array_key_exists($container, $containerinf[$idlay])) {
@@ -300,10 +302,10 @@ function tplGetContainerTypes($idlay, $container) {
                 foreach ($list as $key => $value) {
                     $list[$key] = trim($value);
                 }
-                return $list;
             }
         }
     }
+    return $list;
 }
 
 /**

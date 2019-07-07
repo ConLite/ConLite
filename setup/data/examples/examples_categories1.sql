@@ -16,7 +16,7 @@ INSERT INTO !PREFIX!_cat_lang VALUES('2', '2', '1', '3', 'Systemseiten', '1', '1
 INSERT INTO !PREFIX!_cat_lang VALUES('3', '3', '1', '4', 'Features', '1', '1', '0', 'sysadmin', '2015-06-22 14:40:53', '2016-03-15 18:40:59', '1', 'Features', 'Hauptnavigation/Features');
 INSERT INTO !PREFIX!_cat_lang VALUES('4', '4', '1', '5', 'Fehlerseiten', '1', '1', '0', 'sysadmin', '2015-06-22 14:41:18', '2015-06-22 14:41:18', '2', 'Fehlerseiten', 'Systemseiten/Fehlerseiten');
 INSERT INTO !PREFIX!_cat_lang VALUES('5', '5', '1', '7', 'Home', '1', '1', '0', 'sysadmin', '2016-03-15 18:25:27', '2016-03-15 18:25:27', '3', 'Home', 'Hauptnavigation/Home');
-INSERT INTO !PREFIX!_cat_lang VALUES('6', '6', '1', '8', 'ConLite', '1', '1', '0', 'sysadmin', '2016-03-15 18:42:14', '2016-03-15 18:42:14', '0', 'ConLite', 'Hauptnavigation/ConLite');
+INSERT INTO !PREFIX!_cat_lang VALUES('6', '6', '1', '8', 'ConLite', '0', '1', '0', 'sysadmin', '2016-03-15 18:42:14', '2019-07-04 13:16:18', '0', 'ConLite', 'Hauptnavigation/ConLite');
 INSERT INTO !PREFIX!_cat_lang VALUES('7', '7', '1', '9', 'Servicenavigation', '1', '1', '0', 'sysadmin', '2016-03-15 18:43:02', '2016-03-15 18:43:23', '0', 'Servicenavigation', 'Servicenavigation');
 INSERT INTO !PREFIX!_cat_lang VALUES('8', '8', '1', '10', 'Content Types', '1', '1', '0', 'sysadmin', '2016-03-15 18:44:09', '2016-03-15 18:48:10', '0', 'Content-Types', 'Hauptnavigation/Features/Content-Types');
 INSERT INTO !PREFIX!_cat_lang VALUES('11', '11', '1', '13', 'Module', '1', '1', '0', 'sysadmin', '2016-03-15 18:48:31', '2016-03-15 18:48:31', '0', 'Module', 'Hauptnavigation/Features/Module');

@@ -46,7 +46,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement
 	 *
 	 * @return none
 	 **/
-	function cHTMLInputSelectElement ($sName, $iWidth = "", $sID = "", $bDisabled = false, $iTabIndex = null, $sAccessKey = "")
+	function __construct ($sName, $iWidth = "", $sID = "", $bDisabled = false, $iTabIndex = null, $sAccessKey = "")
 	{
 		cHTMLSelectElement :: __construct($sName, $iWidth, $sID, $bDisabled, $iTabIndex, $sAccessKey);
 	}
@@ -320,7 +320,7 @@ class UI_Config_Table
 	var $_sColorLight;
 	var $_sColorDark;
 
-	function UI_Config_Table()
+	function __construct()
 	{
 		global $cfg;
 

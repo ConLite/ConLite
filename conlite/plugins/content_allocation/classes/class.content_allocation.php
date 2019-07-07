@@ -93,8 +93,17 @@ class pApiContentAllocation {
     }
 
     function loadAllocations($idartlang) {
-        $sql = "SELECT idpica_alloc FROM " . $this->table['pica_alloc_con'] . " WHERE idartlang = " . Contenido_Security::toInteger($idartlang);
-        $this->db->query($sql);
+        //$sql = "SELECT idpica_alloc FROM " . $this->table['pica_alloc_con'] . " WHERE idartlang = " . Contenido_Security::toInteger($idartlang);
+        $this->db->query("-- pApiContentAllocation->loadAllocations()
+            SELECT
+                a.idpica_alloc
+            FROM
+                `{$this->table['pica_alloc']}` AS a
+                , `{$this->table['pica_alloc_con']}` AS b
+            WHERE
+                idartlang = $idartlang
+                AND a.idpica_alloc=b.idpica_alloc
+            ;");
 
         $items = array();
 

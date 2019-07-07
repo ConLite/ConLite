@@ -476,6 +476,38 @@ class TreeItem
 			$this->subitems[$key]->getExpandedList($list);
 		}
 	}
+        
+        /**
+     * Set method for custom array
+     *
+     * @param string $key
+     * @param string|int $content
+     */
+    public function setCustom($key, $content) {
+        $this->custom[$key] = $content;
+    }
+
+    /**
+     * Set method for _collapsed_icon variable
+     *
+     * @param string $iconPath
+     */
+    public function setCollapsedIcon($iconPath) {
+        if (cSecurity::isString($iconPath)) {
+            $this->collapsed_icon = $iconPath;
+        }
+    }
+
+    /**
+     * Set method for _expanded_icon variable
+     *
+     * @param string $iconPath
+     */
+    public function setExpandedIcon($iconPath) {
+        if (cSecurity::isString($iconPath)) {
+            $this->expanded_icon = $iconPath;
+        }
+    }
 	
 }
 

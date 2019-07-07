@@ -400,7 +400,7 @@ class ArticleCollection
      * Articles
      * @var array
      */
-    public $articles;
+    public $articles = array();
 
     /**
      * Article Specifications

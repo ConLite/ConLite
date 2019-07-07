@@ -100,7 +100,7 @@ class EditArea {
       *
       * @access public
       */
-    function EditArea($sId, $sSyntax, $sLang, $bAddScript, $aCfg, $bEditable = true) {
+    function __construct($sId, $sSyntax, $sLang, $bAddScript, $aCfg, $bEditable = true) {
         //datatype check
         $sId = (string) $sId;
         $sSyntax = (string) $sSyntax;

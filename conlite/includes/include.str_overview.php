@@ -233,7 +233,7 @@ if (!isset($idcat))
     $idcat = 0;
 if (!isset($action))
     $action = 0;
-
+/*
 function buildTree(&$rootItem, &$items) {
     global $nextItem, $perm, $tmp_area;
 
@@ -326,6 +326,97 @@ function buildTree(&$rootItem, &$items) {
         }
     }
 }
+ * 
+ */
+
+function buildTree(&$rootItem, $itemsIterator) {
+    global $nextItem, $perm, $tmp_area;
+
+    while ($itemsIterator->valid()) {
+        $key = $itemsIterator->key();
+        $item = $itemsIterator->current();
+        $itemsIterator->next();
+
+        unset($newItem);
+
+        $bCheck = false;
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_newtree');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_newcat');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_makevisible');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_makepublic');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_deletecat');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_moveupcat');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_movedowncat');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_movesubtree');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action($tmp_area, 'str_renamecat');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_area_action('str_tplcfg', 'str_tplcfg');
+        }
+        if (!$bCheck) {
+            $bCheck = $perm->have_perm_item($tmp_area, $item['idcat']);
+        }
+
+        if ($bCheck) {
+            $newItem = new TreeItem($item['name'], $item['idcat'], true);
+        } else {
+            $newItem = new TreeItem($item['name'], $item['idcat'], false);
+        }
+
+        $newItem->setCollapsedIcon('images/open_all.gif');
+        $newItem->setExpandedIcon('images/close_all.gif');
+        $newItem->setCustom('idtree', $item['idtree']);
+        $newItem->setCustom('level', $item['level']);
+        $newItem->setCustom('idcat', $item['idcat']);
+        $newItem->setCustom('idtree', $item['idtree']);
+        $newItem->setCustom('parentid', $item['parentid']);
+        $newItem->setCustom('alias', $item['alias']);
+        $newItem->setCustom('preid', $item['preid']);
+        $newItem->setCustom('postid', $item['postid']);
+        $newItem->setCustom('visible', $item['visible']);
+        $newItem->setCustom('idtplcfg', $item['idtplcfg']);
+        $newItem->setCustom('public', $item['public']);
+
+        if ($perm->have_perm_item('str', $item['idcat'])) {
+            $newItem->setCustom('forcedisplay', 1);
+        }
+
+        if ($itemsIterator->offsetExists($key + 1)) {
+            $nextItem = $itemsIterator->offsetGet($key + 1);
+        } else {
+            $nextItem = 0;
+        }
+
+        $rootItem->addItem($newItem);
+
+        if ($nextItem['level'] > $item['level']) {
+            $oldRoot = $rootItem;
+            buildTree($newItem, $itemsIterator);
+            $rootItem = $oldRoot;
+        }
+
+        if ($nextItem['level'] < $item['level']) {
+            return;
+        }
+    }
+}
 
 if ($perm->have_perm_area_action($area)) {
 
@@ -401,7 +492,8 @@ if ($perm->have_perm_area_action($area)) {
     $rootStrItem->collapsed_icon = 'images/open_all.gif';
     $rootStrItem->expanded_icon = 'images/close_all.gif';
 
-    buildTree($rootStrItem, $items);
+    $arrayObj = new ArrayObject($items);
+    buildTree($rootStrItem, $arrayObj->getIterator());
 
     $expandedList = unserialize($currentuser->getUserProperty("system", "cat_expandstate"));
 
@@ -674,7 +766,7 @@ if ($perm->have_perm_area_action($area)) {
             // Description for hover effect
             $descString = '<b>' . $template . '</b>';
 
-            if (sizeof($templateDescription) > 0) {
+            if (strlen($templateDescription) > 0) {
                 $descString .= '<br>' . $templateDescription;
             }
 

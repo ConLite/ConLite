@@ -73,10 +73,16 @@ function checkLinks() {
 		}
 
 	}
+        
+        $int_cnt_aSearchIDInfosCat = 0;
+        
+        if(is_countable($aSearchIDInfosCat)) {
+            $int_cnt_aSearchIDInfosCat = count($aSearchIDInfosCat);
+        }
 
-	if(count($aSearchIDInfosCat) > 0) { // Checks idcats
+	if($int_cnt_aSearchIDInfosCat > 0) { // Checks idcats
     
-		for($i = 0; $i < count($aSearchIDInfosCat); $i++) {
+		for($i = 0; $i < $int_cnt_aSearchIDInfosCat; $i++) {
 
 			if($i == 0) {
 				$sSearch = $aSearchIDInfosCat[$i]['id'];
