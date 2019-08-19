@@ -106,7 +106,7 @@ class XML_Parser extends PEAR
      *
      * @see xml_parser_create
      */
-    function XML_Parser($srcenc = null, $mode = "event", $tgtenc = null)
+    function __construct($srcenc = null, $mode = "event", $tgtenc = null)
     {
         $this->PEAR('XML_Parser_Error');
 
@@ -339,7 +339,7 @@ class XML_Parser_Error extends PEAR_Error
     // }}}
     // {{{ constructor()
 
-    function XML_Parser_Error($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
+    function __construct($msgorparser = 'unknown error', $code = 0, $mode = PEAR_ERROR_RETURN, $level = E_USER_NOTICE)
     {
         if (is_resource($msgorparser)) {
             $code = xml_get_error_code($msgorparser);
