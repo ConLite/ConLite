@@ -374,7 +374,7 @@
 "stat_archive";"idlang";"int(10)";"NO";"";"0";"";""
 "stat_archive";"idclient";"int(10)";"NO";"";"0";"";""
 "stat_archive";"visited";"int(6)";"NO";"";"0";"";""
-"stat_archive";"visitdate";"varchar(14)";"YES";"";"";"";""
+"stat_archive";"visitdate";"datetime";"NO";"";"1000-01-01 00:00:00";"";""
 "status";"idstatus";"int(10)";"NO";"PRI";"0";"";"1"
 "status";"description";"varchar(255)";"NO";"";"";"";""
 "status";"author";"varchar(32)";"NO";"";"";"";""
