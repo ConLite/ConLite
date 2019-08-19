@@ -71,6 +71,9 @@ class DB_ConLite extends DB_Sql {
         // HerrB: Checked and disabled. Kills umlauts, if tables are latin1_general.
         // try to use the new connection and get the needed encryption
         //$this->query("SET NAMES 'utf8'");
+        
+        // modify mysql strict mode
+        $this->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
     }
 
     /**
