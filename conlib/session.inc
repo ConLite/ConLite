@@ -94,7 +94,7 @@ class cSession {
     function unregister($things) {
         $things = explode(",", $things);
         reset($things);
-        while (list(, $thing) = each($things)) {
+        foreach ($things as  $thing) {
             $thing = trim($thing);
             if ($thing) {
                 unset($this->pt[$thing]);
