@@ -1,6 +1,6 @@
 $Id$
 ----------------------------------------------------------------------------------------------------
-This is the readme file for ConLite 2.0
+This is the readme file for ConLite 2.1
 
 Any help you need you may find by visiting the following links.
 
@@ -46,7 +46,7 @@ And we love CONTENIDO :)
 The copyright for the code of CONTENIDO still remains to 4fb and the named coders for all codes coming 
 from 4.8.15 and/or from svn-repository of CONTENDIO.
 All ads, enhancements or new parts, coded by the CL-Team are copyright by their named coders or 
-by CL-Team and conrepo.org.
+by CL-Team and conlite.org.
 
 
 ** Know Bugs **
