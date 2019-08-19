@@ -246,20 +246,23 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
     $structure = dbGetColumns($db, $table);
 
     // Third check: Compare field properties
-    if (($structure[$field]['Type'] != $type) ||
-            ($structure[$field]['Null'] != $null) ||
-            ($structure[$field]['Key'] != $key) ||
-            ($structure[$field]['Default'] != $default) ||
-            ($structure[$field]['Extra'] != $extra)) {
+    if (($structure[$field]['Type'] != $type) || ($structure[$field]['Null'] != $null) || ($structure[$field]['Key'] != $key) || ($structure[$field]['Default'] != $default) || ($structure[$field]['Extra'] != $extra)) {
 
         if ($structure[$field]['Key'] == "PRI") {
             $alterField = "  ALTER TABLE " . Contenido_Security::escapeDB($table, $db) . " ADD PRIMARY KEY ('" . Contenido_Security::escapeDB($field, $db) . "') ";
         } else {
+            if($type == "datetime" || $type == "date") {
+                $db->query("SET SESSION sql_mode='ALLOW_INVALID_DATES'");
+            }
             $alterField = "  ALTER TABLE " . Contenido_Security::escapeDB($table, $db) . " CHANGE COLUMN $field $field $type " . $parameter['NULL'] . " " . $parameter['DEFAULT'] . " " . $parameter['KEY'];
         }
 
         $db->query($alterField);
-
+        if ($bDebug) {
+            $sDebugData = sprintf("%s:ErrorNo. %s:%s\n", $alterField, $db->getErrorNumber(), $db->getErrorMessage());
+            file_put_contents('../data/logs/setup_queries.txt', $sDebugData, FILE_APPEND);
+            echo 'updateField:' . $alterField . '<br />';
+        }
         $columnCache[$table] = "";
     }
 

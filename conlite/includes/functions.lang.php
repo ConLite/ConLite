@@ -459,18 +459,12 @@ function langDuplicateFromFirstLanguage($client, $idlang) {
  * @copyright four for business AG <www.4fb.de>
  */
 function langDeleteLanguage($idlang, $idclient = "") {
-    global $db, $sess, $client, $cfg, $notification;
+    global $db, $cfg, $notification;
 
     $deleteok = 1;
-
-    // Bugfix: New idclient parameter introduced, as Administration -> Languages
-    // is used for different clients to delete the language
-
-    // Use global client id, if idclient not specified (former behaviour)
-    // Note, that this check also have been added for the action in the database
-    // - just to be equal to langNewLanguage
+    
     if (!is_numeric($idclient)) {
-        $idclient = $client;
+        $idclient = cRegistry::getClientId();
     }
 
     //************ check if there are still arts online

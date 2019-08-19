@@ -160,7 +160,7 @@ class cApiModule extends Item {
             } catch (Exception $ex) {
                 $oWriter = cLogWriter::factory("File", array('destination' => 'contenido.log'));
                 $oLog = new cLog($oWriter);
-                $log->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
+                $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
             }
         }
         if ($this->_aModFileEditConf['use'] == TRUE && is_writable($this->_aModFileEditConf['modPath'])) {
