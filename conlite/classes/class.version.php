@@ -273,35 +273,26 @@ class Version {
      * @return string returns content of xml file
      */
     public function createNewXml() {
-        $oXW = new cXmlWriter();
-        $oXW->openMemory();
-        $oXW->setIndent(true);
-        $oXW->startDocument('1.0', 'UTF-8');
+        $oWriter = new cXmlWriter();
+        $oRootElement = $oWriter->addElement('version', '', NULL, array(
+            'xml:lang' => 'de'
+        ));
+        $oHeadElement = $oWriter->addElement('head', '', $oRootElement);
 
-        $oXW->startElement('version');
-        $oXW->writeAttribute('xml:lang', 'de');
+        $oWriter->addElement('version_id', $this->iIdentity . '_' . $this->iVersion, $oHeadElement);
+        $oWriter->addElement('type', $this->sType, $oHeadElement);
+        $oWriter->addElement('date', date('Y-m-d H:i:s'), $oHeadElement);
+        $oWriter->addElement('author', $this->sAuthor, $oHeadElement);
+        $oWriter->addElement('client', $this->iClient, $oHeadElement);
+        $oWriter->addElement('created', $this->dCreated, $oHeadElement);
+        $oWriter->addElement('lastmodified', $this->dLastModified, $oHeadElement);
 
-        $oXW->startElement('head');
-        $oXW->writeElement('version_id', $this->iIdentity . '_' . $this->iVersion);
-        $oXW->writeElement('type', $this->sType);
-        $oXW->writeElement('date', date("Y-m-d H:i:s"));
-        $oXW->writeElement('author', $this->sAuthor);
-        $oXW->writeElement('client', $this->iClient);
-        $oXW->writeElement('created', $this->dCreated);
-        $oXW->writeElement('lastmodified', $this->dLastModified);
-        $oXW->endElement();
-
-        $oXW->startElement('body');
-
+        $oBodyElement = $oWriter->addElement('body', '', $oRootElement);
         foreach ($this->aBodyData as $sKey => $sValue) {
-            $oXW->writeElement($sKey, clHtmlEntities($sValue));
+            $oWriter->addElement($sKey, $sValue, $oBodyElement, array(), true);
         }
 
-        $oXW->endElement();
-
-        $oXW->endElement();
-
-        return $oXW->outputMemory(true);
+        return $oWriter->saveToString();
     }
 
     /**

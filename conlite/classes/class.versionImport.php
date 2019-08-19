@@ -147,7 +147,7 @@ class VersionImport extends Version {
             $this->sTableName = $this->aCfg['sql']['sqlprefix'] . "_mod_history";
         }
 //		init class member 		 		
-        $this->aCreateVesion = array();
+        $this->aCreateVersion = array();
 
 //		Init class members with table con_history
         $this->getModuleHistoryTable();
