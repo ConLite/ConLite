@@ -315,7 +315,7 @@ class cDirHandler {
                         // get only files
                         $dirContent[] = $fileName;
 
-                    } else {
+                    } else if(!$dirOnly && !$fileOnly) {
                         // get everything
                         $dirContent[] = $fileName;
 
