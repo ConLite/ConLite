@@ -135,7 +135,9 @@ class clIfFunctionParser extends clAbstractTemplateParser {
                 }
                 //elseif-teil
                 else if(preg_match("/(?is)" . $this->pattern_elseif . "/", $array_match_all[0][0], $array_match_part) > 0) {
-                    $elseifIndex = count($array2_uncompletedConstructs[$uncompletedConstructsIndex]['elseif']);
+                    if(is_countable($array2_uncompletedConstructs[$uncompletedConstructsIndex]['elseif'])) {
+                        $elseifIndex = count($array2_uncompletedConstructs[$uncompletedConstructsIndex]['elseif']);
+                    }
 
                     $array2_uncompletedConstructs[$uncompletedConstructsIndex]['elseif'][$elseifIndex]['condition'] = $array_match_part[1];
                     $array2_uncompletedConstructs[$uncompletedConstructsIndex]['elseif'][$elseifIndex]['pos_start'] = $array_match_all[0][1];

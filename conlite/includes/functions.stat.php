@@ -87,7 +87,7 @@ function statsArchive($yearmonth) {
                            ".Contenido_Security::toInteger($db->f(1)).",
                            ".Contenido_Security::toInteger($db->f(2)).",
                            ".Contenido_Security::toInteger($db->f(3)).",
-                           ".Contenido_Security::escapeDB($db->f(4), $db2).")";
+                           '".Contenido_Security::escapeDB($db->f(4), $db2)."')";
 
         $db2->query($insertSQL);
     }
