@@ -139,7 +139,7 @@ $cfg['native_i18n'] = false;
  */
 
 /* Don't display errors */
-@ini_set("display_errors", true);
+@ini_set("display_errors", false);
 
 /* Log errors to a file */
 @ini_set("log_errors", true);
@@ -156,8 +156,7 @@ if ($cfg["develop"]["show_errors"] && $_SERVER['SERVER_NAME'] == "local.dceserve
     } else {
         if (version_compare(PHP_VERSION, '5.3.0', '<')) { // remove unknown deprecated for PHP < 5.3
             error_reporting(E_ALL ^ E_NOTICE);
-        } else
-            if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+        } else if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_WARNING);
         } else if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_STRICT);
