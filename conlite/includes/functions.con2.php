@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -24,9 +25,8 @@
  *
  * $Id$:
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 /**
@@ -42,442 +42,405 @@ if(!defined('CON_FRAMEWORK')) {
  * @author Jan Lengowski <jan.lengowski@4fb.de>
  * @copyright four for business AG <www.4fb.de>
  */
-function conGenerateCode($idcat, $idart, $lang, $client, $layout = false)
-{
-	global $frontend_debug, $_cecRegistry;
+function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
+    global $frontend_debug, $_cecRegistry;
 
-	$debug = 0;
+    $debug = 0;
 
-	if ($debug)
-		echo "conGenerateCode($idcat, $idart, $lang, $client, $layout);<br>";
+    if ($debug)
+        echo "conGenerateCode($idcat, $idart, $lang, $client, $layout);<br>";
 
-	global $db, $db2, $sess, $cfg, $code, $cfgClient, $client, $lang, $encoding;
+    global $db, $db2, $sess, $cfg, $code, $cfgClient, $client, $lang, $encoding;
 
-	if (!is_object($db2))
-		$db2 = new DB_ConLite;
+    if (!is_object($db2))
+        $db2 = new DB_ConLite;
 
-	/* extract IDCATART */
-	$sql = "SELECT
+    /* extract IDCATART */
+    $sql = "SELECT
 	                    idcatart
 	                FROM
-	                    ".$cfg["tab"]["cat_art"]."
+	                    " . $cfg["tab"]["cat_art"] . "
 	                WHERE
-	                    idcat = '".Contenido_Security::toInteger($idcat)."' AND
-	                    idart = '".Contenido_Security::toInteger($idart)."'";
+	                    idcat = '" . Contenido_Security::toInteger($idcat) . "' AND
+	                    idart = '" . Contenido_Security::toInteger($idart) . "'";
 
-	$db->query($sql);
-	$db->next_record();
+    $db->query($sql);
+    $db->next_record();
 
-	$idcatart = $db->f("idcatart");
+    $idcatart = $db->f("idcatart");
 
-	/* If neither the
-	   article or the category is
-	   configured, no code will be
-	   created and an error occurs. */
-	$sql = "SELECT
+    /* If neither the
+      article or the category is
+      configured, no code will be
+      created and an error occurs. */
+    $sql = "SELECT
 	                    a.idtplcfg AS idtplcfg
 	                FROM
-	                    ".$cfg["tab"]["art_lang"]." AS a,
-	                    ".$cfg["tab"]["art"]." AS b
+	                    " . $cfg["tab"]["art_lang"] . " AS a,
+	                    " . $cfg["tab"]["art"] . " AS b
 	                WHERE
-	                    a.idart     = '".Contenido_Security::toInteger($idart)."' AND
-	                    a.idlang    = '".Contenido_Security::escapeDB($lang, $db)."' AND
+	                    a.idart     = '" . Contenido_Security::toInteger($idart) . "' AND
+	                    a.idlang    = '" . Contenido_Security::escapeDB($lang, $db) . "' AND
 	                    b.idart     = a.idart AND
-	                    b.idclient  = '".Contenido_Security::escapeDB($client, $db)."'";
+	                    b.idclient  = '" . Contenido_Security::escapeDB($client, $db) . "'";
 
-	$db->query($sql);
-	$db->next_record();
+    $db->query($sql);
+    $db->next_record();
 
-	if ($db->f("idtplcfg") != 0)
-	{
+    if ($db->f("idtplcfg") != 0) {
 
-		/* Article is configured */
-		$idtplcfg = $db->f("idtplcfg");
+        /* Article is configured */
+        $idtplcfg = $db->f("idtplcfg");
 
-		if ($debug)
-			echo "configuration for article found: $idtplcfg<br><br>";
+        if ($debug)
+            echo "configuration for article found: $idtplcfg<br><br>";
 
-		$a_c = array ();
+        $a_c = array();
 
-		$sql2 = "SELECT
+        $sql2 = "SELECT
 		                        *
 		                     FROM
-		                        ".$cfg["tab"]["container_conf"]."
+		                        " . $cfg["tab"]["container_conf"] . "
 		                     WHERE
-		                        idtplcfg = '".Contenido_Security::toInteger($idtplcfg)."'
+		                        idtplcfg = '" . Contenido_Security::toInteger($idtplcfg) . "'
 		                     ORDER BY
 		                        number ASC";
 
-		$db2->query($sql2);
+        $db2->query($sql2);
 
-		while ($db2->next_record())
-		{
-			$a_c[$db2->f("number")] = $db2->f("container");
+        while ($db2->next_record()) {
+            $a_c[$db2->f("number")] = $db2->f("container");
+        }
+    } else {
 
-		}
-
-	} else
-	{
-
-		/* Check whether category is
-		 configured. */
-		$sql = "SELECT
+        /* Check whether category is
+          configured. */
+        $sql = "SELECT
 		                        a.idtplcfg AS idtplcfg
 		                    FROM
-		                        ".$cfg["tab"]["cat_lang"]." AS a,
-		                        ".$cfg["tab"]["cat"]." AS b
+		                        " . $cfg["tab"]["cat_lang"] . " AS a,
+		                        " . $cfg["tab"]["cat"] . " AS b
 		                    WHERE
-		                        a.idcat     = '".Contenido_Security::toInteger($idcat)."' AND
-		                        a.idlang    = '".Contenido_Security::escapeDB($lang, $db)."' AND
+		                        a.idcat     = '" . Contenido_Security::toInteger($idcat) . "' AND
+		                        a.idlang    = '" . Contenido_Security::escapeDB($lang, $db) . "' AND
 		                        b.idcat     = a.idcat AND
-		                        b.idclient  = '".Contenido_Security::escapeDB($client, $db)."'";
+		                        b.idclient  = '" . Contenido_Security::escapeDB($client, $db) . "'";
 
-		$db->query($sql);
-		$db->next_record();
+        $db->query($sql);
+        $db->next_record();
 
-		if ($db->f("idtplcfg") != 0)
-		{
+        if ($db->f("idtplcfg") != 0) {
 
-			/* Category is configured,
-			   extract varstring */
-			$idtplcfg = $db->f("idtplcfg");
+            /* Category is configured,
+              extract varstring */
+            $idtplcfg = $db->f("idtplcfg");
 
-			if ($debug)
-				echo "configuration for category found: $idtplcfg<br><br>";
+            if ($debug)
+                echo "configuration for category found: $idtplcfg<br><br>";
 
-			$a_c = array ();
+            $a_c = array();
 
-			$sql2 = "SELECT
+            $sql2 = "SELECT
 			                            *
 			                         FROM
-			                            ".$cfg["tab"]["container_conf"]."
+			                            " . $cfg["tab"]["container_conf"] . "
 			                         WHERE
-			                            idtplcfg = '".Contenido_Security::toInteger($idtplcfg)."'
+			                            idtplcfg = '" . Contenido_Security::toInteger($idtplcfg) . "'
 			                         ORDER BY
 			                            number ASC";
 
-			$db2->query($sql2);
+            $db2->query($sql2);
 
-			while ($db2->next_record())
-			{
-				$a_c[$db2->f("number")] = $db2->f("container");
+            while ($db2->next_record()) {
+                $a_c[$db2->f("number")] = $db2->f("container");
+            }
+        } else {
 
-			}
+            /* Article nor Category
+              is configured. Creation of
+              Code is not possible. Write
+              Errormsg to DB. */
 
-		} else
-		{
+            if ($debug)
+                echo "Neither CAT or ART are configured!<br><br>";
 
-			/* Article nor Category
-			   is configured. Creation of
-			   Code is not possible. Write
-			   Errormsg to DB. */
+            $code = '<html><body>No code was created for this art in this category.</body><html>';
 
-			if ($debug)
-				echo "Neither CAT or ART are configured!<br><br>";
+            $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
 
-			$code = '<html><body>No code was created for this art in this category.</body><html>';
+            $db->query($sql);
 
-			$sql = "SELECT * FROM ".$cfg["tab"]["code"]." WHERE idcatart='".Contenido_Security::toInteger($idcatart)."' AND idlang='".Contenido_Security::escapeDB($lang, $db)."'";
+            if ($db->next_record()) {
+                $sql = "UPDATE " . $cfg["tab"]["code"] . " SET code='" . Contenido_Security::escapeDB($code, $db) . "', idlang='" . Contenido_Security::escapeDB($lang, $db) . "', idclient='" . Contenido_Security::escapeDB($client, $db) . "'
+                        WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
+                $db->query($sql);
+            } else {
+                $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idcatart) . "',
+                        '" . Contenido_Security::escapeDB($code, $db) . "', '" . Contenido_Security::escapeDB($lang, $db) . "', '" . Contenido_Security::escapeDB($client, $db) . "')";
+                $db->query($sql);
+            }
 
-			$db->query($sql);
+            return "0601";
+        }
+    }
 
-			if ($db->next_record())
-			{
-				$sql = "UPDATE ".$cfg["tab"]["code"]." SET code='".Contenido_Security::escapeDB($code, $db)."', idlang='".Contenido_Security::escapeDB($lang, $db)."', idclient='".Contenido_Security::escapeDB($client, $db)."'
-                        WHERE idcatart='".Contenido_Security::toInteger($idcatart)."' AND idlang='".Contenido_Security::escapeDB($lang, $db)."'";
-				$db->query($sql);
-			} else
-			{
-				$sql = "INSERT INTO ".$cfg["tab"]["code"]." (idcode, idcatart, code, idlang, idclient) VALUES ('".Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"]))."', '".Contenido_Security::toInteger($idcatart)."',
-                        '".Contenido_Security::escapeDB($code, $db)."', '".Contenido_Security::escapeDB($lang, $db)."', '".Contenido_Security::escapeDB($client, $db)."')";
-				$db->query($sql);
-			}
-
-			return "0601";
-
-		}
-
-	}
-
-	/* Get IDLAY and IDMOD array */
-	$sql = "SELECT
+    /* Get IDLAY and IDMOD array */
+    $sql = "SELECT
 	                    a.idlay AS idlay,
 	                    a.idtpl AS idtpl
 	                FROM
-	                    ".$cfg["tab"]["tpl"]." AS a,
-	                    ".$cfg["tab"]["tpl_conf"]." AS b
+	                    " . $cfg["tab"]["tpl"] . " AS a,
+	                    " . $cfg["tab"]["tpl_conf"] . " AS b
 	                WHERE
-	                    b.idtplcfg  = '".Contenido_Security::toInteger($idtplcfg)."' AND
+	                    b.idtplcfg  = '" . Contenido_Security::toInteger($idtplcfg) . "' AND
 	                    b.idtpl     = a.idtpl";
 
-	$db->query($sql);
-	$db->next_record();
+    $db->query($sql);
+    $db->next_record();
 
-	$idlay = $db->f("idlay");
+    $idlay = $db->f("idlay");
 
-	if ($layout != false)
-	{
-		$idlay = $layout;
-	}
+    if ($layout != false) {
+        $idlay = $layout;
+    }
 
-	$idtpl = $db->f("idtpl");
+    $idtpl = $db->f("idtpl");
 
-	if ($debug)
-		echo "Using Layout: $idlay and Template: $idtpl for generation of code.<br><br>";
+    if ($debug)
+        echo "Using Layout: $idlay and Template: $idtpl for generation of code.<br><br>";
 
-	/* List of used modules */
-	$sql = "SELECT
+    /* List of used modules */
+    $sql = "SELECT
 	                    number,
 	                    idmod
 	                FROM
-	                    ".$cfg["tab"]["container"]."
+	                    " . $cfg["tab"]["container"] . "
 	                WHERE
-	                    idtpl = '".Contenido_Security::toInteger($idtpl)."'
+	                    idtpl = '" . Contenido_Security::toInteger($idtpl) . "'
 	                ORDER BY
 	                    number ASC";
 
-	$db->query($sql);
+    $db->query($sql);
 
-	while ($db->next_record())
-	{
-		$a_d[$db->f("number")] = $db->f("idmod");
-	}
+    while ($db->next_record()) {
+        $a_d[$db->f("number")] = $db->f("idmod");
+    }
 
-	$oLayout = new cApiLayout(Contenido_Security::toInteger($idlay));
-	$raw_code = $oLayout->getLayout();
-	$code = AddSlashes($raw_code);
+    $oLayout = new cApiLayout(Contenido_Security::toInteger($idlay));
+    $raw_code = $oLayout->getLayout();
+    $code = AddSlashes($raw_code);
 
-	/* Create code for all containers */
-	if ($idlay)
-	{
-		tplPreparseLayout($idlay, $raw_code);
-		$tmp_returnstring = tplBrowseLayoutForContainers($idlay, $raw_code);
-		$a_container = explode("&", $tmp_returnstring);
+    /* Create code for all containers */
+    if ($idlay) {
+        tplPreparseLayout($idlay, $raw_code);
+        $tmp_returnstring = tplBrowseLayoutForContainers($idlay, $raw_code);
+        $a_container = explode("&", $tmp_returnstring);
 
-		foreach ($a_container as $key => $value)
-		{
+        foreach ($a_container as $key => $value) {
 
-			$sql = "SELECT * FROM ".$cfg["tab"]["mod"]." WHERE idmod='".$a_d[$value]."'";
+            $sql = "SELECT * FROM " . $cfg["tab"]["mod"] . " WHERE idmod='" . $a_d[$value] . "'";
 
-			$db->query($sql);
-			$db->next_record();
+            $db->query($sql);
+            $db->next_record();
 
-			if (is_numeric($a_d[$value]))
-			{
-				$thisModule = '<?php $cCurrentModule = '. ((int) $a_d[$value]).'; ?>';
-				$thisContainer = '<?php $cCurrentContainer = '. ((int) $value).'; ?>';
-			}
-			/* dceModFileEdit (c)2009 www.dceonline.de */
-			if($cfg['dceModEdit']['use'] 
-                && ($cfg['dceModEdit']['allModsFromFile'] == true
-                        || in_array((int) $a_d[$value], $cfg['dceModEdit']['modsFromFile']))) {
-       cInclude('classes', 'contenido/class.module.php');
-                $tmpModule = new cApiModule;
-                $tmpModule->loadByPrimaryKey($a_d[$value]);
-                $output = $thisModule.$thisContainer.$tmpModule->get("output");
-                unset($tmpModule);
-            } else {
-			$output = $thisModule.$thisContainer.$db->f("output");
+            if (is_numeric($a_d[$value])) {
+                $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
+                $thisContainer = '<?php $cCurrentContainer = ' . ((int) $value) . '; ?>';
             }
             /* dceModFileEdit (c)2009 www.dceonline.de */
-			$output = AddSlashes($output)."\n";
+            if ($cfg['dceModEdit']['use']
+                    && ($cfg['dceModEdit']['allModsFromFile'] == true
+                    || in_array((int) $a_d[$value], $cfg['dceModEdit']['modsFromFile']))) {
+                cInclude('classes', 'contenido/class.module.php');
+                $tmpModule = new cApiModule;
+                $tmpModule->loadByPrimaryKey($a_d[$value]);
+                $output = $thisModule . $thisContainer . $tmpModule->get("output");
+                unset($tmpModule);
+            } else {
+                $output = $thisModule . $thisContainer . $db->f("output");
+            }
+            /* dceModFileEdit (c)2009 www.dceonline.de */
+            $output = AddSlashes($output) . "\n";
 
-			$template = $db->f("template");
+            $template = $db->f("template");
 
-			$a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
+            $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
 
-			$tmp1 = preg_split("/&/", $a_c[$value]);
+            $tmp1 = preg_split("/&/", $a_c[$value]);
 
-			$varstring = array ();
+            $varstring = array();
 
-			foreach ($tmp1 as $key1 => $value1)
-			{
+            foreach ($tmp1 as $key1 => $value1) {
 
-				$tmp2 = explode("=", $value1);
-				foreach ($tmp2 as $key2 => $value2)
-				{
-					$varstring["$tmp2[0]"] = $tmp2[1];
-				}
-			}
+                $tmp2 = explode("=", $value1);
+                foreach ($tmp2 as $key2 => $value2) {
+                    $varstring["$tmp2[0]"] = $tmp2[1];
+                }
+            }
 
-			$CiCMS_Var = '$C'.$value.'CMS_VALUE';
-			$CiCMS_VALUE = '';
+            $CiCMS_Var = '$C' . $value . 'CMS_VALUE';
+            $CiCMS_VALUE = '';
 
-			foreach ($varstring as $key3 => $value3)
-			{
-				$tmp = urldecode($value3);
-				$tmp = str_replace("\'", "'", $tmp);
-				$CiCMS_VALUE .= $CiCMS_Var.'['.$key3.']="'.$tmp.'"; ';
-				$output = str_replace("\$CMS_VALUE[$key3]", $tmp, $output);
-				$output = str_replace("CMS_VALUE[$key3]", $tmp, $output);
-			}
+            foreach ($varstring as $key3 => $value3) {
+                $tmp = urldecode($value3);
+                $tmp = str_replace("\'", "'", $tmp);
+                $CiCMS_VALUE .= $CiCMS_Var . '[' . $key3 . ']="' . $tmp . '"; ';
+                $output = str_replace("\$CMS_VALUE[$key3]", $tmp, $output);
+                $output = str_replace("CMS_VALUE[$key3]", $tmp, $output);
+            }
 
-			$output = str_replace("CMS_VALUE", $CiCMS_Var, $output);
-			$output = str_replace("\$".$CiCMS_Var, $CiCMS_Var, $output);
+            $output = str_replace("CMS_VALUE", $CiCMS_Var, $output);
+            $output = str_replace("\$" . $CiCMS_Var, $CiCMS_Var, $output);
 
-			$output = preg_replace("/(CMS_VALUE\[)([0-9]*)(\])/i", "", $output);
+            $output = preg_replace("/(CMS_VALUE\[)([0-9]*)(\])/i", "", $output);
 
-			if ($frontend_debug["container_display"] == true)
-			{
-				$fedebug .= "Container: CMS_CONTAINER[$value]".'\\\\n';
-			}
-			if ($frontend_debug["module_display"] == true)
-			{
-				$fedebug .= "Modul: ".$db->f("name").'\\\\n';
-			}
-			if ($frontend_debug["module_timing_summary"] == true || $frontend_debug["module_timing"] == true)
-			{
-				$fedebug .= 'Eval-Time: $modtime'.$value.'\\\\n';
-				$output = '<?php $modstart'.$value.' = getmicrotime(); ?'.'>'.$output.'<?php $modend'.$value.' = getmicrotime()+0.001; $modtime'.$value.' = $modend'.$value.' - $modstart'.$value.'; ?'.'>';
-			}
+            if ($frontend_debug["container_display"] == true) {
+                $fedebug .= "Container: CMS_CONTAINER[$value]" . '\\\\n';
+            }
+            if ($frontend_debug["module_display"] == true) {
+                $fedebug .= "Modul: " . $db->f("name") . '\\\\n';
+            }
+            if ($frontend_debug["module_timing_summary"] == true || $frontend_debug["module_timing"] == true) {
+                $fedebug .= 'Eval-Time: $modtime' . $value . '\\\\n';
+                $output = '<?php $modstart' . $value . ' = getmicrotime(); ?' . '>' . $output . '<?php $modend' . $value . ' = getmicrotime()+0.001; $modtime' . $value . ' = $modend' . $value . ' - $modstart' . $value . '; ?' . '>';
+            }
 
-			if ($fedebug != "")
-			{
-				$output = addslashes('<?php echo \'<img onclick="javascript:showmod'.$value.'();" src="'.$cfg['path']['contenido_fullhtml'].'images/but_preview.gif">\'; ?'.'>'."<br>").$output;
-				$output = $output.addslashes('<?php echo \'<script language="javascript">function showmod'.$value.' () { window.alert(\\\'\'. "'.addslashes($fedebug).'".\'\\\');} </script>\'; ?'.'>');
-			}
+            if ($fedebug != "") {
+                $output = addslashes('<?php echo \'<img onclick="javascript:showmod' . $value . '();" src="' . $cfg['path']['contenido_fullhtml'] . 'images/but_preview.gif">\'; ?' . '>' . "<br>") . $output;
+                $output = $output . addslashes('<?php echo \'<script language="javascript">function showmod' . $value . ' () { window.alert(\\\'\'. "' . addslashes($fedebug) . '".\'\\\');} </script>\'; ?' . '>');
+            }
 
-			if ($frontend_debug["module_timing_summary"] == true)
-			{
-				$output .= addslashes(' <?php $cModuleTimes["'.$value.'"] = $modtime'.$value.'; ?>');
-				$output .= addslashes(' <?php $cModuleNames["'.$value.'"] = "'.addslashes($db->f("name")).'"; ?>');
-			}
-			/* Replace new containers */
-			$code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)>(.*)<\/container>/Uis", "CMS_CONTAINER[$value]", $code);
+            if ($frontend_debug["module_timing_summary"] == true) {
+                $output .= addslashes(' <?php $cModuleTimes["' . $value . '"] = $modtime' . $value . '; ?>');
+                $output .= addslashes(' <?php $cModuleNames["' . $value . '"] = "' . addslashes($db->f("name")) . '"; ?>');
+            }
+            /* Replace new containers */
+            $code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)>(.*)<\/container>/Uis", "CMS_CONTAINER[$value]", $code);
 
-			$code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)\/>/i", "CMS_CONTAINER[$value]", $code);
+            $code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)\/>/i", "CMS_CONTAINER[$value]", $code);
 
-			$code = str_ireplace("CMS_CONTAINER[$value]", "<?php $CiCMS_VALUE ?>\r\n".$output, $code);
+            $code = str_ireplace("CMS_CONTAINER[$value]", "<?php $CiCMS_VALUE ?>\r\n" . $output, $code);
 
-			$fedebug = "";
+            $fedebug = "";
+        }
+    }
 
-		}
-	}
-
-	/* Find out what kind of CMS_... Vars are in use */
-	$sql = "SELECT
+    /* Find out what kind of CMS_... Vars are in use */
+    $sql = "SELECT
 	                    *
 	                FROM
-	                    ".$cfg["tab"]["content"]." AS A,
-	                    ".$cfg["tab"]["art_lang"]." AS B,
-	                    ".$cfg["tab"]["type"]." AS C
+	                    " . $cfg["tab"]["content"] . " AS A,
+	                    " . $cfg["tab"]["art_lang"] . " AS B,
+	                    " . $cfg["tab"]["type"] . " AS C
 	                WHERE
 	                    A.idtype    = C.idtype AND
 	                    A.idartlang = B.idartlang AND
-	                    B.idart     = '".Contenido_Security::toInteger($idart)."' AND
-	                    B.idlang    = '".Contenido_Security::escapeDB($lang, $db)."'";
+	                    B.idart     = '" . Contenido_Security::toInteger($idart) . "' AND
+	                    B.idlang    = '" . Contenido_Security::escapeDB($lang, $db) . "'";
 
-	$db->query($sql);
+    $db->query($sql);
 
-	while ($db->next_record())
-	{
-		$a_content[$db->f("type")][$db->f("typeid")] = $db->f("value");
-	}
+    while ($db->next_record()) {
+        $a_content[$db->f("type")][$db->f("typeid")] = $db->f("value");
+    }
 
-	$sql = "SELECT idartlang, pagetitle FROM ".$cfg["tab"]["art_lang"]." WHERE idart='".Contenido_Security::toInteger($idart)."' AND idlang='".Contenido_Security::escapeDB($lang, $db)."'";
+    $sql = "SELECT idartlang, pagetitle FROM " . $cfg["tab"]["art_lang"] . " WHERE idart='" . Contenido_Security::toInteger($idart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
 
-	$db->query($sql);
-	$db->next_record();
+    $db->query($sql);
+    $db->next_record();
 
-	$idartlang = $db->f("idartlang");
-	
-	$pagetitle = stripslashes($db->f("pagetitle"));
+    $idartlang = $db->f("idartlang");
 
-	if ($pagetitle == '') {
+    $pagetitle = stripslashes($db->f("pagetitle"));
+
+    if ($pagetitle == '') {
         CEC_Hook::setDefaultReturnValue($pagetitle);
         $pagetitle = CEC_Hook::executeAndReturn('Contenido.Content.CreateTitletag');
-	}
+    }
 
-	/* replace all CMS_TAGS[] */
-	$sql = "SELECT type, code FROM ".$cfg["tab"]["type"];
+    /* replace all CMS_TAGS[] */
+    $sql = "SELECT type, code FROM " . $cfg["tab"]["type"];
 
-	$db->query($sql);
+    $db->query($sql);
 
-	$match = array ();
-	while ($db->next_record())
-	{
+    $match = array();
+    while ($db->next_record()) {
 
-		$tmp = preg_match_all("/(".$db->f("type")."\[+\d+\])/i", $code, $match);
-		$a_[strtolower($db->f("type"))] = $match[0];
+        $tmp = preg_match_all("/(" . $db->f("type") . "\[+\d+\])/i", $code, $match);
+        $a_[strtolower($db->f("type"))] = $match[0];
 
-		$success = array_walk($a_[strtolower($db->f("type"))], 'extractNumber');
+        $success = array_walk($a_[strtolower($db->f("type"))], 'extractNumber');
 
-		$search = array ();
-		$replacements = array ();
+        $search = array();
+        $replacements = array();
 
-		foreach ($a_[strtolower($db->f("type"))] as $val)
-		{
-			eval ($db->f("code"));
+        foreach ($a_[strtolower($db->f("type"))] as $val) {
+            eval($db->f("code"));
 
-			$search[$val] = $db->f("type")."[$val]";
-			$replacements[$val] = $tmp;
-			$keycode[$db->f("type")][$val] = $tmp;
-		}
+            $search[$val] = $db->f("type") . "[$val]";
+            $replacements[$val] = $tmp;
+            $keycode[$db->f("type")][$val] = $tmp;
+        }
 
-		$code = str_ireplace($search, $replacements, $code);
+        $code = str_ireplace($search, $replacements, $code);
+    }
 
-	}
- 
-	/* add/replace title */
-	if ($pagetitle != "")
-	{
-		$code = preg_replace("/<title>.*?<\/title>/is", "{TITLE}", $code, 1);
+    /* add/replace title */
+    if ($pagetitle != "") {
+        $code = preg_replace("/<title>.*?<\/title>/is", "{TITLE}", $code, 1);
 
-		if (strstr($code, "{TITLE}"))
-		{
-			$code = str_ireplace("{TITLE}", addslashes("<title>$pagetitle</title>"), $code);
-		} else
-		{
-			$code = str_ireplace_once("</head>", addslashes("<title>".$pagetitle."</title>\n</head>"), $code);
-		}
-	} else
-	{
-		$code = str_replace('<title></title>', '', $code);
-	}
+        if (strstr($code, "{TITLE}")) {
+            $code = str_ireplace("{TITLE}", addslashes("<title>$pagetitle</title>"), $code);
+        } else {
+            $code = str_ireplace_once("</head>", addslashes("<title>" . $pagetitle . "</title>\n</head>"), $code);
+        }
+    } else {
+        $code = str_replace('<title></title>', '', $code);
+    }
 
     // metatags
     $availableTags = conGetAvailableMetaTagTypes();
-    $metatags = array ();
+    $metatags = array();
     foreach ($availableTags as $key => $value) {
         $metavalue = conGetMetaValue($idartlang, $key);
         if (strlen($metavalue) > 0) {
             //$metatags[$value["name"]] = array(array("attribute" => $value["fieldname"], "value" => $metavalue), ...);
-            $metatags[] = array ($value["fieldname"] => $value["name"], 'content' => $metavalue);
+            $metatags[] = array($value["fieldname"] => $value["name"], 'content' => $metavalue);
         }
     }
-    
+
     // generator tag
     $aVersion = explode('.', $cfg['version']);
     $sCLVersion = $aVersion[0] . '.' . $aVersion[1];
-    $metatags[] = array ('name' => 'generator', 'content' => 'CMS ConLite ' . $sCLVersion);
-    
+    $metatags[] = array('name' => 'generator', 'content' => 'CMS ConLite ' . $sCLVersion);
+
     // charset/encoding tag
-    if(getEffectiveSetting('generator', 'html5', "false") == "true") {
+    if (getEffectiveSetting('generator', 'html5', "false") == "true") {
         $metatags[] = array('charset' => $encoding[$lang]);
-    } else if(getEffectiveSetting('generator', 'xhtml', "false") == "true")	{
-        $metatags[] = array ('http-equiv' => 'Content-Type', 'content' => 'application/xhtml+xml; charset='.$encoding[$lang]);
+    } else if (getEffectiveSetting('generator', 'xhtml', "false") == "true") {
+        $metatags[] = array('http-equiv' => 'Content-Type', 'content' => 'application/xhtml+xml; charset=' . $encoding[$lang]);
     } else {
-        $metatags[] = array ('http-equiv' => 'Content-Type', 'content' => 'text/html; charset='.$encoding[$lang]);
+        $metatags[] = array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=' . $encoding[$lang]);
     }
-    
+
     // check chains
     $_cecIterator = $_cecRegistry->getIterator("Contenido.Content.CreateMetatags");
-    
-    if($_cecIterator->count() > 0) {
+
+    if ($_cecIterator->count() > 0) {
         $tmpMetatags = $metatags;
-        if(!is_array($tmpMetatags)) {
+        if (!is_array($tmpMetatags)) {
             $tmpMetatags = array();
         }
-        
-        while($chainEntry = $_cecIterator->next()) {
+
+        while ($chainEntry = $_cecIterator->next()) {
             $tmpMetatags = $chainEntry->execute($tmpMetatags);
         }
-        
+
         //added 2008-06-25 Timo Trautmann 
         //system metatags were merged to user meta tags 
         //and user meta tags were not longer replaced by system meta tags
         /** @todo recode whole meta tag handling */
-        if(is_array($tmpMetatags)) {
+        if (is_array($tmpMetatags)) {
             //check for all system meta tags if there is already a user meta tag
             foreach ($tmpMetatags as $aAutValue) {
                 $bExists = false;
@@ -513,73 +476,71 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false)
                 }
             }
         }
-	}
-	$sMetatags = '';
+    }
+    $sMetatags = '';
 
- foreach ($metatags as $value)	{     
-     if(getEffectiveSetting('generator', 'html5', "false") == "true") {
-         if($value['name'] == 'date') continue;
-     }     
-     if(!empty($value['content'])) {
-         $value['content'] = clHtmlEntityDecode($value['content'], ENT_QUOTES, strtoupper($encoding[$lang]));
-         $value['content'] = htmlspecialchars_decode($value['content'], ENT_QUOTES);
-     }
-
-		// build up metatag string
-		$oMetaTagGen = new cHTML5Meta();
-		$oMetaTagGen->updateAttributes($value);
-
-		/* HTML does not allow ID for meta tags */
-		$oMetaTagGen->removeAttribute("id");
-  
-        /*Check if metatag already exists*/
-        if (preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)'.$value["name"].'(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
-            $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render()."\n", $code);
-        } else if(array_key_exists ("charset", $value)
-                 && preg_match('/(<meta(?:\s+)charset(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(.*)(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(?:\s*|\/)(?:[\^\>]+)\r?\n?)/i', $code, $aTmetatagfound)) {
-            $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render()."\n", $code);
-        } else {
-            $sMetatags .= $oMetaTagGen->render()."\n";
+    foreach ($metatags as $value) {
+        if (getEffectiveSetting('generator', 'html5', "false") == "true") {
+            if ($value['name'] == 'date')
+                continue;
         }
-	}
+        if (!empty($value['content'])) {
+            $value['content'] = clHtmlEntityDecode($value['content'], ENT_QUOTES, strtoupper($encoding[$lang]));
+            $value['content'] = htmlspecialchars_decode($value['content'], ENT_QUOTES);
+        }
 
-	/* Add meta tags */
-	$code = str_ireplace_once("</head>", $sMetatags."</head>", $code);
-	$code = str_ireplace_once("</html>", "<!-- This website is powered by ConLite, the lightweight content management system.\nFor more info and download visit www.conlite.org -->\n</html>", $code);
+        // build up metatag string
+        $oMetaTagGen = new cHTML5Meta();
+        $oMetaTagGen->updateAttributes($value);
 
-	/* write code into the database */
-	$date = date("Y-m-d H:i:s");
+        /* HTML does not allow ID for meta tags */
+        $oMetaTagGen->removeAttribute("id");
 
-	if ($layout == false)
-	{
-		$sql = "SELECT * FROM ".$cfg["tab"]["code"]." WHERE idcatart = '".Contenido_Security::toInteger($idcatart)."' AND idlang = '".Contenido_Security::escapeDB($lang, $db)."'";
+        /* Check if metatag already exists */
+        if (preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
+            $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
+        } else if (array_key_exists("charset", $value)
+                && preg_match('/(<meta(?:\s+)charset(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(.*)(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(?:\s*|\/)(?:[\^\>]+)\r?\n?)/i', $code, $aTmetatagfound)) {
+            $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
+        } else {
+            $sMetatags .= $oMetaTagGen->render() . "\n";
+        }
+    }
 
-		$db->query($sql);
+    /* Add meta tags */
+    $code = str_ireplace_once("</head>", $sMetatags . "</head>", $code);
+    $code = str_ireplace_once("</html>", "<!-- This website is powered by ConLite, the lightweight content management system.\nFor more info and download visit www.conlite.org -->\n</html>", $code);
 
-		if ($db->next_record())
-		{
-			if ($debug)
-				echo "UPDATED code for lang:$lang, client:$client, idcatart:$idcatart";
-			$sql = "UPDATE ".$cfg["tab"]["code"]." SET code='".Contenido_Security::escapeDB($code, $db, false)."', idlang='".Contenido_Security::escapeDB($lang, $db)."', idclient='".Contenido_Security::escapeDB($client, $db)."'
-					WHERE idcatart='".Contenido_Security::toInteger($idcatart)."' AND idlang='".Contenido_Security::escapeDB($lang, $db)."'";
-			$db->query($sql);
-		} else
-		{
-			if ($debug)
-				echo "INSERTED code for lang:$lang, client:$client, idcatart:$idcatart";
-			$sql = "INSERT INTO ".$cfg["tab"]["code"]." (idcode, idcatart, code, idlang, idclient) VALUES ('".Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"]))."', '".Contenido_Security::toInteger($idcatart)."',
-					'".Contenido_Security::escapeDB($code, $db, false)."', '".Contenido_Security::escapeDB($lang, $db)."', '".Contenido_Security::escapeDB($client, $db)."')";
-			$db->query($sql);
-		}
+    /* write code into the database */
+    $date = date("Y-m-d H:i:s");
 
-		$sql = "UPDATE ".$cfg["tab"]["cat_art"]." SET createcode = '0' WHERE idcatart='".Contenido_Security::toInteger($idcatart)."'";
-		$db->query($sql);
-	}
+    if ($layout == false) {
+        $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart = '" . Contenido_Security::toInteger($idcatart) . "' AND idlang = '" . Contenido_Security::escapeDB($lang, $db) . "'";
+
+        $db->query($sql);
+
+        if ($db->next_record()) {
+            if ($debug)
+                echo "UPDATED code for lang:$lang, client:$client, idcatart:$idcatart";
+            $sql = "UPDATE " . $cfg["tab"]["code"] . " SET code='" . Contenido_Security::escapeDB($code, $db, false) . "', idlang='" . Contenido_Security::escapeDB($lang, $db) . "', idclient='" . Contenido_Security::escapeDB($client, $db) . "'
+					WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
+            $db->query($sql);
+        } else {
+            if ($debug)
+                echo "INSERTED code for lang:$lang, client:$client, idcatart:$idcatart";
+            $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idcatart) . "',
+					'" . Contenido_Security::escapeDB($code, $db, false) . "', '" . Contenido_Security::escapeDB($lang, $db) . "', '" . Contenido_Security::escapeDB($client, $db) . "')";
+            $db->query($sql);
+        }
+
+        $sql = "UPDATE " . $cfg["tab"]["cat_art"] . " SET createcode = '0' WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "'";
+        $db->query($sql);
+    }
 
     // execute CEC hook
     $code = CEC_Hook::executeAndReturn('Contenido.Content.conGenerateCode', $code);
-	
-	return $code;
+
+    return $code;
 }
 
 /**
@@ -628,15 +589,16 @@ function conGetAvailableMetaTagTypes() {
  * @return string tag value or empty string
  */
 function conGetMetaValue($idartlang, $idmetatype) {
-    
-    if($idartlang == 0) return;
-    
+
+    if ($idartlang == 0)
+        return;
+
     $oMetaTags = new cApiMetaTagCollection();
     $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
     $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
     $oMetaTags->query();
-    
-    if($oMetaTags->count() > 0) {
+
+    if ($oMetaTags->count() > 0) {
         $sRet = $oMetaTags->next()->get('metavalue');
     } else {
         $sRet = "";
@@ -655,29 +617,27 @@ function conGetMetaValue($idartlang, $idmetatype) {
  * @author Timo A. Hummel <Timo.Hummel@4fb.de>
  * @copyright four for business AG 2003
  */
-function conSetMetaValue($idartlang, $idmetatype, $value)
-{
-	global $cfg;
+function conSetMetaValue($idartlang, $idmetatype, $value) {
+    global $cfg;
 
-	$db = new DB_ConLite;
-	$sql = "DELETE FROM ".$cfg["tab"]["meta_tag"]."
-			WHERE idartlang = '".Contenido_Security::toInteger($idartlang)."'
-			AND idmetatype = '".Contenido_Security::toInteger($idmetatype)."'";
+    $db = new DB_ConLite;
+    $sql = "DELETE FROM " . $cfg["tab"]["meta_tag"] . "
+			WHERE idartlang = '" . Contenido_Security::toInteger($idartlang) . "'
+			AND idmetatype = '" . Contenido_Security::toInteger($idmetatype) . "'";
 
-	$db->query($sql);
+    $db->query($sql);
 
-	$nextid = $db->nextid($cfg["tab"]["meta_tag"]);
+    $nextid = $db->nextid($cfg["tab"]["meta_tag"]);
 
-	$sql = "INSERT INTO ".$cfg["tab"]["meta_tag"]." SET idartlang = '".Contenido_Security::toInteger($idartlang)."',
-			idmetatype = '".Contenido_Security::toInteger($idmetatype)."',
-			idmetatag = '".Contenido_Security::toInteger($nextid)."',
-			metavalue = '".Contenido_Security::escapeDB($value, $db)."'";
+    $sql = "INSERT INTO " . $cfg["tab"]["meta_tag"] . " SET idartlang = '" . Contenido_Security::toInteger($idartlang) . "',
+			idmetatype = '" . Contenido_Security::toInteger($idmetatype) . "',
+			idmetatag = '" . Contenido_Security::toInteger($nextid) . "',
+			metavalue = '" . Contenido_Security::escapeDB($value, $db) . "'";
 
-	$db->query($sql);
-
+    $db->query($sql);
 }
 
-/** 
+/**
  * (re)generate keywords for all articles of a given client (with specified language) 
  * @param $client Client
  * @param $lang Language of a client 
@@ -688,51 +648,44 @@ function conSetMetaValue($idartlang, $idmetatype, $value)
  * Modified  :   13.05.2004
  * @copyright four for business AG 2003
  */
-function conGenerateKeywords($client, $lang)
-{
-	global $cfg;
-	$db_art = new DB_ConLite;
+function conGenerateKeywords($client, $lang) {
+    global $cfg;
+    $db_art = new DB_ConLite;
 
-	$options = array ("img", "link", "linktarget", "swf"); // cms types to be excluded from indexing
+    $options = array("img", "link", "linktarget", "swf"); // cms types to be excluded from indexing
 
-	$sql = "SELECT
+    $sql = "SELECT
 	    			a.idart, b.idartlang
 	    		FROM
-	    			".$cfg["tab"]["art"]." AS a,
-	    			".$cfg["tab"]["art_lang"]." AS b
+	    			" . $cfg["tab"]["art"] . " AS a,
+	    			" . $cfg["tab"]["art_lang"] . " AS b
 	    		WHERE
 	    			a.idart    = b.idart AND
-	    			a.idclient = ".Contenido_Security::escapeDB($client, $db)." AND
-	    			b.idlang = ".Contenido_Security::escapeDB($lang, $db);
+	    			a.idclient = " . Contenido_Security::escapeDB($client, $db) . " AND
+	    			b.idlang = " . Contenido_Security::escapeDB($lang, $db);
 
-	$db_art->query($sql);
+    $db_art->query($sql);
 
-	$articles = array ();
-	while ($db_art->next_record())
-	{
-		$articles[$db_art->f("idart")] = $db_art->f("idartlang");
-	}
+    $articles = array();
+    while ($db_art->next_record()) {
+        $articles[$db_art->f("idart")] = $db_art->f("idartlang");
+    }
 
-	if (count($articles) > 0)
-	{
-		foreach ($articles as $artid => $article_lang)
-		{
-			$article_content = array ();
-			$article_content = conGetContentFromArticle($article_lang);
+    if (count($articles) > 0) {
+        foreach ($articles as $artid => $article_lang) {
+            $article_content = array();
+            $article_content = conGetContentFromArticle($article_lang);
 
-			if (count($article_content) > 0)
-			{
-				$art_index = new Index($db_art);
-				$art_index->lang = $lang;
-				$art_index->start($artid, $article_content, 'auto', $options);
-			}
-
-		}
-	}
-
+            if (count($article_content) > 0) {
+                $art_index = new Index($db_art);
+                $art_index->lang = $lang;
+                $art_index->start($artid, $article_content, 'auto', $options);
+            }
+        }
+    }
 }
 
-/** 
+/**
  * get content from article 
  * @param $article_lang ArticleLanguageId of an article (idartlang) 
  * @return array Array with content of an article indexed by content-types
@@ -742,31 +695,29 @@ function conGenerateKeywords($client, $lang)
  * Modified  :   13.05.2004
  * @copyright four for business AG 2003
  */
-function conGetContentFromArticle($article_lang)
-{
+function conGetContentFromArticle($article_lang) {
 
-	global $cfg;
-	$db_con = new DB_ConLite;
+    global $cfg;
+    $db_con = new DB_ConLite;
 
-	$sql = "SELECT
+    $sql = "SELECT
 					*
 				FROM
-					".$cfg["tab"]["content"]." AS A,
-					".$cfg["tab"]["art_lang"]." AS B,
-					".$cfg["tab"]["type"]." AS C
+					" . $cfg["tab"]["content"] . " AS A,
+					" . $cfg["tab"]["art_lang"] . " AS B,
+					" . $cfg["tab"]["type"] . " AS C
 				WHERE
 					A.idtype    = C.idtype AND
 					A.idartlang = B.idartlang AND
-					A.idartlang     = '".Contenido_Security::escapeDB($article_lang, $db_con)."' ";
+					A.idartlang     = '" . Contenido_Security::escapeDB($article_lang, $db_con) . "' ";
 
-	$db_con->query($sql);
+    $db_con->query($sql);
 
-	while ($db_con->next_record())
-	{
-		$a_content[$db_con->f("type")][$db_con->f("typeid")] = urldecode($db_con->f("value"));
-	}
+    while ($db_con->next_record()) {
+        $a_content[$db_con->f("type")][$db_con->f("typeid")] = urldecode($db_con->f("value"));
+    }
 
-	return $a_content;
-
+    return $a_content;
 }
+
 ?>

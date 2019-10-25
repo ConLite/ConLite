@@ -272,6 +272,7 @@ class cDirHandler {
      *         array containing file names as string, false on error
      */
     public static function read($dirname, $recursive = false, $dirOnly = false, $fileOnly = false) {
+        $dirname = rtrim($dirname, '/') . '/';
         if (!self::exists($dirname)) {
             return false;
         }
@@ -279,7 +280,6 @@ class cDirHandler {
         $dirContent = array();
         if ($recursive == false) {
             $dirHandle = opendir($dirname);
-            $dirContent = array();
             while (false !== ($file = readdir($dirHandle))) {
                 if (!cFileHandler::fileNameIsDot($file)) {
 
@@ -289,7 +289,9 @@ class cDirHandler {
                             $dirContent[] = $file;
                         }
                     // bugfix: is_dir only checked file name without path, thus returning everything most of the time
-                    } else if ($fileOnly === true) { // get only files
+                    }
+                    
+                    if ($fileOnly == true && !$dirOnly) { // get only files
 
                         if (is_file($dirname . $file)) {
                             $dirContent[] = $file;
@@ -323,7 +325,6 @@ class cDirHandler {
                 }
             }
         }
-
         return $dirContent;
     }
 
