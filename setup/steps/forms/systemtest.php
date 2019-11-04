@@ -446,6 +446,9 @@ class cSetupSystemtest extends cSetupMask {
     }
 
     public function doFileSystemTests() {
+        if(!is_readable(CON_SETUP_PATH."/data")) {
+            $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("Setup data folder not readable!"), i18n_setup("Please check the Folder setup/data! Maybe it' s missing or not readable."));
+        }
         // old logs
         if ($_SESSION["setuptype"] != "setup") {
             // old folders

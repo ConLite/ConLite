@@ -41,17 +41,26 @@ class cSetupClientMode extends cSetupMask {
 
         cInitializeArrayKey($_SESSION, "clientmode", "");
 
-        $aChoices = array("CLIENTEXAMPLES" => i18n_setup("Client with example modules and example content"),
-            "CLIENTMODULES" => i18n_setup("Client with example modules, but without example content"),
-            "CLIENT" => i18n_setup("Client without examples"),
-            "NOCLIENT" => i18n_setup("Don't create client"));
+        $aChoices = array();
+
+        $aChoices["CLIENTEXAMPLES"] = "none"; //i18n_setup("Client with example modules and example content");
+        $aChoices["CLIENTMODULES"] = "none"; //i18n_setup("Client with example modules, but without example content");
+        $aChoices["CLIENT"] = i18n_setup("Client without examples");
+        $aChoices["NOCLIENT"] = i18n_setup("Don't create client");
+        
+        $sChoiceDefault = "CLIENTEXAMPLES";
 
         foreach ($aChoices as $sKey => $sChoice) {
+            if ($sChoice == "none") {
+                $this->_oStepTemplate->set("s", "CONTROL_" . $sKey, "");
+                $this->_oStepTemplate->set("s", "LABEL_" . $sKey, "");
+                continue;
+            }
             $oRadio = new cHTMLRadiobutton("clientmode", $sKey);
             $oRadio->setLabelText(" ");
             $oRadio->setStyle('width:auto;border:0;');
 
-            if ($_SESSION["clientmode"] == $sKey || ($_SESSION["clientmode"] == "" && $sKey == "CLIENTEXAMPLES")) {
+            if ($_SESSION["clientmode"] == $sKey || ($_SESSION["clientmode"] == "" && $sKey == $sChoiceDefault)) {
                 $oRadio->setChecked("checked");
             }
 

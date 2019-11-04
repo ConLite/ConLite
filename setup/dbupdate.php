@@ -52,7 +52,7 @@ if (checkMySQLDatabaseCreation($db, $_SESSION['dbname'])) {
     $db = getSetupMySQLDBConnection();
 }
 
-$currentstep = (empty($_GET['step']))?1:filter_input(INPUT_GET, "step", FILTER_SANITIZE_NUMBER_INT);
+$currentstep = (empty($_GET['step'])) ? 1 : filter_input(INPUT_GET, "step", FILTER_SANITIZE_NUMBER_INT);
 
 // Count DB Chunks
 $file = fopen('data/tables.txt', 'r');
@@ -81,29 +81,33 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
 }
 
 // Count DB Chunks (plugins)
-$file = fopen('data/tables_pi.txt', 'r');
-$step = 1;
-while (($data = fgetcsv($file, 4000, ';')) !== false) {
-    if ($count == 50) {
-        $count = 1;
-        $step++;
-    }
+if (cFileHandler::exists('data/tables_pi.txt')) {
+    $file = fopen('data/tables_pi.txt', 'r');
+    if ($file) {
+        $step = 1;
+        while (($data = fgetcsv($file, 4000, ';')) !== false) {
+            if ($count == 50) {
+                $count = 1;
+                $step++;
+            }
 
-    if ($currentstep == $step) {
-        if ($data[7] == '1') {
-            $drop = true;
-        } else {
-            $drop = false;
+            if ($currentstep == $step) {
+                if ($data[7] == '1') {
+                    $drop = true;
+                } else {
+                    $drop = false;
+                }
+                dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
+
+                if ($db->errno != 0) {
+                    $_SESSION['install_failedupgradetable'] = true;
+                }
+            }
+
+            $count++;
+            $fullcount++;
         }
-        dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
-
-        if ($db->errno != 0) {
-            $_SESSION['install_failedupgradetable'] = true;
-        }
     }
-
-    $count++;
-    $fullcount++;
 }
 
 $pluginChunks = array();
@@ -119,24 +123,6 @@ $moduleChunks = txtFileToArray('data/standard.txt');
 $contentChunks = txtFileToArray('data/examples.txt');
 
 $sysadminChunk = txtFileToArray('data/sysadmin.txt');
-
-/*
-if ($_SESSION['plugin_newsletter'] == 'true') {
-    $newsletter = txtFileToArray('data/plugin_newsletter.txt');
-    $pluginChunks = array_merge($pluginChunks, $newsletter);
-}
- * 
- */
-
-if ($_SESSION['plugin_content_allocation'] == 'true') {
-    $content_allocation = txtFileToArray('data/plugin_content_allocation.txt');
-    $pluginChunks = array_merge($pluginChunks, $content_allocation);
-}
-
-if ($_SESSION['plugin_mod_rewrite'] == 'true') {
-    $mod_rewrite = txtFileToArray('data/plugin_mod_rewrite.txt');
-    $pluginChunks = array_merge($pluginChunks, $mod_rewrite);
-}
 
 if ($_SESSION['setuptype'] == 'setup') {
     switch ($_SESSION['clientmode']) {
@@ -259,10 +245,10 @@ if ($currentstep < $totalsteps) {
     $aSqlArray = $db->getProfileData();
     if (is_array($aSqlArray) && count($aSqlArray) > 0) {
         $fp = fopen('../data/logs/setup_queries.txt', 'w');
-            foreach ($aSqlArray as $failedChunk) {
-                fwrite($fp, print_r($aSqlArray, TRUE));
-            }
-            fclose($fp);
+        foreach ($aSqlArray as $failedChunk) {
+            fwrite($fp, print_r($aSqlArray, TRUE));
+        }
+        fclose($fp);
     }
 
     printf('<script type="text/javascript">parent.document.getElementById("installing").style.visibility="hidden";parent.document.getElementById("installingdone").style.visibility="visible";</script>');

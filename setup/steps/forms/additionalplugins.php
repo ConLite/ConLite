@@ -59,8 +59,8 @@ class cSetupAdditionalPlugins extends cSetupMask {
         // add new plugins to this array and you're done.
         $aPlugins = array();
         //$aPlugins['plugin_newsletter'] = array('label' => i18n_setup('Newsletter'), 'desc' => i18n_setup('Newsletterfunctionality for dispatching text newsletters and HTML-Newsletters, extensible with professional newsletter extensions. Definition of newsletter recipients and groups of recipients. Layout design of the HTML-Newsletters by ConLite articles.'));
-        $aPlugins['plugin_content_allocation'] = array('label' => i18n_setup('Content Allocation'), 'desc' => i18n_setup('For the representation and administration of content, 4fb developed the Content Allocation and content include technology. This technology dynamically allows on basis of a Template, to put the content in different places and in different formats according to several criteria.'));
-        $aPlugins['plugin_mod_rewrite'] = array('label' => i18n_setup('Mod Rewrite'), 'desc' => i18n_setup('Creates so called Clean URLs for a ConLite installation'));
+        //$aPlugins['plugin_content_allocation'] = array('label' => i18n_setup('Content Allocation'), 'desc' => i18n_setup('For the representation and administration of content, 4fb developed the Content Allocation and content include technology. This technology dynamically allows on basis of a Template, to put the content in different places and in different formats according to several criteria.'));
+        //$aPlugins['plugin_mod_rewrite'] = array('label' => i18n_setup('Mod Rewrite'), 'desc' => i18n_setup('Creates so called Clean URLs for a ConLite installation'));
 
         $sCheckBoxes = '';
         if (sizeof($aPlugins) > 0) {
