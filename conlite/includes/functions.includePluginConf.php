@@ -47,6 +47,11 @@ if ($bDebug && $frame == 4) {
 
 // Include all active plugins
 foreach ($aPlugins as $sPluginName) {
+    $sPluginIgnoreFile = $sPluginsPath . $sPluginName . DIRECTORY_SEPARATOR . 'plugin.ignore';
+    if (file_exists($sPluginIgnoreFile)) {
+        continue;
+    }
+    
     $sPluginLocaleDir = $sPluginsPath . $sPluginName . DIRECTORY_SEPARATOR . 'locale' . DIRECTORY_SEPARATOR;
     $sPluginConfigFile = $sPluginsPath . $sPluginName . DIRECTORY_SEPARATOR . 'includes/config.plugin.php';
     $sPluginAutoloaderFile = $sPluginsPath . $sPluginName . DIRECTORY_SEPARATOR . 'includes/config.autoloader.php';
