@@ -43,7 +43,6 @@ INSERT INTO !PREFIX!_area VALUES('47', 'lang', 'lang_edit', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('48', 'client', 'client_edit', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('49', '0', 'logs', '1', '1', '1');
 INSERT INTO !PREFIX!_area VALUES('50', '0', 'recipients', '1', '1', '0');
-INSERT INTO !PREFIX!_area VALUES('51', '0', 'myArea', '1', '1', '1');
 INSERT INTO !PREFIX!_area VALUES('52', '0', 'info', '0', '1', '1');
 INSERT INTO !PREFIX!_area VALUES('53', '0', 'symbolhelp', '0', '1', '1');
 INSERT INTO !PREFIX!_area VALUES('54', '0', 'groups', '1', '1', '0');
@@ -85,8 +84,6 @@ INSERT INTO !PREFIX!_area VALUES('91', 'recipients', 'recipients_import', '1', '
 INSERT INTO !PREFIX!_area VALUES('92', 'mod', 'mod_package', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('93', 'mod', 'mod_sync', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('96', '0', 'cl_sample_plugin', '1', '1', '1');
-INSERT INTO !PREFIX!_area VALUES('97', '0', 'myArea', '1', '1', '1');
-INSERT INTO !PREFIX!_area VALUES('98', '0', 'myArea', '1', '1', '1');
 INSERT INTO !PREFIX!_area VALUES('400', 'lay', 'lay_history', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('401', 'style', 'style_history', '1', '1', '0');
 INSERT INTO !PREFIX!_area VALUES('402', 'js', 'js_history', '1', '1', '0');
