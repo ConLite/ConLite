@@ -154,12 +154,12 @@ if ($backup_action == 'backupnow') {
         $dump['num_rows'] = 0;
         for ($i = 0; $i < $dump['num_tables']; $i++) {
             $oDB->next_record();
-            $row = $oDB->toArray(FETCH_ASSOC);
+            $row = $oDB->toArray();
             $dump['tables'][$i] = $row['Name'];
             $oDB2->query("SELECT COUNT(*) FROM " . $row['Name']);
             $oDB2->next_record();
             //$result = mysql_query("SELECT COUNT(*) FROM ".$row['Name'], $oDB->Link_ID);
-            $aTmp = $oDB2->toArray(FETCH_ASSOC);
+            $aTmp = $oDB2->toArray();
             $dump['num_rows'] += $aTmp[0];
             //print_r($row);
         }

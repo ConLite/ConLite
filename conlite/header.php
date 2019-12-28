@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -29,7 +30,6 @@
  * }}
  * 
  */
-
 if (!defined("CON_FRAMEWORK")) {
     define("CON_FRAMEWORK", true);
 }
@@ -37,27 +37,26 @@ if (!defined("CON_FRAMEWORK")) {
 // Contenido startup process
 include_once ('./includes/startup.php');
 
-$db = new DB_ConLite;
+$db = new DB_ConLite();
 
 
 page_open(
-    array('sess' => 'Contenido_Session',
-          'auth' => 'Contenido_Challenge_Crypt_Auth',
-          'perm' => 'Contenido_Perm'));
+        array('sess' => 'Contenido_Session',
+            'auth' => 'Contenido_Challenge_Crypt_Auth',
+            'perm' => 'Contenido_Perm'));
 
-i18nInit($cfg["path"]["contenido"].$cfg["path"]["locale"], $belang);
+i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
 
-cInclude ("includes", 'cfg_language_de.inc.php');
-cInclude ("includes", 'functions.forms.php');
+cInclude("includes", 'cfg_language_de.inc.php');
+cInclude("includes", 'functions.forms.php');
 
-if (isset($killperms))
-{
+if (isset($killperms)) {
     $sess->unregister("right_list");
     $sess->unregister("area_rights");
     $sess->unregister("item_rights");
 }
 
-i18nInit($cfg["path"]["contenido"].$cfg["path"]["locale"], $belang);
+i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
 
 $sess->register("sess_area");
 
@@ -68,41 +67,35 @@ if (isset($area)) {
 }
 
 if (is_numeric($changelang)) {
-	unset($area_rights);
-	unset($item_rights);
-	
+    unset($area_rights);
+    unset($item_rights);
+
     $sess->register("lang");
     $lang = $changelang;
 }
 
-if (empty($client) || !is_numeric($client) || 
-	(!$perm->have_perm_client("client[".$client."]") &&
-	 !$perm->have_perm_client("admin[".$client."]")))
-{
-	 // use first client which is accessible
+if (empty($client) || !is_numeric($client) || (!$perm->have_perm_client("client[" . $client . "]") && !$perm->have_perm_client("admin[" . $client . "]"))) {
+    // use first client which is accessible
     $sess->register("client");
-    $sql = "SELECT idclient FROM ".$cfg["tab"]["clients"]." ORDER BY idclient ASC";
+    $sql = "SELECT idclient FROM " . $cfg["tab"]["clients"] . " ORDER BY idclient ASC";
     $db->query($sql);
-    
-    while ($db->next_record())
-    {
-    	$mclient = $db->f("idclient");
 
-    	if ($perm->have_perm_client("client[".$mclient."]") ||
-    		$perm->have_perm_client("admin[".$mclient."]") )
-    	{
-    		unset($lang);
-    		$client = $mclient;
-    		break;
-    	}
+    while ($db->next_record()) {
+        $mclient = $db->f("idclient");
+
+        if ($perm->have_perm_client("client[" . $mclient . "]") || $perm->have_perm_client("admin[" . $mclient . "]")) {
+            unset($lang);
+            $client = $mclient;
+            break;
+        }
     }
 } else {
-	$sess->register("client");
+    $sess->register("client");
 }
 
 if (empty($lang) || !is_numeric($lang)) { // use first language found
     $sess->register("lang");
-    $sql = "SELECT * FROM ".$cfg["tab"]["lang"]." AS A, ".$cfg["tab"]["clients_lang"]." AS B WHERE A.idlang=B.idlang AND idclient='".Contenido_Security::toInteger($client)."' ORDER BY A.idlang ASC";
+    $sql = "SELECT * FROM " . $cfg["tab"]["lang"] . " AS A, " . $cfg["tab"]["clients_lang"] . " AS B WHERE A.idlang=B.idlang AND idclient='" . Contenido_Security::toInteger($client) . "' ORDER BY A.idlang ASC";
     $db->query($sql);
     $db->next_record();
     $lang = $db->f("idlang");
@@ -115,14 +108,12 @@ sendEncodingHeader($db, $cfg, $lang);
 
 $perm->load_permissions();
 
-$xml        = new XML_doc;
-$tpl        = new Template;
-$nav        = new Contenido_Navigation;
+$xml = new XML_doc;
+$tpl = new Template;
+$nav = new Contenido_Navigation();
 
 rereadClients();
 
 $nav->buildHeader($lang);
 
 page_close();
-
-?>

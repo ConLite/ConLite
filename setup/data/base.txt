@@ -8,9 +8,7 @@ base/base_chartable5.sql
 base/base_chartable6.sql
 base/base_chartable7.sql
 base/base_files1.sql
-base/base_files2.sql
 base/base_framefiles1.sql
-base/base_framefiles2.sql
 base/base_meta_type1.sql
 base/base_nav_main1.sql
 base/base_nav_sub1.sql

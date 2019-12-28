@@ -1,6 +1,4 @@
 DELETE FROM !PREFIX!_nav_sub WHERE idnavs < 10000;
-INSERT INTO !PREFIX!_nav_sub VALUES('502', '0', '500', '1', 'linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/overview', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('500', '1', '500', '0', 'linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/main', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('82', '3', '92', '1', 'navigation/style/modules/package', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('81', '3', '86', '1', 'navigation/extra/recipientgroups', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('79', '0', '6', '1', 'navigation/content/structure/overview', '1');
@@ -33,7 +31,6 @@ INSERT INTO !PREFIX!_nav_sub VALUES('45', '0', '56', '1', 'navigation/administra
 INSERT INTO !PREFIX!_nav_sub VALUES('44', '0', '55', '1', 'navigation/administration/groups/layout', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('43', '0', '62', '1', 'navigation/administration/groups/areas', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('41', '0', '61', '1', 'navigation/administration/groups/overview', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('38', '3', '50', '1', 'navigation/extra/recipients', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('37', '0', '4', '1', 'navigation/content/article/preview', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('49', '5', '49', '0', 'navigation/administration/logs', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('36', '5', '46', '0', 'navigation/administration/clients/main', '1');
@@ -66,10 +63,6 @@ INSERT INTO !PREFIX!_nav_sub VALUES('3', '1', '7', '0', 'navigation/content/uplo
 INSERT INTO !PREFIX!_nav_sub VALUES('2', '1', '6', '0', 'navigation/content/structure/main', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('1', '1', '1', '0', 'navigation/content/article/main', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('990', '5', '990', '0', 'pluginmanager/xml/lang_de_DE.xml;navigation/administration/pluginmanager/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('503', '0', '501', '1', 'linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/whitelist', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('600', '3', '600', '0', 'workflow/xml/lang_de_DE.xml;navigation/extra/workflow/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('601', '0', '601', '1', 'workflow/xml/lang_de_DE.xml;navigation/extra/workflow/settings', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('602', '0', '602', '1', 'workflow/xml/lang_de_DE.xml;navigation/extra/workflow/steps', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('19', '2', '31', '0', 'navigation/style/styleeditor/main', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('20', '2', '32', '0', 'navigation/style/jseditor/main', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('61', '2', '71', '0', 'navigation/style/tpleditor/main', '1');
@@ -82,10 +75,3 @@ INSERT INTO !PREFIX!_nav_sub VALUES('397', '0', '71', '1', 'navigation/style/tpl
 INSERT INTO !PREFIX!_nav_sub VALUES('403', '0', '403', '1', 'navigation/style/tpleditor/history', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('805', '0', '811', '1', 'navigation/administration/system/purge', '1');
 INSERT INTO !PREFIX!_nav_sub VALUES('806', '0', '812', '1', 'navigation/administration/system/db_backup', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('610', '3', '16', '0', 'navigation/extra/newsletter', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('800', '3', '801', '0', 'content_allocation/xml/;navigation/extra/content_allocation/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('801', '0', '802', '1', 'content_allocation/xml/;navigation/extra/content_allocation/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('700', '3', '700', '0', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/main', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('701', '0', '700', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/settings', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('702', '0', '701', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/expert', '1');
-INSERT INTO !PREFIX!_nav_sub VALUES('703', '0', '702', '1', 'mod_rewrite/xml/;navigation/extras/mod_rewrite/test', '1');
