@@ -238,7 +238,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
         foreach ($a_container as $key => $value) {
 
-            $sql = "SELECT * FROM " . $cfg["tab"]["mod"] . " WHERE idmod='" . $a_d[$value] . "'";
+            $sql = "SELECT output, template, name FROM " . $cfg["tab"]["mod"] . " WHERE idmod='" . $a_d[$value] . "'";
 
             $db->query($sql);
             $db->next_record();
