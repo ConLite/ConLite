@@ -1,0 +1,31 @@
+<script type="text/javascript">
+    var ie = 0;
+</script>
+<!--[if lte IE 7]><script>
+var ie = 7;
+</script><![endif]-->
+<h2>ConLite Plugin Manager</h2>
+<h3>{LANG_EXTRACTED}</h3>
+<p>{LANG_HINT_EXTRACTED}</p>
+<ul id="pimPluginsExtracted">{PLUGINS_EXTRACTED}</ul>
+<div>&#160;</div>
+<section id="plugins_installed">
+    <h3>{LANG_INSTALLED} (<span id="plugin_count" style="color: #FF0000;">{INSTALLED_PLUGINS}</span>)</h3>
+    <!--
+    <div id="plugins_installed_header">
+        <a href="#" onclick="javascript:toggleTableBodyWithoutButton('addplugin')" title="{LANG_ADD}" style="margin-left:10px;"><img style="vertical-align:middle; margin-left:5px;" src="images/but_art_new.gif" alt=""> {LANG_ADD}</a>
+    </div>
+    <div id="addplugin" style="display: none">
+        {LANG_ADD_CHOOSE}<br />
+        <form action="main.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="area" value="pluginmanager" />
+            <input type="hidden" name="frame" value="4" />
+            <input type="hidden" name="contenido" value="{SESSID}" />
+            <input type="hidden" name="pimanagerview" value="upload" />
+            <input type="file" name="package" id="package" />
+            <input type="submit" name="upload_package" id="upload_package" value="{LANG_ADD_UPLOAD}" />
+        </form>
+    </div>
+    -->
+    <ul id="pimPluginsInstalled">{PLUGINS}</ul>
+</section>

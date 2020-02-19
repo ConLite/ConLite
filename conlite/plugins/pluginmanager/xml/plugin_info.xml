@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+
+    <general active="1">
+        <plugin_name>Linkchecker</plugin_name>
+        <plugin_foldername>linkchecker</plugin_foldername>
+        <guid>a9613eabde004e1ad4daad30a25def6555f4ac28</guid>
+        <description>Checks intern and extern links to valid</description>
+        <author>Frederic Schneider (4fb)</author>
+        <copyright>four for business AG</copyright>
+        <version>2.0.0</version>
+        <min_contenido_version>4.6.0</min_contenido_version>
+    </general>
+
+    <plugin_dependencies>
+        <depend version="1.0.3">b9653ztdbde004e1ad4dbbd90a25def6555f4gh40</depend>
+    </plugin_dependencies>
+
+    <contenido>
+
+        <areas>
+            <area>linkchecker</area>
+            <area parent="linkchecker">lc_whitelist</area>
+        </areas>
+
+        <actions>
+            <action area="linkchecker">linkchecker</action>
+        </actions>
+
+        <frames>
+            <frame area="linkchecker" folder="includes" name="include.linkchecker.php" frameID="4" />
+            <frame area="linkchecker" folder="includes" name="include.linkchecker_right_top.php" frameID="3" />
+            <frame area="lc_whitelist" folder="includes" name="include.linkchecker_whitelist.php" frameID="3" />       
+        </frames>
+
+        <nav_sub>
+            <nav area="linkchecker" navm="1">linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/main</nav>
+            <nav area="linkchecker">linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/overview</nav>
+            <nav area="lc_whitelist">linkchecker/xml/lang_de_DE.xml;navigation/content/linkchecker/whitelist</nav>
+        </nav_sub>
+
+    </contenido>
+
+</plugin>
