@@ -47,6 +47,36 @@ class cRegistry {
     }
     
     /**
+     * Function which returns path after the last possible place changing via
+     * configuration file.
+     * The path point to the current client
+     *
+     * @author konstantinos.katikakis
+     * @return string
+     *         path
+     */
+    public static function getFrontendPath() {
+        $cfgClient = self::getClientConfig();
+        $client = self::getClientId();
+        return $cfgClient[$client]['path']['frontend'];
+    }
+
+    /**
+     * Function which returns URL after the last possible place changing via
+     * configuration file.
+     * The path point to the current client
+     *
+     * @author konstantinos.katikakis
+     * @return string
+     *         URL
+     */
+    public static function getFrontendUrl() {
+        $cfgClient = self::getClientConfig();
+        $client = self::getClientId();
+        return $cfgClient[$client]['path']['htmlpath'];
+    }
+    
+    /**
      * Returns the client configuration array stored in the global variable
      * "cfgClient".
      * If no client ID is specified or is 0 the complete array is returned.

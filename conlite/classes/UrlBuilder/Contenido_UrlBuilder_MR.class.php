@@ -186,6 +186,8 @@ class Contenido_UrlBuilder_MR extends Contenido_UrlBuilder
         // get pretty url parts
         $oMRUrlStack = ModRewriteUrlStack::getInstance();
         $aPretty = $oMRUrlStack->getPrettyUrlParts('front_content.php?' . $sQuery);
+        
+        ModRewriteDebugger::add($aPretty, 'Contenido_UrlBuilder_MR::_buildUrl() getPrettyUrlParts');
 
         // get all non contenido related query parameter
         $sQuery = $this->_createUrlQueryPart($aParams);
@@ -209,6 +211,9 @@ class Contenido_UrlBuilder_MR extends Contenido_UrlBuilder
             $aParts[] = $sPath;
         }
         $sPath = implode('/', $aParts) . '/';
+        
+        ModRewriteDebugger::add($aParts, 'Contenido_UrlBuilder_MR::_buildUrl() $aParts');        
+        ModRewriteDebugger::add($sPath, 'Contenido_UrlBuilder_MR::_buildUrl() $sPath');
 
         // get pagename part of the url
         $sArticle = $this->_getArticleName($aPretty, $aParams);
@@ -343,7 +348,7 @@ class Contenido_UrlBuilder_MR extends Contenido_UrlBuilder
      */
     private function _getPath(array $aPretty)
     {
-        $sPath = (isset($aPretty['urlpath'])) ? $aPretty['urlpath'] : '';
+        $sPath = (!empty($aPretty['urlpath'])) ? $aPretty['urlpath'] : '';
 
         // check start directory settings
         if ($this->_aMrCfg['startfromroot'] == 0 && (strlen($sPath) > 0)) {
