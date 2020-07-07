@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>API-Doc ConLite 2.1.1</title>
+  <parser>
+    <target>_api</target>
+  </parser>
+  <transformer>
+    <target>_api</target>
+  </transformer>
+  <files>
+    <directory>conlib</directory>
+    <directory>conlite</directory>
+  </files>
+  <transformations>
+    <template name="responsive-twig" />
+</transformations>
+</phpdoc>
