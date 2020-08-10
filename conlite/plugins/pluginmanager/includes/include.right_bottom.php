@@ -159,7 +159,7 @@ if (is_dir($cfg['path']['plugins'])) {
                 //echo "<pre>";
                 //print_r($oPluginHandler->getCfgXmlObject());
                 $aNeededTplVar['writeable'] = ($bPiPathWritable)?i18n("Everything looks fine.", "pluginmanager"):'<span style="color:red;">'
-                    .i18n("Pluginfolder not writable!", "pluginmanager").'<\span>';
+                    .i18n("Pluginfolder not writable!", "pluginmanager").'</span>';
                 $aInfoGeneral = array_merge($aNeededTplVar, $oPluginHandler->getPiGeneralArray());
                 //echo "<pre>";
                 //print_r($aInfoGeneral);
