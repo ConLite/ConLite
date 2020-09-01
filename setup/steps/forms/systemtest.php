@@ -446,7 +446,7 @@ class cSetupSystemtest extends cSetupMask {
     }
 
     public function doFileSystemTests() {
-        if(!is_readable(CON_SETUP_PATH."/data")) {
+        if (!is_readable(CON_SETUP_PATH . "/data")) {
             $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("Setup data folder not readable!"), i18n_setup("Please check the Folder setup/data! Maybe it' s missing or not readable."));
         }
         // old logs
@@ -461,7 +461,7 @@ class cSetupSystemtest extends cSetupMask {
             $this->logFilePrediction("data/logs/errorlog.txt");
             $this->logFilePrediction("data/logs/setuplog.txt");
         }
-        
+
         // new folders in data-folder
         $this->logFilePrediction("data/cache/");
         $this->logFilePrediction("data/temp/");
@@ -471,18 +471,18 @@ class cSetupSystemtest extends cSetupMask {
 
         // cronjobs
         $sFolder = 'data/cronlog/';
-        $this->logFilePrediction($sFolder."pseudo-cron.log");
-        $this->logFilePrediction($sFolder."session_cleanup.php.job");
-        $this->logFilePrediction($sFolder."send_reminder.php.job");
-        $this->logFilePrediction($sFolder."optimize_database.php.job");
-        $this->logFilePrediction($sFolder."move_old_stats.php.job");
-        $this->logFilePrediction($sFolder."move_articles.php.job");
-        $this->logFilePrediction($sFolder."linkchecker.php.job");
-        $this->logFilePrediction($sFolder."run_newsletter_job.php.job");
-        $this->logFilePrediction($sFolder."setfrontenduserstate.php.job");
-        $this->logFilePrediction($sFolder."advance_workflow.php.job");
+        $this->logFilePrediction($sFolder . "pseudo-cron.log");
+        $this->logFilePrediction($sFolder . "session_cleanup.php.job");
+        $this->logFilePrediction($sFolder . "send_reminder.php.job");
+        $this->logFilePrediction($sFolder . "optimize_database.php.job");
+        $this->logFilePrediction($sFolder . "move_old_stats.php.job");
+        $this->logFilePrediction($sFolder . "move_articles.php.job");
+        $this->logFilePrediction($sFolder . "linkchecker.php.job");
+        $this->logFilePrediction($sFolder . "run_newsletter_job.php.job");
+        $this->logFilePrediction($sFolder . "setfrontenduserstate.php.job");
+        $this->logFilePrediction($sFolder . "advance_workflow.php.job");
 
-        
+
 
         if ($_SESSION["setuptype"] == "setup" || ($_SESSION["setuptype"] == "migration" && is_dir("../cms/"))) {
             $this->logFilePrediction("cms/cache/");
@@ -527,19 +527,19 @@ class cSetupSystemtest extends cSetupMask {
 
                     case C_PREDICT_CHANGEPERM_SAMEOWNER:
                         $mfileperms = substr(sprintf("%o", fileperms("../" . $sFile)), -3);
-                        $mfileperms{0} = intval($mfileperms{0}) | 0x6;
+                        $mfileperms[0] = intval($mfileperms[0]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server and the owner of your files are identical. You need to enable write access for the owner, e.g. using chmod u+rw %s, setting the file mask to %s or set the owner to allow writing the file."), $sFile, $mfileperms);
                         break;
 
                     case C_PREDICT_CHANGEPERM_SAMEGROUP:
                         $mfileperms = substr(sprintf("%o", fileperms("../" . $sFile)), -3);
-                        $mfileperms{1} = intval($mfileperms{1}) | 0x6;
+                        $mfileperms[1] = intval($mfileperms[1]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server's group and the group of your files are identical. You need to enable write access for the group, e.g. using chmod g+rw %s, setting the file mask to %s or set the group to allow writing the file."), $sFile, $mfileperms);
                         break;
 
                     case C_PREDICT_CHANGEPERM_OTHERS:
                         $mfileperms = substr(sprintf("%o", fileperms("../" . $sFile)), -3);
-                        $mfileperms{2} = intval($mfileperms{2}) | 0x6;
+                        $mfileperms[2] = intval($mfileperms[2]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server is not equal to the file owner, and is not in the webserver's group. It would be highly insecure to allow world write acess to the files. If you want to install anyways, enable write access for all others, e.g. using chmod o+rw %s, setting the file mask to %s or set the others to allow writing the file."), $sFile, $mfileperms);
                         break;
                 }
@@ -558,19 +558,19 @@ class cSetupSystemtest extends cSetupMask {
 
                     case C_PREDICT_CHANGEPERM_SAMEOWNER:
                         $mfileperms = substr(sprintf("%o", @fileperms($sTarget)), -3);
-                        $mfileperms{0} = intval($mfileperms{0}) | 0x6;
+                        $mfileperms[0] = intval($mfileperms[0]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server and the owner of your directory are identical. You need to enable write access for the owner, e.g. using chmod u+rw %s, setting the directory mask to %s or set the owner to allow writing the directory."), dirname($sFile), $mfileperms);
                         break;
 
                     case C_PREDICT_CHANGEPERM_SAMEGROUP:
                         $mfileperms = substr(sprintf("%o", @fileperms($sTarget)), -3);
-                        $mfileperms{1} = intval($mfileperms{1}) | 0x6;
+                        $mfileperms[1] = intval($mfileperms[1]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server's group and the group of your directory are identical. You need to enable write access for the group, e.g. using chmod g+rw %s, setting the directory mask to %s or set the group to allow writing the directory."), dirname($sFile), $mfileperms);
                         break;
 
                     case C_PREDICT_CHANGEPERM_OTHERS:
                         $mfileperms = substr(sprintf("%o", @fileperms($sTarget)), -3);
-                        $mfileperms{2} = intval($mfileperms{2}) | 0x6;
+                        $mfileperms[2] = intval($mfileperms[2]) | 0x6;
                         $sPredictMessage = sprintf(i18n_setup("Your web server is not equal to the directory owner, and is not in the webserver's group. It would be highly insecure to allow world write acess to the directory. If you want to install anyways, enable write access for all others, e.g. using chmod o+rw %s, setting the directory mask to %s or set the others to allow writing the directory."), dirname($sFile), $mfileperms);
                         break;
                 }
@@ -580,5 +580,3 @@ class cSetupSystemtest extends cSetupMask {
     }
 
 }
-
-?>

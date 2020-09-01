@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -27,15 +28,14 @@
  * }}
  * 
  */
- if(!defined('CON_FRAMEWORK')) {
-                die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
-define("E_EXTENSION_AVAILABLE",		1);
-define("E_EXTENSION_UNAVAILABLE",	2);
-define("E_EXTENSION_CANTCHECK", 	3);
-
+define("E_EXTENSION_AVAILABLE", 1);
+define("E_EXTENSION_UNAVAILABLE", 2);
+define("E_EXTENSION_CANTCHECK", 3);
 
 /**
  * getPHPIniSetting ($setting)
@@ -44,21 +44,19 @@ define("E_EXTENSION_CANTCHECK", 	3);
  * Wrapper to avoid warnings if ini_get is in the
  * disable_functions directive.
  */
-function getPHPIniSetting ($setting)
-{
-	/* Avoid errors if ini_get is in the disable_functions directive */
-	$value = @ini_get($setting);
-	
-	return $value;
+function getPHPIniSetting($setting) {
+    /* Avoid errors if ini_get is in the disable_functions directive */
+    $value = @ini_get($setting);
+
+    return $value;
 }
 
 /**
  * canPHPurlfopen: Checks if PHP is able to use
  * allow_url_fopen.
  */
-function canPHPurlfopen ()
-{
-	return getPHPIniSetting("allow_url_fopen");	
+function canPHPurlfopen() {
+    return getPHPIniSetting("allow_url_fopen");
 }
 
 /**
@@ -69,81 +67,67 @@ function canPHPurlfopen ()
  * Uses the PHP configuration value y2k_compilance which
  * is available in all PHP4 versions.
  */
-function checkPHPiniget ()
-{
-	$value = @ini_get("y2k_compliance");
-	
-	if ($value === NULL)
-	{
-		return false;	
-	} else {
-		return true;
-	}
+function checkPHPiniget() {
+    $value = @ini_get("y2k_compliance");
+
+    if ($value === NULL) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
-function getPHPDisplayErrorSetting ()
-{
-	return getPHPIniSetting("display_errors");	
+function getPHPDisplayErrorSetting() {
+    return getPHPIniSetting("display_errors");
 }
 
-function getPHPFileUploadSetting ()
-{
-	return getPHPIniSetting("file_uploads");	
+function getPHPFileUploadSetting() {
+    return getPHPIniSetting("file_uploads");
 }
 
-function getPHPGPCOrder ()
-{
-	return getPHPIniSetting("gpc_order");	
+function getPHPGPCOrder() {
+    return getPHPIniSetting("gpc_order");
 }
 
-function getPHPMagicQuotesGPC ()
-{
-	return getPHPIniSetting("magic_quotes_gpc");	
+function getPHPMagicQuotesGPC() {
+    return getPHPIniSetting("magic_quotes_gpc");
 }
 
-function getPHPMagicQuotesRuntime ()
-{
-	return getPHPIniSetting("magic_quotes_runtime");	
+function getPHPMagicQuotesRuntime() {
+    return getPHPIniSetting("magic_quotes_runtime");
 }
 
-function getPHPMagicQuotesSybase ()
-{
-	return getPHPIniSetting("magic_quotes_sybase");	
+function getPHPMagicQuotesSybase() {
+    return getPHPIniSetting("magic_quotes_sybase");
 }
 
-function getPHPMaxExecutionTime ()
-{
-	return getPHPIniSetting("max_execution_time");	
+function getPHPMaxExecutionTime() {
+    return getPHPIniSetting("max_execution_time");
 }
 
-function getPHPOpenBasedirSetting ()
-{
-	return getPHPIniSetting("open_basedir");	
+function getPHPOpenBasedirSetting() {
+    return getPHPIniSetting("open_basedir");
 }
 
-function getPHPMaxPostSize ()
-{
-	return getPHPIniSetting("post_max_size");	
+function getPHPMaxPostSize() {
+    return getPHPIniSetting("post_max_size");
 }
 
-function checkPHPSQLSafeMode ()
-{
-	return getPHPIniSetting("sql.safe_mode");	
+function checkPHPSQLSafeMode() {
+    return getPHPIniSetting("sql.safe_mode");
 }
 
-function checkPHPUploadMaxFilesize ()
-{
-	return getPHPIniSetting("upload_max_filesize");	
+function checkPHPUploadMaxFilesize() {
+    return getPHPIniSetting("upload_max_filesize");
 }
 
 function return_bytes($val) {
-	if (strlen($val) == 0)
-	{
-		return 0;	
-	}
+    if (strlen($val) == 0) {
+        return 0;
+    }
     $val = trim($val);
-    $last = $val{strlen($val)-1};
-    switch($last) {
+    $last = $val[strlen($val) - 1];
+    switch ($last) {
         case 'k':
         case 'K':
             return (int) $val * 1024;
@@ -157,38 +141,31 @@ function return_bytes($val) {
     }
 }
 
-function isPHPExtensionLoaded ($extension)
-{
-	$value = extension_loaded($extension);
-	
-	
-	if ($value === NULL)
-	{
-		return E_EXTENSION_CANTCHECK;	
-	}
-	
-	if ($value === true)
-	{
-		return E_EXTENSION_AVAILABLE;	
-	}
-	
-	if ($value === false)
-	{
-		return E_EXTENSION_UNAVAILABLE;	
-	}
+function isPHPExtensionLoaded($extension) {
+    $value = extension_loaded($extension);
+
+
+    if ($value === NULL) {
+        return E_EXTENSION_CANTCHECK;
+    }
+
+    if ($value === true) {
+        return E_EXTENSION_AVAILABLE;
+    }
+
+    if ($value === false) {
+        return E_EXTENSION_UNAVAILABLE;
+    }
 }
 
-function isRegisterLongArraysActive ()
-{	
-	if (version_compare(phpversion(), "5.0.0", ">=") == true)
-	{
-		if (getPHPIniSetting("register_long_arrays") == false)
-		{
-			return false;
-		}
-	}
-	
-	return true;
+function isRegisterLongArraysActive() {
+    if (version_compare(phpversion(), "5.0.0", ">=") == true) {
+        if (getPHPIniSetting("register_long_arrays") == false) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -201,7 +178,8 @@ function isPHPCompatible($sVersion = "5.2.0") {
     if (version_compare(phpversion(), $sVersion, ">=") == true) {
         return true;
     } else {
-        return false;	
+        return false;
     }
 }
+
 ?>
