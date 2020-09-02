@@ -1,31 +1,22 @@
 <?php
 /**
- * Project:
- * Contenido Content Management System
- *
- * Description:
- * Main Contenido setup bootstrap file.
- *
- * Requirements:
- * @con_php_req 5.0
- *
- *
- * @package    Contenido setup bootstrap
- * @version    0.0.1
- * @author     Murat Purc <murat@purc.de>
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since contenido release <= 4.8.15
- *
- *   $Id$
+ * startup.php
+ * 
+ * startup file for conlite setup
+ * 
+ * 
+ * @package ConLite
+ * @subpackage Setup
+ * @license https://www.gnu.de/documents/gpl-3.0.de.html GNU General Public License (GPL)
+ * @link https://conlite.org ConLite Portal
  */
 
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 define('CON_BE_PATH', '../conlite/');
+
+require_once dirname(__FILE__).'/defines.php';
 
 // uncomment this lines during development if needed
 error_reporting(E_ALL ^ E_NOTICE);
@@ -36,13 +27,13 @@ ini_set("error_log", "../data/logs/setup_errorlog.txt");
 header('Content-Type: text/html; charset=UTF-8');
 
 // Check php version
-if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+if (version_compare(PHP_VERSION, C_SETUP_MIN_PHP_VERSION, '<')) {
     die("You need PHP >= 7.0.0 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 // Check version
 //PHP >= 7.0.0 and < 7.4
-if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
+if (version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>=')) {
     die("You need PHP >= 7.0 and < 7.4 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
@@ -105,7 +96,7 @@ $cfg['native_i18n'] = false;
 session_start();
 
 // includes
-checkAndInclude('lib/defines.php');
+//checkAndInclude('lib/defines.php');
 checkAndInclude($cfg['path']['frontend'].'/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
