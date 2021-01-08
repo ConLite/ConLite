@@ -60,18 +60,18 @@ FS#25 - Collision with pre-installed AMR after Migration
 ConLite 1.0
 
 CONTENIDO 4.8.16 CL
-    20  Bug Report      genericdb: urlencode() expects parameter 1 to be string ...
-    16  Enhancement     RSS-Reader austauschen/überarbeiten
-    31  Optimization    Test CL installation with newest PHP and SQL on XAMPP
-    3   Bug Report      Genericdb caching not working
-    37  Bug Report      Upgrade: valid_from and valid_to fields are set to NULL
-    33  Bug Report      Missing include.subnav_blank.php
-    22  Bug Report      Modul xhtml which is not choosable in modularea
-    10  Optimization    Generate API-Doc
-    34  Bug Report      Error when searching article with no criteria
-    24  Bug Report      No reset of subnavigation if a layout is deleted
-    15  Optimization    Add CL readme file
-    13  Bug Report      FEUser-Plugins valide_to and valide_from saving wrong t ...
-    9  	Enhancement     Check all translations (i18n)
-    8  	Bug Report      adapt genericdb from 4.8.17 CL
-    5  	Bug Report      Buttontranslations missing or wrong
+*     20  Bug Report      genericdb: urlencode() expects parameter 1 to be string ...
+*    16  Enhancement     RSS-Reader austauschen/überarbeiten
+*    31  Optimization    Test CL installation with newest PHP and SQL on XAMPP
+*    3   Bug Report      Genericdb caching not working
+*    37  Bug Report      Upgrade: valid_from and valid_to fields are set to NULL
+*    33  Bug Report      Missing include.subnav_blank.php
+*    22  Bug Report      Modul xhtml which is not choosable in modularea
+*    10  Optimization    Generate API-Doc
+*    34  Bug Report      Error when searching article with no criteria
+*    24  Bug Report      No reset of subnavigation if a layout is deleted
+*    15  Optimization    Add CL readme file
+*    13  Bug Report      FEUser-Plugins valide_to and valide_from saving wrong t ...
+*    9  	Enhancement     Check all translations (i18n)
+*    8  	Bug Report      adapt genericdb from 4.8.17 CL
+*    5  	Bug Report      Buttontranslations missing or wrong
