@@ -4,8 +4,8 @@
 /conlite/plugins/pluginmanager/_src/
 /.project
 /_api/
-/cl-releasetool/
 /data/cache/edit_area_full_with_plugins.gz
 /data/cache/edit_area_full_with_plugins.js
 /data/config/production/config.local.php
 /cms/data/modules/up-download/
+/cl-releasetool/
