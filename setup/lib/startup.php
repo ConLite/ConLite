@@ -1,4 +1,5 @@
 <?php
+
 /**
  * startup.php
  * 
@@ -15,6 +16,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 define('CON_BE_PATH', '../conlite/');
+require_once 'defines.php';
 
 require_once dirname(__FILE__).'/defines.php';
 
@@ -28,13 +30,13 @@ header('Content-Type: text/html; charset=UTF-8');
 
 // Check php version
 if (version_compare(PHP_VERSION, C_SETUP_MIN_PHP_VERSION, '<')) {
-    die("You need PHP >= 7.0.0 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+    die("You need PHP >= " . C_SETUP_MIN_PHP_VERSION . " to install ConLite " . C_SETUP_VERSION . ". Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
-// Check version
-//PHP >= 7.0.0 and < 7.4
-if (version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>=')) {
-    die("You need PHP >= 7.0 and < 7.4 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+$iVersionMax = substr(C_SETUP_MAX_PHP_VERSION, 0, strrpos(C_SETUP_MAX_PHP_VERSION, ".") + 1) . (1 + substr(C_SETUP_MAX_PHP_VERSION, strrpos(C_SETUP_MAX_PHP_VERSION, ".") + 1));
+
+if (!(version_compare($iVersionMax, PHP_VERSION, ">") && version_compare(C_SETUP_MAX_PHP_VERSION, PHP_VERSION, "<="))) {
+    die("You need PHP >= " . C_SETUP_MIN_PHP_VERSION . " and <= " . C_SETUP_MAX_PHP_VERSION . " to install ConLite " . C_SETUP_VERSION . ". Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 
@@ -44,7 +46,7 @@ if (version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>=')) {
  * If you want to set a different enviroment value please define it in your .htaccess file
  * or in the server configuration.
  *
- * SetEnv CONTENIDO_ENVIRONMENT development
+ * SetEnv CONLITE_ENVIRONMENT development
  */
 if (!defined('CL_ENVIRONMENT')) {
     if (getenv('CONLITE_ENVIRONMENT')) {
@@ -71,13 +73,13 @@ Contenido_Security::checkRequests();
  */
 function checkAndInclude($filename) {
     if (file_exists($filename) && is_readable($filename)) {
-            require_once($filename);
+        require_once($filename);
     } else {
-            echo "<pre>";
-            echo "Setup was unable to include neccessary files. The file $filename was not found. Solutions:\n\n";
-            echo "- Make sure that all files are correctly uploaded to the server.\n";
-            echo "- Make sure that include_path is set to '.' (of course, it can contain also other directories). Your include path is: ".ini_get("include_path")."\n"; 
-            echo "</pre>";
+        echo "<pre>";
+        echo "Setup was unable to include neccessary files. The file $filename was not found. Solutions:\n\n";
+        echo "- Make sure that all files are correctly uploaded to the server.\n";
+        echo "- Make sure that include_path is set to '.' (of course, it can contain also other directories). Your include path is: " . ini_get("include_path") . "\n";
+        echo "</pre>";
     }
 }
 
@@ -88,6 +90,10 @@ $cfg['path']['frontend'] = CON_FRONTEND_PATH;
 $cfg['path']['conlite'] = $cfg['path']['frontend'] . '/conlite/';
 $cfg['path']['conlite_config'] = CON_FRONTEND_PATH . '/data/config/' . CL_ENVIRONMENT . '/';
 
+if(!is_dir($cfg['path']['conlite_config'])) {
+    die("Setup cannot find the config folder \"".$cfg['path']['conlite_config']."\"! Make shure folder exists and is readable.");
+}
+
 // (bool) Flag to use native i18n.
 //        Note: Enabling this could create unwanted side effects, because of
 //        native gettext() behavior.
@@ -96,8 +102,8 @@ $cfg['native_i18n'] = false;
 session_start();
 
 // includes
-//checkAndInclude('lib/defines.php');
-checkAndInclude($cfg['path']['frontend'].'/pear/HTML/Common2.php');
+checkAndInclude('lib/defines.php');
+checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.filehandler.php');

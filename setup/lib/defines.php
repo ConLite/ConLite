@@ -1,9 +1,7 @@
 <?php
+
 /**
- * defines.php
- * 
  * define needed var for conlite setup
- * 
  * 
  * @package ConLite
  * @subpackage Setup
@@ -33,6 +31,6 @@ define('C_SETUP_STEPFILE', 'images/steps/s%d.png');
 define('C_SETUP_STEPFILE_ACTIVE', 'images/steps/s%da.png');
 define('C_SETUP_STEPWIDTH', 28);
 define('C_SETUP_STEPHEIGHT', 28);
-define('C_SETUP_MIN_PHP_VERSION', '7.0.0');
-define('C_SETUP_MAX_PHP_VERSION', '8.0.0');
-define('C_SETUP_VERSION', '2.1.2');
+define('C_SETUP_MIN_PHP_VERSION', '7.2');
+define('C_SETUP_MAX_PHP_VERSION', '7.4');
+define('C_SETUP_VERSION', '2.2.0');
