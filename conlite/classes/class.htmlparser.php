@@ -191,7 +191,7 @@ class HtmlParser {
         if ($this->iHtmlTextIndex >= $this->iHtmlTextLength) {
             return -1;
         }
-        return $this->iHtmlText{$this->iHtmlTextIndex};
+        return $this->iHtmlText[$this->iHtmlTextIndex];
     }
 
     function moveNext() {
