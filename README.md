@@ -60,7 +60,7 @@ FS#25 - Collision with pre-installed AMR after Migration
 ConLite 1.0
 
 CONTENIDO 4.8.16 CL
-*     20  Bug Report      genericdb: urlencode() expects parameter 1 to be string ...
+*    20  Bug Report      genericdb: urlencode() expects parameter 1 to be string ...
 *    16  Enhancement     RSS-Reader austauschen/überarbeiten
 *    31  Optimization    Test CL installation with newest PHP and SQL on XAMPP
 *    3   Bug Report      Genericdb caching not working
