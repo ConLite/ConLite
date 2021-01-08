@@ -57,6 +57,10 @@ FS#25 - Collision with pre-installed AMR after Migration
 
 ** History / Changelog **
 
+ConLite 2.1.0
+
+ConLite 2.0
+
 ConLite 1.0
 
 CONTENIDO 4.8.16 CL
