@@ -159,7 +159,7 @@ foreach ($fullChunks as $fullChunk) {
             '<!--{conlite_web}-->' => addslashes($root_http_path)
         );
 
-        injectSQL($db, $_SESSION['dbprefix'], 'data/' . $fullChunk, $replacements, $failedChunks);
+        injectSQL($db, $_SESSION['dbprefix'], 'data/' . $fullChunk, $failedChunks, $replacements);
 
         if (count($failedChunks) > 0) {
             $fp = fopen('../data/logs/setuplog.txt', 'w');
@@ -239,7 +239,7 @@ if ($currentstep < $totalsteps) {
     // Update Keys
     $aNothing = array();
 
-    injectSQL($db, $_SESSION['dbprefix'], 'data/indexes.sql', array(), $aNothing);
+    injectSQL($db, $_SESSION['dbprefix'], 'data/indexes.sql', $aNothing);
 
     // logging query stuff
     $aSqlArray = $db->getProfileData();

@@ -5,8 +5,14 @@
  * 
  * @package ConLite
  * @subpackage Setup
- * @license https://www.gnu.de/documents/gpl-3.0.de.html GNU General Public License (GPL)
+ * @version 1.0.0
+ * @author Ortwin Pinke <oldperl@ortwinpinke.de>
+ * @author Murat Purc <murat@purc.de>
+ * @copyright (c) 2020, ConLite.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.de.html GNU General Public License 3
  * @link https://conlite.org ConLite Portal
+ * @since file available since contenido release <= 4.8.15
+ * 
  */
 
 if (!defined('CON_FRAMEWORK')) {
@@ -32,5 +38,5 @@ define('C_SETUP_STEPFILE_ACTIVE', 'images/steps/s%da.png');
 define('C_SETUP_STEPWIDTH', 28);
 define('C_SETUP_STEPHEIGHT', 28);
 define('C_SETUP_MIN_PHP_VERSION', '7.2');
-define('C_SETUP_MAX_PHP_VERSION', '7.4');
+define('C_SETUP_MAX_PHP_VERSION', '8.1');
 define('C_SETUP_VERSION', '2.2.0');

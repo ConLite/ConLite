@@ -32,7 +32,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-function injectSQL(&$db, $prefix, $file, $replacements = array(), &$failedChunks) {
+function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = array()) {
     $file = trim($file);
 
     if (!isReadable($file)) {
