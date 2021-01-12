@@ -107,7 +107,7 @@ function remove_remarks($sql) {
 
     for ($i = 0; $i < $linecount; $i++) {
         if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0)) {
-            if ($lines[$i][0] != "#") {
+            if (!empty($lines[$i][0]) && $lines[$i][0] != "#") {
                 $output .= $lines[$i] . "\n";
             } else {
                 $output .= "\n";

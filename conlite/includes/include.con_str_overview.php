@@ -754,7 +754,7 @@ if (isset($bDebug) && $bDebug === true) {
     var_dump($navigationTree);
     echo '</pre>';
 }
-if (count($navigationTree[0])) {
+if (is_array($navigationTree[0]) && count($navigationTree[0])) {
     $sCategories = showTree(0, $aWholelist);
 }
 

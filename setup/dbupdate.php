@@ -57,6 +57,9 @@ $currentstep = (empty($_GET['step'])) ? 1 : filter_input(INPUT_GET, "step", FILT
 // Count DB Chunks
 $file = fopen('data/tables.txt', 'r');
 $step = 1;
+$count = 1;
+$fullcount = 1;
+
 while (($data = fgetcsv($file, 4000, ';')) !== false) {
     if ($count == 50) {
         $count = 1;
@@ -71,7 +74,7 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
         }
         dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
 
-        if ($db->errno != 0) {
+        if ($db->getErrorNumber() != 0) {
             $_SESSION['install_failedupgradetable'] = true;
         }
     }

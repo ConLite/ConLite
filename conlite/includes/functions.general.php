@@ -396,6 +396,7 @@ function getLanguagesByClient($client) {
 function getLanguageNamesByClient($client) {
     global $db;
     global $cfg;
+    $list = [];
 
     $sql = "SELECT
 	                    a.idlang AS idlang,
@@ -1238,7 +1239,7 @@ function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "") {
     foreach ($categories as $tmpidcat => $props) {
         $spaces = "&nbsp;&nbsp;";
 
-        for ($i = 0; $i < $props["level"]; $i ++) {
+        for ($i = 0; $i < $props["level"]; $i++) {
             $spaces .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
         }
 
@@ -1282,7 +1283,7 @@ function human_readable_size($number) {
     $n = (float) $number; //Appears to be necessary to avoid rounding
     while ($n >= $base) {
         $n /= (float) $base;
-        $usesuf ++;
+        $usesuf++;
     }
 
     $places = 2 - floor(log10($n));
@@ -1315,7 +1316,7 @@ function array_csort() { //coded by Ichier2003
     $msortline = "return(array_multisort(";
     $i = 0;
     foreach ($args as $arg) {
-        $i ++;
+        $i++;
         if (is_string($arg)) {
             foreach ($marray as $row) {
                 $a = strtoupper($row[$arg]);
@@ -1327,7 +1328,9 @@ function array_csort() { //coded by Ichier2003
         $msortline .= "\$sortarr[" . $i . "],";
     }
     $msortline .= "\$marray));";
-    @ eval($msortline);
+    if(is_array($marray) && count($marray) > 0) {
+        @ eval($msortline);
+    }
     return $marray;
 }
 
@@ -1689,7 +1692,7 @@ function createRandomName($nameLength) {
     $Vouel = 'aeiou';
     $Name = "";
 
-    for ($index = 1; $index <= $nameLength; $index ++) {
+    for ($index = 1; $index <= $nameLength; $index++) {
         if ($index % 3 == 0) {
             $randomNumber = rand(1, strlen($Vouel));
             $Name .= substr($Vouel, $randomNumber - 1, 1);
