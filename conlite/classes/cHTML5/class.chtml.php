@@ -6,7 +6,9 @@
  * Description:
  *  Base Class for all cHTML Elements
  * 
- * @package ConLite\Core\cHTML5
+ * @category ConLite
+ * @package Core
+ * @subpackage cHTML
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2012, conlite.org

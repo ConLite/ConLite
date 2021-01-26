@@ -10,7 +10,8 @@
  * @con_php_req 5.0
  * 
  *
- * @package    Contenido Backend includes
+ * @package    Core
+ * @subpackage Backend
  * @version    1.0.2
  * @author     Timo A. Hummel
  * @copyright  four for business AG <www.4fb.de>
