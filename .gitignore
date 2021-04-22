@@ -11,3 +11,5 @@
 /cms/captcha/
 !/cms/data/modules/
 /cms/data/modules/*
+!/cms/data/layouts/
+/cms/data/layouts/*
