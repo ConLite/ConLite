@@ -97,13 +97,13 @@ class cSetupSetupSummary extends cSetupMask {
 
     public function _getSelectedAdditionalPlugins() {
         $aPlugins = array();
-        if ($_SESSION['plugin_newsletter'] == 'true') {
+        if (isset($_SESSION['plugin_newsletter']) && $_SESSION['plugin_newsletter'] == 'true') {
             $aPlugins[] = i18n_setup('Newsletter');
         }
-        if ($_SESSION['plugin_content_allocation'] == 'true') {
+        if (isset($_SESSION['plugin_content_allocation']) && $_SESSION['plugin_content_allocation'] == 'true') {
             $aPlugins[] = i18n_setup('Content Allocation');
         }
-        if ($_SESSION['plugin_mod_rewrite'] == 'true') {
+        if (isset($_SESSION['plugin_mod_rewrite']) && $_SESSION['plugin_mod_rewrite'] == 'true') {
             $aPlugins[] = i18n_setup('Mod Rewrite');
         }
         return $aPlugins;

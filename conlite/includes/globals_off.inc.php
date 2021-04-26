@@ -30,11 +30,6 @@
  *
  */
 
-
-// set constant value depending on get_magic_quotes_gpc status
-define('CONTENIDO_STRIPSLASHES', (get_magic_quotes_gpc() == 0));
-
-
 // PHP5 with register_long_arrays off?
 if (!isset($HTTP_POST_VARS) && isset($_POST)) {
     $HTTP_POST_VARS = & $_POST;
@@ -48,52 +43,9 @@ if (!isset($HTTP_POST_VARS) && isset($_POST)) {
     }
 }
 
-// simulate get_magic_quotes_gpc on if turned off
-if (CONTENIDO_STRIPSLASHES) {
-
-    /**
-     * Adds slashes to passed variable
-     *
-     * @param   mixed  $value  Either a string or a multi-dimensional array of values
-     * @return  array
-     */
-    function addslashes_deep($value)
-    {
-        $value = is_array($value) ? array_map('addslashes_deep', $value) : addslashes($value);
-
-        return $value;
-    }
-
-    /**
-     * Removes slashes from passed variable.
-     *
-     * @param   mixed  $value  Either a string or a multi-dimensional array of values
-     * @return  array
-     */
-    function stripslashes_deep($value)
-    {
-        $value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-
-        return $value;
-    }
-
-    $_POST   = array_map('addslashes_deep', $_POST);
-    $_GET    = array_map('addslashes_deep', $_GET);
-    $_COOKIE = array_map('addslashes_deep', $_COOKIE);
-
-    $cfg['simulate_magic_quotes'] = true;
-} else {
-    $cfg['simulate_magic_quotes'] = false;
-}
-
 if (!isset($_REQUEST) || $cfg['simulate_magic_quotes']) {
     /* Register post,get and cookie variables into $_REQUEST */
     $_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
-}
-
-// this should be the default setting, but only for PHP older than 5.3.0
-if (!CONTENIDO_STRIPSLASHES && (version_compare(PHP_VERSION, '5.3.0', '<'))) {
-    @set_magic_quotes_runtime(0);
 }
 
 // register globals
@@ -116,5 +68,3 @@ foreach ($types_to_register as $global_type) {
 unset ($types_to_register, $global_type, $arr);
 
 $FORM = $_REQUEST;
-
-?>

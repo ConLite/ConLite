@@ -1,0 +1,2 @@
+find . \( -path "./_module" -o -path "./_src" -o -path "./docs" \) -prune ! -type d -o -iname "*.php" -o -iname "*.html" > ./locale/potfiles.txt
+xgettext --from-code=utf-8 --keyword=i18n -f ./locale/potfiles.txt -o ./locale/pluginmanager.pot

@@ -1,0 +1,94 @@
+<li id="plugin_{IDPLUGIN}" class="ui-state-default" style="border: 1px solid #000;">
+    <div id="plugin-row-{IDPLUGIN}" data-plugin-execorder="{EXECUTIONORDER}">
+        <div class="pimHeadline">
+            <a href="#" onclick="javascript:togglePluginInfo('plugin-{IDPLUGIN}')" style="margin-left: 5px;">
+                <img src="images/open_all.gif" id="plugin-{IDPLUGIN}_img">
+            </a>
+            <strong>{NAME}</strong> <em>{VERSION}</em>
+            <!--
+            <div class="pimSort" style="display: inline;">
+                <a href="javascript://" class="sortPluginUp" data-plugin-id="{IDPLUGIN}">
+                    <img src="images/sort_up.gif" class="tooltip" style="padding: 5px;" title="{LANG_SORT_UP}">
+                </a>
+                <a href="javascript://" class="sortPluginDown" data-plugin-id="{IDPLUGIN}">
+                    <img src="images/sort_down.gif" class="tooltip" style="padding: 5px;" title="{LANG_SORT_DOWN}">
+                </a>
+            </div>
+            -->
+        </div>
+        <div id="plugin-{IDPLUGIN}" class="pimInfo" style="display: none;">
+            <div>
+                <table class="plugininfo">
+                    <tr>
+                        <td colspan="2" style="width: 100%;"><span class="textg_medium">{DESCRIPTION}</span></td>
+                    </tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr>
+                        <td style="width: 15%;">{LANG_INSTALLED}:</td>
+                        <td style="width: 85%;">{INSTALLED}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 15%;">{LANG_AUTHOR}:</td>
+                        <td style="width: 85%;"><a href="{WEBSITE}" target="_blank">{AUTHOR}</a> <span class="textg_medium">&copy; {COPYRIGHT}</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 15%;">{LANG_CONTACT}:</td>
+                        <td style="width: 85%;"><a href="mailto:{MAIL}">{MAIL}</a></td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td style="width: 15%;">{LANG_LICENSE}:</td>
+                        <td style="width: 85%;">{LICENSE}</td>
+                    </tr>
+                    <tr><td colspan="2">&#160;</td></tr>
+                    -->
+                    <!--
+                    <tr>
+                        <td style="width: 15%; vertical-align: top;">{LANG_DEPENDENCIES}:</td>
+                        <td style="width: 85%">{DEPENDENCIES}</td>
+                    </tr>
+                    <tr><td colspan="2">&#160;</td></tr>
+                    -->
+                    <tr>
+                        <td colspan="2">{NAVSUB}</td>
+                    </tr>
+                    <tr><td colspan="2">&#160;</td></tr>
+                    <tr>
+                        <td colspan="2">
+                            {BUT_ACTIVESTATUS}
+                            &nbsp;&nbsp;&nbsp;
+                            {BUT_UPDATE_PLUGIN}
+                            &nbsp;&nbsp;                            
+                            {BUT_UNINSTALL_PLUGIN}
+                            <!--
+                            <img style="border: 0; vertical-align: middle;" src="images/but_cancel.gif">
+                            {UNINSTALL_LINK} (<input id="unistallSQLCheckbox-{IDPLUGIN}" class="uninstallSQL" data-idplugin="{IDPLUGIN}" type="checkbox" checked>
+                            <label for="unistallSQLCheckbox-{IDPLUGIN}">{LANG_REMOVE_SQL}</label>)
+                            -->
+                        </td>
+                    </tr>
+                    <tr id="updateplugin-{IDPLUGIN}" style="display: none;">
+                        <td colspan="2">
+                            <table class="updateplugin">
+                                <tr>
+                                    <td>{LANG_UPDATE_CHOOSE}<br>
+                                        <form action="main.php" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="area" value="pim">
+                                            <input type="hidden" name="frame" value="4">
+                                            <input type="hidden" name="contenido" value="{_SID_}">
+                                            <input type="hidden" name="pim_view" value="update">
+                                            <input type="hidden" name="pluginId" value="{IDPLUGIN}">
+                                            <input type="hidden" name="foldername" value="{FOLDERNAME}">
+                                            <input type="file" name="package" id="package"><br>
+                                            <input type="submit" name="upload_package" id="upload_package" value="{LANG_UPDATE_UPLOAD}">
+                                        </form></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>                
+            </div>
+        </div>
+
+    </div>
+</li>

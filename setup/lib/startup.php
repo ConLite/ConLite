@@ -1,31 +1,28 @@
 <?php
+
 /**
- * Project:
- * Contenido Content Management System
- *
- * Description:
- * Main Contenido setup bootstrap file.
- *
- * Requirements:
- * @con_php_req 5.0
- *
- *
- * @package    Contenido setup bootstrap
- * @version    0.0.1
- * @author     Murat Purc <murat@purc.de>
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since contenido release <= 4.8.15
- *
- *   $Id$
+ * ConLite setup bootstrap file
+ * 
+ * @package ConLite
+ * @subpackage Setup
+ * @version 1.0.0
+ * @author Ortwin Pinke <oldperl@ortwinpinke.de>
+ * @author Murat Purc <murat@purc.de>
+ * @copyright (c) 2020, ConLite.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.de.html GNU General Public License 3
+ * @link https://conlite.org ConLite Portal
+ * @since file available since contenido release <= 4.8.15
+ * 
  */
 
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 define('CON_BE_PATH', '../conlite/');
+
+session_start();
+
+require_once 'lib/defines.php';
 
 // uncomment this lines during development if needed
 error_reporting(E_ALL ^ E_NOTICE);
@@ -36,14 +33,9 @@ ini_set("error_log", "../data/logs/setup_errorlog.txt");
 header('Content-Type: text/html; charset=UTF-8');
 
 // Check php version
-if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-    die("You need PHP >= 7.0.0 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
-}
-
-// Check version
-//PHP >= 7.0.0 and < 7.4
-if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
-    die("You need PHP >= 7.0 and < 7.4 to install ConLite 2.1. Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+if (version_compare(PHP_VERSION, C_SETUP_MIN_PHP_VERSION, '<')
+        || version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>')) {
+    die("You need PHP >= " . C_SETUP_MIN_PHP_VERSION . " to install ConLite " . C_SETUP_VERSION . ". Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 
@@ -53,7 +45,7 @@ if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
  * If you want to set a different enviroment value please define it in your .htaccess file
  * or in the server configuration.
  *
- * SetEnv CONTENIDO_ENVIRONMENT development
+ * SetEnv CONLITE_ENVIRONMENT development
  */
 if (!defined('CL_ENVIRONMENT')) {
     if (getenv('CONLITE_ENVIRONMENT')) {
@@ -80,13 +72,13 @@ Contenido_Security::checkRequests();
  */
 function checkAndInclude($filename) {
     if (file_exists($filename) && is_readable($filename)) {
-            require_once($filename);
+        require_once($filename);
     } else {
-            echo "<pre>";
-            echo "Setup was unable to include neccessary files. The file $filename was not found. Solutions:\n\n";
-            echo "- Make sure that all files are correctly uploaded to the server.\n";
-            echo "- Make sure that include_path is set to '.' (of course, it can contain also other directories). Your include path is: ".ini_get("include_path")."\n"; 
-            echo "</pre>";
+        echo "<pre>";
+        echo "Setup was unable to include neccessary files. The file $filename was not found. Solutions:\n\n";
+        echo "- Make sure that all files are correctly uploaded to the server.\n";
+        echo "- Make sure that include_path is set to '.' (of course, it can contain also other directories). Your include path is: " . ini_get("include_path") . "\n";
+        echo "</pre>";
     }
 }
 
@@ -97,16 +89,17 @@ $cfg['path']['frontend'] = CON_FRONTEND_PATH;
 $cfg['path']['conlite'] = $cfg['path']['frontend'] . '/conlite/';
 $cfg['path']['conlite_config'] = CON_FRONTEND_PATH . '/data/config/' . CL_ENVIRONMENT . '/';
 
+if(!is_dir($cfg['path']['conlite_config'])) {
+    die("Setup cannot find the config folder \"".$cfg['path']['conlite_config']."\"! Make shure folder exists and is readable.");
+}
+
 // (bool) Flag to use native i18n.
 //        Note: Enabling this could create unwanted side effects, because of
 //        native gettext() behavior.
 $cfg['native_i18n'] = false;
 
-session_start();
-
 // includes
-checkAndInclude('lib/defines.php');
-checkAndInclude($cfg['path']['frontend'].'/pear/HTML/Common2.php');
+checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.filehandler.php');

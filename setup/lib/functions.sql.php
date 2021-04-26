@@ -32,7 +32,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-function injectSQL(&$db, $prefix, $file, $replacements = array(), &$failedChunks) {
+function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = array()) {
     $file = trim($file);
 
     if (!isReadable($file)) {
@@ -107,7 +107,7 @@ function remove_remarks($sql) {
 
     for ($i = 0; $i < $linecount; $i++) {
         if (($i != ($linecount - 1)) || (strlen($lines[$i]) > 0)) {
-            if ($lines[$i][0] != "#") {
+            if (!empty($lines[$i][0]) && $lines[$i][0] != "#") {
                 $output .= $lines[$i] . "\n";
             } else {
                 $output .= "\n";

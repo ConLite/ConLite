@@ -121,7 +121,8 @@ class Template {
      *
      * @return void
      */
-    public function set($which = 's', $needle, $replacement) {
+    public function set($which, $needle, $replacement) {
+        $which = empty($which)?'s':$which;
         if ($which == 's') { // static
             $this->needles[] = sprintf($this->tags['static'], $needle);
             $this->replacements[] = $replacement;

@@ -342,5 +342,7 @@ return array(
     'POP3' => 'conlite/external/PHPMailer/class.pop3.php',
     'Google' => 'conlite/external/PHPMailer/get_oauth_token.php',
     'PHPMailerOAuth' => 'conlite/external/PHPMailer/class.phpmaileroauth.php',
-    'PHPMailerOAuthGoogle' => 'conlite/external/PHPMailer/class.phpmaileroauthgoogle.php'
+    'PHPMailerOAuthGoogle' => 'conlite/external/PHPMailer/class.phpmaileroauthgoogle.php',
+    'cStringMultiByteWrapper' => 'conlite/classes/class.string.multi.byte.wrapper.php',
+    'cString' => 'conlite/classes/class.string.php'
 );

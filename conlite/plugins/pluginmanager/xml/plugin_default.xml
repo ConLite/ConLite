@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<plugin
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xsi:noNamespaceSchemaLocation='file:/home/oldperl/smb4k/DCESERVER/projekte/cl_demo/conlite/plugins/pluginmanager/xml/plugin_info.xsd'>
+    <general active="1">
+        <plugin_name></plugin_name>
+        <plugin_foldername></plugin_foldername>
+        <uuid></uuid>
+        <description></description>
+        <author></author>
+        <copyright></copyright>
+        <mail></mail>
+        <website></website>
+        <version></version>
+    </general>
+    <requirements php="5.2.3">
+        <contenido minversion="" maxversion=""></contenido>
+        <extension name=""></extension>
+        <class name=""></class>
+        <function name=""></function>
+    </requirements>
+    <dependencies>
+        <depend uuid="" minversion="" maxversion=""></depend>
+    </dependencies>
+    <contenido>
+        <areas>
+            <area parent="" menuless="0" relevant="1"></area>
+        </areas>
+        <actions>
+            <action area="" relevant="1"></action>
+        </actions>
+        <frames>
+            <frame area="" filetype="main" name="" frameId=""></frame>
+        </frames>
+        <nav_main>
+            <nav></nav>
+        </nav_main>
+        <nav_sub>
+            <nav area="" level="" navm=""></nav>
+        </nav_sub>
+    </contenido>
+    <content_types>
+        <type></type>
+    </content_types>
+
+</plugin>

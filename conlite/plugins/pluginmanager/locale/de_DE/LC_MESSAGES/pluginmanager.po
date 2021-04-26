@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Contenido PluginManager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-11 14:07+0200\n"
+"PO-Revision-Date: 2017-12-19 10:21+0100\n"
+"Last-Translator: Ortwin Pinke <o.pinke@php-backoffice.de>\n"
+"Language-Team: Frederic Schneider <frederic.schneider@4fb.de>\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: i18n\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: C:\\Dateien\\Contenido PluginManager\\includes\n"
+
+#: includes/include.right_bottom.php:37
+msgid "Permission denied!"
+msgstr "Zugriff verweigert!"
+
+#: includes/include.right_bottom.php:44
+msgid "Currently the plugin system is disabled via configuration"
+msgstr "Momentan ist das Pluginsystem via Konfiguration abgeschaltet"
+
+#: includes/include.right_bottom.php:59
+msgid "Plugin uninstalled!"
+msgstr "Plugin deinstalliert!"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:61
+msgid "Cannot uninstall Plugin!"
+msgstr "Kann Plugin nicht entfernen!"
+
+#: includes/include.right_bottom.php:64
+msgid "Cannot uninstall Plugin! Plugin not found in Db."
+msgstr "Plugin kann nicht deinstalliert werden! Plugin nicht in der DB."
+
+#: includes/include.right_bottom.php:68
+msgid "Feature not implemented right now!"
+msgstr "Feature noch nicht implementiert!"
+
+#: includes/include.right_bottom.php:131
+msgid "This plugin has no description."
+msgstr "Das Plugin hat keine Beschreibung."
+
+#: includes/include.right_bottom.php:132
+msgid "This plugin has no dependencies."
+msgstr "Das Plugin hat keine Abhängigkeiten."
+
+#: includes/include.right_bottom.php:133
+msgid "License not set."
+msgstr "Keine Lizenzangabe vorhanden."
+
+#: includes/include.right_bottom.php:137
+#: classes/class.pim.plugin.handler.php:162
+msgid "Foldername"
+msgstr "Verzeichnisname"
+
+#: includes/include.right_bottom.php:138
+#: classes/class.pim.plugin.handler.php:163
+msgid "Author"
+msgstr "Autor"
+
+#: includes/include.right_bottom.php:139
+#: classes/class.pim.plugin.handler.php:164
+msgid "Contact"
+msgstr "Kontakt"
+
+#: includes/include.right_bottom.php:140
+#: classes/class.pim.plugin.handler.php:165
+msgid "License"
+msgstr "Lizenz"
+
+#: includes/include.right_bottom.php:141
+#: classes/class.pim.plugin.handler.php:167
+msgid "Dependencies"
+msgstr "Abhängigkeiten"
+
+#: includes/include.right_bottom.php:142
+#: classes/class.pim.plugin.handler.php:168
+msgid "Writable"
+msgstr "Beschreibbar"
+
+#: includes/include.right_bottom.php:156
+#, php-format
+msgid "Invalid Xml document for %s. Please contact the plugin author."
+msgstr ""
+"Ungültiges xml-Dokument für %s. Bitte kontaktieren Sie den Plugin-Entwickler."
+
+#: includes/include.right_bottom.php:161
+msgid "Everything looks fine."
+msgstr "Alles sieht gut aus."
+
+#: includes/include.right_bottom.php:162
+msgid "Pluginfolder not writable!"
+msgstr "Pluginverzeichnis nicht schreibbar!"
+
+#: includes/include.right_bottom.php:188
+msgid "No entries"
+msgstr "Keine Einträge"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:193
+msgid "Add new plugin"
+msgstr "Neues Plugin installieren"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:194
+msgid "Please choose a plugin package"
+msgstr "Plugin Paket auswählen"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:195
+msgid "Upload plugin package"
+msgstr "Plugin Paket hochladen"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:196
+msgid "Remove marked Plugins"
+msgstr "Markierte Plugins l&ouml;schen"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:197
+msgid "Installed Plugins"
+msgstr "Installierte Plugins"
+
+# C:\Dateien\Contenido
+#: includes/include.right_bottom.php:198
+msgid "Update marked plugins"
+msgstr "Markierte Plugins aktualisieren"
+
+#: includes/include.right_bottom.php:199
+msgid "Plugins to install"
+msgstr "Plugins zum Installieren"
+
+#: includes/include.right_bottom.php:200
+msgid "Drag & Drop plugin to list of installed plugins to install it."
+msgstr ""
+"Um ein Plugin zu installieren ziehen Sie es mit der Maus auf die Liste "
+"installierter Plugins."
+
+#: classes/class.pluginmanager.ajax.php:37
+#: classes/class.pim.plugin.handler.php:190
+msgid "Plugin is active"
+msgstr "Plugin ist aktiv"
+
+#: classes/class.pluginmanager.ajax.php:39
+#: classes/class.pim.plugin.handler.php:193
+msgid "Plugin not active"
+msgstr "Plugin ist nicht aktiv"
+
+# C:\Dateien\Contenido
+#: classes/class.pim.plugin.handler.php:166
+msgid "Installed since"
+msgstr "Installiert seit"
+
+#: classes/class.pim.plugin.handler.php:169
+msgid "Install"
+msgstr "Installieren"
+
+#: classes/class.pim.plugin.handler.php:170
+msgid "Remove"
+msgstr "Entfernen"
+
+#: classes/class.pim.plugin.handler.php:171
+#: classes/class.pim.plugin.handler.php:173
+msgid "Update"
+msgstr "Updaten"
+
+# C:\Dateien\Contenido
+#: classes/class.pim.plugin.handler.php:172
+msgid "Please choose your new file"
+msgstr "Bitte wählen Sie Ihre neue Datei"
+
+#: classes/class.pim.plugin.handler.php:174
+msgid "Execute uninstall.sql"
+msgstr "uninstall.sql ausführen"
+
+#: classes/class.pim.plugin.handler.php:208
+#, php-format
+msgid "(%s remove database tables)"
+msgstr "(%s DB-Tabellen entfernen)"
+
+# C:\Dateien\Contenido
+#: classes/class.pim.plugin.handler.php:211
+msgid "Uninstall Plugin"
+msgstr "Plugin entfernen"
+
+#: classes/setup/class.pim.setup.plugin.install.php:133
+#: classes/setup/class.pim.setup.plugin.install.php:173
+#, php-format
+msgid ""
+"Defined area <strong>%s</strong> are not found on your ConLite installation. "
+"Please contact your plugin author."
+msgstr ""
+"Die gewünschte Area <strong>%s</strong> gibt es nicht in Ihrer ConLite "
+"Installation. Bitte kontaktieren Sie den Plugin-Autor."
+
+#: classes/setup/class.pim.setup.plugin.install.php:219
+msgid ""
+"There seem to be an empty main navigation entry in plugin.xml. Please "
+"contact your plugin author."
+msgstr ""
+"Es gibt anscheinend einen leeren Eintrag zur Main Navigation in der plugin."
+"xml. Bitte kontaktieren Sie den Plugin-Autor."
+
+#: classes/setup/class.pim.setup.plugin.install.php:255
+msgid ""
+"There seem to be an empty sub navigation entry in plugin.xml. Please contact "
+"your plugin author."
+msgstr ""
+"Es gibt anscheinend einen leeren Eintrag zur Sub Navigation in der plugin."
+"xml. Bitte kontaktieren Sie den Plugin-Autor."
+
+#: classes/setup/class.pim.setup.plugin.install.php:300
+msgid "You can install this plugin only for one time."
+msgstr "Sie können dieses Plugin nur ein Mal installieren."
+
+#: classes/setup/class.pim.setup.plugin.install.php:349
+#, php-format
+msgid ""
+"Defined area <strong>%s</strong> not found on your ConLite installation. "
+"Please contact your plugin author."
+msgstr ""
+"Die gewünschte Area <strong>%s</strong> gibt es nicht in Ihrer ConLite "
+"Installation. Bitte kontaktieren Sie den Plugin-Autor."
+
+#: classes/setup/class.pim.setup.plugin.install.php:359
+#, php-format
+msgid ""
+"Defined nav main <strong>%s</strong> not found on your ConLite installation. "
+"Please contact your plugin author."
+msgstr ""
+"Die gewünschte Nav Main <strong>%s</strong> gibt es nicht in Ihrer ConLite "
+"Installation. Bitte kontaktieren Sie den Plugin-Autor."

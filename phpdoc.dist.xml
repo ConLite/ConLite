@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor
+        configVersion="3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://www.phpdoc.org"
+        xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
+>
+    <title>CMS ConLite</title>
+    <template name="responsive-twig"/>
+    <paths>
+        <output>_api</output>
+        <cache>_api/cache</cache>
+    </paths>
+    <version number="2.1.1">
+        <api>
+            <source dsn=".">
+                <path>conlite</path>
+                <path>setup</path>
+                <path>conlib</path>
+            </source>
+            <ignore hidden="true" symlinks="true">
+                <path>conlite/plugins/**/*</path>
+                <path>conlite/external/**/*</path>
+            </ignore>
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+            <default-package-name>ConLite</default-package-name>
+        </api>
+    </version>
+</phpdocumentor>

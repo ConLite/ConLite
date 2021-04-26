@@ -1,0 +1,14 @@
+/nbproject/private/
+/data/config/production/config.php
+/_dev/
+/conlite/plugins/pluginmanager/_src
+/.project
+/_api/
+/cl-releasetool
+/data/config/production/config.local.php
+/cms/data/modules/up-download/
+/cms/captcha/
+!/cms/data/modules/
+/cms/data/modules/*
+!/cms/data/layouts/
+/cms/data/layouts/*

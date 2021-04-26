@@ -1,7 +1,28 @@
 <?php
+/**
+ * Article Collector Class
+ * 
+ * This is an helper class to collect articles for article list etc.
+ * 
+ * @category ConLite
+ * @package Core
+ * @subpackage clHelper
+ * @since 2.1
+ * @author Ortwin Pinke <o.pinke@conlite.org>
+ * @copyright (c) 2019, conlite.org
+ * @license http://www.gnu.de/documents/gpl.en.html GPL v3 (english version)
+ * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
+ * @link http://www.conlite.org ConLite.org
+ */
 
 defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization - request aborted.');
 
+
+/**
+ * Class Article Collector
+ * 
+ * @author Ortwin Pinke <o.pinke@conlite.org>
+ */
 class cArticleCollector implements SeekableIterator, Countable {
 
     /**

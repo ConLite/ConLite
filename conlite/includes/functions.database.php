@@ -133,6 +133,8 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
         } else {
             $parameter['DEFAULT'] = "DEFAULT '" . Contenido_Security::escapeDB($default, $db) . "'";
         }
+    } else {
+        $parameter['DEFAULT'] = '';
     }
 
     if (!dbTableExists($db, $table)) {
@@ -145,7 +147,7 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
     // Remove auto_increment
     $structure = dbGetColumns($db, $table);
 
-    if ($structure[$field]["Extra"] == "auto_increment") {
+    if (isset($structure[$field]) && !empty($structure[$field]["Extra"]) && $structure[$field]["Extra"] == "auto_increment") {
         if ($structure[$field]['NULL'] == "") {
             $structure[$field]['NULL'] = "NOT NULL";
         }
