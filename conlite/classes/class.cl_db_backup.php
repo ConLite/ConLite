@@ -327,7 +327,7 @@ class clDbBackup {
         }
         $f = @fopen($this->_sLogFile, 'a+');
         if (is_resource($f)) {
-            @fputs($f, date("m.d.Y g:ia") . "  " . $_SERVER['REMOTE_ADDR'] . "  " . $sMessage . "\n");
+            @fputs($f, date("d.m.Y g:ia") . "  " . $_SERVER['REMOTE_ADDR'] . "  " . $sMessage . "\n");
             @fclose($f);
         }
     }
