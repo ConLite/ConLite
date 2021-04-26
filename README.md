@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------
-This is the readme file for ConLite 2.1
+This is the readme file for ConLite 2.1.2
 
 Any help you need you may find by visiting the following links.
 
@@ -56,12 +56,14 @@ FS#25 - Collision with pre-installed AMR after Migration
 
 
 ** History / Changelog **
-
+ConLite 2.1.2
+ConLite 2.1.1
 ConLite 2.1.0
+* see https://gitport.de/ConLite/ConLite/milestones
 
 ConLite 2.0
-
 ConLite 1.0
+* old svn history lost
 
 CONTENIDO 4.8.16 CL
 *    20  Bug Report      genericdb: urlencode() expects parameter 1 to be string ...
