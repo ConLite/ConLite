@@ -7,3 +7,8 @@
 /cl-releasetool
 /data/config/production/config.local.php
 /cms/data/modules/up-download/
+/cms/captcha/
+!/cms/data/modules/
+/cms/data/modules/*
+!/cms/data/layouts/
+/cms/data/layouts/*
