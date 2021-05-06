@@ -77,10 +77,10 @@ function modEditModule($idmod, $name, $description, $input, $output, $template, 
             ||	$cApiModule->get("type") != stripslashes($type)) {
         
         $cApiModule->set("name", $name);
-        $cApiModule->set("output", $output);
+        $cApiModule->set("output", $cApiModule->escape($output));
         $cApiModule->set("template", $template);
         $cApiModule->set("description", $description);
-        $cApiModule->set("input", $input);
+        $cApiModule->set("input", $cApiModule->escape($input));
         $cApiModule->set("type", $type);
         $cApiModule->set("lastmodified", $date);
         
