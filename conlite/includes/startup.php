@@ -175,6 +175,7 @@ while ($locale = readdir($handle)) {
 cInclude('includes', 'functions.general.php');
 cInclude('conlib', 'prepend.php');
 cInclude('includes', 'functions.i18n.php');
+cInclude('includes', 'functions.con.php');
 
 
 // Initialization of CEC
