@@ -12,3 +12,4 @@
 /cms/data/modules/*
 !/cms/data/layouts/
 /cms/data/layouts/*
+/conlite/includes/include.style_edit_form_1.php
