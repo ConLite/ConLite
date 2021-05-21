@@ -120,6 +120,7 @@ class cApiModule extends Item {
      */
     public function __construct($mId = false) {
         global $cfg, $cfgClient, $client;
+        
         parent::__construct($cfg["tab"]["mod"], "idmod");
 
         // Using no filters is just for compatibility reasons.
@@ -142,10 +143,10 @@ class cApiModule extends Item {
         }
 
         $oClient = new cApiClient($client);
-            $aClientProp = $oClient->getPropertiesByType('modfileedit');
-            if (count($aClientProp) > 0) {
-                $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $aClientProp);
-            }
+        $aClientProp = $oClient->getPropertiesByType('modfileedit');
+        if (count($aClientProp) > 0) {
+            $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $aClientProp);
+        }
 
         if ($mId !== false) {
             $this->loadByPrimaryKey($mId);
@@ -154,23 +155,38 @@ class cApiModule extends Item {
 
     public function createModuleFolder() {
         //echo $this->_aModFileEditConf['modPath'];
+        $sPathErrorLog = cRegistry::getConfigValue('path', 'logs').'errorlog.txt';
+        
         if (is_writable($this->_aModFileEditConf['clientPath']) && !file_exists($this->_aModFileEditConf['modPath'])) {
             try {
                 mkdir($this->_aModFileEditConf['modPath'], 0777, true);
             } catch (Exception $ex) {
-                $oWriter = cLogWriter::factory("File", array('destination' => 'contenido.log'));
+                $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
                 $oLog = new cLog($oWriter);
                 $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
             }
         }
-        if ($this->_aModFileEditConf['use'] == TRUE && is_writable($this->_aModFileEditConf['modPath'])) {
+
+        if ($this->_aModFileEditConf['use'] == true && is_writable($this->_aModFileEditConf['modPath'])) {
             if (!is_dir($this->getModulePath())) {
                 $this->_oldumask = umask(0);
-                if (mkdir($this->getModulePath(), 0777)) {
+                try {
+                    mkdir($this->getModulePath(), 0777);
+                } catch (Exception $ex) {
+                    $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
+                    $oLog = new cLog($oWriter);
+                    $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
+                }
+
+                if (is_writable($this->getModulePath())) {
                     return $this->_createModuleStruct();
                 }
                 umask($this->_oldumask);
             }
+        } else {
+            $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
+            $oLog = new cLog($oWriter);
+            $oLog->log(__FILE__ . " (" . __LINE__ . "): " . 'Error: Cannot create mod path '.$this->getModulePath(), cLog::WARN);
         }
         return FALSE;
     }
@@ -299,9 +315,7 @@ class cApiModule extends Item {
                     // if the class exists, has the method "addModuleTranslations"
                     // and the current module contains this cms content type we
                     // add the additional translations for the module
-                    if (class_exists($sContentType) &&
-                            method_exists($sContentType, 'addModuleTranslations') &&
-                            preg_match('/' . strtoupper($sContentType) . '\[\d+\]/', $code)) {
+                    if (class_exists($sContentType) && method_exists($sContentType, 'addModuleTranslations') && preg_match('/' . strtoupper($sContentType) . '\[\d+\]/', $code)) {
 
                         $strings = call_user_func(array($sContentType, 'addModuleTranslations'), $strings);
                     }
@@ -679,8 +693,7 @@ class cApiModule extends Item {
             foreach ($this->_packageStructure as $sFileType => $sFilePath) {
                 if (is_array($_mImport["items"][$sFileType])) {
                     foreach ($_mImport["items"][$sFileType] as $sFileName => $aContent) {
-                        if (!array_key_exists(clHtmlSpecialChars($sFileName), $aOptions["items"][$sFileType]) ||
-                                $aOptions["items"][$sFileType][clHtmlSpecialChars($sFileName)] == "overwrite") {
+                        if (!array_key_exists(clHtmlSpecialChars($sFileName), $aOptions["items"][$sFileType]) || $aOptions["items"][$sFileType][clHtmlSpecialChars($sFileName)] == "overwrite") {
                             if (!file_exists($sFilePath . $sFileName)) {
                                 createFile($sFileName, $sFilePath);
                             }
@@ -696,8 +709,7 @@ class cApiModule extends Item {
             // Layouts
             if (is_array($_mImport["items"]["layouts"])) {
                 foreach ($_mImport["items"]["layouts"] as $sLayout => $aContent) {
-                    if (!array_key_exists(clHtmlSpecialChars($sLayout), $aOptions["items"]["layouts"]) ||
-                            $aOptions["items"]["layouts"][clHtmlSpecialChars($sLayout)] == "overwrite") {
+                    if (!array_key_exists(clHtmlSpecialChars($sLayout), $aOptions["items"]["layouts"]) || $aOptions["items"]["layouts"][clHtmlSpecialChars($sLayout)] == "overwrite") {
                         $oLayouts = new cApiLayoutCollection;
                         $oLayouts->setWhere("idclient", $client);
                         $oLayouts->setWhere("name", $sLayout);
@@ -882,7 +894,7 @@ class cApiModule extends Item {
         if ($this->_aModFileEditConf['use'] !== true) {
             return false;
         }
-        return $this->_setFieldFromFile('output', $this->_sModAlias."_output.php");
+        return $this->_setFieldFromFile('output', $this->_sModAlias . "_output.php");
     }
 
     /**
@@ -896,7 +908,7 @@ class cApiModule extends Item {
         if ($this->_aModFileEditConf['use'] !== true) {
             return false;
         }
-        return $this->_setFieldFromFile('input', $this->_sModAlias."_input.php");
+        return $this->_setFieldFromFile('input', $this->_sModAlias . "_input.php");
     }
 
     private function _displayNoteFromFile($bIsOldPath = FALSE) {
