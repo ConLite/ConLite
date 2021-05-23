@@ -443,15 +443,13 @@ class cFileHandler {
      *         true if the given filename is valid, false otherwise
      */
     public static function validateFilename($filename, $notifyAndExitOnFailure = true) {
+        
+                $notification = new Contenido_Notification();
         // check if filename only contains valid characters
         if (preg_match('/[^a-z0-9._-]/i', $filename)) {
             // validation failure...
             if ($notifyAndExitOnFailure) {
-                // display notification and exit
-                cRegistry::addErrorMessage(i18n('Wrong file name.'));
-                $page = new cGuiPage('generic_page');
-                $page->abortRendering();
-                $page->render();
+                $notification->displayNotification("error", i18n("Please insert file name."));
                 exit();
             }
 
@@ -463,7 +461,6 @@ class cFileHandler {
             // validation failure...
             if ($notifyAndExitOnFailure) {
                 // display notification and exit
-                $notification = new cGuiNotification();
                 $notification->displayNotification("error", i18n("Please insert file name."));
                 exit();
             }

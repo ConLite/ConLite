@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -30,8 +31,7 @@
  * }}
  *
  */
-
-if(!defined('CON_FRAMEWORK')) {
+if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
@@ -57,7 +57,7 @@ function removeFileInformation($iIdClient, $sFilename, $sType, $oDb) {
     $sFilename = Contenido_Security::filter((string) $sFilename, $oDb);
     $sType = Contenido_Security::filter((string) $sType, $oDb);
 
-    $sSql = "DELETE FROM `".$cfg["tab"]["file_information"]."` WHERE idclient=$iIdClient AND
+    $sSql = "DELETE FROM `" . $cfg["tab"]["file_information"] . "` WHERE idclient=$iIdClient AND
                                                             filename='$sFilename' AND
                                                             type='$sType';";
     $oDb->query($sSql);
@@ -82,7 +82,7 @@ function removeFileInformation($iIdClient, $sFilename, $sType, $oDb) {
  *                           description - Description which was inserted for this file
  *
  */
-function getFileInformation ($iIdClient, $sFilename, $sType, $oDb) {
+function getFileInformation($iIdClient, $sFilename, $sType, $oDb) {
     global $cfg;
 
     if (!isset($oDb) || !is_object($oDb)) {
@@ -94,7 +94,7 @@ function getFileInformation ($iIdClient, $sFilename, $sType, $oDb) {
     $sType = Contenido_Security::filter((string) $sType, $oDb);
 
     $aFileInformation = array();
-    $sSql = "SELECT * FROM `".$cfg["tab"]["file_information"]."` WHERE idclient=$iIdClient AND
+    $sSql = "SELECT * FROM `" . $cfg["tab"]["file_information"] . "` WHERE idclient=$iIdClient AND
                                                             filename='$sFilename' AND
                                                             type='$sType';";
     $oDb->query($sSql);
@@ -145,13 +145,13 @@ function updateFileInformation($iIdClient, $sFilename, $sType, $sAuthor, $sDescr
     $sDescription = Contenido_Security::filter((string) stripslashes($sDescription), $oDb);
     $sAuthor = Contenido_Security::filter((string) $sAuthor, $oDb);
 
-    $sSql = "SELECT * from `".$cfg["tab"]["file_information"]."` WHERE idclient=$iIdClient AND
+    $sSql = "SELECT * from `" . $cfg["tab"]["file_information"] . "` WHERE idclient=$iIdClient AND
                                                             filename='$sFilename' AND
                                                             type='$sType';";
     $oDb->query($sSql);
     if ($oDb->num_rows() == 0) {
         $iNextId = $oDb->nextid('con_style_file_information');
-        $sSql = "INSERT INTO `".$cfg["tab"]["file_information"]."` ( `idsfi` ,
+        $sSql = "INSERT INTO `" . $cfg["tab"]["file_information"] . "` ( `idsfi` ,
                                                             `idclient` ,
                                                             `type` ,
                                                             `filename` ,
@@ -172,7 +172,7 @@ function updateFileInformation($iIdClient, $sFilename, $sType, $sAuthor, $sDescr
                                                             '$sDescription'
                                                         );";
     } else {
-        $sSql = "UPDATE `".$cfg["tab"]["file_information"]."` SET `lastmodified` = NOW(),
+        $sSql = "UPDATE `" . $cfg["tab"]["file_information"] . "` SET `lastmodified` = NOW(),
                                                          `modifiedby` = '$sAuthor',
                                                          `description` = '$sDescription',
                                                          `filename` = '$sFilenameNew'
@@ -187,7 +187,6 @@ function updateFileInformation($iIdClient, $sFilename, $sType, $sAuthor, $sDescr
     $oDb->free();
 }
 
-
 /**
  * Writes passed data into a file using binary mode.
  *
@@ -199,43 +198,30 @@ function updateFileInformation($iIdClient, $sFilename, $sType, $sAuthor, $sDescr
  * @return  (string|void)      Either content of file o nothing
  */
 function fileEdit($filename, $sCode, $path) {
-    global $notification;
+    $oNot = new Contenido_Notification();
 
     // FIXME: fileValidateFilename does also the validation but display another message!
     if (strlen(trim($filename)) == 0) {
-        $notification->displayNotification("error", i18n("Please insert filename."));
+        $oNot->displayNotification("error", i18n("Please insert filename."));
         return false;
     }
+    cFileHandler::validateFilename($filename);
 
-    fileValidateFilename($filename, true);
-
-     // FIXME: Should be replaced against file_put_contents($path . $filename, FILE_BINARY | LOCK_EX | FILE_APPEND)
-
-    if (is_writable($path.$filename)) {
+    if (is_writable($path . $filename)) {
         if (strlen(stripslashes(trim($sCode))) > 0) {
-            # open file
-            if (!$handle = fopen($path.$filename, "wb+")) {
-                $notification->displayNotification("error", sprintf(i18n("Could not open file %s"), $path.$filename));
-                exit;
+            if (!empty($sCode)) {
+                $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
             }
-            # write file
-            if (!fwrite($handle, stripslashes($sCode))) {
-                $notification->displayNotification("error", sprintf(i18n("Could not write file %s"), $path.$filename));
-                exit;
-            }
-
-            fclose($handle);
+            cFileHandler::write($path . $filename, $sCode);
             return true;
-
         } else {
             return false;
         }
     } else {
-        $notification->displayNotification("error", sprintf(i18n("%s is not writable"), $path.$filename));
+        $oNot->displayNotification("error", sprintf(i18n("%s is not writable"), $path . $filename));
         exit;
     }
 }
-
 
 /**
  * Reads content of file into memory using binary mode and returns it back.
@@ -247,27 +233,12 @@ function fileEdit($filename, $sCode, $path) {
  * @return  (string|void)      Either content of file o nothing
  */
 function getFileContent($filename, $path) {
-    global $notification;
-
-    // FIXME: Should be replaced against file_get_contents($path . $filename, FILE_BINARY)
-
-    if (!$handle = fopen($path.$filename, "rb")) {
-       $notification->displayNotification("error", sprintf(i18n("Can not open file%s "), $path.$filename));
-       exit;
-    }
-
-    do {
-        $_data = fread($handle, 4096);
-        if (strlen($_data) == 0) {
-            break;
-        }
-        $sFileContents .= $_data;
-    } while(true);
-
-    fclose($handle);
-    return $sFileContents;
+    $sCode = cFileHandler::read($path . $filename);
+            if (!empty($sCode)) {
+                $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+            }
+    return $sCode;
 }
-
 
 /**
  * Returns the filetype (extension).
@@ -280,7 +251,6 @@ function getFileType($filename) {
     return $aFileName[count($aFileName) - 1];
 }
 
-
 /**
  * Creates a file.
  *
@@ -291,25 +261,17 @@ function getFileType($filename) {
  * @return  (void|bool)  Either true on success or nothing
  */
 function createFile($filename, $path) {
-    global $notification;
+    $oNot = new Contenido_Notification();
 
-    fileValidateFilename($filename, true);
+    cFileHandler::validateFilename($filename);
 
-    # create the file
-    if (touch($path.$filename)) {
-        # change file access permission
-        if(chmod ($path.$filename, 0777)) {
-            return true;
-        } else {
-            $notification->displayNotification("error", $path.$filename." ".i18n("Unable to change file access permission."));
-            exit;
-        }
+    if (cFileHandler::create($path . $filename)) {
+        return true;
     } else {
-        $notification->displayNotification("error", sprintf(i18n("Unable to create file %s"), $path.$filename));
+        $oNot->displayNotification("error", sprintf(i18n("Unable to create file %s"), $path . $filename));
         exit;
     }
 }
-
 
 /**
  * Renames a existing file.
@@ -322,24 +284,23 @@ function createFile($filename, $path) {
  * @return  (void|string)  Either new filename or nothing
  */
 function renameFile($sOldFile, $sNewFile, $path) {
-    global $notification;
+    $oNot = new Contenido_Notification();
 
     fileValidateFilename($sNewFile, true);
 
-      if (is_writable($path.$sOldFile)) {
+    if (is_writable($path . $sOldFile)) {
         # rename file
-        if (rename($path.$sOldFile, $path.$sNewFile)) {
+        if (rename($path . $sOldFile, $path . $sNewFile)) {
             return $sNewFile;
         } else {
-            $notification->displayNotification("error", sprintf(i18n("Can not rename file %s"),$path.$sOldFile));
+            $oNot->displayNotification("error", sprintf(i18n("Can not rename file %s"), $path . $sOldFile));
             exit;
         }
     } else {
-        $notification->displayNotification("error", sprintf(i18n("%s is not writable"), $path.$sOldFile));
+        $oNot->displayNotification("error", sprintf(i18n("%s is not writable"), $path . $sOldFile));
         exit;
     }
 }
-
 
 /**
  * Validates passed filename. Filename can contain alphanumeric characters, dot, underscore or a hyphen.
@@ -352,13 +313,13 @@ function renameFile($sOldFile, $sNewFile, $path) {
  * @return  (void|bool)  Either validation result or nothing (depends on second parameter)
  */
 function fileValidateFilename($filename, $notifyAndExitOnFailure = true) {
-    global $notification;
-
+    
     if (preg_match('/[^a-z0-9._-]/i', $filename)) {
         // validation failure...
         if ($notifyAndExitOnFailure == true) {
+            $oNot = new Contenido_Notification();
             // display notification and exit
-            $notification->displayNotification('error', i18n('Wrong filename.'));
+            $oNot->displayNotification('error', i18n('Wrong filename.'));
             exit;
         }
         return false;

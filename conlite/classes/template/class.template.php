@@ -194,7 +194,7 @@ class Template {
             $sModName = strtolower(uplCreateFriendlyName($tmpModule->get('name')));
             $aModFileEditConf = $tmpModule->getModFileEditConf();
             unset($tmpModule);
-            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . $template;
+            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . str_replace('templates/', '', $template);
             if (is_readable($sTmpPath)) {
                 $template = $sTmpPath;
                 $bModTplUsed = TRUE;
