@@ -706,24 +706,36 @@ abstract class ItemCollection extends cItemBaseAbstract {
 
     /**
      * Adds a result field
-     * @param  string  $sField
+     * @param  string|array  $mField
      */
-    public function addResultField($sField) {
-        $sField = strtolower($sField);
-        if (!in_array($sField, $this->_resultFields)) {
-            $this->_resultFields[] = $sField;
+    public function addResultField($mField) {
+        if (!is_array($mField)) {
+            $mField = array($mField);
+        }
+
+        foreach ($mField as $sField) {
+            $sField = strtolower($sField);
+            if (!in_array($sField, $this->_resultFields)) {
+                $this->_resultFields[] = $sField;
+            }
         }
     }
 
     /**
      * Removes existing result field
-     * @param  string  $sField
+     * @param  string|array  $mField
      */
-    public function removeResultField($sField) {
-        $sField = strtolower($sField);
-        $key = array_search($sField, $this->_resultFields);
-        if ($key !== false) {
-            unset($this->_resultFields[$key]);
+    public function removeResultField($mField) {
+        if (!is_array($mField)) {
+            $mField = array($mField);
+        }
+        
+        foreach ($mField as $sField) {
+            $sField = strtolower($sField);
+            $key = array_search($sField, $this->_resultFields);
+            if ($key !== false) {
+                unset($this->_resultFields[$key]);
+            }
         }
     }
 
