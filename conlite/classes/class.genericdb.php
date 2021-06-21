@@ -111,6 +111,12 @@ abstract class ItemCollection extends cItemBaseAbstract {
      * @var array Result fields for the query
      */
     protected $_resultFields = array();
+    
+    /**
+     * 
+     * @var array Column names of db table
+     */
+    protected $_aTableColums = array();
 
     /**
      * @var string Encoding
@@ -624,6 +630,7 @@ abstract class ItemCollection extends cItemBaseAbstract {
         $this->_where['groups'] = array();
         $this->_groupConditions = array();
         $this->_resultFields = array();
+        $this->_aTableColums = array();
     }
 
     /**
@@ -708,11 +715,16 @@ abstract class ItemCollection extends cItemBaseAbstract {
      * Adds a result field
      * @param  string|array  $mField
      */
-    public function addResultField($mField) {
-        if (!is_array($mField)) {
+    public function addResultField($mField, $bAll = false) {
+        if (!empty($mField) && !is_array($mField)) {
             $mField = array($mField);
+        } else if($bAll && empty($this->_aTableColums)) {
+            $aTemp = $this->db->metadata($this->table);
+            foreach ($aTemp as $aMeta) {
+                $this->_aTableColums[] = $aMeta['name'];
+            }
+            $mField = $this->_aTableColums;
         }
-
         foreach ($mField as $sField) {
             $sField = strtolower($sField);
             if (!in_array($sField, $this->_resultFields)) {
@@ -954,6 +966,10 @@ abstract class ItemCollection extends cItemBaseAbstract {
     public function fetchTable(array $aFields = array(), array $aObjects = array()) {
         $row = 1;
         $aTable = array();
+        
+        if(!empty($this->_aTableColums)) {
+            $aFields = $this->_aTableColums;
+        }
 
         if (empty($aFields) && empty($aObjects)) {
             $aFields = array($this->primaryKey);
