@@ -1,161 +1,120 @@
 <?php
+
 /**
- * Project: 
- * Contenido Content Management System
- * 
- * Description: 
- * Display files from specified directory
- * 
- * Requirements: 
- * @con_php_req 5.0
- * 
- *
- * @package    Contenido Backend includes
- * @version    1.0.2
- * @author     Olaf Niemann, Willi Mann
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
- *   created 2003-04-20
- *   modified 2008-06-27, Frederic Schneider, add security fix
- *
- *   $Id$:
- * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
-cInclude("includes", "functions.file.php");
+class clFileList {
 
-$tpl->reset();
+    protected $_sPath;
+    protected $_mFileExt;
+    protected $_iScanDepth;
+    protected $_aDirItems;
+    protected $_bWritable;
+    protected $_oTpl;
 
-if (!(int) $client > 0) {
-  #if there is no client selected, display empty page
-  $oPage = new cPage;
-  $oPage->render();
-  return;
-}
-
-$path = $cfgClient[$client]["js"]["path"];
-$sFileType = "js";
-
-$sSession = $sess->id;
-
-$sArea = 'js';
-$sActionDelete = 'js_delete';
-$sActionEdit = 'js_edit';
-
-$sScriptTemplate = '
-<script type="text/javascript" src="scripts/rowMark.js"></script>
-<script type="text/javascript" src="scripts/general.js"></script>
-<script type="text/javascript" src="scripts/messageBox.js.php?contenido='.$sSession.'"></script>
-<script type="text/javascript">
-
-    /* Create messageBox instance */
-    box = new messageBox("", "", "", 0, 0);
-
-    function deleteFile(file) 
-	{
-        url  = "main.php?area='.$sArea.'";
-        url += "&action='.$sActionDelete.'";
-        url += "&frame=2";
-        url += "&delfile=" + file;
-        url += "&contenido='.$sSession.'";
-        window.location.href = url;
-		parent.parent.frames["right"].frames["right_bottom"].location.href = "main.php?area='.$sArea.'&frame=4&contenido='.$sSession.'";
-    }
-</script>';
-
-$tpl->set('s', 'JAVASCRIPT', $sScriptTemplate);
-
-# delete file
-if ($action == $sActionDelete)
-{
-    if (!strrchr($_REQUEST['delfile'], "/"))
-    {
-        if (file_exists($path.$_REQUEST['delfile']))
-        {
-            unlink($path.$_REQUEST['delfile']);
-            removeFileInformation($client, $_REQUEST['delfile'], 'js', $db);
+    public function __construct($sPath, $mFileExt = null) {
+        
+        if(!empty($mFileExt) && is_string($mFileExt)) {
+            $mFileExt = [strtolower($mFileExt)];
         }
+        $this->_sPath = $sPath;
+        $this->_mFileExt = $mFileExt;
+        $this->_iScanDepth = 3;
+        $this->_oTpl = new Template();
     }
 
-}
-
-if ($handle = opendir($path))
-{
-
-    $aFiles = array();
-    
-    while ($file = readdir($handle))        
-    {
-        if(substr($file, (strlen($file) - (strlen($sFileType) + 1)), (strlen($sFileType) + 1)) == ".$sFileType" AND is_readable($path.$file)) 
-        {
-            $aFiles[] = $file;		
-        }elseif (substr($file, (strlen($file) - (strlen($sFileType) + 1)), (strlen($sFileType) + 1)) == ".$sFileType" AND !is_readable($path.$file))
-        {
-        	$notification->displayNotification("error", $file." ".i18n("is not readable!"));
+    public function scanDir() {
+        if (empty($this->_sPath) || !is_readable($this->_sPath)) {
+            return false;
         }
-    }
-    closedir($handle);
-    
-    // display files
-    if (is_array($aFiles)) 
-    {
-    	
-    	sort($aFiles);
-    	
-        foreach ($aFiles as $filename) 
-        {
-        	          	
-            $bgcolor = ( is_int($tpl->dyn_cnt / 2) ) ? $cfg["color"]["table_light"] : $cfg["color"]["table_dark"];
-            $tpl->set('d', 'BGCOLOR', $bgcolor);
-    
-            $tmp_mstr = '<a class=\"action\" href="javascript:conMultiLink(\'%s\', \'%s\', \'%s\', \'%s\')" title="%s" alt="%s">%s</a>';
-    
-            $html_filename = sprintf($tmp_mstr, 'right_top',
-                           $sess->url("main.php?area=$area&frame=3&file=$filename"),
-                           'right_bottom',
-                           $sess->url("main.php?area=$area&frame=4&action=$sActionEdit&file=$filename&tmp_file=$filename"),
-                           $filename, $filename, clHtmlSpecialChars($filename));
+        $this->_bWritable = (!is_writable($this->_sPath)) ? true : false;
 
-            $tpl->set('d', 'FILENAME', $html_filename);
-            
-            $delTitle = i18n("Delete File");
-            $delDescr = sprintf(i18n("Do you really want to delete the following file:<br><br>%s<br>"),$filename);
-            
-            if ($perm->have_perm_area_action('style', $sActionDelete)) 
-            {	    	
-            	$tpl->set('d', 'DELETE', '<a title="'.$delTitle.'" href="javascript://" onclick="box.confirm(\''.$delTitle.'\', \''.$delDescr.'\', \'deleteFile(\\\''.$filename.'\\\')\')"><img src="'.$cfg['path']['images'].'delete.gif" border="0" title="'.$delTitle.'"></a>');
-            }else
-            {
-            	$tpl->set('d', 'DELETE', '');
-            }
-            
-            if (stripslashes($_REQUEST['file']) == $filename) {
-                $tpl->set('d', 'ID', 'id="marked"');
+        $this->_aDirItems = $this->_assetsMap($this->_sPath, $this->_iScanDepth);
+        asort($this->_aDirItems, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
+    }
+
+    public function renderList($sTpl = null, $bReturn = false) {         
+        global $sess, $area;
+        $sList = '<ul id="treeData" style="display: none;">'."\n";
+        foreach($this->_aDirItems as $key => $item) {
+            if(is_array($item)) {
+                $sList .= $this->_getSubItems($key, $item,$this->_sPath);
             } else {
-                $tpl->set('d', 'ID', '');
+                $sAddClass = (is_writable($this->_sPath.$item))?'':' notwritable';
+                $sList .= '<li class="file'.$sAddClass.'" data-filepath="'.$item.'">'.$item.'</li>'."\n";
             }
-            
-            $tpl->next();
-  
-       }
+        }
+
+        $sList .= '</ul>'."\n";
+        $this->_oTpl->set('s', 'item_list', $sList);    
+        
+        $this->_oTpl->set('s', 'multilink1', $sess->url("main.php?area=$area&frame=3&file=\${file}"));
+        $this->_oTpl->set('s', 'multilink2', $sess->url("main.php?area=$area&frame=4&action=js_edit&file=\${file}&tmp_file=\${file}"));
+        
+        $this->_oTpl->generate(cRegistry::getConfigValue('path', 'contenido') . cRegistry::getConfigValue('path', 'templates') . "html5/file_list.html", $bReturn);
     }
-}else
-{
-    if ((int) $client > 0) {
-        $notification->displayNotification("error", i18n("Directory is not existing or readable!")."<br>$path");
-    }	
+    
+    protected function _getSubItems($sName, $aItems, $sPathToItem) {
+        $sPathToItem = $sPathToItem.$sName.DIRECTORY_SEPARATOR;
+        $sItemListEntry = '<li class="folder directory">'.$sName."\n\t";
+        if(is_array($aItems) && count($aItems) >0) {
+            $sItemListEntry .= '<ul data-filepath="'.$sPathToItem.'">'."\n\t";
+            foreach($aItems as $key=>$item) {
+                if(is_array($item)) {
+                    $sItemListEntry .= $this->_getSubItems($key, $item, $sPathToItem);
+                } else {
+                    $sAddClass = (is_writable($sPathToItem.$item))?'':' notwritable';
+                    $sItemListEntry .= '<li class="file'.$sAddClass.'" data-filepath="'. str_replace($this->_sPath, '', $sPathToItem.$item).'">'.$item.'</li>'."\n";
+                }
+            }
+            $sItemListEntry .= '</ul>'."\n";
+        }
+        $sItemListEntry .= '</li>'."\n";        
+        return $sItemListEntry;
+    }
+
+    protected function _assetsMap($source_dir, $directory_depth = 0, $hidden = false) {
+        if ($fp = @opendir($source_dir)) {
+            $filedata = array();
+            $new_depth = $directory_depth - 1;
+            $source_dir = rtrim($source_dir, '/') . '/';
+
+            while (FALSE !== ($file = readdir($fp))) {
+                // Remove '.', '..', and hidden files [optional]
+                if (!trim($file, '.') OR ($hidden == false && $file[0] == '.')) {
+                    continue;
+                }
+                
+
+                if (($directory_depth < 1 OR $new_depth > 0) && is_dir($source_dir . $file)) {
+                    $aTmp = $this->_assetsMap($source_dir . $file . '/', $new_depth, $hidden);
+                    if(!empty($aTmp)) {
+                        asort($aTmp, SORT_STRING | SORT_FLAG_CASE | SORT_NATURAL);
+                        $filedata[$file] = $aTmp;
+                    }
+                    unset($aTmp);
+                } else {
+                    $sFileExt = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                    if(!empty($this->_mFileExt) && in_array($sFileExt, $this->_mFileExt)) {
+                        $filedata[] = $file;
+                    }
+                }
+            }
+
+            closedir($fp);
+            return $filedata;
+        }
+        echo 'can not open dir';
+        return FALSE;
+    }
+
 }
 
-$tpl->generate($cfg['path']['templates'] . $cfg['templates']['files_overview']);
+$oDirList = new clFileList($cfgClient[$client]["js"]["path"], 'js');
+$oDirList->scanDir();
 
-?>
+$oDirList->renderList();
