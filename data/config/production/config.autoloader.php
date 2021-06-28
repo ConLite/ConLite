@@ -344,5 +344,6 @@ return array(
     'PHPMailerOAuth' => 'conlite/external/PHPMailer/class.phpmaileroauth.php',
     'PHPMailerOAuthGoogle' => 'conlite/external/PHPMailer/class.phpmaileroauthgoogle.php',
     'cStringMultiByteWrapper' => 'conlite/classes/class.string.multi.byte.wrapper.php',
-    'cString' => 'conlite/classes/class.string.php'
+    'cString' => 'conlite/classes/class.string.php',
+    'cGuiPage' => 'conlite/classes/gui/class.page.php'
 );
