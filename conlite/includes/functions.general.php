@@ -419,13 +419,7 @@ function getLanguageNamesByClient($client) {
 }
 
 function set_magic_quotes_gpc(&$code) {
-    global $cfg;
-
-    if (!$cfg['simulate_magic_quotes']) {
-        if (get_magic_quotes_gpc() == 0) {
             $code = addslashes($code);
-        }
-    }
 }
 
 /**

@@ -234,9 +234,9 @@ function fileEdit($filename, $sCode, $path) {
  */
 function getFileContent($filename, $path) {
     $sCode = cFileHandler::read($path . $filename);
-            if (!empty($sCode)) {
-                $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
-            }
+    if (!empty($sCode)) {
+        $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+    }
     return $sCode;
 }
 
@@ -313,7 +313,7 @@ function renameFile($sOldFile, $sNewFile, $path) {
  * @return  (void|bool)  Either validation result or nothing (depends on second parameter)
  */
 function fileValidateFilename($filename, $notifyAndExitOnFailure = true) {
-    
+
     if (preg_match('/[^a-z0-9._-]/i', $filename)) {
         // validation failure...
         if ($notifyAndExitOnFailure == true) {
