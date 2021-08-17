@@ -1,3 +1,6 @@
 [submodule "conlite/plugins/cl-mod-rewrite"]
 	path = conlite/plugins/cl-mod-rewrite
 	url = https://gitport.de/ConLite/cl-mod-rewrite.git
+[submodule "conlite/plugins/cl-content-allocation"]
+	path = conlite/plugins/cl-content-allocation
+	url = https://gitport.de/ConLite/cl-content-allocation.git
