@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plugin>
+    <general active="1">
+        <plugin_name>ConLite ModRewrite</plugin_name>
+        <plugin_foldername>cl-mod-rewrite</plugin_foldername>
+        <uuid>B54918AD-A6DB-5FFB-B8DB-37BFF779D97C</uuid>
+        <description>ConLite ModRewrite</description>
+        <author>ConLite Team</author>
+        <copyright>ConLite Team</copyright>
+        <mail>plugins@conlite.org</mail>
+        <website>https://conlite.org</website>
+        <version>1.0.1</version>
+    </general>
+    <requirements php="7.1">
+        <conlite minversion="2.1.0" />
+    </requirements>
+    <conlite>
+        <areas>
+            <area menuless="1">mod_rewrite</area>
+            <area parent="mod_rewrite" menuless="1">mod_rewrite_expert</area>
+            <area parent="mod_rewrite" menuless="1">mod_rewrite_test</area>
+        </areas>
+        <actions>
+            <action area="mod_rewrite">mod_rewrite</action>
+            <action area="mod_rewrite">mod_rewrite_expert</action>
+            <action area="mod_rewrite">mod_rewrite_test</action>
+        </actions>
+        <frames>
+            <frame area="mod_rewrite" filetype="main" name="cl-mod-rewrite/includes/include.mod_rewrite_content.php" frameId="4" />
+            <frame area="mod_rewrite_expert" filetype="main" name="cl-mod-rewrite/includes/include.mod_rewrite_contentexpert.php" frameId="4" />
+            <frame area="mod_rewrite_test" filetype="main" name="cl-mod-rewrite/includes/include.mod_rewrite_contenttest.php" frameId="4" />
+        </frames>
+
+        <nav_sub>
+            <nav area="mod_rewrite" level="0" navm="extra">cl-mod-rewrite/xml/;navigation/extras/mod_rewrite/main</nav>
+            <nav area="mod_rewrite" level="1" navm="0">cl-mod-rewrite/xml/;navigation/extras/mod_rewrite/settings</nav>
+            <nav area="mod_rewrite_expert" level="1" navm="0">cl-mod-rewrite/xml/;navigation/extras/mod_rewrite/expert</nav>
+            <nav area="mod_rewrite_test" level="1" navm="0">cl-mod-rewrite/xml/;navigation/extras/mod_rewrite/test</nav>
+        </nav_sub>
+    </conlite>
+</plugin>
