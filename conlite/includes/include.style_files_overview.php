@@ -116,9 +116,6 @@ function scanAllDir($dir, $sFileType = null, $bShowEmptyDir = false) {
     return $result;
 }
 
-echo "<pre>";
-print_r(scanAllDir($path, 'css', true));
-
 if ($handle = opendir($path)) {
 
     $aFiles = array();

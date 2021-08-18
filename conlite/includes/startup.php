@@ -135,18 +135,20 @@ if(!isset($belang) || empty($belang)) {
 $I18N_EMULATE_GETTEXT = false;
 
 // Various base API functions
-require_once($cfg['path']['contenido'] . $cfg['path']['includes'] . '/api/functions.api.general.php');
+require_once($cfg['path']['conlite'] . $cfg['path']['includes'] . '/api/functions.api.general.php');
 
 
 // Initialization of autoloader
-include_once($cfg['path']['contenido'] . $cfg['path']['classes'] . 'class.autoload.php');
+include_once($cfg['path']['conlite'] . $cfg['path']['classes'] . 'class.autoload.php');
 cAutoload::initialize($cfg);
+// init composer autoload
+include_once($cfg['path']['conlite'] . $cfg['path']['external'] . 'autoload.php');
 
 
 // 2. security check: Check HTTP parameters, if requested
 if ($cfg['http_params_check']['enabled'] === true) {
     $oHttpInputValidator =
-        new HttpInputValidator($cfg['path']['contenido'] . $cfg['path']['includes'] . '/config.http_check.php');
+        new HttpInputValidator($cfg['path']['conlite'] . $cfg['path']['includes'] . '/config.http_check.php');
 }
 
 /* Generate arrays for available login languages

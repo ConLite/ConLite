@@ -1,0 +1,22 @@
+{
+    "name": "vendor/con-lite21",
+    "description": "Description of project ConLite21.",
+    "authors": [
+        {
+            "name": "oldperl",
+            "email": "ortwin.pinke@php-backoffice.de"
+        }
+    ],
+    "config": {
+        "vendor-dir": "conlite/external"
+    },
+    "require": {
+        "phpmailer/phpmailer": "v6.5.*",
+        "endroid/qr-code": "4.2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Conlite\\External\\": "conlite/external"
+        }
+    }
+}
