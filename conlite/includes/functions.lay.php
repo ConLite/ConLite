@@ -63,7 +63,7 @@ function layEditLayout($idlay, $name, $description, $code) {
     set_magic_quotes_gpc($description);
     set_magic_quotes_gpc($code);
     **/
-    $code = addslashes($code);
+    //$code = addslashes($code);
     if (strlen(trim($name)) == 0) {
         $name = i18n('-- Unnamed Layout --');
     }

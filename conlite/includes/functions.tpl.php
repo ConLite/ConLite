@@ -59,8 +59,8 @@ function tplEditTemplate($changelayout, $idtpl, $name, $description, $idlay, $c,
     $author = "" . $auth->auth["uname"] . "";
 
     //******** entry in 'tpl'-table ***************
-    set_magic_quotes_gpc($name);
-    set_magic_quotes_gpc($description);
+    //set_magic_quotes_gpc($name);
+    //set_magic_quotes_gpc($description);
 
     if (!$idtpl) {
 
