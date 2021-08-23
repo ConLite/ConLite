@@ -41,15 +41,7 @@
                         store: "auto",
                         fireActivate: true
                     },
-                    click: function (event, data) {
-                        //console.log(data.node);
-
-                        if (data.node.hasClass('file')) {
-                            var file = data.node.data.filepath;
-                            // console.log(`Open ${file}`);
-                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
-                        }
-
+                    activate: function (event, data, flag) {
                         var tmpnode = data.node;
                         var parentnodes = [];
                         var counter = 0;
@@ -72,6 +64,22 @@
                             basePath += '/';
                         }
                         console.log(basePath);
+                        if (data.node.hasClass('directory') || basePath == '') {
+                            var file = basePath + 'nofile';
+                            console.log(`Open ${file}`);
+                            conMultiLink('left_top', `{multilink3}`);
+                        }
+                    },
+                    click: function (event, data) {
+                        //console.log(data.node);
+                        var parentNode = data.node.getParent(),
+                                topNode = data.node.getParentList()[0];
+
+                        if (data.node.hasClass('file')) {
+                            var file = data.node.data.filepath;
+                            // console.log(`Open ${file}`);
+                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`, 'left_top', `{multilink3}`);
+                        }
                     },
                     active: function (event, data) {
                         console.log('active');
@@ -91,8 +99,17 @@
                                         var node = $.ui.fancytree.getNode(this);
                                         if (node.hasClass('file')) {
                                             var file = node.data.filepath;
-                                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
+                                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`, 'left_top', `{multilink3}`);
                                         }
+                                        break;
+                                    case 'delete':
+                                        var node = $.ui.fancytree.getNode(this);
+                                        var file = node.data.filepath;
+                                        if (node.hasClass('file') && confirm("Do you really want to delete " + file + "?")) {
+                                            console.log('delete', node);
+                                            conMultiLink('left_bottom', `{multilink4}`, 'right_bottom', `{multilinkf4}`, 'right_top', `{multilinkf3}`);
+                                        }
+                                        break;
                                 }
                             },
                             items: {}
@@ -118,34 +135,6 @@
                         };
                         return options;
                     }
-
-                    /*
-                     items: {
-                     "edit": {
-                     name: "Edit <span>readonly</span>",
-                     icon: "edit",
-                     disabled: function (event, ui) {
-                     var node = $.ui.fancytree.getNode(this);
-                     console.log(node);
-                     console.log(ui);
-                     // return `true` to disable, `"hide"` to remove entry:
-                     return (node.hasClass('file')) ? false : true;
-                     },
-                     callback: function (itemKey, opt, e) {
-                     var node = $.ui.fancytree.getNode(this);
-                     var file = node.data.filepath;
-                     console.log(`Open ${file}`);
-                     conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
-                     }
-                     },
-                     "delete": {name: "Delete", icon: "delete", disabled: function (event, ui) {
-                     var node = $.ui.fancytree.getNode(this);
-                     console.log(node);
-                     console.log(ui);
-                     // return `true` to disable, `"hide"` to remove entry:
-                     return (node.hasClass('notwritable')) ? true : (node.hasClass('file')) ? false : true;
-                     }}
-                     }*/
                 });
             });
         </script>

@@ -52,14 +52,22 @@ class cGuiFileList {
                 }
             }
         } else {
-            $sList .= '<li class="dir_empty" data-icon="unknown.gif">'. i18n("No files in directory.").'</li>' . "\n";
+            $sList .= '<li class="dir_empty" data-icon="unknown.gif">' . i18n("No files in directory.") . '</li>' . "\n";
         }
 
         $sList .= '</ul></li></ul>' . "\n";
         $this->_oTpl->set('s', 'item_list', $sList);
 
+        $this->_oTpl->set('s', 'multilinkf1', $sess->url("main.php?area=$area&frame=1"));
+        $this->_oTpl->set('s', 'multilinkf2', $sess->url("main.php?area=$area&frame=2"));
+        $this->_oTpl->set('s', 'multilinkf3', $sess->url("main.php?area=$area&frame=3"));
+        $this->_oTpl->set('s', 'multilinkf4', $sess->url("main.php?area=$area&frame=4"));
+
         $this->_oTpl->set('s', 'multilink1', $sess->url("main.php?area=$area&frame=3&file=\${file}"));
         $this->_oTpl->set('s', 'multilink2', $sess->url("main.php?area=$area&frame=4&action=js_edit&file=\${file}&tmp_file=\${file}"));
+        $this->_oTpl->set('s', 'multilink3', $sess->url("main.php?area=$area&frame=1&file=\${file}"));
+
+        $this->_oTpl->set('s', 'multilink4', $sess->url("main.php?area=$area&frame=2&action=file_delete&delfile=\${file}"));
 
         $this->_oTpl->generate(cRegistry::getConfigValue('path', 'contenido') . cRegistry::getConfigValue('path', 'templates') . "html5/file_list.html", $bReturn);
     }

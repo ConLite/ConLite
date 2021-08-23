@@ -41,6 +41,8 @@ $sFileType = "js";
 $sActionCreate = 'js_create';
 $sActionEdit = 'js_edit';
 
+$bNewFile = false;
+
 $page = new cPage;
 
 $tpl->reset();
@@ -60,25 +62,21 @@ if (!$perm->have_perm_area_action($area, $action)) {
     } else {
         $sFilename .= stripslashes($_REQUEST['file']);
     }
-    
-    if(!empty($_REQUEST['dirname']) && trim($_REQUEST['dirname']) != '.') {
-        $sFilename = stripslashes($_REQUEST['dirname']).DIRECTORY_SEPARATOR.$sFilename;
-    }
-    echo $sFilename;
-    if (stripslashes($_REQUEST['file'])) {
-        $sReloadScript = "<script type=\"text/javascript\">
-                             var left_bottom = parent.parent.frames['left'].frames['left_bottom'];
-                             if (left_bottom) {
-                                 var href = left_bottom.location.href;
-                                 href = href.replace(/&file[^&]*/, '');
-                                 left_bottom.location.href = href+'&file='+'" . $sFilename . "';
 
-                             }
-                         </script>";
-    } else {
-        $sReloadScript = "";
+    if (!empty($_REQUEST['dirname']) && trim($_REQUEST['dirname']) != '.') {
+        if (empty($sFilename)) {
+            $sFilename = "newfile.js";
+            $bNewFile = true;
+        }
+        $sFilename = stripslashes($_REQUEST['dirname']) . DIRECTORY_SEPARATOR . $sFilename;
     }
-$sReloadScript = "";
+    $sReloadScript = "<script type=\"text/javascript\">"
+            . "var left_bottom = parent.parent.frames['left'].frames['left_bottom'];
+                             if (left_bottom) {
+                             var href = '" . $sess->url("main.php?area=$area&frame=2") . "';
+                             left_bottom.location.href = href;
+                             }
+                             </script>";
     // Content Type is template
     $sTypeContent = "js";
     $aFileInfo = getFileInformation($client, $sTempFilename, $sTypeContent, $db);
@@ -86,8 +84,8 @@ $sReloadScript = "";
     # create new file
     if ($_REQUEST['action'] == $sActionCreate AND $_REQUEST['status'] == 'send') {
         $sTempFilename = $sFilename;
-        createFile($sFilename, $path);
-        $bEdit = fileEdit($sFilename, $_REQUEST['code'], $path);
+        createFile(pathinfo($sFilename, PATHINFO_BASENAME), $path.pathinfo($sFilename, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR);
+        $bEdit = fileEdit(pathinfo($sFilename, PATHINFO_BASENAME), $_REQUEST['code'], $path.pathinfo($sFilename, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR);
         updateFileInformation($client, $sFilename, 'js', $auth->auth['uid'], $_REQUEST['description'], $db);
         $sReloadScript .= "<script type=\"text/javascript\">
                  var right_top = top.content.right.right_top;
@@ -101,7 +99,7 @@ $sReloadScript = "";
     # edit selected file
     if ($_REQUEST['action'] == $sActionEdit AND $_REQUEST['status'] == 'send') {
         if ($sFilename != $sTempFilename) {
-            $sTempFilename = renameFile($sTempFilename, $sFilename, $path);
+            $sTempFilename = renameFile(pathinfo($sTempFilename, PATHINFO_BASENAME), pathinfo($sFilename, PATHINFO_BASENAME), $path.pathinfo($sFilename, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR);
             $sReloadScript .= "<script type=\"text/javascript\">
                  var right_top = top.content.right.right_top;
                  if (right_top) {
@@ -155,8 +153,7 @@ $sReloadScript = "";
         $form->setVar("frame", $frame);
         $form->setVar("status", 'send');
         $form->setVar("tmp_file", $sTempFilename);
-        print_r(pathinfo($sFilename));
-        $tb_name = new cHTMLTextbox("file",  pathinfo($sFilename, PATHINFO_BASENAME), 60);
+        $tb_name = new cHTMLTextbox("file", ($bNewFile)?'':pathinfo($sFilename, PATHINFO_BASENAME), 60);
         $tb_path = new cHTMLHiddenField("dirname", pathinfo($sFilename, PATHINFO_DIRNAME));
         $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
         $descr = new cHTMLTextarea("description", clHtmlSpecialChars($aFileInfo["description"]), 100, 5);
@@ -165,7 +162,7 @@ $sReloadScript = "";
         $descr->setStyle("font-family: monospace;width: 100%;");
         $ta_code->updateAttributes(array("wrap" => getEffectiveSetting('script_editor', 'wrap', 'off')));
 
-        $form->add(i18n("Name"), $tb_name.$tb_path);
+        $form->add(i18n("Name"), $tb_name . "&nbsp&nbsp".i18n("Directory").": ". pathinfo($sFilename, PATHINFO_DIRNAME).DIRECTORY_SEPARATOR . $tb_path);
         $form->add(i18n("Description"), $descr->render());
         $form->add(i18n("Code"), $ta_code);
 

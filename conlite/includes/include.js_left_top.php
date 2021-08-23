@@ -32,6 +32,9 @@ if(!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
+$sFilename = filter_input(INPUT_GET, 'file', FILTER_SANITIZE_URL);
+//echo $sFilename."\n";
+$sDirname = pathinfo($sFilename, PATHINFO_DIRNAME);
 $tpl->set('s', 'ID', 'oTplSel');
 $tpl->set('s', 'CLASS', 'text_medium');
 $tpl->set('s', 'OPTIONS', '');
@@ -46,7 +49,7 @@ $area = "style";
 $mstr = sprintf($tmp_mstr, 'right_top',
                                    $sess->url("main.php?area=js&frame=3"),
                                    'right_bottom',
-                                   $sess->url("main.php?area=js&frame=4&action=js_create"),
+                                   $sess->url("main.php?area=js&frame=4&action=js_create&dirname=".$sDirname),
                                    i18n("Create script"));
 if ((int) $client > 0) {
     $tpl->set('s', 'NEWSCRIPT', $mstr);
