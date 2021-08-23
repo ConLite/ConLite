@@ -416,7 +416,7 @@ abstract class DB_Sql_Abstract {
      *                          </pre>
      * @return  string
      */
-    protected function _prepareQueryf($sQuery, array $aArgs) {
+    public function _prepareQueryf($sQuery, array $aArgs) {
         if (count($aArgs) > 0) {
             $aArgs = array_map(array($this, 'escape'), $aArgs);
             array_unshift($aArgs, $sQuery);
