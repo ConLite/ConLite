@@ -35,7 +35,7 @@ class Contenido_Security_Exception extends Exception {
      * @static
      * @var      boolean
      */
-    protected static $_logging = false;
+    protected static $_logging = true;
 
     /**
      * @see Exception::__construct()
@@ -45,7 +45,12 @@ class Contenido_Security_Exception extends Exception {
 
         // check if logging is enabled
         if (self::$_logging == true) {
-            $sLogFile = realpath(dirname(__FILE__) . '/../logs/') . '/security.txt';
+            $sPath = realpath(dirname(__FILE__) . '/../../data/logs');
+            if(is_writable($sPath)) {
+                $sLogFile = $sPath . '/security.txt';
+            } else {
+                $sLogFile = realpath(dirname(__FILE__) . '/../') . '/security.txt';
+            }
 
             $sFileContent = '---------' . PHP_EOL;
             $sFileContent .= "Invalid call caused by parameter '" . $sParamName . "' at " . date("c") . PHP_EOL;
@@ -355,7 +360,7 @@ class cSecurity {
     public static function checkRequestSession() {
         if (isset($_REQUEST['contenido']) && !preg_match('/^[0-9a-f]{32}$/', $_REQUEST['contenido'])) {
             if ($_REQUEST['contenido'] != '') {
-                throw new Contenido_Security_Exception('Invalid call', 'contenido');
+                throw new Contenido_Security_Exception('Invalid call', 'conlite');
             }
         }
         return true;

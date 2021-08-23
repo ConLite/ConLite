@@ -45,4 +45,8 @@ $_cecRegistry->addChainFunction("Contenido.Content.CreateMetatags", "cecCreateMe
 $_cecRegistry->addChainFunction("Contenido.Frontend.HTMLCodeOutput", "cecCreateFacebookMeta->createHeadTag");
 $_cecRegistry->addChainFunction("Contenido.Frontend.BaseHrefGeneration", "cecCreateBaseHref");
 $_cecRegistry->addChainFunction('Contenido.Frontend.HTMLCodeCompression', 'cecOutputCompressor');
+
+
+cInclude('includes', 'chains/include.chain.template.parsetemplate.php');
+$_cecRegistry->addChainFunction('Contenido.Template.BeforeParse', 'cecParseTemplate');
 ?>

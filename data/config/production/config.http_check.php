@@ -86,6 +86,4 @@ $aCheck['GET']['action'] = CON_CHECK_PRIMITIVESTRING;
 $aCheck['GET']['page'] = CON_CHECK_INTEGER;
 
 $aCheck['GET']['catname'] = CON_CHECK_PRIMITIVESTRING;
-$aCheck['GET']['contenido'] = CON_CHECK_HASH32;
-
-?>
+//$aCheck['GET']['contenido'] = CON_CHECK_HASH32;

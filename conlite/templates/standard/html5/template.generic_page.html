@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title></title>
-        {META}
-        <link rel="stylesheet" type="text/css" href="styles/contenido.css">
+        <title>{_SID_}</title>
+{_META_HEAD_CONLITE_}
+    {META}
+
+{_CSS_HEAD_CONLITE_}
+{STYLES}
+
+{_JS_HEAD_CONLITE_}
         {CSS}
         <script type="text/javascript">
             var cSessionId = '{SESSION_ID}';
         </script>
     </head>
-    <body style="margin:{MARGIN}px; {EXTRA}">
+    <body>
         <div id="wrapp">
             {CONTENT}
         </div>

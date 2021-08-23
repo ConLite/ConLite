@@ -23,6 +23,95 @@
 defined('CON_FRAMEWORK') or die('Illegal call');
 
 class cRegistry {
+
+    /**
+     * Container for application variables.
+     * Meant to set and get application wide variables as an alternative to
+     * store them in global scope.
+     *
+     * @var array
+     */
+    protected static $_appVars = array();
+
+    /**
+     * Container for ok messages.
+     *
+     * @author frederic.schneider
+     * @var array
+     */
+    protected static $_okMessages = array();
+
+    /**
+     * Container for information messages.
+     *
+     * @author konstantinos.katikakis
+     * @var array
+     */
+    protected static $_infoMessages = array();
+
+    /**
+     * Container for error messages.
+     *
+     * @author konstantinos.katikakis
+     * @var array
+     */
+    protected static $_errMessages = array();
+
+    /**
+     * Container for warning messages.
+     *
+     * @author konstantinos.katikakis
+     * @var array
+     */
+    protected static $_warnMessages = array();
+    
+    /**
+     * Returns the auth object stored in the global variable "auth".
+     *
+     * @return cAuth
+     */
+    public static function getAuth() {
+        return self::_fetchGlobalVariable('auth');
+    }
+
+    /**
+     * Returns the permission object stored in the global variable "perm".
+     *
+     * @return cPermission
+     */
+    public static function getPerm() {
+        return self::_fetchGlobalVariable('perm');
+    }
+
+    /**
+     * Returns the area stored in the global variable "area".
+     *
+     * @author thomas.stauer
+     * @return string
+     */
+    public static function getArea() {
+        return self::_fetchGlobalVariable('area');
+    }
+
+    /**
+     * Returns the current frame id stored in the global variable "frame".
+     *
+     * @author thomas.stauer
+     * @return string
+     */
+    public static function getFrame() {
+        return self::_fetchGlobalVariable('frame', '');
+    }
+
+   /**
+     * Returns the action stored in the global variable "action".
+     *
+     * @author jann.diekmann
+     * @return string
+     */
+    public static function getAction() {
+        return self::_fetchGlobalVariable('action');
+    }
     
     /**
      * Function wich returns path after the last possible place changing via
@@ -246,5 +335,75 @@ class cRegistry {
 
         return new $apiClassName($objectId);
     }
+
+    /**
+     * Return an array with ok message
+     *
+     * @author frederic.schneider
+     * @return array
+     */
+    public static function getOkMessages() {
+        return self::$_okMessages;
+    }
+
+    /**
+     * Returns an array with information messages.
+     *
+     * @author konstantinos.katikakis
+     * @return array
+     */
+    public static function getInfoMessages() {
+        return self::$_infoMessages;
+    }
+
+    /**
+     * Returns an array with error messages.
+     *
+     * @author konstantinos.katikakis
+     * @return array
+     */
+    public static function getErrorMessages() {
+        return self::$_errMessages;
+    }
+
+    /**
+     * Returns an array with warning messages.
+     *
+     * @author konstantinos.katikakis
+     * @return array
+     */
+    public static function getWarningMessages() {
+        return self::$_warnMessages;
+    }
+
+    /**
+     * Returns the CONTENIDO Session ID stored in the global variable
+     * "contenido".
+     *
+     * @return string
+     */
+    public static function getBackendSessionId() {
+        return self::_fetchGlobalVariable('contenido');
+    }
+
+    /**
+     * Returns the CONTENIDO backend language stored in the global variable
+     * "belang"
+     *
+     * @return string
+     */
+    public static function getBackendLanguage() {
+        return self::_fetchGlobalVariable('belang');
+    }
+
+    /**
+     * Returns the loaded cApiLanguage object for the current language.
+     *
+     * @return cApiLanguage
+     *
+     * @throws cInvalidArgumentException
+     */
+    public static function getLanguage() {
+        return self::_fetchItemObject('cApiLanguage', self::getLanguageId());
+    }
 }
-?>

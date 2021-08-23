@@ -1119,7 +1119,8 @@ abstract class ItemCollection extends cItemBaseAbstract {
      * @param  string  $primaryKeyValue  Optional parameter for direct input of primary key value
      * @return  Item  The newly created object
      */
-    public function createNewItem($aData = NULL) { /* @var $oDb DB_ConLite */
+    public function createNewItem($aData = NULL) { 
+        /* @var $oDb DB_ConLite */
         $oDb = $this->_getSecondDBInstance();
         if (is_null($aData) || empty($aData)) {
             $iNextId = $oDb->nextid($this->table);
@@ -1318,6 +1319,13 @@ abstract class Item extends cItemBaseAbstract {
      * @var  string
      */
     protected $_metaObject;
+    
+     /**
+     * Last executed SQL statement
+     *
+     * @var string
+     */
+    protected $_lastSQL;
 
     /**
      * Constructor function
@@ -1383,6 +1391,52 @@ abstract class Item extends cItemBaseAbstract {
         $this->loadByRecordSet($this->db->toArray());
         return true;
     }
+    
+    public function loadByMany(array $aAttributes, $bSafe = true) {
+        $this->_resetItem();
+        
+        if ($bSafe) {
+            $aAttributes = $this->_inFilter($aAttributes);
+        }
+        
+        // @todo add cache here
+        
+        
+        // SQL-Statement to select by fields
+        $sql = 'SELECT * FROM `:mytab` WHERE';
+        foreach (array_keys($aAttributes) as $sKey) {
+            // add quotes if key is a string
+            if (is_string($sKey)) {
+                $sql .= " $sKey = ':$sKey' AND";
+            } else {
+                $sql .= " $sKey = :$sKey AND";
+            }
+        }
+        // strip the last " AND" token
+        $sql = cString::getPartOfString($sql, 0, cString::getStringLength($sql) - 4);
+        $sql = $this->db->_prepareQueryf($sql, array_merge(array(
+            'mytab' => $this->table
+        ), $aAttributes));
+
+        // Query the database
+        $this->db->query($sql);
+
+        $this->_lastSQL = $sql;
+
+        if ($this->db->num_rows() > 1) {
+            $msg = 'Tried to load a single line with fields ' . print_r(array_keys($aAttributes), true) . ' and values ' . print_r(array_values($aAttributes), true) . ' from ' . $this->table . ' but found more than one row';
+            throw new Contenido_ItemException($msg);
+        }
+
+        // Advance to the next record, return false if nothing found
+        if (!$this->db->next_record()) {
+            return false;
+        }
+
+        $this->loadByRecordSet($this->db->toArray());
+        $this->_setLoaded(true);
+        return true;
+    }
 
     /**
      * Loads an item by passed where clause from the database.
@@ -1442,14 +1496,6 @@ abstract class Item extends cItemBaseAbstract {
         $this->oldPrimaryKey = $this->values[$this->primaryKey];
         $this->virgin = false;
         self::$_oCache->addItem($this->table . "_" . $this->oldPrimaryKey, $this->values);
-    }
-
-    /**
-     * Checks if a the item is already loaded.
-     * @return boolean
-     */
-    public function isLoaded() {
-        return ($this->virgin) ? FALSE : TRUE;
     }
 
     /**
@@ -1704,20 +1750,22 @@ abstract class Item extends cItemBaseAbstract {
     /**
      * Filters the passed data using the functions defines in the _arrInFilters array.
      *
-     * @see setFilters
-     *
-     * @todo  This method is used from public scope, but it should be protected
-     *
-     * @param   mixed  $mData  Data to filter
-     * @return  mixed  Filtered data
+     * @see Item::setFilters()
+     * @param mixed $mData
+     *         Data to filter
+     * @return mixed
+     *         Filtered data
      */
-    public function _inFilter($mData) {
-        if (is_numeric($mData) || is_array($mData))
-            return $mData;
-
+    public function _inFilter($mData) {        
         foreach ($this->_arrInFilters as $_function) {
             if (function_exists($_function)) {
-                $mData = $_function($mData);
+                if (is_array($mData)) {
+                    foreach ($mData as $key => $value) {
+                        $mData[$key] = $_function($value);
+                    }
+                } else {
+                    $mData = $_function($mData);
+                }
             }
         }
         return $mData;
@@ -1731,7 +1779,7 @@ abstract class Item extends cItemBaseAbstract {
      * @param   mixed  $mData  Data to filter
      * @return  mixed  Filtered data
      */
-    protected function _outFilter($mData) {
+    public function _outFilter($mData) {
         if (is_numeric($mData))
             return $mData;
 
@@ -1771,5 +1819,18 @@ abstract class Item extends cItemBaseAbstract {
             return $_metaObjectCache[$qclassname];
         }
     }
+    
+    /**
+     * Resets class variables back to default
+     * This is handy in case a new item is tried to be loaded into this class instance.
+     */
+    protected function _resetItem() {
+        parent::_resetItem();
 
+        // make sure not to reset filters because then default filters would always be used for loading
+        $this->values = null;
+        $this->modifiedValues = null;
+        $this->_metaObject = null;
+        $this->_lastSQL = null;
+    }
 }

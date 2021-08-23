@@ -322,4 +322,26 @@ $cfg['password']['numbers_mandatory'] = 3;
  */
 // Define here all content types which includes special module translations (dont forget the prefix "CMS_"!)
 $cfg['translatable_content_types'] = array('CMS_TEASER', 'CMS_FILELIST');
-?>
+
+/* Backend template settings
+ * -----------------------------------------------------------------------------
+ */
+
+// (array)  List of default link tags for CSS files to render in backend pages
+//          The wildcard {basePath} will be replaced dynamically
+$cfg['backend_template']['css_files'] = array(
+    '{basePath}styles/jquery/jquery-ui.css',
+    '{basePath}styles/contenido.css?v=4ff97ee40f1ac052f634e7e8c2f3e37e',
+    '{basePath}styles/conlite.css?v=4ff97ee40f1ac052f634e7e8c2f3e37e'
+);
+
+// (array)  List of default script tags for JS files to render in backend pages
+//          The wildcard {basePath} will be replaced dynamically
+//          The item '_CONFIG_' is a marker to inject the configuration at this place!
+$cfg['backend_template']['js_files'] = array(
+    '{basePath}scripts/jquery/jquery.js',
+    '{basePath}scripts/jquery/jquery-ui.js',
+    '{basePath}scripts/conlite.js',
+    '{basePath}scripts/general.js?v=c027a03b03f184f2d7d7f0d866bd9a55',
+    '_CONFIG_'
+);

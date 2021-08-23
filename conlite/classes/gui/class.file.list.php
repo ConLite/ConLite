@@ -39,17 +39,23 @@ class cGuiFileList {
 
     public function renderList($sTpl = null, $bReturn = false) {
         global $sess, $area;
+
         $sList = '<ul id="treeData" style="display: none;">' . "\n";
-        foreach ($this->_aDirItems as $key => $item) {
-            if (is_array($item)) {
-                $sList .= $this->_getSubItems($key, $item, $this->_sPath);
-            } else {
-                $sAddClass = (is_writable($this->_sPath . $item)) ? '' : ' notwritable';
-                $sList .= '<li class="file' . $sAddClass . '" data-filepath="' . $item . '">' . $item . '</li>' . "\n";
+        $sList .= '<li><a href="#">Root</a><ul>';
+        if (!empty($this->_aDirItems)) {
+            foreach ($this->_aDirItems as $key => $item) {
+                if (is_array($item)) {
+                    $sList .= $this->_getSubItems($key, $item, $this->_sPath);
+                } else {
+                    $sAddClass = (is_writable($this->_sPath . $item)) ? '' : ' notwritable';
+                    $sList .= '<li class="file' . $sAddClass . '" data-filepath="' . $item . '">' . $item . '</li>' . "\n";
+                }
             }
+        } else {
+            $sList .= '<li class="dir_empty" data-icon="unknown.gif">'. i18n("No files in directory.").'</li>' . "\n";
         }
 
-        $sList .= '</ul>' . "\n";
+        $sList .= '</ul></li></ul>' . "\n";
         $this->_oTpl->set('s', 'item_list', $sList);
 
         $this->_oTpl->set('s', 'multilink1', $sess->url("main.php?area=$area&frame=3&file=\${file}"));
@@ -80,7 +86,7 @@ class cGuiFileList {
     protected function _assetsMap($source_dir, $directory_depth = 0, $hidden = false) {
         if ($fp = @opendir($source_dir)) {
             $filedata = array();
-            $new_depth = $directory_depth - 1;
+            $new_depth = $directory_depth;
             $source_dir = rtrim($source_dir, '/') . '/';
 
             while (FALSE !== ($file = readdir($fp))) {

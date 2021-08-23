@@ -186,6 +186,7 @@ return array(
     'clStrAPIFunctionsParser' => 'conlite/classes/template/class.clStrAPIFunctionsParser.php',
     'clAbstractTemplateParser' => 'conlite/classes/template/class.clAbstractTemplateParser.php',
     'Template' => 'conlite/classes/template/class.template.php',
+    'cTemplate' => 'conlite/classes/template/class.template.php',
     'clIfFunctionParser' => 'conlite/classes/template/class.clIfFunctionParser.php',
     'CommunicationCollection' => 'conlite/classes/class.communications.php',
     'CommunicationItem' => 'conlite/classes/class.communications.php',
@@ -346,5 +347,8 @@ return array(
     'cStringMultiByteWrapper' => 'conlite/classes/class.string.multi.byte.wrapper.php',
     'cString' => 'conlite/classes/class.string.php',
     'cGuiPage' => 'conlite/classes/gui/class.page.php',
-    'cGuiFileList' => 'conlite/classes/gui/class.file_list.php'
+    'cGuiSourceEditor' => 'conlite/classes/gui/class.sourceeditor.php',
+    'cGuiFileList' => 'conlite/classes/gui/class.file.list.php',
+    'cApiFileInformationCollection' => 'conlite/classes/contenido/class.file.information.php',
+    'cApiFileInformation' => 'conlite/classes/contenido/class.file.information.php'
 );

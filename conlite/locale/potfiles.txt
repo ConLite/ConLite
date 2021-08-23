@@ -57,6 +57,8 @@
 ./classes/contenido/class.containerconfig.php
 ./classes/contenido/class.content.php
 ./classes/contenido/class.categorytree.php
+./classes/gui/class.page.php
+./classes/gui/class.file_list.php
 ./classes/class.notification.php
 ./classes/class.communications.php
 ./classes/class.versionLayout.php
@@ -232,6 +234,7 @@
 ./templates/standard/template.tpl_overview.html
 ./templates/standard/template.rights_inc.html
 ./templates/standard/html5/template.generic_page.html
+./templates/standard/html5/file_list.html
 ./templates/standard/template.lay_edit_form.html
 ./templates/standard/template.inuse_tpl.html
 ./templates/standard/template.subnav_noleft.html
@@ -302,6 +305,7 @@
 ./scripts/articleObject.js.php
 ./scripts/help.js.php
 ./scripts/langref.php
+./includes/include.js_files_overview_1.php
 ./includes/include.CMS_TEXT.php
 ./includes/include.mod_package.php
 ./includes/rights.inc.php
@@ -445,6 +449,7 @@
 ./includes/include.mod_sync.php
 ./includes/include.html_tpl_left_top.php
 ./includes/rights_str.inc.php
+./includes/include.js_edit_form_1.php
 ./includes/include.mycontenido.tasks.edit.php
 ./includes/include.con_left_top.php
 ./includes/include.grouprights_menu.php

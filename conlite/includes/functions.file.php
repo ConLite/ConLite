@@ -199,13 +199,12 @@ function updateFileInformation($iIdClient, $sFilename, $sType, $sAuthor, $sDescr
  */
 function fileEdit($filename, $sCode, $path) {
     $oNot = new Contenido_Notification();
-
     // FIXME: fileValidateFilename does also the validation but display another message!
     if (strlen(trim($filename)) == 0) {
         $oNot->displayNotification("error", i18n("Please insert filename."));
         return false;
     }
-    cFileHandler::validateFilename($filename);
+    cFileHandler::validateFilename(pathinfo($filename, PATHINFO_BASENAME));
 
     if (is_writable($path . $filename)) {
         if (strlen(stripslashes(trim($sCode))) > 0) {
@@ -247,8 +246,7 @@ function getFileContent($filename, $path) {
  * @return  string  Filetype
  */
 function getFileType($filename) {
-    $aFileName = explode(".", $filename);
-    return $aFileName[count($aFileName) - 1];
+    return pathinfo($filename, PATHINFO_EXTENSION);
 }
 
 /**
@@ -263,7 +261,7 @@ function getFileType($filename) {
 function createFile($filename, $path) {
     $oNot = new Contenido_Notification();
 
-    cFileHandler::validateFilename($filename);
+    cFileHandler::validateFilename(pathinfo($filename, PATHINFO_BASENAME));
 
     if (cFileHandler::create($path . $filename)) {
         return true;

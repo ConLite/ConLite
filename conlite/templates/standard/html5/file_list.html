@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>test</title>
+        <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="expires" content="0">
@@ -17,94 +12,140 @@ and open the template in the editor.
         <script src="scripts/general.js" type="text/javascript"></script>
         <link href="scripts/fancytree/skin-lion/ui.fancytree.css" rel="stylesheet" type="text/css"/>
         <link href="scripts/fancytree/lib/contextmenu-abs/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
+        <script src="scripts/fancytree/jquery.fancytree-all.min.js"></script>
+        <script src="scripts/jquery/contextmenu/jquery.ui.position.min.js" type="text/javascript"></script>
+        <link href="scripts/jquery/contextmenu/jquery.contextMenu.min.css" rel="stylesheet" type="text/css"/>
+        <script src="scripts/jquery/contextmenu/jquery.contextMenu.min.js" type="text/javascript"></script>
+        <script src="scripts/fancytree/modules/jquery.fancytree.persist.js" type="text/javascript"></script>
+        <style>
+            ul.fancytree-container {
+                border: none;
+            }
+        </style>
     </head>
     <body>
         <div id="tree">
             {item_list}
         </div>
-<!--
-        <div>Selected node: <span id="echoActivated">-</span></div>
--->
-        <script src="scripts/fancytree/jquery.fancytree-all.min.js"></script>
-        <link rel="stylesheet"  href="//cdn.jsdelivr.net/npm/jquery-contextmenu@2.9.0/dist/jquery.contextMenu.min.css" />
-        <script src="//cdn.jsdelivr.net/npm/jquery-contextmenu@2.9.0/dist/jquery.contextMenu.min.js"></script>
-
-
-
+        <div id="debug"></div>
         <script>
-            // --- Contextmenu helper --------------------------------------------------
-            function bindContextMenu(node) {
-                if (node.extraClasses == "directory") {
-                    $(node.span).contextMenu({menu: "myMenuFolder"}, function (action, el, pos) {
-                        switch (action) {
-                            default:
-                                alert("Todo: appply action '" + action + "' to node " + node.title);
-                        }
-                    });
-                } else {
-                    $(node.span).contextMenu({menu: "myMenuFile"}, function (action, el, pos) {
-                        switch (action) {
-                            case 'edit':
-                                alert('edit');
-                                break;
-                            default:
-                                alert("Todo: apply action '" + action + "' to node " + node.title);
-                        }
-                    });
-                }
-            }
-
-
+            var basePath = '';
             $(function () {
                 // using default options
                 $("#tree").fancytree({
+                    extensions: ["persist"],
                     imagePath: "images/filetypes/",
-                    activate: function (event, data) {
-                        var node = data.node;
-                        console.log(data);
-                        $("#echoActivated").text(node.title + ", key=" + node.key);
+                    selectMode: 1,
+                    persist: {
+                        //expandLazy: true,
+                        store: "auto",
+                        fireActivate: true
+                    },
+                    click: function (event, data) {
+                        //console.log(data.node);
+
+                        if (data.node.hasClass('file')) {
+                            var file = data.node.data.filepath;
+                            // console.log(`Open ${file}`);
+                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
+                        }
+
+                        var tmpnode = data.node;
+                        var parentnodes = [];
+                        var counter = 0;
+                        //console.log(tmpnode);
+                        if (tmpnode.hasClass('directory')) {
+                            parentnodes[counter] = tmpnode.title;
+                            counter++;
+                        }
+
+                        while (tmpnode.getParent()) {
+                            parentnodes[counter] = tmpnode.getParent().title;
+                            tmpnode = tmpnode.getParent();
+                            counter++;
+                        }
+                        parentnodes.pop();
+                        parentnodes.pop();
+                        parentnodes.reverse();
+                        basePath = parentnodes.join('/');
+                        if (basePath) {
+                            basePath += '/';
+                        }
+                        console.log(basePath);
+                    },
+                    active: function (event, data) {
+                        console.log('active');
                     }
                 });
 
                 $.contextMenu({
                     selector: "#tree span.fancytree-title",
-                    items: {
-                        "edit": {
-                            name: "Edit",
-                            icon: "edit",
-                            disabled: function (event, ui) {
-                                var node = $.ui.fancytree.getNode(this);
-                                console.log(node);
-                                console.log(ui);
-                                // return `true` to disable, `"hide"` to remove entry:
-                                return (node.hasClass('file')) ? false : true;
+                    build: function ($trigger, e) {
+
+                        var options = {
+                            callback: function (key, options) {
+                                console.log("clicked: " + key);
+
+                                switch (key) {
+                                    case 'edit':
+                                        var node = $.ui.fancytree.getNode(this);
+                                        if (node.hasClass('file')) {
+                                            var file = node.data.filepath;
+                                            conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
+                                        }
+                                }
                             },
-                            callback: function (itemKey, opt, e) {
-                                var node = $.ui.fancytree.getNode(this);
-                                var file = node.data.filepath;
-                                console.log(node.data);
-                                console.log(`This is ${file}  times easier!`);
-                                conMultiLink(
-                                        'right_top',
-                                        `{multilink1}`,
-                                        'right_bottom',
-                                        `{multilink2}`
-                                );
-                            }
-                        },
-                        "delete": {name: "Delete", icon: "delete", disabled: function (event, ui) {
+                            items: {}
+                        };
+                        var node = $.ui.fancytree.getNode($trigger);
+
+                        if (node.hasClass('directory')) {
+                            options.items.edit = {name: "Rename", icon: "edit"};
+                        } else if (node.hasClass('file')) {
+                            options.items.edit = {name: "Edit", icon: "edit", disabled: function (event, ui) {
+                                    var node = $.ui.fancytree.getNode(this);
+                                    return (node.hasClass('notwritable')) ? true : (node.hasClass('file')) ? false : true;
+                                }};
+                        }
+
+                        options.items.delete = {name: "Delete file", icon: "delete", disabled: function (event, ui) {
                                 var node = $.ui.fancytree.getNode(this);
                                 console.log(node);
                                 console.log(ui);
                                 // return `true` to disable, `"hide"` to remove entry:
                                 return (node.hasClass('notwritable')) ? true : (node.hasClass('file')) ? false : true;
-                            }}
-                    },
-                    callback: function (itemKey, opt) {
-                        var node = $.ui.fancytree.getNode(opt.$trigger);
-
-                        alert("select " + itemKey + " on " + node);
+                            }
+                        };
+                        return options;
                     }
+
+                    /*
+                     items: {
+                     "edit": {
+                     name: "Edit <span>readonly</span>",
+                     icon: "edit",
+                     disabled: function (event, ui) {
+                     var node = $.ui.fancytree.getNode(this);
+                     console.log(node);
+                     console.log(ui);
+                     // return `true` to disable, `"hide"` to remove entry:
+                     return (node.hasClass('file')) ? false : true;
+                     },
+                     callback: function (itemKey, opt, e) {
+                     var node = $.ui.fancytree.getNode(this);
+                     var file = node.data.filepath;
+                     console.log(`Open ${file}`);
+                     conMultiLink('right_top', `{multilink1}`, 'right_bottom', `{multilink2}`);
+                     }
+                     },
+                     "delete": {name: "Delete", icon: "delete", disabled: function (event, ui) {
+                     var node = $.ui.fancytree.getNode(this);
+                     console.log(node);
+                     console.log(ui);
+                     // return `true` to disable, `"hide"` to remove entry:
+                     return (node.hasClass('notwritable')) ? true : (node.hasClass('file')) ? false : true;
+                     }}
+                     }*/
                 });
             });
         </script>

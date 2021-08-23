@@ -1,8 +1,8 @@
 <?php
+
 /**
  * 
  */
-
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
 
@@ -85,8 +85,9 @@ abstract class cItemBaseAbstract {
      * @var  string
      */
     protected $_className;
-    
     protected $_bDebug;
+    
+    protected $_bLoaded;
 
     /**
      * Sets some common properties
@@ -132,6 +133,28 @@ abstract class cItemBaseAbstract {
     public function escape($sString) {
         return $this->db->escape($sString);
     }
+    
+    /**
+     * Checks if an object is loaded
+     * If it is true an object is loaded
+     * If it is false then no object is loaded and only load-functions are allowed to be used
+     * @return bool Whether an object has been loaded
+     */
+    public function isLoaded() {
+        return (bool) $this->_bLoaded;
+    }
+
+    /**
+     * Sets loaded state of class
+     * If it is true an object is loaded
+     * If it is false then no object is loaded and only load-functions are allowed to be used
+     *
+     * @param bool $value
+     *         Whether an object is loaded
+     */
+    protected function _setLoaded($value) {
+        $this->_bLoaded = (bool) $value;
+    }
 
     /**
      * Returns the second database instance, usable to run additional statements
@@ -159,6 +182,13 @@ abstract class cItemBaseAbstract {
         return $this->properties;
     }
 
+    /**
+     * Resets class variables back to default
+     * This is handy in case a new item is tried to be loaded into this class instance.
+     */
+    protected function _resetItem() {
+        $this->_setLoaded(false);
+        $this->properties = null;
+        $this->lasterror = '';
+    }
 }
-
-?>

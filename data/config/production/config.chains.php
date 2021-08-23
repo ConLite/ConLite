@@ -804,4 +804,7 @@ $_cecRegistry->registerChain("Contenido.Content.conGenerateCode", "string");
  */
 $_cecRegistry->registerChain("Contenido.Frontend.HTMLCodeCompression", "string");
 
-?>
+
+$_cecRegistry->registerChain("Contenido.Template.BeforeParse", "string", "Template");
+
+
