@@ -1495,6 +1495,7 @@ abstract class Item extends cItemBaseAbstract {
         $this->values = $aRecordSet;
         $this->oldPrimaryKey = $this->values[$this->primaryKey];
         $this->virgin = false;
+        $this->_setLoaded(true);
         self::$_oCache->addItem($this->table . "_" . $this->oldPrimaryKey, $this->values);
     }
 

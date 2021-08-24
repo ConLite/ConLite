@@ -340,6 +340,8 @@ class cPage extends cHTML {
         $tpl->set('s', 'MARGIN', $this->_margin);
         $tpl->set('s', 'EXTRA', $this->extra);
         $tpl->set('s', 'SESSION_ID', $sess->id);
+        
+        $tpl->set('s', 'STYLES', '');
 
         if ($print == true) {
             $tplRender = false;
