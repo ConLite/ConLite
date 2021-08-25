@@ -271,6 +271,11 @@ function createFile($filename, $path) {
     $oNot = new Contenido_Notification();
 
     cFileHandler::validateFilename(pathinfo($filename, PATHINFO_BASENAME));
+    
+    if(cFileHandler::exists($path . $filename)) {
+        $oNot->displayNotification("error", sprintf(i18n("File already exists! Unable to create file %s"), $path . $filename));
+        exit;
+    }
 
     if (cFileHandler::create($path . $filename)) {
         return true;
