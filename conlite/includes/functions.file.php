@@ -209,7 +209,11 @@ function fileEdit($filename, $sCode, $path) {
     if (is_writable($path . $filename)) {
         if (strlen(stripslashes(trim($sCode))) > 0) {
             if (!empty($sCode)) {
-                $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+                if (extension_loaded('mbstring')) {
+                    $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+                } else {
+                    $oNot->displayNotification("warning", i18n("PHP-mbstring extension is not activated or installed!"));
+                }
             }
             cFileHandler::write($path . $filename, $sCode);
             return true;
@@ -232,9 +236,14 @@ function fileEdit($filename, $sCode, $path) {
  * @return  (string|void)      Either content of file o nothing
  */
 function getFileContent($filename, $path) {
+    $oNot = new Contenido_Notification();
     $sCode = cFileHandler::read($path . $filename);
     if (!empty($sCode)) {
-        $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+        if (extension_loaded('mbstring')) {
+            $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+        } else {
+            $oNot->displayNotification("warning", i18n("PHP-mbstring extension is not activated or installed!"));
+        }
     }
     return $sCode;
 }
@@ -324,5 +333,3 @@ function fileValidateFilename($filename, $notifyAndExitOnFailure = true) {
     }
     return true;
 }
-
-?>
