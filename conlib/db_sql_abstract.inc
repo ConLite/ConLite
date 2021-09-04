@@ -417,11 +417,31 @@ abstract class DB_Sql_Abstract {
      * @return  string
      */
     public function _prepareQueryf($sQuery, array $aArgs) {
+        var_dump($sQuery);
+        print_r($aArgs);
         if (count($aArgs) > 0) {
-            $aArgs = array_map(array($this, 'escape'), $aArgs);
-            array_unshift($aArgs, $sQuery);
-            $sQuery = call_user_func_array('sprintf', $aArgs);
+            if (count(array_filter(array_keys($aArgs), 'is_string')) > 0) {
+                foreach ($aArgs as $key => $value) {
+                    $param = ':' . $key;
+                    $statement = $sQuery;
+                    if (cSecurity::isInteger($value)) {
+                        $statement = preg_replace('/' . $param . '/', cSecurity::toInteger($value), $statement);
+                        $statement = preg_replace('/\'' . $param . '\'/', '\'' . cSecurity::toInteger($value) . '\'', $statement);
+                    } else {
+                        $param = cSecurity::toString($param);
+                        $statement = preg_replace('/' . $param . '/', cSecurity::escapeString($value), $statement);
+                        $statement = preg_replace('/\'' . $param . '\'/', '\'' . cSecurity::escapeString($value) . '\'', $statement);
+                        $statement = preg_replace('/`' . $param . '`/', '`' . cSecurity::escapeString($value) . '`', $statement);
+                    }
+                    $sQuery = $statement;
+                }
+            } else {
+                $aArgs = array_map(array($this, 'escape'), $aArgs);
+                array_unshift($aArgs, $sQuery);
+                $sQuery = call_user_func_array('sprintf', $aArgs);
+            }
         }
+        var_dump($sQuery);
         return $sQuery;
     }
 
@@ -755,9 +775,9 @@ abstract class DB_Sql_Abstract {
         self::$_aProfileData[] = array(
             'time' => $fEndTime - $fStartTime,
             'query' => $sQuery
-                /*,
-            'ErrNo' => static::_getErrorNumber(),
-            'ErrMess' => static::_getErrorMessage()*/
+                /* ,
+                  'ErrNo' => static::_getErrorNumber(),
+                  'ErrMess' => static::_getErrorMessage() */
         );
     }
 
@@ -783,21 +803,21 @@ abstract class DB_Sql_Abstract {
             printf("<pre>" . $sMsg . "</pre>\n");
         }
     }
-    
+
     /**
      * returns info about db-server
      * 
      * return string
      */
     abstract public function getServerInfo();
-    
+
     /**
      * returns client encoding
      * 
      * return string
      */
     abstract public function getClientEncoding();
-    
+
     /**
      * returns client info
      * 
