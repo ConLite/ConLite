@@ -48,11 +48,32 @@ if (!defined("CON_FRAMEWORK")) {
 }
 
 $contenido_path = '';
-# include the config file of the frontend to init the Client and Language Id
-include_once ("config.php");
 
-# Contenido startup process
-include_once ($contenido_path . 'includes/startup.php');
+// Set path to current frontend
+$frontend_path = str_replace('\\', '/', realpath(dirname(__FILE__) . '/')) . '/';
+
+// Include the environment definer file
+include_once($frontend_path . 'environment.php');
+
+if (defined('CL_ENVIRONMENT')) {
+    include_once($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.php');
+
+    if (file_exists($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.local.php')) {
+        @include($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.local.php');
+    }
+} else {
+    if(file_exists($frontend_path.'config.php')) {
+        include_once($frontend_path.'config.php');
+    }
+     if(file_exists($frontend_path.'config.local.php')) {
+        include_once($frontend_path.'config.local.php');
+    }
+}
+
+if (!is_file($contenido_path . 'includes/startup.php')) {
+    die("<h1>Fatal Error</h1><br>Couldn't include ConLite startup.");
+}
+include_once($contenido_path . 'includes/startup.php');
 
 cInclude("includes", "functions.con.php");
 cInclude("includes", "functions.con2.php");
@@ -137,10 +158,8 @@ if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
 // @TODO: Should be outsourced into startup process but requires a better detection (frontend or backend)
 Contenido_Security::checkFrontendGlobals();
 
-
 // update urlbuilder set http base path 
 Contenido_Url::getInstance()->getUrlBuilder()->setHttpBasePath($cfgClient[$client]['htmlpath']['frontend']);
-
 
 // Initialize language
 if (!isset($lang)) {
@@ -226,7 +245,6 @@ $aParams = array(
     'lang' => $lang, 'error' => '1'
 );
 $errsite = 'Location: ' . Contenido_Url::getInstance()->buildRedirect($aParams);
-
 
 /*
  * Try to initialize variables $idcat, $idart, $idcatart, $idartlang
