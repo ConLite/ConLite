@@ -12,7 +12,8 @@
         "vendor-dir": "conlite/external"
     },
     "require": {
-        "endroid/qr-code": "4.2.*"
+        "endroid/qr-code": "4.2.*",
+        "phpmailer/phpmailer": "v5.2.*"
     },
     "autoload": {
         "psr-4": {
