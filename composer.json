@@ -1,6 +1,7 @@
 {
-    "name": "vendor/con-lite21",
-    "description": "Description of project ConLite21.",
+    "name": "vendor/conlite",
+    "description": "ConLite vendor libs",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "oldperl",
@@ -12,7 +13,7 @@
     },
     "require": {
         "phpmailer/phpmailer": "v6.5.*",
-        "endroid/qr-code": "4.2.2"
+        "endroid/qr-code": "4.2.*"
     },
     "autoload": {
         "psr-4": {
