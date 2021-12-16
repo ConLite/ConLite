@@ -33,9 +33,10 @@ ini_set("error_log", "../data/logs/setup_errorlog.txt");
 header('Content-Type: text/html; charset=UTF-8');
 
 // Check php version
-if (version_compare(PHP_VERSION, C_SETUP_MIN_PHP_VERSION, '<')
-        || version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>')) {
+if (version_compare(PHP_VERSION, C_SETUP_MIN_PHP_VERSION, '<')) {
     die("You need PHP >= " . C_SETUP_MIN_PHP_VERSION . " to install ConLite " . C_SETUP_VERSION . ". Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
+} else if (version_compare(PHP_VERSION, C_SETUP_MAX_PHP_VERSION, '>=')) {
+     die("You need PHP < " . C_SETUP_MAX_PHP_VERSION . " to install ConLite " . C_SETUP_VERSION . ". Sorry, even the setup doesn't work otherwise. Your version: " . PHP_VERSION . "\n");
 }
 
 
