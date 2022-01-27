@@ -134,10 +134,10 @@ class DB_Sql extends DB_Sql_Abstract {
         );
 
 
-        if (isset($aCon['charset'])) {
-            @mysqli_set_charset($dbh, $aCon['charset']);
+        if (!empty($aCon['charset'])) {
+            mysqli_set_charset($dbh, $aCon['charset']);
         } else {
-            @mysqli_set_charset($dbh, 'utf8');
+            mysqli_set_charset($dbh, 'utf8');
         }
 
         //echo mysqli_character_set_name($dbh);
