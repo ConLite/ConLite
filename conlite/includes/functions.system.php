@@ -205,6 +205,12 @@ function compareUrlStrings($arrConUrl, $arrBrowserUrl) {
     return true;
 }
 
+/**
+ * Convert parse_url array to string
+ * 
+ * @param array $parsed_url
+ * @return string URL
+ */
 function unparse_url($parsed_url) {
     $scheme = isset($parsed_url['scheme']) && is_string($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '';
     $host = isset($parsed_url['host']) && is_string($parsed_url['host']) ? $parsed_url['host'] : '';
