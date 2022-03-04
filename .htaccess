@@ -14,7 +14,7 @@
 # $Id: htaccess_simple.txt 145 2019-10-25 16:00:47Z oldperl $
 ################################################################################
 
-#SetEnv CONLITE_ENVIRONMENT development
+#SetEnv CONLITE_ENVIRONMENT dievino
 
 <IfModule mod_rewrite.c>
 
