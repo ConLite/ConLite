@@ -46,9 +46,13 @@ if (!defined('CON_FRAMEWORK')) {
  *                      string is shorter there will be no tooltipp
  * @return string - string, which contains short path name and tooltipp if neccessary
  */
-function generateDisplayFilePath($sDisplayPath, $iLimit) {
-    $sDisplayPath = (string) trim($sDisplayPath);
-    $iLimit = (int) $iLimit;
+function generateDisplayFilePath($mDisplayPath, $mLimit) {
+    if(is_null($mDisplayPath)) {
+        $sDisplayPath = '';
+    } else {
+        $sDisplayPath = (string) trim($mDisplayPath);
+    }
+    $iLimit = intval($mLimit);
     if (strlen($sDisplayPath) > $iLimit) {
         $sDisplayPathShort = capiStrTrimHard($sDisplayPath, $iLimit);
 
@@ -58,18 +62,18 @@ function generateDisplayFilePath($sDisplayPath, $iLimit) {
         $aPathFragments = explode('/', $sDisplayPath);
 
         foreach ($aPathFragments as $sFragment) {
-            if ($sFragment != '') {
-                if (strlen($sFragment) > ($iLimit - 5)) {
-                    $sFragment = capiStrTrimHard($sFragment, $iLimit);
-                }
+            if (empty($sFragment)) {
+                continue;
+            }
 
-                if ($iCharcount + strlen($sFragment) + 1 > $iLimit) {
-                    $sTooltippString .= '<br>' . $sFragment . '/';
-                    $iCharcount = strlen($sFragment);
-                } else {
-                    $iCharcount = $iCharcount + 1 + strlen($sFragment);
-                    $sTooltippString .= $sFragment . '/';
-                }
+            if (strlen($sFragment) > ($iLimit - 5)) {
+                $sFragment = capiStrTrimHard($sFragment, $iLimit);
+            } else if ($iCharcount + strlen($sFragment) + 1 > $iLimit) {
+                $sTooltippString .= '<br>' . $sFragment . '/';
+                $iCharcount = strlen($sFragment);
+            } else {
+                $iCharcount = $iCharcount + 1 + strlen($sFragment);
+                $sTooltippString .= $sFragment . '/';
             }
         }
 
@@ -111,8 +115,7 @@ function uplDirectoryListRecursive($currentdir, $startdir = NULL, $files = array
         foreach ($sorted_files as $file) {
             if ($file != ".." && $file != ".") {
 
-                if ((filetype(getcwd() . "/" . $file) == "dir") &&
-                        (opendir(getcwd() . "/" . $file) !== false)) {
+                if ((filetype(getcwd() . "/" . $file) == "dir") && (opendir(getcwd() . "/" . $file) !== false)) {
                     $a_file['name'] = $file;
                     $a_file['depth'] = $depth;
                     $a_file['pathstring'] = $pathstring . $file . '/';

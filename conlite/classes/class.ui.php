@@ -1027,10 +1027,10 @@ class cScrollList {
     var $listStart;
 
     /**
-     * sortable flag
-     * @var string
+     * sortable array
+     * @var array
      */
-    var $sortable;
+    protected $_aSortable;
 
     /**
      * sortlink
@@ -1080,7 +1080,7 @@ class cScrollList {
 
         $this->resultsPerPage = 0;
         $this->listStart = 1;
-        $this->sortable = false;
+        $this->_aSortable = [];
 
         $this->objTable = new cHTMLTable();
         if ($defaultstyle == true) {
@@ -1126,7 +1126,7 @@ class cScrollList {
      * @param $sortable boolean true or false
      */
     function setSortable($key, $sortable) {
-        $this->sortable[$key] = $sortable;
+        $this->_aSortable[$key] = $sortable;
     }
 
     /**
@@ -1330,8 +1330,8 @@ class cScrollList {
 
         /* Render header */
         foreach ($this->header as $key => $value) {
-            if (is_array($this->sortable)) {
-                if (array_key_exists($key, $this->sortable) && $this->sortable[$key] == true) {
+            if (is_array($this->_aSortable)) {
+                if (array_key_exists($key, $this->_aSortable) && $this->_aSortable[$key] == true) {
                     $this->sortlink->setContent($value);
                     $this->sortlink->setCustom("sortby", $key);
 

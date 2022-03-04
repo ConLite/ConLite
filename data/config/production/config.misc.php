@@ -139,16 +139,21 @@ $cfg['native_i18n'] = false;
  */
 
 /* Don't display errors */
-@ini_set("display_errors", false);
+ini_set("display_errors", false);
 
 /* Log errors to a file */
-@ini_set("log_errors", true);
+ini_set("log_errors", true);
 
 /* The file in which we write the error log */
-@ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
+ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
 
-/* Report all errors except warnings */
-if ($cfg["develop"]["show_errors"] && $_SERVER['SERVER_NAME'] == "local.dceserver.de") {
+/**
+ *  Report all errors except warnings 
+ * @todo change first if to use a local config var for servername
+ *  
+ **/
+if ($cfg["develop"]["show_errors"] 
+        && filter_input(INPUT_SERVER, 'SERVER_NAME', FILTER_SANITIZE_STRING) == "local.dceserver.de") {
     error_reporting(E_ALL);
 } else {
     if ($cfg["develop"]["show_deprecated"]) {
@@ -322,4 +327,3 @@ $cfg['password']['numbers_mandatory'] = 3;
  */
 // Define here all content types which includes special module translations (dont forget the prefix "CMS_"!)
 $cfg['translatable_content_types'] = array('CMS_TEASER', 'CMS_FILELIST');
-?>

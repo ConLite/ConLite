@@ -92,6 +92,10 @@ class DB_Sql extends DB_Sql_Abstract {
             return null;
         }
 
+        // PHP 8.1 fix
+        $driver = new mysqli_driver();
+        $driver->report_mode = MYSQLI_REPORT_OFF;
+
         $dbh = mysqli_init();
         //print_r($dbh);
         if (!$dbh) {
@@ -123,7 +127,7 @@ class DB_Sql extends DB_Sql_Abstract {
             $aCon['socket'] = null;
         }
         if (!isset($aCon['flags'])) {
-            $aCon['flags'] = null;
+            $aCon['flags'] = MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT;
         }
         if (!isset($aCon['database'])) {
             $aCon['database'] = null;
@@ -326,30 +330,30 @@ class DB_Sql extends DB_Sql_Abstract {
     }
 
     /**
-    * @see DB_Sql_Abstract::_metaData()
-    *  * Due to compatibility problems with Table we changed the behavior
-    * of metadata();
-    * depending on $full, metadata returns the following values:
-    *
-    * - full is false (default):
-    * $result[]:
-    *   [0]["table"]  table name
-    *   [0]["name"]   field name
-    *   [0]["type"]   field type
-    *   [0]["len"]    field length
-    *   [0]["flags"]  field flags
-    *
-    * - full is true
-    * $result[]:
-    *   ["num_fields"] number of metadata records
-    *   [0]["table"]  table name
-    *   [0]["name"]   field name
-    *   [0]["type"]   field type
-    *   [0]["len"]    field length
-    *   [0]["flags"]  field flags
-    *   ["meta"][field name]  index of field named "field name"
-    *   This last one could be used if you have a field name, but no index.
-    *   Test:  if (isset($result['meta']['myfield'])) { ...
+     * @see DB_Sql_Abstract::_metaData()
+     *  * Due to compatibility problems with Table we changed the behavior
+     * of metadata();
+     * depending on $full, metadata returns the following values:
+     *
+     * - full is false (default):
+     * $result[]:
+     *   [0]["table"]  table name
+     *   [0]["name"]   field name
+     *   [0]["type"]   field type
+     *   [0]["len"]    field length
+     *   [0]["flags"]  field flags
+     *
+     * - full is true
+     * $result[]:
+     *   ["num_fields"] number of metadata records
+     *   [0]["table"]  table name
+     *   [0]["name"]   field name
+     *   [0]["type"]   field type
+     *   [0]["len"]    field length
+     *   [0]["flags"]  field flags
+     *   ["meta"][field name]  index of field named "field name"
+     *   This last one could be used if you have a field name, but no index.
+     *   Test:  if (isset($result['meta']['myfield'])) { ...
      */
     protected function _metaData($table = '', $full = false) {
         $count = 0;
@@ -392,7 +396,7 @@ class DB_Sql extends DB_Sql_Abstract {
 
         $count = 0;
         while ($finfo = $id->fetch_field()) {
-           //rint_r($finfo);
+            //rint_r($finfo);
             $res[$count]['table'] = $finfo->table;
             $res[$count]['name'] = $finfo->name;
             $res[$count]['type'] = $this->_aDataTypes[$finfo->type];
@@ -420,10 +424,13 @@ class DB_Sql extends DB_Sql_Abstract {
      * @see DB_Sql_Abstract::escape()
      */
     public function escape($sString) {
+        if(is_null($sString)) {
+            $sString = '';
+        }
         $sResult = '';
         if (is_resource($this->Link_ID) || $this->connect()) {
             $sResult = mysqli_real_escape_string($this->Link_ID, $sString);
-        };
+        }
         return $sResult;
     }
 
@@ -440,7 +447,7 @@ class DB_Sql extends DB_Sql_Abstract {
                 $return[$i]['table_name'] = $info[0];
                 $return[$i]['tablespace_name'] = $this->Database;
                 $return[$i]['database'] = $this->Database;
-                $i ++;
+                $i++;
             }
 
             mysqli_free_result($h);
