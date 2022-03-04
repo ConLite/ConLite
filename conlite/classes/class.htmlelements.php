@@ -672,7 +672,7 @@ class cHTMLSelectElement extends cHTMLFormElement {
      */
     function setDefault($lvalue) {
         $bSet = false;
-
+        $lvalue = cString::nullToString($lvalue);
         if (is_array($this->_options)) {
             foreach ($this->_options as $key => $value) {
                 if (strcmp($value->getAttribute("value"), $lvalue) == 0) {

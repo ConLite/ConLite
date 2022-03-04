@@ -424,10 +424,13 @@ class DB_Sql extends DB_Sql_Abstract {
      * @see DB_Sql_Abstract::escape()
      */
     public function escape($sString) {
+        if(is_null($sString)) {
+            $sString = '';
+        }
         $sResult = '';
         if (is_resource($this->Link_ID) || $this->connect()) {
             $sResult = mysqli_real_escape_string($this->Link_ID, $sString);
-        };
+        }
         return $sResult;
     }
 

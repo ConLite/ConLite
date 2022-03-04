@@ -715,4 +715,19 @@ class cString extends cStringMultiByteWrapper {
 
         return $string;
     }
+    
+    /**
+     * Convert null string to empty string
+     * 
+     * @param string $string 
+     * @return string
+     */
+    public static function nullToString($string) {
+        //var_dump($string);
+        if(empty($string) || is_null($string)) {
+            $string = '';
+        }    
+        //var_dump($string);
+        return $string;
+    }
 }

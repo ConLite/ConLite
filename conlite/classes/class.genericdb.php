@@ -1712,8 +1712,13 @@ abstract class Item extends cItemBaseAbstract {
      * @return  mixed  Filtered data
      */
     public function _inFilter($mData) {
-        if (is_numeric($mData) || is_array($mData))
+        if (is_numeric($mData) || is_array($mData)) {
             return $mData;
+        }
+        
+        if(is_null($mData)) {
+            $mData = '';
+        }
 
         foreach ($this->_arrInFilters as $_function) {
             if (function_exists($_function)) {
