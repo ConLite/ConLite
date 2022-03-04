@@ -212,7 +212,7 @@ class pimSetupPluginInstall extends pimSetupBase {
     private function _addNavMain() {
         $aAttributes = array();
 
-        $iCountNavMain = count(self::$XmlNavMain->nav);
+        $iCountNavMain = (is_countable(self::$XmlNavMain->nav))?count(self::$XmlNavMain->nav):0;
         if ($iCountNavMain > 0) {
             $oNavMainColl = new cApiNavMainCollection();
 
