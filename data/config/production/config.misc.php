@@ -159,12 +159,8 @@ if ($cfg["develop"]["show_errors"]
     if ($cfg["develop"]["show_deprecated"]) {
         error_reporting(E_ALL ^ E_NOTICE);
     } else {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) { // remove unknown deprecated for PHP < 5.3
-            error_reporting(E_ALL ^ E_NOTICE);
-        } else if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+         if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_WARNING);
-        } else if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_STRICT);
         } else {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED);
         }
