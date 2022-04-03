@@ -123,7 +123,7 @@ $sess->register("errsite_idcat");
 $sess->register("errsite_idart");
 $sess->register("encoding");
 
-if ($cfgClient["set"] != "set") {
+if (empty($cfgClient["set"]) || $cfgClient["set"] != "set") {
     rereadClients();
 }
 
