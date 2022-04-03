@@ -525,7 +525,8 @@ abstract class cHTML5Common implements ArrayAccess
      * @return boolean Returns true on success or false on failure.
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      */
-    public function offsetExists(mixed $offset): bool
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset)
     {
         return isset($this->attributes[strtolower($offset)]);
     }

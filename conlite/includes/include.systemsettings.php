@@ -38,6 +38,7 @@ $aManagedValues = array('versioning_prune_limit', 'update_check', 'update_news_f
     'system_mail_sender_name', 'pw_request_enable', 'maintenance_mode', 'edit_area_activated',
     'backend_preferred_idclient', 'generator_basehref', 'generator_xhtml', 'imagemagick_available',
     'system_insight_editing_activated');
+$sWarning = '';
 
 if ($action == "systemsettings_save_item") {
     if (!in_array($systype . '_' . $sysname, $aManagedValues)) {

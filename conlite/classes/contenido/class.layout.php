@@ -69,7 +69,7 @@ class cApiLayout extends Item {
      * @param  mixed  $mId  Specifies the ID of item to load
      */
     public function __construct($mId = false) {
-        global $cfg;
+        $cfg = cRegistry::getConfig();
         parent::__construct($cfg["tab"]["lay"], "idlay");
         $this->setFilters(array(), array());
         
@@ -78,7 +78,7 @@ class cApiLayout extends Item {
             $this->_setLayPath();
         }
         
-        $oClient = new cApiClient($client);
+        $oClient = new cApiClient(cRegistry::getClientId());
         $aClientProp = $oClient->getPropertiesByType('layfileedit');
         if(count($aClientProp) > 0) {
             $this->_aLayFileEditConf = array_merge($this->_aLayFileEditConf, $aClientProp);

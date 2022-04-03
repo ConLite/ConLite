@@ -174,10 +174,10 @@ class UI_Menu {
 
             foreach ($this->link as $key => $value) {
                 if ($value != NULL) {
-                    if ($this->imagewidth[$key] != 0) {
+                    if (!empty($this->imagewidth[$key]) && !empty ($this->image[$key])) {
                         $value->setContent('<img border="0" src="' . $this->image[$key] . '" width="' . $this->imagewidth[$key] . '">');
                         $img = $value->render();
-                    } else {
+                    } else if(!empty ($this->image[$key])) {
                         $value->setContent('<img border="0" src="' . $this->image[$key] . '">');
                         $img = $value->render();
                     }
@@ -186,14 +186,12 @@ class UI_Menu {
                 } else {
                     $link = $this->title[$key];
 
-                    if ($this->image[$key] != "") {
+                    if (!empty($this->image[$key])) {
                         if ($this->imagewidth[$key] != 0) {
                             $img = '<img border="0" src="' . $this->image[$key] . '" width="' . $this->imagewidth[$key] . '">';
                         } else {
                             $img = '<img border="0" src="' . $this->image[$key] . '">';
                         }
-                    } else {
-                        $img = "&nbsp;";
                     }
                 }
 
@@ -212,21 +210,24 @@ class UI_Menu {
                         $bgColor = $cfg["color"]["table_light_active"];
                     }
 
-                    if ($this->extra[$key] == 'id="marked" ') {
+                    if (!empty($this->extra[$key]) && $this->extra[$key] == 'id="marked" ') {
                         $bgColor = $cfg["color"]["table_light_active"];
                     }
                 }
 
                 $tpl->set('d', 'NAME', $link);
 
-                if ($this->image[$key] == "") {
+                if (empty($this->image[$key])) {
                     $tpl->set('d', 'ICON', '');
                 } else {
                     $tpl->set('d', 'ICON', $img);
                 }
 
-                if ($this->extra[$key] != "" || $this->rowmark == true) {
+                if (!empty($this->extra[$key]) || $this->rowmark == true) {
                     $extraadd = "";
+                    if(empty($this->extra[$key])) {
+                        $this->extra[$key] = '';
+                    }
 
                     if ($this->rowmark == true) {
                         $extraadd = 'onmouseover="row.over(this)" onmouseout="row.out(this)" onclick="row.click(this)"';
@@ -439,7 +440,7 @@ class UI_Table_Form {
 
         if (is_array($this->items)) {
             foreach ($this->items as $key => $value) {
-                if ($this->itemType[$key] == 'subheader') {
+                if (isset($this->itemType[$key]) && $this->itemType[$key] == 'subheader') {
                     $subheader = '<tr class="text_medium" style="background-color: ' . $cfg["color"]["table_header"] . ';">';
                     $subheader .= '<td colspan="2" valign="top" style="border: 0px;border-top: 0px; border-bottom:0px; border-right:1px;border-color: ' . $cfg["color"]["table_border"] . '; border-style: solid;">' . $this->captions[$key] . '</td></tr>';
 
@@ -703,6 +704,7 @@ class UI_Page {
 
 class Link {
 
+    var $alt = '';
     var $link;
     var $title;
     var $targetarea;
@@ -770,7 +772,8 @@ class Link {
 
     function render() {
         global $sess, $cfg;
-
+        $custom = '';
+        $attributes = '';
         if ($this->alt != "") {
             $alt = 'alt="' . $this->alt . '" title="' . $this->alt . '" ';
         } else {
@@ -819,7 +822,7 @@ class Link {
                 break;
         }
 
-        if ($this->images == '') {
+        if (empty($this->images)) {
             return ($link . $this->content . "</a>");
         } else {
             list($this->img_width, $this->img_height, $this->img_type, $this->img_attr) = getimagesize($cfg['path']['contenido'] . $this->images);
@@ -910,6 +913,7 @@ class UI_List {
         $colcount = 0;
 
         if (is_array($this->cells)) {
+            $dark = true;
             foreach ($this->cells as $row => $cells) {
                 $thefont = '';
                 $unne = '';
@@ -928,7 +932,7 @@ class UI_List {
                     $bgColor = $cfg["color"]["table_light"];
                 }
 
-                if ($this->bgcolor[$row] != "") {
+                if (!empty($this->bgcolor[$row])) {
                     $bgColor = $this->bgcolor[$row];
                 }
 
@@ -936,7 +940,7 @@ class UI_List {
                 $count = 0;
 
                 foreach ($cells as $key => $value) {
-                    $thefontDispl = $thefont . $this->extra[$row][$key];
+                    $thefontDispl = $thefont . (empty($this->extra[$row][$key]))?'':$this->extra[$row][$key];
                     $count++;
                     $tpl2->reset();
 
@@ -966,7 +970,7 @@ class UI_List {
                         $tpl2->set('s', 'ALIGN', 'left');
                     }
 
-                    if ($this->cellvalignment[$row][$key] != "") {
+                    if (!empty($this->cellvalignment[$row][$key])) {
                         $tpl2->set('s', 'VALIGN', $this->cellvalignment[$row][$key]);
                     } else {
                         $tpl2->set('s', 'VALIGN', 'top');

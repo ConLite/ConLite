@@ -805,7 +805,7 @@ function uplCreateFriendlyName($filename, $spacer = "_") {
 
     $newfilename = "";
 
-    if (!is_array($cfg['upl']['allow_additional_chars'])) {
+    if (!isset($cfg['upl']['allow_additional_chars']) || !is_array($cfg['upl']['allow_additional_chars'])) {
         $filename = str_replace(" ", $spacer, $filename);
     } elseif (in_array(' ', $cfg['upl']['allow_additional_chars']) === FALSE) {
         $filename = str_replace(" ", $spacer, $filename);
@@ -826,7 +826,7 @@ function uplCreateFriendlyName($filename, $spacer = "_") {
         }
 
         #Check for additionally allowed charcaters in $cfg['upl']['allow_additional_chars'] (must be array of chars allowed) 
-        if (is_array($cfg['upl']['allow_additional_chars']) && !$bFound) {
+        if (isset($cfg['upl']['allow_additional_chars']) && is_array($cfg['upl']['allow_additional_chars']) && !$bFound) {
             if (in_array($atom, $cfg['upl']['allow_additional_chars'])) {
                 $newfilename .= $atom;
             }
