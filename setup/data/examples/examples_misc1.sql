@@ -1,9 +1,0 @@
-INSERT INTO !PREFIX!_properties VALUES('1', '0', 'user_id', '48a365b4ce1e322a55ae9017f3daf0c0', 'itemsperpage', 'user', '25', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:58:18', '2019-10-29 16:58:18', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('2', '0', 'idclient', '1', 'backend', 'clientimage', '', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:58:49', '2019-10-29 16:58:49', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('3', '1', 'clientsetting', '1', 'generator', 'xhtml', 'false', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:58:49', '2019-10-29 16:58:49', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('4', '1', 'clientsetting', '1', 'generator', 'html5', 'true', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:58:49', '2019-10-29 16:58:49', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('5', '1', 'idlang', '1', 'dateformat', 'full', '', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:59:21', '2019-10-29 16:59:21', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('6', '1', 'idlang', '1', 'dateformat', 'date', '', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:59:21', '2019-10-29 16:59:21', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('7', '1', 'idlang', '1', 'dateformat', 'time', '', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:59:21', '2019-10-29 16:59:21', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('8', '1', 'idlang', '1', 'language', 'code', 'de', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:59:21', '2019-10-29 16:59:21', '48a365b4ce1e322a55ae9017f3daf0c0');
-INSERT INTO !PREFIX!_properties VALUES('9', '1', 'idlang', '1', 'country', 'code', 'de', '48a365b4ce1e322a55ae9017f3daf0c0', '2019-10-29 16:59:21', '2019-10-29 16:59:21', '48a365b4ce1e322a55ae9017f3daf0c0');
