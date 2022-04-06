@@ -264,20 +264,19 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
             $template = $db->f("template");
 
-            $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
-
-            $tmp1 = preg_split("/&/", $a_c[$value]);
-
             $varstring = array();
+            if (!empty($a_c[$value])) {
+                $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
+                $tmp1 = preg_split("/&/", $a_c[$value]);
 
-            foreach ($tmp1 as $key1 => $value1) {
+                foreach ($tmp1 as $key1 => $value1) {
 
-                $tmp2 = explode("=", $value1);
-                foreach ($tmp2 as $key2 => $value2) {
-                    $varstring["$tmp2[0]"] = $tmp2[1];
+                    $tmp2 = explode("=", $value1);
+                    foreach ($tmp2 as $key2 => $value2) {
+                        $varstring["$tmp2[0]"] = $tmp2[1];
+                    }
                 }
             }
-
             $CiCMS_Var = '$C' . $value . 'CMS_VALUE';
             $CiCMS_VALUE = '';
 
@@ -305,7 +304,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
                 $output = '<?php $modstart' . $value . ' = getmicrotime(); ?' . '>' . $output . '<?php $modend' . $value . ' = getmicrotime()+0.001; $modtime' . $value . ' = $modend' . $value . ' - $modstart' . $value . '; ?' . '>';
             }
 
-            if ($fedebug != "") {
+            if (!empty($fedebug)) {
                 $output = addslashes('<?php echo \'<img onclick="javascript:showmod' . $value . '();" src="' . $cfg['path']['contenido_fullhtml'] . 'images/but_preview.gif">\'; ?' . '>' . "<br>") . $output;
                 $output = $output . addslashes('<?php echo \'<script language="javascript">function showmod' . $value . ' () { window.alert(\\\'\'. "' . addslashes($fedebug) . '".\'\\\');} </script>\'; ?' . '>');
             }
@@ -471,7 +470,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
                 }
 
                 //add system meta tag if there is no user meta tag
-                if ($bExists == false && strlen($aAutValue['content']) > 0) {
+                if ($bExists == false && isset($aAutValue['content']) && strlen($aAutValue['content']) > 0) {
                     array_push($metatags, $aAutValue);
                 }
             }
@@ -481,7 +480,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
     foreach ($metatags as $value) {
         if (getEffectiveSetting('generator', 'html5', "false") == "true") {
-            if ($value['name'] == 'date')
+            if (isset($value['name']) && $value['name'] == 'date')
                 continue;
         }
         if (!empty($value['content'])) {
@@ -497,7 +496,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
         $oMetaTagGen->removeAttribute("id");
 
         /* Check if metatag already exists */
-        if (preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
+        if (isset($value["name"]) && preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
             $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
         } else if (array_key_exists("charset", $value)
                 && preg_match('/(<meta(?:\s+)charset(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(.*)(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(?:\s*|\/)(?:[\^\>]+)\r?\n?)/i', $code, $aTmetatagfound)) {

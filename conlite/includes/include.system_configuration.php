@@ -111,6 +111,7 @@ $aManagedProperties = array(
 					  );
 
 $aSettings = getSystemProperties(1);
+$sNotification = '';
 
 if (isset($_POST['action']) && $_POST['action'] == 'edit_sysconf' && $perm->have_perm_area_action($area, 'edit_sysconf')) {
    $bStored = false;
@@ -193,4 +194,3 @@ if ($perm->have_perm_area_action($area, 'edit_sysconf')) {
 }
 $oPage->addScript('setMenu', $sJs);
 $oPage->render();
-?>

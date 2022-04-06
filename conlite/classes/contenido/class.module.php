@@ -912,7 +912,7 @@ class cApiModule extends Item {
     }
 
     private function _displayNoteFromFile($bIsOldPath = FALSE) {
-        if ($this->_bNoted === true) {
+        if (isset($this->_bNoted) && $this->_bNoted === true) {
             return;
         }
         global $frame, $area;

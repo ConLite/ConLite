@@ -93,7 +93,7 @@ if ($cfg["use_pseudocron"] == true) {
  * PHPLIB application development toolkit
  * @see http://sourceforge.net/projects/phplib
  */
-if ($contenido) {
+if (!empty($contenido)) {
     //Backend
     page_open(array('sess' => 'Contenido_Session', 'auth' => 'Contenido_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
     i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
@@ -123,12 +123,12 @@ $sess->register("errsite_idcat");
 $sess->register("errsite_idart");
 $sess->register("encoding");
 
-if ($cfgClient["set"] != "set") {
+if (empty($cfgClient["set"]) || $cfgClient["set"] != "set") {
     rereadClients();
 }
 
 # Check if this request is for a compressed file
-if ($_GET['action'] == 'get_compressed') {
+if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
     # Get the calling parameters
     $sFilename = ((isset($_GET['f'])) ? $_GET['f'] : $_GET['amp;f']);
     $sContentType = ((isset($_GET['c'])) ? $_GET['c'] : $_GET['amp;c']);
@@ -264,9 +264,9 @@ if ($idart && !$idcat && !$idcatart) {
 unset($code);
 unset($markscript);
 
-if (!$idcatart) {
-    if (!$idart) {
-        if (!$idcat) {
+if (empty($idcatart)) {
+    if (empty($idart)) {
+        if (empty($idcat)) {
             # Note: In earlier Contenido versions the information if an article is startarticle of a category has been stored
             # in relation con_cat_art.
             if ($cfg["is_start_compatible"] == true) {
@@ -313,7 +313,7 @@ if (!$idcatart) {
                 $idart = $db->f("idart");
                 $idcat = $db->f("idcat");
             } else {
-                if ($contenido) {
+                if (!empty($contenido)) {
                     cInclude("includes", "functions.i18n.php");
                     die(i18n("No start article for this category"));
                 } else {
@@ -525,7 +525,7 @@ if ($contenido) {
 
 
 /* If mode is 'edit' and user has permission to edit articles in the current category  */
-if ($inUse == false && $allow == true && $view == "edit" && ($perm->have_perm_area_action_item("con_editcontent", "con_editart", $idcat))) {
+if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($perm->have_perm_area_action_item("con_editcontent", "con_editart", $idcat))) {
     cInclude("includes", "functions.tpl.php");
     cInclude("includes", "functions.con.php");
     include ($cfg["path"]["contenido"] . $cfg["path"]["includes"] . "include.con_editcontent.php");
@@ -606,10 +606,12 @@ if ($inUse == false && $allow == true && $view == "edit" && ($perm->have_perm_ar
     }
 
     /*  Add mark Script to code if user is in the backend */
-    $code = preg_replace("/<\/head>/i", "$markscript\n</head>", $code, 1);
+    if(!empty($markscript)) {
+        $code = preg_replace("/<\/head>/i", "$markscript\n</head>", $code, 1);
+    }
 
     /* If article is in use, display notification */
-    if ($sHtmlInUseCss && $sHtmlInUseMessage) {
+    if (!empty($sHtmlInUseCss) && !empty($sHtmlInUseMessage)) {
         $code = preg_replace("/<\/head>/i", "$sHtmlInUseCss\n</head>", $code, 1);
         $code = preg_replace("/(<body[^>]*)>/i", "\${1}> \n $sHtmlInUseMessage", $code, 1);
     }

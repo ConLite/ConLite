@@ -225,7 +225,7 @@ class MetaTagCreatorHtml5 {
      * @return boolean
      */
     protected function _addFacebookMetaTags() {
-        if(!$this->_aConfig['add_facebook_meta']) return;
+        if(empty($this->_aConfig['add_facebook_meta'])) return;
         // add always article data, cause they needed for fb-meta
         if($this->_aConfig['add_article_meta'] === false) {
             $this->_aConfig['add_article_meta'] = true;
