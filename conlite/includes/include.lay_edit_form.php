@@ -26,8 +26,7 @@ if (!defined('CON_FRAMEWORK')) {
 
 cInclude("external", "edit_area/class.edit_area.php");
 
-if (!isset($idlay))
-    $idlay = 0;
+$idlay = (isset($idlay))?$idlay:0;
 
 $page = new cPage;
 $layout = new cApiLayout();
