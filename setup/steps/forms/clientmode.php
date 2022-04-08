@@ -48,7 +48,7 @@ class cSetupClientMode extends cSetupMask {
         $aChoices["CLIENT"] = i18n_setup("Client without examples");
         $aChoices["NOCLIENT"] = i18n_setup("Don't create client");
         
-        $sChoiceDefault = "CLIENTEXAMPLES";
+        $sChoiceDefault = "NOCLIENT";
 
         foreach ($aChoices as $sKey => $sChoice) {
             if ($sChoice == "none") {

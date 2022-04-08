@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------
-This is the readme file for ConLite 2.1.2
+This is the readme file for ConLite 2.1.3
 
 Any help you need you may find by visiting the following links.
 
