@@ -1302,8 +1302,7 @@ class cScrollList {
 
         $this->sortkey = $field;
         $this->sortmode = $order;
-
-        $field = $field + 1;
+        $field = intval($field) + 1;
         $this->data = array_csort($this->data, "$field", $order);
     }
 

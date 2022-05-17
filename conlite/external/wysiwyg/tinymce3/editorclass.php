@@ -112,7 +112,7 @@ class cTinyMCEEditor extends cWYSIWYGEditor {
         }
 
         // GZIP
-        if ($this->_aSettings["contenido_gzip"] == "true") {
+        if (isset($this->_aSettings["contenido_gzip"]) && $this->_aSettings["contenido_gzip"] == "true") {
             $this->setGZIPMode(true);
         } else {
             $this->setGZIPMode(false);
