@@ -31,6 +31,8 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+//print_r($_SESSION);
+
 class cSetupSetupSummary extends cSetupMask {
 
     public function __construct($step, $previous, $next) {

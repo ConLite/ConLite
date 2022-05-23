@@ -174,6 +174,7 @@ return array(
     'cHTML5Button' => 'conlite/classes/cHTML5/class.chtml5.button.php',
     'cHTML5Meta' => 'conlite/classes/cHTML5/class.chtml5.meta.php',
     'cHTML' => 'conlite/classes/cHTML5/class.chtml.php',
+    'cHTML5Common' => 'conlite/classes/cHTML5/class.chtml5.common.php',
     'cHTML5List' => 'conlite/classes/cHTML5/class.chtml5.list.php',
     'XML_doc' => 'conlite/classes/class.xml.php',
     'Contenido_FrontendNavigation_Breadcrumb' => 'conlite/classes/Contenido_FrontendNavigation/Contenido_FrontendNavigation_Breadcrumb.class.php',

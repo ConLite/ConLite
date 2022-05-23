@@ -1732,6 +1732,9 @@ function sendPostRequest($host, $path, $data, $referer = "", $port = 80) {
 }
 
 function is_dbfs($file) {
+    if(is_null($file)) {
+        $file = '';
+    }
     if (substr($file, 0, 5) == "dbfs:") {
         return true;
     }

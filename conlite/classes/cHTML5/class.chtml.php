@@ -17,13 +17,14 @@
  * @link http://www.conlite.org ConLite.org
  */
 
+
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
-
+/*
 if (!class_exists("HTML_Common2")) {
     cInclude("pear", "HTML/Common2.php");
 }
-
+*/
 /* Global ID counter */
 $cHTMLIDCount = 0;
 
@@ -32,7 +33,7 @@ $cHTMLIDCount = 0;
  *
  * @author Ortwin Pinke <o.pinke@conlite.org>
  */
-class cHTML extends HTML_Common2 {
+class cHTML extends cHTML5Common {
     
     /**
      * Storage of the open SGML tag template

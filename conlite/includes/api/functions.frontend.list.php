@@ -89,12 +89,12 @@ class FrontendList
 	 * @param $endwrap		Wrap for the list end
 	 * @param $itemwrap		Wrap for a single item
      */	
-	function FrontendList ($startwrap, $endwrap, $itemwrap)
+	function __construct($startwrap, $endwrap, $itemwrap)
 	{
 		$this->resultsPerPage = 0;
 		$this->listStart = 1;
 		
-		$this->itemwrap = $itemwrap;
+		$this->itemwrap = (is_null($itemwrap))?'':$itemwrap;
 		$this->startwrap = $startwrap;
 		$this->endwrap = $endwrap;	
 	}

@@ -194,9 +194,15 @@ function logMessage($msg, $PC_writeDir, $PC_useLog, $PC_debug) {
 }
 
 function lTrimZeros($number) {
+    
+    /*
     while ($number[0] == '0') {
         $number = substr($number, 1);
     }
+     * 
+     */
+    
+    $number = intval(ltrim($number, '0'));
     return (is_numeric($number))?$number:0;
 }
 

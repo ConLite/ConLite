@@ -180,7 +180,7 @@ INSERT INTO !PREFIX!_files VALUES('402', '402', 'include.js_history.php', 'main'
 INSERT INTO !PREFIX!_files VALUES('403', '403', 'include.html_tpl_history.php', 'main');
 INSERT INTO !PREFIX!_files VALUES('415', '415', 'include.system_configuration.php', 'main');
 INSERT INTO !PREFIX!_files VALUES('503', '52', 'include.subnav.php', 'main');
-INSERT INTO !PREFIX!_files VALUES('700', '52', 'include.subnav_blank.php', 'main');
+INSERT INTO !PREFIX!_files VALUES('700', '52', 'include.subnav.php', 'main');
 INSERT INTO !PREFIX!_files VALUES('813', '811', 'include.system_purge.php', 'main');
 INSERT INTO !PREFIX!_files VALUES('814', '812', 'include.system_db_backup.php', 'main');
 INSERT INTO !PREFIX!_files VALUES('990', '990', 'pluginmanager/includes/include.right_bottom.php', 'main');

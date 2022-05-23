@@ -73,6 +73,10 @@ if (!isset($path) && $sess->is_registered("upl_last_path")) {
     $path = $upl_last_path;
 }
 
+if(is_null($path)) {
+    $path = '';
+}
+
 $appendparameters = $_REQUEST["appendparameters"];
 
 if (!isset($action))

@@ -377,6 +377,10 @@ class User {
      */
     function getUserProperty($type, $name, $group = false) {
         global $cfg, $perm;
+        
+        if(empty($this->values)) {
+            return false;
+        }
 
         if (!is_object($perm)) {
             $perm = new Contenido_Perm();

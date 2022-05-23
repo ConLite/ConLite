@@ -58,7 +58,7 @@ class cRegistry {
     public static function getFrontendPath() {
         $cfgClient = self::getClientConfig();
         $client = self::getClientId();
-        return $cfgClient[$client]['path']['frontend'];
+        return (empty($cfgClient))?'':$cfgClient[$client]['path']['frontend'];
     }
 
     /**

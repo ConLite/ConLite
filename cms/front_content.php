@@ -93,7 +93,7 @@ if ($cfg["use_pseudocron"] == true) {
  * PHPLIB application development toolkit
  * @see http://sourceforge.net/projects/phplib
  */
-if ($contenido) {
+if (!empty($contenido)) {
     //Backend
     page_open(array('sess' => 'Contenido_Session', 'auth' => 'Contenido_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
     i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
@@ -102,33 +102,24 @@ if ($contenido) {
     page_open(array('sess' => 'Contenido_Frontend_Session', 'auth' => 'Contenido_Frontend_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
 }
 
-/**
- * Bugfix
- * @see http://contenido.org/forum/viewtopic.php?t=18291
- *
- * added by H. Librenz (2007-12-07)
- */
-//includePluginConf();
-/**
- * fixed bugfix - using functions brokes variable scopes!
- *
- * added by H. Librenz (2007-12-21) based on an idea of A. Lindner
- */
 require_once $cfg['path']['contenido'] . $cfg['path']['includes'] . 'functions.includePluginConf.php';
 
-$db = new DB_Contenido;
+// Call hook after plugins are loaded, added by Murat Purc, 2008-09-07
+CEC_Hook::execute('Contenido.Frontend.AfterLoadPlugins');
+
+$db = new DB_ConLite();
 
 $sess->register("cfgClient");
 $sess->register("errsite_idcat");
 $sess->register("errsite_idart");
 $sess->register("encoding");
 
-if ($cfgClient["set"] != "set") {
+if (empty($cfgClient["set"]) || $cfgClient["set"] != "set") {
     rereadClients();
 }
 
 # Check if this request is for a compressed file
-if ($_GET['action'] == 'get_compressed') {
+if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
     # Get the calling parameters
     $sFilename = ((isset($_GET['f'])) ? $_GET['f'] : $_GET['amp;f']);
     $sContentType = ((isset($_GET['c'])) ? $_GET['c'] : $_GET['amp;c']);
@@ -264,9 +255,9 @@ if ($idart && !$idcat && !$idcatart) {
 unset($code);
 unset($markscript);
 
-if (!$idcatart) {
-    if (!$idart) {
-        if (!$idcat) {
+if (empty($idcatart)) {
+    if (empty($idart)) {
+        if (empty($idcat)) {
             # Note: In earlier Contenido versions the information if an article is startarticle of a category has been stored
             # in relation con_cat_art.
             if ($cfg["is_start_compatible"] == true) {
@@ -313,7 +304,7 @@ if (!$idcatart) {
                 $idart = $db->f("idart");
                 $idcat = $db->f("idcat");
             } else {
-                if ($contenido) {
+                if (!empty($contenido)) {
                     cInclude("includes", "functions.i18n.php");
                     die(i18n("No start article for this category"));
                 } else {
@@ -525,7 +516,7 @@ if ($contenido) {
 
 
 /* If mode is 'edit' and user has permission to edit articles in the current category  */
-if ($inUse == false && $allow == true && $view == "edit" && ($perm->have_perm_area_action_item("con_editcontent", "con_editart", $idcat))) {
+if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($perm->have_perm_area_action_item("con_editcontent", "con_editart", $idcat))) {
     cInclude("includes", "functions.tpl.php");
     cInclude("includes", "functions.con.php");
     include ($cfg["path"]["contenido"] . $cfg["path"]["includes"] . "include.con_editcontent.php");
@@ -606,10 +597,12 @@ if ($inUse == false && $allow == true && $view == "edit" && ($perm->have_perm_ar
     }
 
     /*  Add mark Script to code if user is in the backend */
-    $code = preg_replace("/<\/head>/i", "$markscript\n</head>", $code, 1);
+    if(!empty($markscript)) {
+        $code = preg_replace("/<\/head>/i", "$markscript\n</head>", $code, 1);
+    }
 
     /* If article is in use, display notification */
-    if ($sHtmlInUseCss && $sHtmlInUseMessage) {
+    if (!empty($sHtmlInUseCss) && !empty($sHtmlInUseMessage)) {
         $code = preg_replace("/<\/head>/i", "$sHtmlInUseCss\n</head>", $code, 1);
         $code = preg_replace("/(<body[^>]*)>/i", "\${1}> \n $sHtmlInUseMessage", $code, 1);
     }
@@ -652,7 +645,7 @@ if ($inUse == false && $allow == true && $view == "edit" && ($perm->have_perm_ar
                              WHERE B.name = 'front_allow' AND C.name = 'str' AND A.user_id = '" . Contenido_Security::escapeDB($user_id, $db2) . "' AND A.idcat = '" . Contenido_Security::toInteger($idcat) . "'
                                     AND A.idarea = C.idarea AND B.idaction = A.idaction";
 
-                    $db2 = new DB_Contenido;
+                    $db2 = new DB_ConLite();
                     $db2->query($sql);
 
                     if ($db2->num_rows() > 0) {
@@ -853,4 +846,3 @@ if (isset($savedlang)) {
 
 $db->disconnect();
 page_close();
-?>

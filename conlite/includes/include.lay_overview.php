@@ -49,7 +49,7 @@ while ($layout = $oLayouts->next()) {
     }
 
     $name  = $layout->get('name');
-    $descr = $layout->get('description');
+    $descr = cString::nullToString($layout->get('description'));
     $idlay = $layout->get('idlay');
 
     if (strlen($descr) > 64) {
@@ -102,7 +102,7 @@ while ($layout = $oLayouts->next()) {
 
     $tpl->set('d', 'TODO', $todo->render());
 
-    if (stripslashes($_REQUEST['idlay']) == $idlay) {
+    if (filter_var($_REQUEST['idlay'], FILTER_SANITIZE_NUMBER_INT) == $idlay) {
         $tpl->set('d', 'ID', 'marked');
     } else {
         $tpl->set('d', 'ID', '');

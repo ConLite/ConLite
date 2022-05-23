@@ -31,6 +31,8 @@ if (!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
+$bDebug = false;
+
 if (!$idcat) {
 	$idcat = Contenido_Security::toInteger($_REQUEST['idcat']);
 }
