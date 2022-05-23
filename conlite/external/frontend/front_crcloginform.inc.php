@@ -1,40 +1,25 @@
 <?php
 /**
- * Project: 
- * Contenido Content Management System
+ * file: front_crcloginform.inc.php
  * 
- * Description: 
- * <Description>
- * 
- * Requirements: 
- * @con_php_req 5
- * @con_template <Templatefiles>
- * @con_notice <Notice>
- * 
- *
- * @package    ContenidoBackendArea
- * @version    <version>
+ * @package    ConLite
+ * @subpackage Frontend
+ * @version    $Rev$
+ * @author     Ortwin Pinke
+ * @copyright  conrepo.org
+ * @link       http://conlite.conrepo.org
  * @author     Jan Lengowski
  * @copyright  four for business AG <www.4fb.de>
  * @license    http://www.contenido.org/license/LIZENZ.txt
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
- * 
- * 
- * 
- * {@internal 
- *   created  2003-01-21
- *   modified 2005-09-29, Andreas Lindner
- *   modified 2008-07-04, bilal arslan, added security fix
- *   modified 2008-11-18, Murat Purc, add usage of Contenido_Url to create urls to frontend pages and redesign of HTML markup
- *   modified 2009-01-03, Murat Purc, synchronized with cms/front_crcloginform.inc.php
- *   modified 2011-02-07, Dominik Ziegler, fixed check of but_ok.gif and changed input type button to submit
  *
  *   $Id$:
- * }}
- * 
  */
 
+/**
+ * security check
+ */
 if(!defined('CON_FRAMEWORK')) {
   die('Illegal call');
 }
@@ -108,18 +93,17 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $encoding[$lang] ?>" /> 
+    <meta charset="<?php echo $encoding[$lang] ?>" /> 
     <title>:: :: :: :: Contenido Login</title>
-    <script type="text/javascript"><!--
+    <script type="text/javascript">
     if (top != self) {
         top.location.href = self.location.href;
     }
-    // --></script>
-    <style type="text/css"><!--
+    </script>
+    <style type="text/css">
     * {margin:0; padding:0;}
     html, body {height: 100%;}
     body {background-color:#fff; font-family: Verdana, Arial, Helvetica, Sans-Serif; font-size: 11px; color:#000;}
@@ -134,7 +118,7 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
     #login .formHeader {font-weight:bold; background-color:<?php echo $cfg['color']['table_header'] ?>; border-bottom:1px solid <?php echo $cfg['color']['table_border'] ?>; padding:3px; margin-bottom:10px;}
     #login .formRow {padding:0 10px; height:31px;}
     #login .clear {clear:both;}
-    // --></style>
+    </style>
 </head>
 <body>
 
@@ -156,13 +140,14 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
     </form>
 </div>
 
-<script type="text/javascript"><!--
-if (document.login.username.value == '') {
-    document.login.username.focus();
-} else {
-    document.login.password.focus();
-}
-// --></script>
-
+<script type="text/javascript">
+    <!--
+    if (document.login.username.value == '') {
+        document.login.username.focus();
+    } else {
+        document.login.password.focus();
+    }
+    // -->
+</script>
 </body>
 </html>
