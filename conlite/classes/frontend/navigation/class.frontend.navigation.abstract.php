@@ -22,7 +22,7 @@
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
 
-class cFrontendNavigationAbstract {
+abstract class cFrontendNavigationAbstract {
     
     /**
      *

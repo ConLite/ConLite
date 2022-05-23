@@ -30,7 +30,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-class cDatatype {
+abstract class cDatatype {
     /* Effective value */
 
     var $_mValue;
@@ -67,5 +67,3 @@ class cDatatype {
     }
 
 }
-
-?>

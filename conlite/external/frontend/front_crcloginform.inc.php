@@ -119,7 +119,7 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
         top.location.href = self.location.href;
     }
     // --></script>
-    <style type="text/css"><!--
+    <style type="text/css">
     * {margin:0; padding:0;}
     html, body {height: 100%;}
     body {background-color:#fff; font-family: Verdana, Arial, Helvetica, Sans-Serif; font-size: 11px; color:#000;}
@@ -134,7 +134,7 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
     #login .formHeader {font-weight:bold; background-color:<?php echo $cfg['color']['table_header'] ?>; border-bottom:1px solid <?php echo $cfg['color']['table_border'] ?>; padding:3px; margin-bottom:10px;}
     #login .formRow {padding:0 10px; height:31px;}
     #login .clear {clear:both;}
-    // --></style>
+   </style>
 </head>
 <body>
 
