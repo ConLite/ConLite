@@ -119,7 +119,8 @@ class cApiModule extends Item {
      * @param  mixed  $mId  Specifies the ID of item to load
      */
     public function __construct($mId = false) {
-        global $cfg, $cfgClient, $client;
+        $cfg = cRegistry::getConfig();
+        $cfgClient = cRegistry::getClientConfig(cRegistry::getClientId());
         
         parent::__construct($cfg["tab"]["mod"], "idmod");
 
@@ -129,15 +130,17 @@ class cApiModule extends Item {
         // (data not from a form field)
         $this->setFilters(array(), array());
 
-        $this->_packageStructure = array("jsfiles" => $cfgClient[$client]["js"]["path"],
-            "tplfiles" => $cfgClient[$client]["tpl"]["path"],
-            "cssfiles" => $cfgClient[$client]["css"]["path"]);
+        $this->_packageStructure = array(
+            "jsfiles" => $cfgClient["js"]["path"],
+            "tplfiles" => $cfgClient["tpl"]["path"],
+            "cssfiles" => $cfgClient["css"]["path"]
+                );
 
         if (isset($cfg['dceModEdit']) && is_array($cfg['dceModEdit'])) {
-            $this->_aModFileEditConf['clientPath'] = $cfgClient[$client]["path"]["frontend"];
+            $this->_aModFileEditConf['clientPath'] = $cfgClient["path"]["frontend"];
             $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $cfg['dceModEdit']);
             if (!isset($cfg['dceModEdit']['modPath']) || empty($cfg['dceModEdit']['modPath'])) {
-                $this->_aModFileEditConf['modPath'] = $cfgClient[$client]["path"]["frontend"]
+                $this->_aModFileEditConf['modPath'] = $cfgClient["path"]["frontend"]
                         . $this->_aModFileEditConf['modFolderName'] . "/";
             }
         }
@@ -376,6 +379,8 @@ class cApiModule extends Item {
     /**
      * Checks if the module is a pre-4.3 module
      * @return boolean true if this module is an old one
+     * 
+     * @deprecated since version 2.0
      */
     public function isOldModule() {
         // Keywords to scan
