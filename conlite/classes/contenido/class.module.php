@@ -1057,6 +1057,8 @@ class cApiModule extends Item {
 class cApiModuleTranslationCollection extends ItemCollection {
 
     protected $_error;
+    
+    protected $f_obj;
 
     /**
      * Constructor Function

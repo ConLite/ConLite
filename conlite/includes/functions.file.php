@@ -210,7 +210,8 @@ function fileEdit($filename, $sCode, $path) {
     if (is_writable($path . $filename)) {
         if (strlen(stripslashes(trim($sCode))) > 0) {
             if (!empty($sCode)) {
-                $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+                mb_detect_encoding($sCode);
+                $sCode = mb_convert_encoding($sCode, 'UTF-8',mb_detect_encoding($sCode));
             }
             cFileHandler::write($path . $filename, $sCode);
             return true;
@@ -235,7 +236,8 @@ function fileEdit($filename, $sCode, $path) {
 function getFileContent($filename, $path) {
     $sCode = cFileHandler::read($path . $filename);
     if (!empty($sCode)) {
-        $sCode = mb_convert_encoding($sCode, 'UTF-8', 'OLD-ENCODING');
+        mb_detect_encoding($sCode);
+        $sCode = mb_convert_encoding($sCode, 'UTF-8', mb_detect_encoding($sCode));
     }
     return $sCode;
 }

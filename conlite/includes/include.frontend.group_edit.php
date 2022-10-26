@@ -158,7 +158,7 @@ if ($fegroup->virgin == false && $fegroup->get("idclient") == $client)
     	$fegroup->store();
 	}
 
-	if (count($messages) > 0)
+	if (is_array($messages) && count($messages) > 0)
 	{
 		$notis = $notification->returnNotification("warning", implode("<br>", $messages)) . "<br>";
 	}

@@ -475,7 +475,7 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
             }
 
             $imgsrc .= '.gif';
-
+            $tmp_img = '';
             if (($perm->have_perm_area_action("con", "con_makestart") || $perm->have_perm_area_action_item("con", "con_makestart", $idcat)) && $idcat != 0) {
                 if ($is_start == false) {
                     $tmp_link = '<a href="' . $sess->url("main.php?area=con&amp;idcat=$idcat&amp;action=con_makestart&amp;idcatart=$idcatart&amp;frame=4&is_start=1&amp;next=$next") . '" title="' . i18n("Flag as start article") . '"><img src="images/' . $imgsrc . '" border="0" title="' . i18n("Flag as start article") . '" alt="' . i18n("Flag as start article") . '" style="margin-left:3px;"></a>';

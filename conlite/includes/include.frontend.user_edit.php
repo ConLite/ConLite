@@ -162,7 +162,7 @@ if ($oFeUser->virgin == false && $oFeUser->get("idclient") == $client) {
         if($bStore) $oFeUser->store();
     }
     
-    if (count($messages) > 0)	{
+    if (is_array($messages) && count($messages) > 0)	{
         $notis = $notification->returnNotification("warning", implode("<br>", $messages)) . "<br>";
     }
 	

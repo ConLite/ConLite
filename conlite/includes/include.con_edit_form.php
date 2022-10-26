@@ -596,7 +596,8 @@ if ($action == "con_newart" && $newart != true) {
                         </script>';
 
         foreach ($availableTags as $key => $value) {
-            $tpl->set('d', 'METAINPUT', 'META' . $value);
+            // @todo seems to be unused, check if we can delete it (op 17.05.2022)
+            //$tpl->set('d', 'METAINPUT', 'META' . $value);
 
             switch ($value["fieldtype"]) {
                 case "text":

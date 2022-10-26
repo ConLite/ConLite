@@ -107,7 +107,7 @@ if (!$layout->virgin) {
         }
 
         $types = array_unique($types);
-        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+        if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
             $layout->setProperty("layout", "used-types", implode(";", $types));
         } else {
             $layout->setProperty("layout", "used-types", implode($types, ";"));

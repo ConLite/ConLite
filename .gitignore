@@ -21,3 +21,4 @@
 /conlite/logs/debug.log
 /cms/data/config/production/config.mod_rewrite.php
 /cms/data/config/production/config.local.php
+/cms/cache/*

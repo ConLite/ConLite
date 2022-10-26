@@ -102,21 +102,12 @@ if (!empty($contenido)) {
     page_open(array('sess' => 'Contenido_Frontend_Session', 'auth' => 'Contenido_Frontend_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
 }
 
-/**
- * Bugfix
- * @see http://contenido.org/forum/viewtopic.php?t=18291
- *
- * added by H. Librenz (2007-12-07)
- */
-//includePluginConf();
-/**
- * fixed bugfix - using functions brokes variable scopes!
- *
- * added by H. Librenz (2007-12-21) based on an idea of A. Lindner
- */
 require_once $cfg['path']['contenido'] . $cfg['path']['includes'] . 'functions.includePluginConf.php';
 
-$db = new DB_Contenido;
+// Call hook after plugins are loaded, added by Murat Purc, 2008-09-07
+CEC_Hook::execute('Contenido.Frontend.AfterLoadPlugins');
+
+$db = new DB_ConLite();
 
 $sess->register("cfgClient");
 $sess->register("errsite_idcat");
@@ -654,7 +645,7 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
                              WHERE B.name = 'front_allow' AND C.name = 'str' AND A.user_id = '" . Contenido_Security::escapeDB($user_id, $db2) . "' AND A.idcat = '" . Contenido_Security::toInteger($idcat) . "'
                                     AND A.idarea = C.idarea AND B.idaction = A.idaction";
 
-                    $db2 = new DB_Contenido;
+                    $db2 = new DB_ConLite();
                     $db2->query($sql);
 
                     if ($db2->num_rows() > 0) {
@@ -855,4 +846,3 @@ if (isset($savedlang)) {
 
 $db->disconnect();
 page_close();
-?>

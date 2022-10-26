@@ -14,7 +14,11 @@
 # $Id: htaccess_simple.txt 145 2019-10-25 16:00:47Z oldperl $
 ################################################################################
 
-#SetEnv CONLITE_ENVIRONMENT dievino
+# easily set this enviroment variable to the config you want to use
+# add a config folder with the same name in data/config and cms/data/config
+# and use your custom config for development
+
+#SetEnv CONLITE_ENVIRONMENT develop
 
 <IfModule mod_rewrite.c>
 
