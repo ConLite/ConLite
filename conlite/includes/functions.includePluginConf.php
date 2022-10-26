@@ -80,7 +80,7 @@ $ipc_conpluginpath = cRegistry::getPluginsPath();
  * 
  * @deprecated since version 2.0
  */
-if ($contenido) {
+if (isset($contenido)) {
     $lastscantime = getSystemProperty("system", "plugin-lastscantime");
 
     /* Clean up: Fetch and trim the plugin order */

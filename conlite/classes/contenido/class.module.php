@@ -145,7 +145,7 @@ class cApiModule extends Item {
             }
         }
 
-        $oClient = new cApiClient($client);
+        $oClient = new cApiClient(cRegistry::getClientId());
         $aClientProp = $oClient->getPropertiesByType('modfileedit');
         if (count($aClientProp) > 0) {
             $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $aClientProp);
