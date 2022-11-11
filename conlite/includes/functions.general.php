@@ -1428,23 +1428,9 @@ function isImageMagickAvailable() {
             return false;
         }
     }
-
-    $output = array();
-    $retval = 0;
-
-    @exec("convert", $output, $retval);
-
-    if (!is_array($output) || count($output) == 0) {
-        return false;
-    }
-
-    if (strpos($output[0], "ImageMagick") !== false) {
-        $_imagemagickAvailable = true;
-        return true;
-    } else {
-        $_imagemagickAvailable = false;
-        return false;
-    }
+    
+    $_imagemagickAvailable = (extension_loaded('imagick'))?true:false;
+    return $_imagemagickAvailable;
 }
 
 /**
