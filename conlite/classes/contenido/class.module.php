@@ -499,7 +499,7 @@ class cApiModule extends Item {
     private function _parseImportFile($sFile, $sType = "module", $sEncoding = "ISO-8859-1") {
         global $_mImport;
 
-        $oParser = new XmlParser($sEncoding);
+        $oParser = new clXmlParser($sEncoding);
 
         if ($sType == "module") {
             $oParser->setEventHandlers(array("/module/name" => "cHandler_ModuleData",
@@ -1133,7 +1133,7 @@ class cApiModuleTranslationCollection extends ItemCollection {
     public function import($idmod, $idlang, $file) {
         global $_mImport;
 
-        $parser = new XmlParser("ISO-8859-1");
+        $parser = new clXmlParser("ISO-8859-1");
 
         $parser->setEventHandlers(array("/module/translation/string/original" => "cHandler_ItemName",
             "/module/translation/string/translation" => "cHandler_Translation"));
