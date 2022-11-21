@@ -164,7 +164,6 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
         $raw_code = ($oLayout->virgin) ? "" : $oLayout->getLayout();
         tplPreparseLayout($idlay, $raw_code);
         $tmp_returnstring = tplBrowseLayoutForContainers($idlay, $raw_code);
-        var_dump($tmp_returnstring);
         if(empty($tmp_returnstring)) {
             $a_container = [];
         } else {

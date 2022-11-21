@@ -736,7 +736,7 @@ function conMakeCatOnline($idcat, $lang, $status)
                 WHERE idcat = '".Contenido_Security::toInteger($idcat)."' AND idlang = '".Contenido_Security::toInteger($lang)."'";
      $db->query($sql);
 
-	if ($cfg["pathresolve_heapcache"] == true && !$status = 0)
+	if (isset($cfg["pathresolve_heapcache"]) && $cfg["pathresolve_heapcache"] == true && !$status = 0)
 	{
 		$pathresolve_tablename = $cfg["sql"]["sqlprefix"]."_pathresolve_cache";
 		$sql = "DELETE FROM %s WHERE idlang = '%s' AND idcat = '%s'";

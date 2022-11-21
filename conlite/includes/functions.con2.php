@@ -237,32 +237,17 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
         $a_container = explode("&", $tmp_returnstring);
 
         foreach ($a_container as $key => $value) {
-
-            $sql = "SELECT output, template, name FROM " . $cfg["tab"]["mod"] . " WHERE idmod='" . $a_d[$value] . "'";
-
-            $db->query($sql);
-            $db->next_record();
-
+            
             if (is_numeric($a_d[$value])) {
                 $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
                 $thisContainer = '<?php $cCurrentContainer = ' . ((int) $value) . '; ?>';
             }
-            /* dceModFileEdit (c)2009 www.dceonline.de */
-            if ($cfg['dceModEdit']['use']
-                    && ($cfg['dceModEdit']['allModsFromFile'] == true
-                    || in_array((int) $a_d[$value], $cfg['dceModEdit']['modsFromFile']))) {
-                cInclude('classes', 'contenido/class.module.php');
-                $tmpModule = new cApiModule;
-                $tmpModule->loadByPrimaryKey($a_d[$value]);
-                $output = $thisModule . $thisContainer . $tmpModule->get("output");
-                unset($tmpModule);
-            } else {
-                $output = $thisModule . $thisContainer . $db->f("output");
-            }
-            /* dceModFileEdit (c)2009 www.dceonline.de */
-            $output = AddSlashes($output) . "\n";
 
-            $template = $db->f("template");
+            $oModule = new cApiModule($a_d[$value]);
+            $output = $thisModule . $thisContainer . $oModule->get("output");
+            $template = $oModule->get("template");
+
+            $output = AddSlashes($output) . "\n";
 
             $varstring = array();
             if (!empty($a_c[$value])) {
@@ -297,7 +282,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
                 $fedebug .= "Container: CMS_CONTAINER[$value]" . '\\\\n';
             }
             if ($frontend_debug["module_display"] == true) {
-                $fedebug .= "Modul: " . $db->f("name") . '\\\\n';
+                $fedebug .= "Modul: " . $oModule->get("name") . '\\\\n';
             }
             if ($frontend_debug["module_timing_summary"] == true || $frontend_debug["module_timing"] == true) {
                 $fedebug .= 'Eval-Time: $modtime' . $value . '\\\\n';
@@ -311,7 +296,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
             if ($frontend_debug["module_timing_summary"] == true) {
                 $output .= addslashes(' <?php $cModuleTimes["' . $value . '"] = $modtime' . $value . '; ?>');
-                $output .= addslashes(' <?php $cModuleNames["' . $value . '"] = "' . addslashes($db->f("name")) . '"; ?>');
+                $output .= addslashes(' <?php $cModuleNames["' . $value . '"] = "' . addslashes($oModule->get("name")) . '"; ?>');
             }
             /* Replace new containers */
             $code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)>(.*)<\/container>/Uis", "CMS_CONTAINER[$value]", $code);

@@ -860,13 +860,14 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
           if ($perm->have_perm_area_action("str_tplcfg","str_tplcfg") ||
           $perm->have_perm_area_action_item("str_tplcfg","str_tplcfg",$lidcat)) */
 
-        if (($perm->have_perm_area_action_item("con", "con_tplcfg_edit", $idcat) || $perm->have_perm_area_action("con", "con_tplcfg_edit"))) {
+        if (($perm->have_perm_area_action_item("con", "con_tplcfg_edit", $idcat) 
+                || $perm->have_perm_area_action("con", "con_tplcfg_edit"))) {
 
             if (0 != $idcat) {
 
                 $tpl->set('s', 'CATEGORY', $cat_name);
-                $tpl->set('s', 'CATEGORY_CONF', $tmp_img);
-                $tpl->set('s', 'CATEGORY_LINK', $tmp_link);
+                $tpl->set('s', 'CATEGORY_CONF', (!empty($tmp_img))?$tmp_img:'');
+                $tpl->set('s', 'CATEGORY_LINK', (!empty($tmp_link))?$tmp_link:'');
             } else {
                 $tpl->set('s', 'CATEGORY', $cat_name);
                 $tpl->set('s', 'CATEGORY_CONF', '&nbsp;');

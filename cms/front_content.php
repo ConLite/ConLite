@@ -242,7 +242,7 @@ $errsite = 'Location: ' . Contenido_Url::getInstance()->buildRedirect($aParams);
  * Note: These variables can be set via http globals e.g. front_content.php?idcat=41&idart=34&idcatart=35&idartlang=42
  * If not the values will be computed.
  */
-if ($idart && !$idcat && !$idcatart) {
+if (!empty($idart) && empty($idcat) && empty($idcatart)) {
     /* Try to fetch the first idcat */
     $sql = "SELECT idcat FROM " . $cfg["tab"]["cat_art"] . " WHERE idart = '" . Contenido_Security::toInteger($idart) . "'";
     $db->query($sql);
@@ -411,7 +411,7 @@ if ($cfg["cache"]["disable"] != '1') {
  * The reason is to avoid cross-site scripting errors in the backend, if the backend domain differs from
  * the frontend domain.
  */
-if ($contenido) {
+if (isset($contenido)) {
     $perm->load_permissions();
 
     /* Change mode edit / view */
@@ -527,7 +527,7 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
 ##############################################
 
     /* Mark submenuitem 'Preview' in the Contenido Backend (Area: Contenido --> Articles --> Preview) */
-    if ($contenido) {
+    if (isset($contenido)) {
         $markscript = markSubMenuItem(4, true);
     }
 

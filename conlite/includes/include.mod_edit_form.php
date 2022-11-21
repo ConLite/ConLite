@@ -357,7 +357,7 @@ function insertTab(event, obj) {
                 $page->setReload();
             }
         }
-        /* dceModFileEdit (c)2009-2011 www.dceonline.de */
+
         if ($cfg['dceModEdit']['use']) {
             // button for mod folder creation
             if (!$module->hasModuleFolder() && $action != "mod_new") {
@@ -380,7 +380,7 @@ function insertTab(event, obj) {
         } else {
             $form->add(i18n("Name"), $name->render());
         }
-        /* End dceModFileEdit (c)2009-2011 www.dceonline.de */
+
         $form->add(i18n("Type"), $typeselect->render() . $custom->render());
         $form->add(i18n("Description"), $descr->render());
 

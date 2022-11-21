@@ -64,7 +64,10 @@ class pimView extends Template{
 	public function setVariable($sVariable, $sName = '') {    
 		if(empty($sName)) {
 			$sName = strtoupper($$sVariable);
-		}    
+		}
+                if(is_array($sVariable)) {
+                    $sVariable = json_encode($sVariable);
+                }
 		$this->set('s', $sName, $sVariable);
 	}
 

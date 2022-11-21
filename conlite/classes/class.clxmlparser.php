@@ -7,9 +7,6 @@
  * Description: 
  * Contenido XML Parser
  * 
- * Requirements: 
- * @con_php_req 5.0
- * 
  *
  * @package    Contenido_XML
  * @version    1.0.9
@@ -19,79 +16,17 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
- *   created unknown
- *   modified 2008-06-30, Dominik Ziegler, add security fix
- *
- *   $Id$:
- * }}
- * 
  */
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
-
-/**
- * Class for parsing XML documents using SAX
- *
- * This class is a abstraction class for the PHP Expat XML functions. 
- * 
- * You can define handler functions/objects for start, end, PI and data sections (1.) or
- * your can define path which will trigger the defined event when encountered (2.)
- *
- * Example:
- *
- * 1.) $parser->setEvents(array("startElement"=> "myFunction", 
- *                              "endElement"=> "myFunction", 
- *                              "characterData"=> "myFunction", 
- *                              "processingInstruction" => "myFunction");
- *
- * The value can also be an array with the object reference and the method to call.
- * i.e. "startElement"=>array(&$myObj, "myMethod") instead of "startelement"=>"myFunction"
- *
- * 2.) $parser->setEvents(array("/root/foo/bar"=>"myFunction"));
- * 
- * Valid array keys are: 'startElement', 'endElement', 'characterData', 'processingInstruction' and paths
- * folowing the scheme '/root/element'. The path MUST begin from the root element and MUST start with '/'.
- *
- * The value can also be an array with the object reference and the method to call.
- * i.e. "/foo/bar"=>array(&$myObj, "myMethod") instead of "/foo/bar"=>"myFunction" 
- * 
- * It has 3 public methods:
- *
- * setEventHandlers - Set specific handlers for the xml parser
- * parseFile        - Used to parse a XML file
- * parse 	        - Used to parse a XML string
- *
- * A small example:
- * 
- * include ("class.xmlparser.php");
- * 
- * // The XML String
- * $xml = '
- * <?xml version="1.0"?>
- * <foo>
- *     <bar>some text</bar>
- *     <bar>another text</bar>	
- * </foo>';	
- * 
- * function myHandler($name, $attribs, $content)
- * {
- *     echo "<b style='color:red'>HIT</b>: [ <b>$name</b> ] [ $content ]<br/>";
- * }
- *
- * $parser = new XmlParser; // Parser instance
- * $parser->setEventHandlers(array("/foo/bar"=>"myHandler")); // Define our handler
- * $parser->parse($xml); // Parse the XML string
- *
- * Report bugs to: jan.lengowski@4fb.de
- *
+ /**
  * @author Jan Lengowski <Jan.Lengowski@4fb.de>
  * @copyright four for business AG <www.4fb.de>
  * @version 1.0
  */
-class XmlParser {
+class clXmlParser {
 
     /**
      * XML Parser autofree
