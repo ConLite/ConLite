@@ -152,8 +152,7 @@ ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
  * @todo change first if to use a local config var for servername
  *  
  **/
-if ($cfg["develop"]["show_errors"] 
-        && filter_input(INPUT_SERVER, 'SERVER_NAME', FILTER_SANITIZE_STRING) == "local.dceserver.de") {
+if ($cfg["develop"]["show_errors"]) {
     error_reporting(E_ALL);
 } else {
     if ($cfg["develop"]["show_deprecated"]) {

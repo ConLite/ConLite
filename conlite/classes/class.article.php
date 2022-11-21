@@ -247,9 +247,11 @@ class Article extends Item
      * @param string Property name
      * @return mixed Property value
      */
-    public function getField($name)
-    {
-        return urldecode($this->values[$name]);
+    public function getField($name) {
+        if(!is_null($name) && !empty($this->values[$name])) {
+            return urldecode($this->values[$name]);
+        }
+        
     }
 
     /**
