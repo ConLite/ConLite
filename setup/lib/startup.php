@@ -101,6 +101,7 @@ $cfg['native_i18n'] = false;
 
 // includes
 checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml5.common.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.filehandler.php');
