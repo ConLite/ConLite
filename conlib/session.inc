@@ -323,7 +323,7 @@ class cSession {
                 while ($l) {
                     ## Structural recursion.
                     $this->serialize($var . "->" . $l, $str);
-                    eval("\$l = next(\$${var}->persistent_slots);");
+                    eval("\$l = next(\${$var}->persistent_slots);");
                 }
 
                 break;
