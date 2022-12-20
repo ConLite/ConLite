@@ -1162,6 +1162,8 @@ class cHTMLLink extends cHTML {
 
     /* Stores the custom entries */
     var $_custom;
+    
+    protected $_type;
 
     /**
      * Constructor. Creates an HTML link.
