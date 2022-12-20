@@ -1449,6 +1449,9 @@ class cHTMLImage extends cHTML {
      * @access private
      */
     var $_height;
+    
+    protected $_border;
+    protected $_type;
 
     /**
      * Constructor. Creates an HTML IMG element.
