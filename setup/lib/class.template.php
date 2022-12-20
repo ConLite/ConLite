@@ -78,6 +78,9 @@ class Template {
      * @var array
      */
     var $tags = array('static' => '{%s}', 'start' => '<!-- BEGIN:BLOCK -->', 'end' => '<!-- END:BLOCK -->');
+    
+    protected $_sDomain;
+    protected $_encoding;
 
     /**
      * Constructor function
