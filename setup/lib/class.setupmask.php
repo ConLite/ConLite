@@ -28,18 +28,18 @@ class cSetupMask {
     /**
      * @var object Template
      */
-    private $_oTpl;
+    protected $_oTpl;
     
     /**
      * @var object Template
      */
-    private $_oStepTemplate;
+    protected $_oStepTemplate;
     
-    private $_sStepTemplate;
+    protected $_sStepTemplate;
     
-    private $_iStep;
+    protected $_iStep;
     
-    private $_bNavigationEnabled = false;
+    protected $_bNavigationEnabled = false;
 
     public function __construct($sStepTemplate, $iStep = false) {
         $this->_oTpl = new Template();
