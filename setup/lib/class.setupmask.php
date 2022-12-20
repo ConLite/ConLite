@@ -24,14 +24,29 @@ if (!defined('CON_FRAMEWORK')) {
 }
 
 class cSetupMask {
+    
+    /**
+     * @var object Template
+     */
+    private $_oTpl;
+    
+    /**
+     * @var object Template
+     */
+    private $_oStepTemplate;
+    
+    private $_sStepTemplate;
+    
+    private $_iStep;
+    
+    private $_bNavigationEnabled = false;
 
     public function __construct($sStepTemplate, $iStep = false) {
-        $this->_oTpl = new Template;
-        $this->_oStepTemplate = new Template;
+        $this->_oTpl = new Template();
+        $this->_oStepTemplate = new Template();
 
         $this->_sStepTemplate = $sStepTemplate;
         $this->_iStep = $iStep;
-        $this->_bNavigationEnabled = false;
     }
 
     public function setNavigation($sBackstep, $sNextstep) {
