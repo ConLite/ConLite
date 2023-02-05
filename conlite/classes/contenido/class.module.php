@@ -493,8 +493,8 @@ class cApiModule extends Item {
      */
     private function _parseImportFile($sFile, $sType = "module", $sEncoding = "ISO-8859-1") {
         global $_mImport;
-
-        $oParser = new XmlParser($sEncoding);
+        
+        $oParser = new clXmlParser($sEncoding);
 
         if ($sType == "module") {
             $oParser->setEventHandlers(array("/module/name" => "cHandler_ModuleData",

@@ -91,7 +91,7 @@ if (!defined('CON_FRAMEWORK')) {
  * @copyright four for business AG <www.4fb.de>
  * @version 1.0
  */
-class XmlParser {
+class clXmlParser {
 
     /**
      * XML Parser autofree
