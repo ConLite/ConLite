@@ -249,7 +249,7 @@ return array(
     'ArtSpecCollection' => 'conlite/classes/class.artspec.php',
     'ArtSpecItem' => 'conlite/classes/class.artspec.php',
     'Layout' => 'conlite/classes/class.layout.php',
-    'XmlParser' => 'conlite/classes/class.xmlparser.php',
+    'clXmlParser' => 'conlite/classes/class.xmlparser.php',
     'Contenido_UrlBuilder_CustomPath' => 'conlite/classes/UrlBuilder/Contenido_UrlBuilder_CustomPath.class.php',
     'Contenido_UrlBuilder_Frontcontent' => 'conlite/classes/UrlBuilder/Contenido_UrlBuilder_Frontcontent.class.php',
     'Contenido_UrlBuilderFactory' => 'conlite/classes/UrlBuilder/Contenido_UrlBuilderFactory.class.php',
