@@ -22,3 +22,4 @@
 /cms/data/config/production/config.mod_rewrite.php
 /cms/data/config/production/config.local.php
 /cms/cache/*
+/setup/lib/defines.local.php
