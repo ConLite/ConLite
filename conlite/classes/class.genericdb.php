@@ -1311,7 +1311,7 @@ abstract class Item extends cItemBaseAbstract {
      * List of funcion names of the filtersused when data is retrieved from the db
      * @var  array
      */
-    protected $_arrOutFilters = array('stripslashes', 'htmldecode','urldecode');
+    protected $_arrOutFilters = array('stripslashes', 'htmldecode','urldecode', 'utf8_encode');
 
     /**
      * Class name of meta object
