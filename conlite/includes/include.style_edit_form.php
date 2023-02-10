@@ -158,10 +158,8 @@ if (!$perm->have_perm_area_action($area, $action)) {
         if ($_REQUEST['action'] == $sActionEdit) {
             $sCode = getFileContent($sFilename, $path);
         } else {
-            $sCode = $_REQUEST['code']; # stripslashes is required here in case of creating a new file
+            $sCode = $_REQUEST['code'];
         }
-
-        $aFileInfo = getFileInformation($client, $sTempFilename, "css", $db);
 
         $form = new UI_Table_Form("file_editor");
         $form->addHeader(i18n("Edit file"));
@@ -173,16 +171,24 @@ if (!$perm->have_perm_area_action($area, $action)) {
         $form->setVar("tmp_file", $sTempFilename);
 
         $tb_name = new cHTMLTextbox("file", $sFilename, 60);
-        $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
-        $descr = new cHTMLTextarea("description", clHtmlSpecialChars($aFileInfo["description"]), 100, 5);
-
-        $ta_code->setStyle("font-family: monospace;width: 100%;");
-        $descr->setStyle("font-family: monospace;width: 100%;");
-        $ta_code->updateAttributes(array("wrap" => getEffectiveSetting('style_editor', 'wrap', 'off')));
-
         $form->add(i18n("Name"), $tb_name);
-        $form->add(i18n("Description"), $descr->render());
+        
+        $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
+        $ta_code->updateAttributes(array("wrap" => getEffectiveSetting('style_editor', 'wrap', 'off')));
+        $ta_code->setStyle("font-family: monospace;width: 100%;");
         $form->add(i18n("Code"), $ta_code);
+        
+        $aFileInfo = getFileInformation($client, $sTempFilename, "css", $db);
+        if(!empty($aFileInfo["description"])) {
+            $sDescription = clHtmlSpecialChars($aFileInfo["description"]);
+        } else {
+            $sDescription = '';
+        }
+        
+        $descr = new cHTMLTextarea("description", $sDescription, 100, 5);
+
+        $descr->setStyle("font-family: monospace;width: 100%;");
+        $form->add(i18n("Description"), $descr->render());
 
         $page->setContent($form->render());
 
@@ -193,4 +199,3 @@ if (!$perm->have_perm_area_action($area, $action)) {
         $page->render();
     }
 }
-?> 

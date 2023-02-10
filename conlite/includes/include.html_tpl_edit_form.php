@@ -174,6 +174,11 @@ if (!$perm->have_perm_area_action($area, $action)) {
         }
 
         $aFileInfo = getFileInformation($client, $sTempFilename, $sTypeContent, $db);
+         if(!empty($aFileInfo["description"])) {
+            $sDescription = clHtmlSpecialChars($aFileInfo["description"]);
+        } else {
+            $sDescription = '';
+        }
 
         $form = new UI_Table_Form("file_editor");
         $form->addHeader(i18n("Edit file"));
@@ -186,7 +191,7 @@ if (!$perm->have_perm_area_action($area, $action)) {
 
         $tb_name = new cHTMLTextbox("file", $sFilename, 60);
         $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
-        $descr = new cHTMLTextarea("description", clHtmlSpecialChars($aFileInfo["description"]), 100, 5);
+        $descr = new cHTMLTextarea("description", $sDescription, 100, 5);
 
         $ta_code->setStyle("font-family: monospace;width: 100%;");
         $descr->setStyle("font-family: monospace;width: 100%;");
