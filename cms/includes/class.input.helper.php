@@ -526,5 +526,3 @@ class UI_Config_Table {
     }
 
 }
-
-?>
