@@ -130,7 +130,7 @@ class cI18n {
 
         // Is emulator to use?
         if (!$cfg['native_i18n']) {
-            return htmlentities(self::emulateGettext($string, $domain));
+            return self::emulateGettext($string, $domain);
         }
 
         // Try to use native gettext implementation

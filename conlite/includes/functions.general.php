@@ -2221,4 +2221,66 @@ function IP_match($network, $mask, $ip) {
     }
 }
 
-?>
+/**
+ * Wrapper for php-function htmlspecialchars
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses htmlspecialchars php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the converted string
+ */
+function clHtmlSpecialChars(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+    return htmlspecialchars($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function html_entity_decode
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses html_entity_decode php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the decoded string
+ */
+function clHtmlEntityDecode(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+    return html_entity_decode($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function htmlentities
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses htmlentities php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the converted string
+ */
+function clHtmlEntities(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+    return htmlentities($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function get_html_translation_table
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses get_html_translation_table php-function
+ *
+ * @param int $table
+ * @param int $flags
+ * @param string $encoding
+ * @return array
+ */
+function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = null) {
+    return get_html_translation_table($table, $flags, $encoding);
+}
