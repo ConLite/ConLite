@@ -57,8 +57,7 @@ class cHTMLFormElement extends cHTML {
         if (is_string($id) && !empty($id)) {
             $this->updateAttributes(array("id" => $id));
         }
-
-        $this->setClass("text_medium"); // TODO: Remove this...
+        
         $this->setDisabled($disabled);
         $this->setTabindex($tabindex);
         $this->setAccessKey($accesskey);
@@ -931,7 +930,7 @@ class cHTMLRadiobutton extends cHTMLFormElement {
      */
     function toHtml($renderLabel = true) {
         $attributes = $this->getAttributes(true);
-
+        //print_r($attributes);
         if ($renderLabel == false) {
             return $this->fillSkeleton($attributes);
         }
@@ -1029,37 +1028,30 @@ class cHTMLCheckbox extends cHTMLFormElement {
      * @return string Rendered HTML
      */
     function toHtml($renderlabel = true) {
+        $attributes = $this->getAttributes(true);
+        
+        if ($renderlabel == false) {
+            return $this->fillSkeleton($attributes);
+        }
+
         $id = $this->getAttribute("id");
+        
         $renderedLabel = "";
 
-        if ($renderlabel == true) {
-            if ($id != "") {
-                $label = new cHTMLLabel($this->_value, $this->getAttribute("id"));
+        if ($id != "") {
+            $label = new cHTMLLabel($this->_value, $this->getAttribute("id"));
 
-                $label->setClass($this->getAttribute("class"));
-
-                if ($this->_labelText != "") {
-                    $label->setLabelText($this->_labelText);
-                }
-
-                $renderedLabel = $label->toHtml();
-            } else {
-
-                $renderedLabel = $this->_value;
-
-                if ($this->_labelText != "") {
-                    $label = new cHTMLLabel($this->_value, $this->getAttribute("id"));
-                    $label->setLabelText($this->_labelText);
-                    $renderedLabel = $label->toHtml();
-                }
+            if ($this->_labelText != "") {
+                $label->setLabelText($this->_labelText);
             }
 
-            return '<table border="0" cellspacing="0" cellpadding="0"><tr><td nowrap="nowrap">' . parent::toHTML() . '</td><td nowrap="nowrap">' . $renderedLabel . '</td></tr></table>';
+            $renderedLabel = $label->toHtml();
         } else {
-            return parent::toHTML();
+            $renderedLabel = $this->_value;
         }
-    }
 
+        return $this->fillSkeleton($attributes) . $renderedLabel;        
+    }
 }
 
 /**
