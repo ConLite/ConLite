@@ -593,7 +593,7 @@ class cHTMLSelectElement extends cHTMLFormElement {
      * All cHTMLOptionElements
      * @var array
      */
-    var $_options;
+    var $_options = [];
 
     /**
      * Constructor. Creates an HTML select field (aka "DropDown").
