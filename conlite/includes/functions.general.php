@@ -2052,57 +2052,6 @@ function notifyOnError($errortitle, $errormessage) {
     }
 }
 
-function cIDNAEncode($sourceEncoding, $string) {
-    if (extension_loaded("iconv")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = iconv("UTF-8", $sourceEncoding, $string);
-        $string = $idn->encode($string);
-
-        return ($string);
-    }
-
-    if (extension_loaded("recode")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = $idn->decode($string);
-        $string = recode_string("UTF-8.." . $sourceEncoding, $string);
-        return $string;
-    }
-
-    return $string;
-}
-
-function cIDNADecode($targetEncoding, $string) {
-    if (extension_loaded("iconv")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = $idn->decode($string);
-        $string = iconv($targetEncoding, "UTF-8", $string);
-
-        return ($string);
-    }
-
-    if (extension_loaded("recode")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = recode_string($targetEncoding . "..UTF-8", $string);
-        $string = $idn->decode($string);
-
-        return $string;
-    }
-
-    return $string;
-}
-
 /**
  * Checks for a named key of an array, pushes it if not set with a default value
  * 

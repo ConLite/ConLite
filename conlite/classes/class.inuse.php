@@ -294,5 +294,3 @@ class InUseItem extends Item
         }
     }
 }
-
-?>

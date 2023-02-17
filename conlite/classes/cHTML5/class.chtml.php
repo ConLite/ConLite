@@ -20,11 +20,7 @@
 
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
-/*
-if (!class_exists("HTML_Common2")) {
-    cInclude("pear", "HTML/Common2.php");
-}
-*/
+
 /* Global ID counter */
 $cHTMLIDCount = 0;
 
