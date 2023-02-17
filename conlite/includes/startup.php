@@ -71,7 +71,7 @@ if (!defined('CL_ENVIRONMENT')) {
  */
 if (!defined('CL_VERSION')) {
 
-define('CL_VERSION', '2.3.0 RC');
+define('CL_VERSION', '3.0.0 RC');
 
 }
 
