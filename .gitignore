@@ -24,3 +24,4 @@
 /cms/cache/*
 /setup/lib/defines.local.php
 /cms/js/fancybox/
+/.dev/
