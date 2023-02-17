@@ -122,7 +122,7 @@ function canWriteFile($sFilename) {
          * a wrong information
          */
         $fp = @fopen($sRandFilenamePath, "w");
-        if ($fp) {
+        if (is_resource($fp)) {
             @fclose($fp);
             unlink($sRandFilenamePath);
             return true;
@@ -143,8 +143,10 @@ function canWriteFile($sFilename) {
         /* Ignore errors in case isWriteable() returns
          * a wrong information
          */
-        $fp = @fopen($sFilename, "w");
-        @fclose($fp);
+        $fp = fopen($sFilename, "w");
+        if (is_resource($fp)) {
+            fclose($fp);
+        }
 
         if (file_exists($sFilename)) {
             @unlink($sFilename);
