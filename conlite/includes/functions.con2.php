@@ -237,7 +237,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
         $a_container = explode("&", $tmp_returnstring);
 
         foreach ($a_container as $key => $value) {
-            
+
             if (is_numeric($a_d[$value])) {
                 $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
                 $thisContainer = '<?php $cCurrentContainer = ' . ((int) $value) . '; ?>';
@@ -573,21 +573,18 @@ function conGetAvailableMetaTagTypes() {
  * @return string tag value or empty string
  */
 function conGetMetaValue($idartlang, $idmetatype) {
+    $sRet = "";
+    if (!empty($idartlang)) {
+        $oMetaTags = new cApiMetaTagCollection();
+        $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
+        $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
+        $oMetaTags->query();
 
-    if ($idartlang == 0)
-        return;
-
-    $oMetaTags = new cApiMetaTagCollection();
-    $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
-    $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
-    $oMetaTags->query();
-
-    if ($oMetaTags->count() > 0) {
-        $sRet = $oMetaTags->next()->get('metavalue');
-    } else {
-        $sRet = "";
+        if ($oMetaTags->count() > 0) {
+            $sRet = $oMetaTags->next()->get('metavalue');
+        }
+        unset($oMetaTags); // save mem
     }
-    unset($oMetaTags); // save mem
     return $sRet;
 }
 
