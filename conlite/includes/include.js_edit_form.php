@@ -145,7 +145,7 @@ if (!$perm->have_perm_area_action($area, $action)) {
         if ($_REQUEST['action'] == $sActionEdit) {
             $sCode = getFileContent($sFilename, $path);
         } else {
-            $sCode = $_REQUEST['code']; # stripslashes is required here in case of creating a new file
+            $sCode = empty($_REQUEST['code'])?'':$_REQUEST['code'];
         }
 
         $form = new UI_Table_Form("file_editor");
