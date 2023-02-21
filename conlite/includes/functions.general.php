@@ -2182,7 +2182,7 @@ function IP_match($network, $mask, $ip) {
  * @param string $encoding default UTF-8
  * @return string Returns the converted string
  */
-function clHtmlSpecialChars(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlSpecialChars(string $value, ?int $flags = ENT_COMPAT|ENT_HTML401, ?string $encoding = 'UTF-8') {
     return htmlspecialchars($value, $flags, $encoding);
 }
 
@@ -2198,7 +2198,7 @@ function clHtmlSpecialChars(string $value, int $flags = ENT_COMPAT|ENT_HTML401, 
  * @param string $encoding default UTF-8
  * @return string Returns the decoded string
  */
-function clHtmlEntityDecode(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlEntityDecode(string $value, ?int $flags = ENT_COMPAT|ENT_HTML401, ?string $encoding = 'UTF-8') {
     return html_entity_decode($value, $flags, $encoding);
 }
 
@@ -2214,7 +2214,7 @@ function clHtmlEntityDecode(string $value, int $flags = ENT_COMPAT|ENT_HTML401, 
  * @param string $encoding default UTF-8
  * @return string Returns the converted string
  */
-function clHtmlEntities(string $value, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlEntities(string $value, ?int $flags = ENT_COMPAT|ENT_HTML401, ?string $encoding = 'UTF-8') {
     return htmlentities($value, $flags, $encoding);
 }
 
@@ -2230,6 +2230,6 @@ function clHtmlEntities(string $value, int $flags = ENT_COMPAT|ENT_HTML401, stri
  * @param string $encoding
  * @return array
  */
-function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_COMPAT|ENT_HTML401, string $encoding = null) {
+function clGetHtmlTranslationTable(?int $table = HTML_SPECIALCHARS, ?int $flags = ENT_COMPAT|ENT_HTML401, ?string $encoding = null) {
     return get_html_translation_table($table, $flags, $encoding);
 }
