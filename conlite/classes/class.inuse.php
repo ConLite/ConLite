@@ -255,7 +255,7 @@ class InUseCollection extends ItemCollection
                 }
 
                 if (!is_object($notification)) {
-                    $notification = new Contenido_Notification;
+                    $notification = new Contenido_Notification();
                 }
 
                 $noti = $notification->messageBox("warning", $message.$override, 0);
