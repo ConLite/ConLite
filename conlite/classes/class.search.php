@@ -225,13 +225,13 @@ class Index extends SearchBaseAbstract {
      *
      * @var array
      */
-    var $cms_type = array();
+    protected static $_cms_type = [];
 
     /**
      * the suffix of all available cms types
      * @var array
      */
-    var $cms_type_suffix = array();
+    protected static $_cms_type_suffix = [];
 
     /**
      * Constructor, set object properties
@@ -270,6 +270,8 @@ class Index extends SearchBaseAbstract {
             $this->idart = $idart;
         }
 
+        $this->_debug('Start Index for ', $this->idart);
+
         $this->place = $place;
         $this->keycode = $aContent;
         $this->setStopwords($aStopwords);
@@ -283,7 +285,14 @@ class Index extends SearchBaseAbstract {
         $old_keys = array_keys($this->keywords_old);
 
         $this->keywords_del = array_diff($old_keys, $new_keys);
-
+        /*
+          echo '<pre>';
+          print_r($new_keys);
+          print_r($old_keys);
+          print_r($this->keywords_del);
+          echo '</pre>';
+         * 
+         */
         if (count($this->keywords_del) > 0) {
             $this->deleteKeywords();
         }
@@ -312,7 +321,7 @@ class Index extends SearchBaseAbstract {
             foreach ($this->keycode as $idtype => $data) {
                 if ($this->checkCmsType($idtype)) {
                     foreach ($data as $typeid => $code) {
-                        $this->_debug('code', $code);
+                        $this->_debug('createKeywords: raw code from data array', $code);
 
                         $code = stripslashes($code); // remove backslash
                         $code = str_ireplace(array('<br>', '<br />'), "\n", $code); // replace HTML line breaks with newlines
@@ -320,13 +329,18 @@ class Index extends SearchBaseAbstract {
                         if (strlen($code) > 0) {
                             $code = clHtmlEntityDecode($code);
                         }
-                        $this->_debug('code', $code);
+                        $this->_debug('createKeywords: code after clean', $code);
 
                         $tmp_keys = preg_split('/[\s,]+/', trim($code)); // split content by any number of commas or space characters
-                        $this->_debug('tmp_keys', $tmp_keys);
+                        $this->_debug('createKeywords: tmp_keys', $tmp_keys);
 
                         foreach ($tmp_keys as $value) {
                             $value = strtolower($value); // index terms are stored with lower case
+                            $value = preg_replace('/[^\w]+/u', '', $value);
+
+                            if (empty(trim($value))) {
+                                continue;
+                            }
 
                             if (!in_array($value, $this->stopwords)) {
                                 // eliminate stopwords
@@ -335,6 +349,7 @@ class Index extends SearchBaseAbstract {
                                 if (strlen($value) > 1) {
                                     // do not index single characters
                                     $this->keywords[$value] = $this->keywords[$value] . $idtype . '-' . $typeid . ' ';
+                                    $this->_debug('createKeywords: entry array keywords', $this->keywords);
                                 }
                             }
                         }
@@ -345,7 +360,7 @@ class Index extends SearchBaseAbstract {
             }
         }
 
-        $this->_debug('keywords', $this->keywords);
+        $this->_debug('createKeywords: keywords returned', $this->keywords);
     }
 
     /**
@@ -357,9 +372,10 @@ class Index extends SearchBaseAbstract {
         $tmp_count = array();
 
         foreach ($this->keywords as $keyword => $count) {
+            $bProceed = true;
+            $this->_debug('keyword', $keyword);
             $tmp_count = preg_split('/[\s]/', trim($count));
             $this->_debug('tmp_count', $tmp_count);
-
             $occurrence = count($tmp_count);
             $tmp_count = array_unique($tmp_count);
             $cms_types = implode(',', $tmp_count);
@@ -376,8 +392,12 @@ class Index extends SearchBaseAbstract {
                             ('" . Contenido_Security::escapeDB($keyword, $this->db) . "', '" . Contenido_Security::escapeDB($index_string, $this->db) . "', " . Contenido_Security::toInteger($this->lang) . ", " . Contenido_Security::toInteger($nextid) . ")";
             } else {
                 // if keyword allready exists, create new index_string
-                if (preg_match("/&$this->idart=/", $this->keywords_old[$keyword])) {
-                    $index_string = preg_replace("/&$this->idart=[0-9]+\([\w-,]+\)/", $index_string, $this->keywords_old[$keyword]);
+                if (preg_match("/&" . $this->idart . "=/", $this->keywords_old[$keyword])) {
+                    $index_string = preg_replace("/&" . $this->idart . "=[0-9]+\([,\w-]+\)/", $index_string, $this->keywords_old[$keyword]);
+                    if ($index_string === $this->keywords_old[$keyword]) {
+                        $bProceed = false;
+                        $this->_debug('db update', 'no update needed');
+                    }
                 } else {
                     $index_string = $this->keywords_old[$keyword] . $index_string;
                 }
@@ -386,9 +406,11 @@ class Index extends SearchBaseAbstract {
                         SET " . $this->place . " = '" . $index_string . "'
                         WHERE idlang='" . Contenido_Security::toInteger($this->lang) . "' AND keyword='" . Contenido_Security::escapeDB($keyword, $this->db) . "'";
             }
-            $this->_debug('sql', $sql);
 
-            $this->db->query($sql);
+            if ($bProceed) {
+                $this->_debug('sql', $sql);
+                $this->db->query($sql);
+            }
         }
     }
 
@@ -431,7 +453,7 @@ class Index extends SearchBaseAbstract {
                     idlang=" . Contenido_Security::toInteger($this->lang) . "  AND
                     (keyword IN ('" . $keys . "')  OR " . $this->place . " REGEXP '&" . Contenido_Security::toInteger($this->idart) . "=')";
 
-        $this->_debug('sql', $sql);
+        $this->_debug('getKeywords: sql', $sql);
 
         $this->db->query($sql);
 
@@ -440,6 +462,8 @@ class Index extends SearchBaseAbstract {
         while ($this->db->next_record()) {
             $this->keywords_old[$this->db->f('keyword')] = $this->db->f($place);
         }
+
+        $this->_debug('getKeywords: array keywords_old', $this->keywords_old);
     }
 
     /**
@@ -448,6 +472,7 @@ class Index extends SearchBaseAbstract {
      * @return $key
      */
     function removeSpecialChars($key) {
+
         $aSpecialChars = array(
             "-", "_", "'", ".", "!", "\"", "#", "$", "%", "&", "(", ")", "*", "+", ",", "/",
             ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "`", "{", "|", "}", "~"
@@ -461,6 +486,7 @@ class Index extends SearchBaseAbstract {
         // a client and should not be treated in this method.
         // modified 2007-10-01, H. Librenz - added as hotfix for encoding problems (doesn't find any words with
         //                                      umlaut vowels in it since you turn on UTF-8 as language encoding)
+
         $sEncoding = getEncodingByLanguage($this->db, $this->lang, $this->cfg);
 
         if (strtolower($sEncoding) != 'iso-8859-2') {
@@ -485,6 +511,9 @@ class Index extends SearchBaseAbstract {
 
         $key = clHtmlEntityDecode($key);
         $key = str_replace($aSpecialChars, '', $key);
+
+        ini_set('mbstring.substitute_character', "none");
+        $key = mb_convert_encoding($key, 'UTF-8', 'UTF-8');
 
         return $key;
     }
@@ -517,6 +546,21 @@ class Index extends SearchBaseAbstract {
     }
 
     /**
+     * 
+     * @return array array with arrays of type and typesuffix
+     */
+    public function getContentTypes(): array {
+        if (empty(self::$_cms_type)) {
+            $this->setContentTypes();
+        }
+
+        return array(
+            'cms_type' => self::$_cms_type,
+            'cms_type_suffix' => self::$_cms_type_suffix
+        );
+    }
+
+    /**
      * set the array of stopwords which should not be indexed
      * @param array $aStopwords
      * @return void
@@ -537,8 +581,8 @@ class Index extends SearchBaseAbstract {
         $this->_debug('sql', $sql);
         $this->db->query($sql);
         while ($this->db->next_record()) {
-            $this->cms_type[$this->db->f('type')] = $this->db->f('idtype');
-            $this->cms_type_suffix[$this->db->f('idtype')] = substr($this->db->f('type'), 4, strlen($this->db->f('type')));
+            self::$_cms_type[$this->db->f('type')] = $this->db->f('idtype');
+            self::$_cms_type_suffix[$this->db->f('idtype')] = substr($this->db->f('type'), 4, strlen($this->db->f('type')));
         }
     }
 
@@ -554,11 +598,11 @@ class Index extends SearchBaseAbstract {
 
                 if (strlen($opt) > 0) {
                     if (!stristr($opt, 'cms_')) {
-                        if (in_array($opt, $this->cms_type_suffix)) {
+                        if (in_array($opt, $this->getContentTypes()['cms_type_suffix'])) {
                             $this->cms_options[$opt] = 'CMS_' . $opt;
                         }
                     } else {
-                        if (array_key_exists($opt, $this->cms_type)) {
+                        if (array_key_exists($opt, $this->getContentTypes()['cms_type'])) {
                             $this->cms_options[$opt] = $opt;
                         }
                     }
@@ -788,8 +832,8 @@ class Search extends SearchBaseAbstract {
 
         $this->index = new Index($oDB);
 
-        $this->cms_type = $this->index->cms_type;
-        $this->cms_type_suffix = $this->index->cms_type_suffix;
+        $this->cms_type = $this->index->getContentTypes()['cms_type'];
+        $this->cms_type_suffix = $this->index->getContentTypes()['cms_type_suffix'];
 
         $this->search_option = (array_key_exists('db', $options)) ? strtolower($options['db']) : 'regexp';
         $this->search_combination = (array_key_exists('combine', $options)) ? strtolower($options['combine']) : 'or';
@@ -1339,11 +1383,11 @@ class SearchResult extends SearchBaseAbstract {
         $cms_type = strtoupper($cms_type);
         if (strlen($cms_type) > 0) {
             if (!stristr($cms_type, 'cms_')) {
-                if (in_array($cms_type, $this->index->cms_type_suffix)) {
+                if (in_array($cms_type, $this->index->getContentTypes()['cms_type'])) {
                     $cms_type = 'CMS_' . $cms_type;
                 }
             } else {
-                if (!array_key_exists($cms_type, $this->index->cms_type)) {
+                if (!array_key_exists($cms_type, $this->index->getContentTypes()['cms_type_suffix'])) {
                     return array();
                 }
             }

@@ -2215,7 +2215,6 @@ function clHtmlEntityDecode(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTI
  * @return string Returns the converted string
  */
 function clHtmlEntities(string $value,?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
-    var_dump($flags); 
     return htmlentities($value, $flags, $encoding);
 }
 
