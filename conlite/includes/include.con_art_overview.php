@@ -305,8 +305,7 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
             $sortkey = $sart["artsort"];
             $locked = $sart["locked"];
             $redirect = $sart["redirect"];
-
-            $published = ($published != '1000-01-01 00:00:00') ? date($dateformat, strtotime($published)) : i18n("not yet published");
+            $published = (strtotime($published) > 0) ? date($dateformat, strtotime($published)) : i18n("not yet published");
             $created = date($dateformat, strtotime($created));
             $modified = date($dateformat, strtotime($modified));
             $alttitle = "idart" . '&#58; ' . $idart . ' ' . "idcatart" . '&#58; ' . $idcatart . ' ' . "idartlang" . '&#58; ' . $idartlang;
