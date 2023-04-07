@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/endroid/qr-code/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/endroid/qr-code/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/endroid/qr-code/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer/tests" />
+      </list>
+    </option>
+  </component>
+</project>
