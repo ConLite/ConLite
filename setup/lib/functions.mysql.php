@@ -51,46 +51,25 @@ function hasMySQLiExtension() {
 }
 
 function doMySQLConnect($host, $username, $password) {
-    $aOptions = array(
-        'connection' => array(
-            'host' => $host,
-            'user' => $username,
-            'password' => $password,
-        ),
-    );
+    $aOptions = ['connection' => ['host' => $host, 'user' => $username, 'password' => $password]];
     $db = new DB_Contenido($aOptions);
     //$sFile = '../data/logs/setup_queries.txt';
     //file_put_contents($sFile, $db->getServerInfo(), FILE_APPEND);
     //chmod($sFile, 0666);
     if (empty($db->connect())) {
-        return array($db, false);
+        return [$db, false];
     } else {
-        return array($db, true);
+        return [$db, true];
     }
 }
 
 function getSetupMySQLDBConnection($full = true) {
     if ($full === false) {
         // host, user and password
-        $aOptions = array(
-            'connection' => array(
-                'host' => $_SESSION["dbhost"],
-                'user' => $_SESSION["dbuser"],
-                'password' => $_SESSION["dbpass"]
-            ),
-            'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'
-        );
+        $aOptions = ['connection' => ['host' => $_SESSION["dbhost"], 'user' => $_SESSION["dbuser"], 'password' => $_SESSION["dbpass"]], 'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'];
     } else {
         // host, database, user and password
-        $aOptions = array(
-            'connection' => array(
-                'host' => $_SESSION["dbhost"],
-                'database' => $_SESSION["dbname"],
-                'user' => $_SESSION["dbuser"],
-                'password' => $_SESSION["dbpass"]
-            ),
-            'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'
-        );
+        $aOptions = ['connection' => ['host' => $_SESSION["dbhost"], 'database' => $_SESSION["dbname"], 'user' => $_SESSION["dbuser"], 'password' => $_SESSION["dbpass"]], 'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'];
     }
 
     //$aOptions['enableProfiling'] = TRUE;
@@ -253,7 +232,7 @@ function checkMySQLDropDatabase($db, $database) {
 function fetchMySQLStorageEngines($db) {
     $db->query("SHOW ENGINES");
 
-    $engines = array();
+    $engines = [];
 
     while ($db->next_record()) {
         $engines[] = $db->f(0);

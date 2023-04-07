@@ -38,116 +38,70 @@ define("E_EXTENSION_UNAVAILABLE", 2);
 define("E_EXTENSION_CANTCHECK", 3);
 
 /**
- * getPHPIniSetting ($setting)
- * 
- * Retrieves the setting $setting from the PHP setup.
- * Wrapper to avoid warnings if ini_get is in the
- * disable_functions directive.
- */
-function getPHPIniSetting($setting) {
-    /* Avoid errors if ini_get is in the disable_functions directive */
-    $value = @ini_get($setting);
-
-    return $value;
-}
-
-/**
  * canPHPurlfopen: Checks if PHP is able to use
  * allow_url_fopen.
  */
-function canPHPurlfopen() {
-    return getPHPIniSetting("allow_url_fopen");
+function canPHPurlfopen(): bool|string
+{
+    return ini_get("allow_url_fopen");
 }
 
-/**
- * checkPHPiniget: Checks if the ini_get function
- * is available and not disabled. Returns true if the
- * function is available.
- * 
- * Uses the PHP configuration value y2k_compilance which
- * is available in all PHP4 versions.
- */
-function checkPHPiniget() {
-    $value = @ini_get("y2k_compliance");
-
-    if ($value === NULL) {
-        return false;
-    } else {
-        return true;
-    }
+function getPHPDisplayErrorSetting(): bool|string
+{
+    return ini_get("display_errors");
 }
 
-function getPHPDisplayErrorSetting() {
-    return getPHPIniSetting("display_errors");
+function getPHPFileUploadSetting(): bool|string
+{
+    return ini_get("file_uploads");
 }
 
-function getPHPFileUploadSetting() {
-    return getPHPIniSetting("file_uploads");
+function getPHPGPCOrder(): bool|string
+{
+    return ini_get("gpc_order");
 }
 
-function getPHPGPCOrder() {
-    return getPHPIniSetting("gpc_order");
+function getPHPMagicQuotesRuntime(): bool|string
+{
+    return ini_get("magic_quotes_runtime");
 }
 
-function getPHPMagicQuotesGPC() {
-    return getPHPIniSetting("magic_quotes_gpc");
+function getPHPMagicQuotesSybase(): bool|string
+{
+    return ini_get("magic_quotes_sybase");
 }
 
-function getPHPMagicQuotesRuntime() {
-    return getPHPIniSetting("magic_quotes_runtime");
+function getPHPMaxExecutionTime(): bool|string
+{
+    return ini_get("max_execution_time");
 }
 
-function getPHPMagicQuotesSybase() {
-    return getPHPIniSetting("magic_quotes_sybase");
+function getPHPOpenBasedirSetting(): bool|string
+{
+    return ini_get("open_basedir");
 }
 
-function getPHPMaxExecutionTime() {
-    return getPHPIniSetting("max_execution_time");
+function checkPHPSQLSafeMode(): bool|string
+{
+    return ini_get("sql.safe_mode");
 }
 
-function getPHPOpenBasedirSetting() {
-    return getPHPIniSetting("open_basedir");
-}
-
-function getPHPMaxPostSize() {
-    return getPHPIniSetting("post_max_size");
-}
-
-function checkPHPSQLSafeMode() {
-    return getPHPIniSetting("sql.safe_mode");
-}
-
-function checkPHPUploadMaxFilesize() {
-    return getPHPIniSetting("upload_max_filesize");
-}
-
-function return_bytes($val) {
+function return_bytes($val): float|int|string
+{
     if (strlen($val) == 0) {
         return 0;
     }
     $val = trim($val);
     $last = $val[strlen($val) - 1];
-    switch ($last) {
-        case 'k':
-        case 'K':
-            return (int) $val * 1024;
-            break;
-        case 'm':
-        case 'M':
-            return (int) $val * 1048576;
-            break;
-        default:
-            return $val;
-    }
+    return match ($last) {
+        'k', 'K' => (int) $val * 1024,
+        'm', 'M' => (int) $val * 1_048_576,
+        default => $val,
+    };
 }
 
 function isPHPExtensionLoaded($extension) {
     $value = extension_loaded($extension);
-
-
-    if ($value === NULL) {
-        return E_EXTENSION_CANTCHECK;
-    }
 
     if ($value === true) {
         return E_EXTENSION_AVAILABLE;
@@ -156,16 +110,10 @@ function isPHPExtensionLoaded($extension) {
     if ($value === false) {
         return E_EXTENSION_UNAVAILABLE;
     }
-}
 
-function isRegisterLongArraysActive() {
-    if (version_compare(phpversion(), "5.0.0", ">=") == true) {
-        if (getPHPIniSetting("register_long_arrays") == false) {
-            return false;
-        }
+    if ($value === NULL) {
+        return E_EXTENSION_CANTCHECK;
     }
-
-    return true;
 }
 
 /**
@@ -174,12 +122,7 @@ function isRegisterLongArraysActive() {
  * @param string $sVersion phpversion to test
  * @return boolean
  */
-function isPHPCompatible($sVersion = "5.2.0") {
-    if (version_compare(phpversion(), $sVersion, ">=") == true) {
-        return true;
-    } else {
-        return false;
-    }
+function isPHPCompatible($sVersion = "8.0.0"): bool
+{
+    return version_compare(phpversion(), $sVersion, ">=");
 }
-
-?>

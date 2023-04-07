@@ -41,7 +41,7 @@ define('C_SETUP_MIN_PHP_VERSION', '7.4.0');
 define('C_SETUP_MAX_PHP_VERSION', '8.3.0');
 define('C_SETUP_VERSION', '3.0.0');
 
-$sDefLocalPath = dirname(__FILE__).DIRECTORY_SEPARATOR.'defines.local.php';
+$sDefLocalPath = __DIR__.DIRECTORY_SEPARATOR.'defines.local.php';
 if(file_exists($sDefLocalPath)) {
     include_once $sDefLocalPath;
 }

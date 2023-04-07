@@ -22,9 +22,9 @@ if (!defined('CON_FRAMEWORK')) {
     define('CON_FRAMEWORK', true);
 }
 
-define('CON_SETUP_PATH', str_replace('\\', '/', realpath(dirname(__FILE__))));
+define('CON_SETUP_PATH', str_replace('\\', '/', realpath(__DIR__)));
 
-define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')));
+define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(__DIR__ . '/../')));
 
 include_once('lib/startup.php');
 
@@ -113,7 +113,7 @@ if (cFileHandler::exists('data/tables_pi.txt')) {
     }
 }
 
-$pluginChunks = array();
+$pluginChunks = [];
 
 $baseChunks = txtFileToArray('data/base.txt');
 
@@ -128,20 +128,12 @@ $contentChunks = txtFileToArray('data/examples.txt');
 $sysadminChunk = txtFileToArray('data/sysadmin.txt');
 
 if ($_SESSION['setuptype'] == 'setup') {
-    switch ($_SESSION['clientmode']) {
-        case 'CLIENT':
-            $fullChunks = array_merge($baseChunks, $sysadminChunk, $clientNoContentChunks);
-            break;
-        case 'CLIENTMODULES':
-            $fullChunks = array_merge($baseChunks, $sysadminChunk, $clientNoContentChunks, $moduleChunks);
-            break;
-        case 'CLIENTEXAMPLES':
-            $fullChunks = array_merge($baseChunks, $sysadminChunk, $clientChunks, $moduleChunks, $contentChunks);
-            break;
-        default:
-            $fullChunks = array_merge($baseChunks, $sysadminChunk);
-            break;
-    }
+    $fullChunks = match ($_SESSION['clientmode']) {
+        'CLIENT' => array_merge($baseChunks, $sysadminChunk, $clientNoContentChunks),
+        'CLIENTMODULES' => array_merge($baseChunks, $sysadminChunk, $clientNoContentChunks, $moduleChunks),
+        'CLIENTEXAMPLES' => array_merge($baseChunks, $sysadminChunk, $clientChunks, $moduleChunks, $contentChunks),
+        default => array_merge($baseChunks, $sysadminChunk),
+    };
 } else {
     $fullChunks = $baseChunks;
 }
@@ -149,22 +141,19 @@ if ($_SESSION['setuptype'] == 'setup') {
 $fullChunks = array_merge($fullChunks, $pluginChunks);
 
 
-list($root_path, $root_http_path) = getSystemDirectories();
+[$root_path, $root_http_path] = getSystemDirectories();
 
 $totalsteps = ceil($fullcount / 50) + count($fullChunks) + 1;
 foreach ($fullChunks as $fullChunk) {
     $step++;
     if ($step == $currentstep) {
-        $failedChunks = array();
+        $failedChunks = [];
 
-        $replacements = array(
-            '<!--{conlite_root}-->' => addslashes($root_path),
-            '<!--{conlite_web}-->' => addslashes($root_http_path)
-        );
+        $replacements = ['<!--{conlite_root}-->' => addslashes($root_path), '<!--{conlite_web}-->' => addslashes($root_http_path)];
 
         injectSQL($db, $_SESSION['dbprefix'], 'data/' . $fullChunk, $failedChunks, $replacements);
 
-        if (count($failedChunks) > 0) {
+        if ((is_countable($failedChunks) ? count($failedChunks) : 0) > 0) {
             $fp = fopen('../data/logs/setuplog.txt', 'w');
             foreach ($failedChunks as $failedChunk) {
                 fwrite($fp, sprintf("Setup was unable to execute SQL. MySQL-Error: %s, MySQL-Message: %s, SQL-Statements:\n%s", $failedChunk['errno'], $failedChunk['error'], $failedChunk['sql']));
@@ -189,14 +178,14 @@ if ($currentstep < $totalsteps) {
 
     // For import mod_history rows to versioning
     if ($_SESSION['setuptype'] == 'migration' || $_SESSION['setuptype'] == 'upgrade') {
-        $cfgClient = array();
+        $cfgClient = [];
         rereadClients_Setup();
 
         $oVersion = new VersionImport($cfg, $cfgClient, $db, $client, $area, $frame);
         $oVersion->CreateHistoryVersion();
     }
 
-    $tables = array();
+    $tables = [];
 
     while ($db->next_record()) {
         $tables[] = $db->f(0);
@@ -240,7 +229,7 @@ if ($currentstep < $totalsteps) {
     }
 
     // Update Keys
-    $aNothing = array();
+    $aNothing = [];
 
     injectSQL($db, $_SESSION['dbprefix'], 'data/indexes.sql', $aNothing);
 
@@ -259,7 +248,7 @@ if ($currentstep < $totalsteps) {
 }
 
 function txtFileToArray($sFile) {
-    $aFileArray = array();
+    $aFileArray = [];
     if (file_exists($sFile) && is_readable($sFile)) {
         $aFileArray = explode("\n", file_get_contents($sFile));
     }

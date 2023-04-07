@@ -36,7 +36,7 @@ class cSetupSystemData extends cSetupMask {
     public function __construct($step, $previous, $next) {
         parent::__construct("templates/setup/forms/systemdata.tpl", $step);
 
-        list($a_root_path, $a_root_http_path) = getSystemDirectories();
+        [$a_root_path, $a_root_http_path] = getSystemDirectories();
 
         cInitializeArrayKey($_SESSION, "dbprefix", "");
         cInitializeArrayKey($_SESSION, "dbhost", "");
@@ -58,11 +58,7 @@ class cSetupSystemData extends cSetupMask {
                 @include($a_root_path . "/data/config/" . CL_ENVIRONMENT . "/config.php");
             }
 
-            $aVars = array("dbhost" => $contenido_host,
-                "dbuser" => $contenido_user,
-                "dbname" => $contenido_database,
-                "dbpass" => $contenido_password,
-                "dbprefix" => $cfg["sql"]["sqlprefix"]);
+            $aVars = ["dbhost" => $contenido_host, "dbuser" => $contenido_user, "dbname" => $contenido_database, "dbpass" => $contenido_password, "dbprefix" => $cfg["sql"]["sqlprefix"]];
 
             foreach ($aVars as $aVar => $sValue) {
                 if ($_SESSION[$aVar] == "") {

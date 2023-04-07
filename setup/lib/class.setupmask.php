@@ -37,18 +37,6 @@ class cSetupMask {
     
     /**
      * 
-     * @var string
-     */
-    protected $_sStepTemplate;
-    
-    /**
-     * 
-     * @var int
-     */
-    protected $_iStep;
-    
-    /**
-     * 
      * @var bool
      */
     protected $_bNavigationEnabled = false;
@@ -59,12 +47,13 @@ class cSetupMask {
      */
     protected $_sHeader;
 
-    public function __construct($sStepTemplate, $iStep = false) {
+    /**
+     * @param string $sStepTemplate
+     * @param int $iStep
+     */
+    public function __construct(protected $_sStepTemplate, protected $_iStep = false) {
         $this->_oTpl = new Template();
         $this->_oStepTemplate = new Template();
-
-        $this->_sStepTemplate = $sStepTemplate;
-        $this->_iStep = $iStep;
     }
 
     public function setNavigation($sBackstep, $sNextstep) {
@@ -80,20 +69,12 @@ class cSetupMask {
             $sSetupType = "";
         }
 
-        switch ($sSetupType) {
-            case "setup":
-                $this->_sHeader = "Setup - " . $sHeader;
-                break;
-            case "upgrade":
-                $this->_sHeader = "Upgrade - " . $sHeader;
-                break;
-            case "migration":
-                $this->_sHeader = "Migration - " . $sHeader;
-                break;
-            default:
-                $this->_sHeader = $sHeader;
-                break;
-        }
+        $this->_sHeader = match ($sSetupType) {
+            "setup" => "Setup - " . $sHeader,
+            "upgrade" => "Upgrade - " . $sHeader,
+            "migration" => "Migration - " . $sHeader,
+            default => $sHeader,
+        };
     }
 
     public function _createNavigation() {
