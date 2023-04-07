@@ -1,5 +1,5 @@
 {
-    "name": "vendor/conlite",
+    "name": "org.conlite/conlite",
     "description": "ConLite vendor libs",
     "license": "GPL-3.0-or-later",
     "authors": [
