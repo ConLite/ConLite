@@ -5,6 +5,9 @@
       <sourceFolder url="file://$MODULE_DIR$/conlite/external" isTestSource="false" packagePrefix="Conlite\External\" />
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/endroid/qr-code/src" isTestSource="false" packagePrefix="Endroid\QrCode\" />
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/endroid/qr-code/tests" isTestSource="true" packagePrefix="Endroid\QrCode\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/conlite/external/endroid/qr-code/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/conlite/external/phpmailer/phpmailer/src" isTestSource="false" packagePrefix="PHPMailer\PHPMailer\" />
+      <sourceFolder url="file://$MODULE_DIR$/conlite/external/phpmailer/phpmailer/test" isTestSource="true" packagePrefix="PHPMailer\Test\" />
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/phpmailer/phpmailer/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
@@ -22,9 +25,37 @@
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/frontend/logs" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/frontend/templates" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/frontend/upload" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phar-io/manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpmailer/phpmailer" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpqrcode/bindings" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpqrcode/tools" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpstan/phpstan" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/php-code-coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/php-file-iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/php-invoker" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/php-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/rector/rector" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/cli-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/code-unit" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/code-unit-reverse-lookup" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/comparator" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/complexity" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/environment" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/global-state" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/lines-of-code" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/object-reflector" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/recursion-context" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/type" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/external/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/external/wysiwyg/tinymce3" />
     </content>
     <orderEntry type="inheritedJdk" />

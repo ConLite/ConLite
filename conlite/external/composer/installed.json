@@ -84,6 +84,6 @@
             "install-path": "../phpmailer/phpmailer"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }
