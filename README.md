@@ -1,4 +1,3 @@
-----------------------------------------------------------------------------------------------------
 This is the readme file for ConLite 2.2.0 beta
 
 Any help you need you may find by visiting the following links.
