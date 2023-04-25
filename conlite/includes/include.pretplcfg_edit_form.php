@@ -50,8 +50,8 @@ $formaction = $sess->url("main.php");
 #<input type="hidden" name="action" value="tplcfg_edit">
 $hidden     = '<input type="hidden" name="area" value="tpl_cfg">
                <input type="hidden" name="frame" value="'.$frame.'">
-               <input type="hidden" name="idcat" value="'.$idcat.'">
-               <input type="hidden" name="idart" value="'.$idart.'">
+               <input type="hidden" name="idcat" value="'.cRegistry::getCategoryId().'">
+               <input type="hidden" name="idart" value="'.cRegistry::getArticleId().'">
                <input type="hidden" name="idtpl" value="'.$idtpl.'">
                <input type="hidden" name="lang" value="'.$lang.'">
                <input type="hidden" name="idtplcfg" value="'.$idtplcfg.'">
@@ -154,7 +154,5 @@ $buttons = '<a href="javascript:history.back()"><img src="images/but_cancel.gif"
             <input type="image" src="images/but_ok.gif">';
 
 $tpl->set('s', 'BUTTONS', $buttons);
-
 # Generate template
 $tpl->generate($cfg['path']['templates'] . $cfg['templates']['tplcfg_edit_form']);
-?>

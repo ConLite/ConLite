@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -27,9 +28,8 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
@@ -37,6 +37,8 @@ $translations = new cApiModuleTranslationCollection;
 $translations->select("idmod = '$idmod' AND idlang='$lang'");
 
 $page = new cPage;
+$page->setHtml5();
+$page->setEncoding('UTF-8');
 $page->setMargin(0);
 
 $v = '<table cellspacing="0" cellpadding="0" width="600">';
@@ -46,32 +48,35 @@ $link->setCLink("mod_translate", 4, "");
 
 $mylink = new cHTMLLink;
 
-while ($translation = $translations->next())
-{
-	$string = $translation->get("original");
-	$tstring = $translation->get("translation");
-	
+while ($translation = $translations->next()) {
+
+    $string = utf8_encode($translation->get("original"));
+    $tstring = utf8_encode($translation->get("translation"));
+
     $link->setCustom("idmod", $idmod);
     $link->setCustom("idmodtranslation", $translation->get("idmodtranslation"));
     $href = $link->getHREF();
-    
-    $mylink->setLink('javascript:parent.location="'.$href.'"');
+
+    $mylink->setLink('javascript:parent.location="' . $href . '"');
     $mylink->setContent($string);
 
-	$dark = !$dark;
+    $dark = !$dark;
 
-	if ($dark)
-	{
-		$bgcol = $cfg["color"]["table_dark"];
-	} else {
-		$bgcol = $cfg["color"]["table_light"];
-	}
+    if ($dark) {
+        $bgcol = $cfg["color"]["table_dark"];
+    } else {
+        $bgcol = $cfg["color"]["table_light"];
+    }
 
-	if ($idmodtranslation == $translation->get("idmodtranslation"))
-	{
-		$bgcol = $cfg["color"]["table_active"];
-	}
-	$v .= '<tr bgcolor="'.$bgcol.'"><td style="padding-left: 2px; padding-top:2px; padding-bottom: 2px;" width="50%"><a name="'.$translation->get("idmodtranslation").'"></a>'.$mylink->render().'</td><td style="padding-left: 2px;">'.$tstring.'</td></tr>';
+    if ($idmodtranslation == $translation->get("idmodtranslation")) {
+        $bgcol = $cfg["color"]["table_active"];
+    }
+    $v .= '<tr bgcolor="' . $bgcol . '">'."\n"
+            . '<td style="padding-left: 2px; padding-top:2px; padding-bottom: 2px;" width="50%">'."\n"
+            . '<a name="' . $translation->get("idmodtranslation") . '"></a>'."\n"
+            . $mylink->render() . '</td>'."\n"
+            . '<td style="padding-left: 2px;">' . $tstring . '</td>'."\n"
+            . '</tr>'."\n";
 }
 
 $v .= '</table>';
@@ -82,5 +87,4 @@ $clang = new cApiLanguage($lang);
 $page->setEncoding($clang->get("encoding"));
 
 $page->render();
-
 ?>

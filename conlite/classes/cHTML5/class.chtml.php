@@ -20,11 +20,7 @@
 
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
-/*
-if (!class_exists("HTML_Common2")) {
-    cInclude("pear", "HTML/Common2.php");
-}
-*/
+
 /* Global ID counter */
 $cHTMLIDCount = 0;
 
@@ -415,7 +411,7 @@ class cHTML extends cHTML5Common {
        $style = $this->getAttribute("style");
        
        /* If the style doesn't end with a semicolon, append one */
-       if(is_string($style)) {
+       if(!empty($style) && is_string($style)) {
            $style = trim($style);
            
            if (substr($style, strlen($style) - 1) != ";") {
@@ -423,12 +419,20 @@ class cHTML extends cHTML5Common {
            }
        }
        
-       foreach($this->_aStyleDefinitions as $sEntry) {
-           $style .= $sEntry;
+        foreach($this->_aStyleDefinitions as $sKey => $sEntry) {
+            $style .= $sKey.': '.$sEntry;
            
            if (substr($style, strlen($style) - 1) != ";") {
                $style .= ";";
            }			
+       }       
+       /* Apply all stored styles */
+       foreach ($this->_styledefs as $key => $value) {
+           $style .= "$key: $value;";
+       }
+       
+       if ($style != "") {
+           $this->setStyle($style);
        }
        
        foreach($this->_aEventDefinitions as $sEventName => $sEntry) {
@@ -438,15 +442,6 @@ class cHTML extends cHTML5Common {
                $aFullCode[] = $sCode;
            }
            $this->setAttribute($sEventName, $this->getAttribute($sEventName).implode(" ", $aFullCode));
-       }
-       
-       /* Apply all stored styles */
-       foreach ($this->_styledefs as $key => $value) {
-           $style .= "$key: $value;";
-       }
-       
-       if ($style != "") {
-           $this->setStyle($style);
        }
        
        if ($this->_content != "" || $this->_contentlessTag == false) {

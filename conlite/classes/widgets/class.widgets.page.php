@@ -320,8 +320,12 @@ class cPage extends cHTML {
         }
 
         $meta = '';
-        if ($this->_encoding != "" && !$this->_isHtml5) {
-            $meta .= '<meta http-equiv="Content-type" content="text/html;charset=' . $this->_encoding . '">' . "\n";
+        if(!empty($this->_encoding)) {
+            if($this->_isHtml5) {
+                $meta .= '<meta charset="' . $this->_encoding . '">' . "\n";
+            } else {
+                $meta .= '<meta http-equiv="Content-type" content="text/html;charset=' . $this->_encoding . '">' . "\n";
+            }
         }
 
         if ($this->_object !== false && method_exists($this->_object, "render")) {

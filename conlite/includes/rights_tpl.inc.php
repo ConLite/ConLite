@@ -112,14 +112,14 @@ foreach ($aSecondHeaderRow as $value) {
 $sTable .= $table->end_row();
 
 
-//Select the itemid�s
+//Select the itemid
 $sql = "SELECT * FROM ".$cfg["tab"]["tpl"]." WHERE idclient='".Contenido_Security::toInteger($rights_client)."' ORDER BY name";
 $db->query($sql);
 
 while ($db->next_record()) {
 
-        $tplname     = clHtmlEntities($db->f("name"));
-        $description = clHtmlEntities($db->f("description"));
+        $tplname     = clHtmlEntities($db->f("name"));        
+        $description = empty($db->f("description"))?'':clHtmlEntities($db->f("description"));
 
         $sTable .= $table->row();
         $sTable .= $table->cell($tplname,"", "", " class=\"td_rights0\"", false);

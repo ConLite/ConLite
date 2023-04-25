@@ -103,7 +103,7 @@ if ($action == "con_newart" && $newart != true) {
 
             $idtplinput = $db->f("idtplinput");
 
-            if ($tmp_modifiedby == "") {
+            if (empty($tmp_modifiedby)) {
                 $tmp_modifiedby = $tmp_author;
             }
 
@@ -142,7 +142,7 @@ if ($action == "con_newart" && $newart != true) {
 
             $tmp_idartlang = 0;
             $tmp_idlang = $lang;
-            $tmp_page_title = stripslashes($db->f("pagetitle"));
+            $tmp_page_title = (empty($db->f("pagetitle")))?'':stripslashes($db->f("pagetitle"));
             $tmp_title = "";
             $tmp_urlname = "";   // plugin Advanced Mod Rewrite - edit by stese            
             $tmp_artspec = "";
@@ -152,6 +152,7 @@ if ($action == "con_newart" && $newart != true) {
             $tmp_published = date("Y-m-d H:i:s");
             $tmp_publishedby = "";
             $tmp_author = "";
+            $tmp_modifiedby = "";
             $tmp_online = "0";
             $tmp_datestart = "0000-00-00 00:00:00";
             $tmp_dateend = "0000-00-00 00:00:00";
@@ -714,4 +715,3 @@ if ($action == "con_newart" && $newart != true) {
         $notification->displayNotification("error", i18n("Permission denied"));
     }
 }
-?>

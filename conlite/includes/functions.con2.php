@@ -237,7 +237,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
         $a_container = explode("&", $tmp_returnstring);
 
         foreach ($a_container as $key => $value) {
-            
+
             if (is_numeric($a_d[$value])) {
                 $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
                 $thisContainer = '<?php $cCurrentContainer = ' . ((int) $value) . '; ?>';
@@ -573,21 +573,18 @@ function conGetAvailableMetaTagTypes() {
  * @return string tag value or empty string
  */
 function conGetMetaValue($idartlang, $idmetatype) {
+    $sRet = "";
+    if (!empty($idartlang)) {
+        $oMetaTags = new cApiMetaTagCollection();
+        $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
+        $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
+        $oMetaTags->query();
 
-    if ($idartlang == 0)
-        return;
-
-    $oMetaTags = new cApiMetaTagCollection();
-    $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
-    $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
-    $oMetaTags->query();
-
-    if ($oMetaTags->count() > 0) {
-        $sRet = $oMetaTags->next()->get('metavalue');
-    } else {
-        $sRet = "";
+        if ($oMetaTags->count() > 0) {
+            $sRet = $oMetaTags->next()->get('metavalue');
+        }
+        unset($oMetaTags); // save mem
     }
-    unset($oMetaTags); // save mem
     return $sRet;
 }
 
@@ -622,48 +619,30 @@ function conSetMetaValue($idartlang, $idmetatype, $value) {
 }
 
 /**
- * (re)generate keywords for all articles of a given client (with specified language) 
- * @param $client Client
- * @param $lang Language of a client 
- * @return void
- *
- * @author Willi Man
- * Created   :   12.05.2004
- * Modified  :   13.05.2004
- * @copyright four for business AG 2003
+ * 
+ * @param int $client
+ * @param int $lang
  */
-function conGenerateKeywords($client, $lang) {
-    global $cfg;
-    $db_art = new DB_ConLite;
+function conGenerateKeywords(int $client = null, int $lang = null) {
+    $aOptions = [];
+    $aOptions['start'] = true;
+    $aOptions['offline'] = true;
+    $aOptions['client'] = $client ?? 0;
+    $aOptions['lang'] = $lang ?? 0;
 
-    $options = array("img", "link", "linktarget", "swf"); // cms types to be excluded from indexing
-
-    $sql = "SELECT
-	    			a.idart, b.idartlang
-	    		FROM
-	    			" . $cfg["tab"]["art"] . " AS a,
-	    			" . $cfg["tab"]["art_lang"] . " AS b
-	    		WHERE
-	    			a.idart    = b.idart AND
-	    			a.idclient = " . Contenido_Security::escapeDB($client, $db) . " AND
-	    			b.idlang = " . Contenido_Security::escapeDB($lang, $db);
-
-    $db_art->query($sql);
-
-    $articles = array();
-    while ($db_art->next_record()) {
-        $articles[$db_art->f("idart")] = $db_art->f("idartlang");
-    }
-
-    if (count($articles) > 0) {
-        foreach ($articles as $artid => $article_lang) {
-            $article_content = array();
-            $article_content = conGetContentFromArticle($article_lang);
-
-            if (count($article_content) > 0) {
-                $art_index = new Index($db_art);
-                $art_index->lang = $lang;
-                $art_index->start($artid, $article_content, 'auto', $options);
+    $oArticleCollector = new cArticleCollector();
+    $oArticleCollector->setOptions($aOptions);
+    $oArticleCollector->loadArticles();
+   /* @var $oArticle cApiArticleLanguage */
+    if ($oArticleCollector->count() > 0) {
+        foreach ($oArticleCollector as $oArticle) {
+            $aArticleContent = [];
+            $aArticleContent = $oArticle->getContent();
+            if(!empty($aArticleContent)) {
+                /* @var $oIndex Index */
+                $oIndex = new Index();
+                //$oIndex->setDebug(true);
+                $oIndex->start($oArticle->get('idart'), $aArticleContent, 'auto', array("img", "link", "linktarget", "swf"));
             }
         }
     }

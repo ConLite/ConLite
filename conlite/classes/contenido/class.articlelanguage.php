@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File:
  * class.articlelanguage.php
@@ -18,14 +19,12 @@
  * 
  * $Id$
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
 class cApiArticleLanguageCollection extends ItemCollection {
-    
+
     public function __construct($select = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["art_lang"], "idartlang");
@@ -36,26 +35,26 @@ class cApiArticleLanguageCollection extends ItemCollection {
             $this->select($select);
         }
     }
-    
+
     public function getIdArtLang($iIdart, $iIdlang) {
         $this->setWhere('idart', Contenido_Security::toInteger($iIdart));
         $this->setWhere('idlang', Contenido_Security::toInteger($iIdlang));
-        if($this->query() && $this->count() > 0) {
+        if ($this->query() && $this->count() > 0) {
             return $this->next()->get('idartlang');
         }
         return false;
     }
+
 }
 
+class cApiArticleLanguage extends Item {
 
-class cApiArticleLanguage extends Item
-{
     /**
-     * Constructor Function
-     * @param  mixed  $mId  Specifies the ID of item to load
+     * 
+     * @global type $cfg
+     * @param type $mId
      */
-    public function __construct($mId = false)
-    {
+    public function __construct($mId = false) {
         global $cfg;
         parent::__construct($cfg["tab"]["art_lang"], "idartlang");
         $this->setFilters(array(), array());
@@ -63,24 +62,23 @@ class cApiArticleLanguage extends Item
             $this->loadByPrimaryKey($mId);
         }
     }
-    
+
     public function loadByArticleAndLanguageId($idart, $idlang) {
         $result = true;
-        if (!$this->isLoaded()) {            
+        if (!$this->isLoaded()) {
             $idartlang = $this->_getIdArtLang($idart, $idlang);
             $result = $this->loadByPrimaryKey($idartlang);
         }
         return $result;
     }
-    
-    
+
     protected function _getIdArtLang($idart, $idlang) {
         $sql = sprintf('SELECT idartlang FROM `%s` WHERE idart = %d AND idlang = %d', cRegistry::getConfigValue('tab', 'art_lang'), $idart, $idlang);
         $this->db->query($sql);
         $this->db->next_record();
         return $this->db->f('idartlang');
     }
-    
+
     public function getContent($type = '', $id = NULL) {
         if (NULL === $this->content) {
             $this->_loadArticleContent();
@@ -108,16 +106,16 @@ class cApiArticleLanguage extends Item
         // return String
         return (isset($this->content[$type][$id])) ? $this->content[$type][$id] : '';
     }
-    
+
     protected function _loadArticleContent() {
         if (NULL !== $this->content) {
             return;
         }
 
-        $sql = "SELECT b.type, a.typeid, a.value FROM `".cRegistry::getConfigValue('tab', 'content')
-                ."` AS a, `".cRegistry::getConfigValue('tab', 'type')
-                ."` AS b WHERE a.idartlang = ".$this->get('idartlang')
-                ." AND b.idtype = a.idtype ORDER BY a.idtype, a.typeid";
+        $sql = "SELECT b.type, a.typeid, a.value FROM `" . cRegistry::getConfigValue('tab', 'content')
+                . "` AS a, `" . cRegistry::getConfigValue('tab', 'type')
+                . "` AS b WHERE a.idartlang = " . $this->get('idartlang')
+                . " AND b.idtype = a.idtype ORDER BY a.idtype, a.typeid";
 
         $this->db->query($sql);
 
@@ -126,5 +124,7 @@ class cApiArticleLanguage extends Item
             $this->content[strtolower($this->db->f('type'))][$this->db->f('typeid')] = urldecode($this->db->f('value'));
         }
     }
+
 }
+
 ?>
