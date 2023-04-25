@@ -9,15 +9,14 @@
         }
     ],
     "config": {
-        "vendor-dir": "conlite/external"
+        "vendor-dir": "conlite/vendor"
     },
     "require": {
-        "endroid/qr-code": "1.9.*",
-        "phpmailer/phpmailer": "v5.2.*"
+        "phpmailer/phpmailer": "v6.7.1"
     },
     "autoload": {
         "psr-4": {
-            "Conlite\\External\\": "conlite/external"
+            "Conlite\\External\\": "conlite/vendor"
         }
     }
 }

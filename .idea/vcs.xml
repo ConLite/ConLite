@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cms/data/modules/cl_contactform" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cms/securimage" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-content-allocation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-mod-rewrite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-newsletter" vcs="Git" />
+  </component>
+</project>
