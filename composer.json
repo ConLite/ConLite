@@ -14,6 +14,9 @@
     "require": {
         "phpmailer/phpmailer": "v6.7.1"
     },
+    "require-dev": {
+        "rector/rector": "0.15.25"
+    },
     "autoload": {
         "psr-4": {
             "Conlite\\External\\": "conlite/vendor"
