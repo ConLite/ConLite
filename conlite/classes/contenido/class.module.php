@@ -6,7 +6,7 @@
  *
  * Description:
  *  cApi class
- * 
+ *
  * @package Core
  * @subpackage cApi
  * @version $Rev$
@@ -16,7 +16,7 @@
  * @license http://www.gnu.de/documents/gpl.en.html GPL v3 (english version)
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
- * 
+ *
  * $Id$
  */
 
@@ -146,8 +146,8 @@ class cApiModule extends Item {
 
     public function createModuleFolder() {
         //echo $this->_aModFileEditConf['modPath'];
-        $sPathErrorLog = cRegistry::getConfigValue('path', 'logs').'errorlog.txt';
-        
+        $sPathErrorLog = cRegistry::getConfigValue('path', 'logs') . 'errorlog.txt';
+
         if (is_writable($this->_aModFileEditConf['clientPath']) && !file_exists($this->_aModFileEditConf['modPath'])) {
             try {
                 mkdir($this->_aModFileEditConf['modPath'], 0777, true);
@@ -367,7 +367,7 @@ class cApiModule extends Item {
     /**
      * Checks if the module is a pre-4.3 module
      * @return boolean true if this module is an old one
-     * 
+     *
      * @deprecated since version 2.0
      */
     public function isOldModule() {
@@ -629,8 +629,8 @@ class cApiModule extends Item {
     /**
      * Imports a module package from a XML file Uses xmlparser and callbacks
      *
-     * @param string    $sFile         Filename of data file (including path)
-     * @param array        $aOptions    Optional. An array of arrays specifying, how the items
+     * @param string $sFile Filename of data file (including path)
+     * @param array $aOptions Optional. An array of arrays specifying, how the items
      *                                 of the xml file will be imported. If specified, has to
      *                                 contain an array of this structure:
      *
@@ -751,8 +751,8 @@ class cApiModule extends Item {
     /**
      * Exports the specified module and attached files to a file
      *
-     * @param string    $sPackageFileName    Filename to return
-     * @param bool        $bReturn            if false, the result is immediately sent to the browser
+     * @param string $sPackageFileName Filename to return
+     * @param bool $bReturn if false, the result is immediately sent to the browser
      */
     public function exportPackage($sPackageFileName, $bReturn = false) {
         global $cfgClient, $client;
@@ -777,7 +777,7 @@ class cApiModule extends Item {
         }
 
         // Export basic module
-        $oNodeModule = & $oRoot->appendChild("module");
+        $oNodeModule = &$oRoot->appendChild("module");
         $oNodeModule->appendChild("name", clHtmlSpecialChars($this->get("name")));
         $oNodeModule->appendChild("description", clHtmlSpecialChars($this->get("description")));
         $oNodeModule->appendChild("type", clHtmlSpecialChars($this->get("type")));
@@ -799,7 +799,7 @@ class cApiModule extends Item {
         unset($sContent);
 
         // Export layouts
-        $oNodeLayouts = & $oRoot->appendChild("layouts");
+        $oNodeLayouts = &$oRoot->appendChild("layouts");
 
         $cApiLayoutCollection = new cApiLayoutCollection;
         $cApiLayoutCollection->setWhere("idclient", $client);
@@ -827,7 +827,7 @@ class cApiModule extends Item {
                 $iID = $oLang->get($oLang->primaryKey);
 
                 if (in_array($iID, $aData["translations"])) {
-                    $oNodeTrans = & $oRoot->appendChild("translations");
+                    $oNodeTrans = &$oRoot->appendChild("translations");
                     // This is nice, but it doesn't help so much,
                     // as this data is available too late on import ...
                     $oNodeTrans->setNodeAttribs(["origin-language-id" => $iID, "origin-language-name" => clHtmlSpecialChars($oLang->get("name"))]);
@@ -840,7 +840,7 @@ class cApiModule extends Item {
                     $oTranslations->query();
 
                     while ($oTranslation = $oTranslations->next()) {
-                        $oNodeString = & $oNodeTrans->appendChild("string");
+                        $oNodeString = &$oNodeTrans->appendChild("string");
                         $oNodeString->appendChild("original", clHtmlSpecialChars($oTranslation->get("original")));
                         $oNodeString->appendChild("translation", clHtmlSpecialChars($oTranslation->get("translation")));
                     }
@@ -865,7 +865,7 @@ class cApiModule extends Item {
 
     /**
      * Overridden parent method for hooking dceModFileEdit
-     * 
+     *
      * @return void
      */
     protected function _onLoad() {
@@ -877,7 +877,7 @@ class cApiModule extends Item {
 
     /**
      * Use a PHP-file, if present, for module output
-     * 
+     *
      * @return boolean
      */
     private function _setOutputFromPhpFile() {
@@ -890,7 +890,7 @@ class cApiModule extends Item {
 
     /**
      * Use a PHP-file, if present, for module input
-     * 
+     *
      * @return boolean
      */
     private function _setInputFromPhpFile() {
@@ -921,7 +921,7 @@ class cApiModule extends Item {
     /**
      * read file and set an object field
      *
-     * @param string $sFile 
+     * @param string $sFile
      * @param string $sField
      */
     private function _setFieldFromFile($sField, $sFile): bool {
@@ -1034,7 +1034,7 @@ class cApiModule extends Item {
 class cApiModuleTranslationCollection extends ItemCollection {
 
     protected $_error;
-    
+
     protected $f_obj;
 
     /**
@@ -1145,9 +1145,9 @@ class cApiModuleTranslationCollection extends ItemCollection {
         $cApiModuleTranslationCollection->select("idmod = '$idmod' AND idlang='$idlang'");
 
         $xmlTree = new XmlTree('1.0', 'ISO-8859-1');
-        $root = & $xmlTree->addRoot('module');
+        $root = &$xmlTree->addRoot('module');
 
-        $translation = & $root->appendChild('translation');
+        $translation = &$root->appendChild('translation');
         $translation->setNodeAttribs(["origin-language-id" => $idlang, "origin-language-name" => $cApiLanguage->get("name")]);
 
         while ($otranslation = $cApiModuleTranslationCollection->next()) {
