@@ -50,8 +50,8 @@ $mylink = new cHTMLLink;
 
 while ($translation = $translations->next()) {
 
-    $string = utf8_encode($translation->get("original"));
-    $tstring = utf8_encode($translation->get("translation"));
+    $string = $translation->get("original");
+    $tstring = $translation->get("translation");
 
     $link->setCustom("idmod", $idmod);
     $link->setCustom("idmodtranslation", $translation->get("idmodtranslation"));
