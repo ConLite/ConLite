@@ -8,9 +8,6 @@
             "email": "ortwin.pinke@php-backoffice.de"
         }
     ],
-    "config": {
-        "vendor-dir": "conlite/external"
-    },
     "require": {
         "php": "^8.0",
         "phpmailer/phpmailer": "v6.8.0"
@@ -19,10 +16,5 @@
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.0",
         "rector/rector": "^0.15"
-    },
-    "autoload": {
-        "psr-4": {
-            "Conlite\\External\\": "conlite/external"
-        }
     }
 }

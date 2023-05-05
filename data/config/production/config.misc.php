@@ -148,9 +148,7 @@ ini_set("log_errors", true);
 ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
 
 /**
- *  Report all errors except warnings 
- * @todo change first if to use a local config var for servername
- *  
+ *  Report all errors except warnings
  **/
 if ($cfg["develop"]["show_errors"]) {
     error_reporting(E_ALL);

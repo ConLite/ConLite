@@ -11,6 +11,16 @@
         <option value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer/tests" />
         <option value="$PROJECT_DIR$/tests" />
         <option value="$PROJECT_DIR$/tests" />
+        <option value="$PROJECT_DIR$/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/nikic/php-parser/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/phpunit/php-file-iterator/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/sebastian/complexity/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/sebastian/object-enumerator/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/myclabs/deep-copy/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/sebastian/comparator/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/sebastian/code-unit-reverse-lookup/tests" />
+        <option value="$PROJECT_DIR$/conlite/external/sebastian/cli-parser/tests" />
+        <option value="$PROJECT_DIR$/tests" />
       </list>
     </option>
   </component>

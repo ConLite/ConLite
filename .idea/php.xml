@@ -12,52 +12,10 @@
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
-      <path value="$PROJECT_DIR$/conlite/external/edit_area/langs" />
-      <path value="$PROJECT_DIR$/conlite/external/composer" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/images" />
-      <path value="$PROJECT_DIR$/conlite/external/edit_area/images" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/cache" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/css" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/data" />
-      <path value="$PROJECT_DIR$/conlite/external/edit_area/reg_syntax" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/upload" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/templates" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/js" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/includes" />
-      <path value="$PROJECT_DIR$/conlite/external/wysiwyg/tinymce3" />
       <path value="$PROJECT_DIR$/conlite/external/phpqrcode/bindings" />
-      <path value="$PROJECT_DIR$/conlite/external/frontend/logs" />
-      <path value="$PROJECT_DIR$/conlite/external/edit_area/plugins" />
       <path value="$PROJECT_DIR$/conlite/external/phpqrcode/tools" />
-      <path value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer" />
-      <path value="$PROJECT_DIR$/conlite/external/nikic/php-parser" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/php-timer" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/php-file-iterator" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/php-code-coverage" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/php-text-template" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/phpunit" />
-      <path value="$PROJECT_DIR$/conlite/external/phpunit/php-invoker" />
-      <path value="$PROJECT_DIR$/conlite/external/phar-io/version" />
-      <path value="$PROJECT_DIR$/conlite/external/phar-io/manifest" />
-      <path value="$PROJECT_DIR$/conlite/external/theseer/tokenizer" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/diff" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/version" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/comparator" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/code-unit-reverse-lookup" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/lines-of-code" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/complexity" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/environment" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/global-state" />
-      <path value="$PROJECT_DIR$/conlite/external/rector/rector" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/object-enumerator" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/recursion-context" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/code-unit" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/exporter" />
-      <path value="$PROJECT_DIR$/conlite/external/phpstan/phpstan" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/type" />
-      <path value="$PROJECT_DIR$/conlite/external/myclabs/deep-copy" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/object-reflector" />
-      <path value="$PROJECT_DIR$/conlite/external/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
