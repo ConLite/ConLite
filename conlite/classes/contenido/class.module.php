@@ -263,6 +263,7 @@ class cApiModule extends Item {
      * @return array Found strings for this module
      */
     public function parseModuleForStrings() {
+        global $cfg;
         if ($this->virgin == true) {
             return false;
         }
