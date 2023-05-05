@@ -114,7 +114,8 @@ function checkMySQLDatabaseCreation($db, $database) {
     }
 }
 
-function checkMySQLDatabaseExists($db, $database) {
+function checkMySQLDatabaseExists($db, $database): bool
+{
     $db->connect();
 
     if (hasMySQLiExtension() && !hasMySQLExtension()) {
@@ -130,7 +131,7 @@ function checkMySQLDatabaseExists($db, $database) {
             }
         }
     } else {
-        if (@mysql_select_db($database, $db->Link_ID)) {
+        if (mysqli_select_db($db->Link_ID, $database)) {
             return true;
         } else {
             $db->query("SHOW DATABASES LIKE '$database'");
@@ -154,7 +155,7 @@ function checkMySQLDatabaseUse($db, $database) {
             return false;
         }
     } else {
-        if (@mysql_select_db($database, $db->Link_ID)) {
+        if (@mysqli_select_db($db->Link_ID, $database)) {
             return true;
         } else {
             return false;

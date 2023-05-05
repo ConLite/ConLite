@@ -1,4 +1,4 @@
-<?php
+<?php global $action, $area, $frame;
 
 /**
  * Project: 
@@ -50,7 +50,9 @@ if ($action == "mod_delete") {
     $idmod = 0;
 }
 
+/** @var Contenido_Perm $perm */
 if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $action))) {
+    /** @var Contenido_Notification $notification */
     $notification->displayNotification("error", i18n("No permission"));
 } else {
     if ($action == "mod_new") {
@@ -64,6 +66,7 @@ if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $act
     }
 
     if ($action == "mod_importexport_module") {
+        /** @var string $mode */
         if ($mode == "export") {
             $name = uplCreateFriendlyName($module->get("name"));
 
@@ -74,7 +77,7 @@ if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $act
         if ($mode == "import") {
             if (file_exists($_FILES["upload"]["tmp_name"])) {
                 if (!$module->import($_FILES["upload"]["tmp_name"])) {
-                    $noti .= sprintf(i18n("Error while importing XML file: %s"), $module->_error) . "<br>";
+                    $noti .= sprintf(i18n("Error while importing XML file: %s"), $module->getError()) . "<br>";
                 } else {
                     // Load the item again (clearing slashes from import)
                     $module->loadByPrimaryKey($module->get($module->primaryKey));
@@ -82,7 +85,7 @@ if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $act
             }
         }
     }
-
+    /** @var Contenido_Notification $notification */
     if ($action == "mod_folder_create") {
         if ($module->createModuleFolder()) {
             $notification->displayNotification("info", i18n("Module folder created"));
@@ -227,11 +230,12 @@ if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $act
 */
 function insertTab(event, obj) {
 	var tabKeyCode = 9;
+    var keycode;
 
 	if (event.which) // mozilla
-		var keycode = event.which;
+		keycode = event.which;
 	else // ie
-		var keycode = event.keyCode;
+		keycode = event.keyCode;
 
 	if (keycode == tabKeyCode) {
 		if (event.type == "keydown") {
@@ -268,8 +272,8 @@ function insertTab(event, obj) {
         $typeselect = new cHTMLSelectElement("type");
 
         $db2 = new DB_ConLite;
-        $sql = "SELECT type FROM " . $cfg["tab"]["mod"] . " " .
-                "WHERE idclient = '" . $client . "' GROUP BY type"; // This query can't be designed using GenericDB...
+        $sql = "SELECT type FROM " . cRegistry::getConfigValue('tab', 'mod') . " " .
+                "WHERE idclient = '" . cRegistry::getClientId() . "' GROUP BY type"; // @todo check: This query can't be designed using GenericDB...
         $db2->query($sql);
 
         $aTypes = array();
@@ -281,7 +285,7 @@ function insertTab(event, obj) {
 
         // Read existing layouts
         $oLayouts = new cApiLayoutCollection;
-        $oLayouts->setWhere("idclient", $client);
+        $oLayouts->setWhere("idclient", cRegistry::getClientId());
         $oLayouts->query();
 
         while ($oLayout = $oLayouts->next()) {
@@ -318,6 +322,8 @@ function insertTab(event, obj) {
 
         $inputok = true;
         $outputok = true;
+
+        /** @var string $modErrorMessage */
         if ($modulecheck !== "false") {
             $outputok = modTestModule($module->get("output"), $module->get("idmod") . "o", true);
             if (!$outputok) {
@@ -358,7 +364,7 @@ function insertTab(event, obj) {
             }
         }
 
-        if ($cfg['dceModEdit']['use']) {
+        if (cRegistry::getConfigValue('dceModEdit', 'use')) {
             // button for mod folder creation
             if (!$module->hasModuleFolder() && $action != "mod_new") {
                 $aParam = array(
@@ -367,6 +373,7 @@ function insertTab(event, obj) {
                     'idmod' => $idmod,
                     'frame' => $frame
                 );
+                /** @var Contenido_Session $sess */
                 $oCreateFolderButton = new cHTMLLink($sess->self_url($aParam));
                 $oCreateFolderButton->setContent(i18n("Create Folder"));
                 $sCreateFolderButton = " " . $oCreateFolderButton->render();
@@ -481,8 +488,9 @@ window.onload = scrolltheother;
             $page->addScript('reload', $sReloadScript);
         }
         if (!($action == "mod_importexport_module" && $mode == "export")) {
-            $oEditAreaInput = new EditArea('input', 'php', substr(strtolower($belang), 0, 2), true, $cfg, (($module->isLoadedFromFile("input")) ? FALSE : !$bInUse));
-            $oEditAreaOutput = new EditArea('output', 'php', substr(strtolower($belang), 0, 2), false, $cfg, (($module->isLoadedFromFile("output")) ? FALSE : !$bInUse));
+            /** @var string $belang */
+            $oEditAreaInput = new EditArea('input', 'php', substr(strtolower($belang), 0, 2), true, cRegistry::getConfig(), (($module->isLoadedFromFile("input")) ? FALSE : !$bInUse));
+            $oEditAreaOutput = new EditArea('output', 'php', substr(strtolower($belang), 0, 2), false, cRegistry::getConfig(), (($module->isLoadedFromFile("output")) ? FALSE : !$bInUse));
             $page->addScript('editarea', $oEditAreaInput->renderScript() . $oEditAreaOutput->renderScript());
 
             $page->render();

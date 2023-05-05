@@ -481,6 +481,14 @@ class cApiModule extends Item {
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->_error;
+    }
+
     protected function _shouldLoadFromFiles() {
         if (getSystemProperty("modules", "loadfromfiles") == "true") {
             return true;
