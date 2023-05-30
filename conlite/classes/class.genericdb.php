@@ -18,15 +18,19 @@ if (!defined('CON_FRAMEWORK')) {
 global $cfg;
 
 // Try to load GenericDB database driver
-$driver_filename = $cfg['path']['contenido'] . $cfg['path']['classes'] . 'drivers/' . $cfg['sql']['gdb_driver'] . '/class.gdb.' . $cfg['sql']['gdb_driver'] . '.php';
+$driver_filename = cRegistry::getBackendPath()
+    . cRegistry::getConfigValue('path', 'classes')
+    . 'drivers'
+    . DIRECTORY_SEPARATOR
+    . cRegistry::getConfigValue('sql', 'gdb_driver')
+        . DIRECTORY_SEPARATOR
+    . 'class.gdb.'
+    . cRegistry::getConfigValue('sql', 'gdb_driver')
+    . '.php';
 
 if (file_exists($driver_filename)) {
     include_once($driver_filename);
 }
-
-// load all genericdb classes
-cInclude("classes", "genericdb/class.item.base.abstract.php");
-cInclude("classes", "genericdb/class.item.cache.php");
 
 /**
  * Class Contenido_ItemException.

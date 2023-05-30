@@ -23,6 +23,14 @@ define('CON_BE_PATH', '../conlite/');
 session_start();
 
 require_once 'lib/defines.php';
+/*
+ * SetEnv CL_VERSION
+ */
+if (!defined('CL_VERSION')) {
+
+    define('CL_VERSION', C_SETUP_VERSION);
+
+}
 
 // uncomment this lines during development if needed
 error_reporting(E_ALL ^ E_NOTICE);
@@ -94,19 +102,22 @@ if(!is_dir($cfg['path']['conlite_config'])) {
     die("Setup cannot find the config folder \"".$cfg['path']['conlite_config']."\"! Make shure folder exists and is readable.");
 }
 
-// (bool) Flag to use native i18n.
-//        Note: Enabling this could create unwanted side effects, because of
-//        native gettext() behavior.
-$cfg['native_i18n'] = false;
+checkAndInclude($cfg['path']['conlite_config'] . 'config.misc.php');
+checkAndInclude($cfg['path']['conlite_config'] . 'cfg_sql.inc.php');
 
 // includes
-checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.registry.php');
+/** @todo use conlite autoload to load needed classes */
 checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.registry.php');
+// load all genericdb classes
+checkAndInclude($cfg['path']['conlite'] . 'classes/genericdb/class.item.base.abstract.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/genericdb/class.item.cache.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/class.genericdb.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml5.common.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.filehandler.php');
-checkAndInclude($cfg['path']['conlite'] . 'includes/functions.php54.php');
+checkAndInclude($cfg['path']['conlite'] . 'classes/contenido/class.language.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.i18n.php');
 checkAndInclude($cfg['path']['conlite'] . 'includes/functions.i18n.php');
 checkAndInclude('lib/class.setupcontrols.php');
