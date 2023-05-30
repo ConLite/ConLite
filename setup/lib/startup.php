@@ -100,6 +100,7 @@ if(!is_dir($cfg['path']['conlite_config'])) {
 $cfg['native_i18n'] = false;
 
 // includes
+checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.registry.php');
 checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml5.common.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
@@ -120,4 +121,3 @@ checkAndInclude('lib/functions.sql.php');
 checkAndInclude('lib/functions.setup.php');
 checkAndInclude('lib/class.template.php');
 checkAndInclude('lib/class.setupmask.php');
-?>
