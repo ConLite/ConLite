@@ -254,5 +254,3 @@ function txtFileToArray($sFile) {
     }
     return $aFileArray;
 }
-
-?>

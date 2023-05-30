@@ -33,9 +33,9 @@
  	
 
 class cHTMLAlphaImage extends cHTMLImage {
-    public $_sClickImage;
-    public $_sMouseoverClickImage;
-    public $_sMouseoverSrc;
+    protected $_sClickImage;
+    protected $_sMouseoverClickImage;
+    protected $_sMouseoverSrc;
 
     public function __construct()
     {
@@ -84,7 +84,8 @@ class cHTMLAlphaImage extends cHTMLImage {
 }
 
 class cHTMLErrorMessageList extends cHTMLDiv {
-    
+    protected cHTMLTable $_oTable;
+
     /**
      *  cHTMLErrorMessageList list all errors using a table
      */
@@ -107,7 +108,13 @@ class cHTMLErrorMessageList extends cHTMLDiv {
 }
 
 class cHTMLFoldableErrorMessage extends cHTMLTableRow {
-    
+    protected cHTMLTableData $_oFolding;
+    public cHTMLTableData $_oContent;
+    protected cHTMLTableData $_oIcon;
+    protected cHTMLAlphaImage $_oIconImg;
+    protected cHTMLDiv $_oTitle;
+    protected cHTMLDiv $_oMessage;
+
     /**
      *
      * @param string $sTitle
@@ -173,7 +180,9 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
 }
 
 class cHTMLInfoMessage extends cHTMLTableRow {
-    
+    protected cHTMLTableData $_oTitle;
+    protected cHTMLTableData $_oMessage;
+
     /**
      *
      * @param string $sTitle

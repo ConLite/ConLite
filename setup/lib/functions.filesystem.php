@@ -143,7 +143,7 @@ function canWriteFile($sFilename) {
         /* Ignore errors in case isWriteable() returns
          * a wrong information
          */
-        $fp = fopen($sFilename, "w");
+        $fp = @fopen($sFilename, "w");
         if (is_resource($fp)) {
             fclose($fp);
         }

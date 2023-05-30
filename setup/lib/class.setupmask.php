@@ -46,6 +46,8 @@ class cSetupMask {
      * @var string
      */
     protected $_sHeader;
+    public mixed $_bBackstep;
+    public mixed $_bNextstep;
 
     /**
      * @param string $sStepTemplate

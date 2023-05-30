@@ -24,6 +24,8 @@ define("C_SEVERITY_ERROR", 4);
 
 class cSetupSystemtest extends cSetupMask {
 
+    public array $_aMessages;
+
     public function __construct($step, $previous, $next) {
         parent::__construct("templates/setup/forms/systemtest.tpl", $step);
         $bErrors = false;

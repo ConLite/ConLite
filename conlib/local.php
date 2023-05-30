@@ -41,6 +41,7 @@ if (!defined('CON_FRAMEWORK')) {
  * DB-class for all DB handling
  */
 class DB_ConLite extends DB_Sql {
+    protected bool $NoRecord;
 
     /**
      * Constructor of database class.
