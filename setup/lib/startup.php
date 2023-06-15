@@ -97,6 +97,7 @@ global $cfg;
 $cfg['path']['frontend'] = CON_FRONTEND_PATH;
 $cfg['path']['conlite'] = $cfg['path']['frontend'] . '/conlite/';
 $cfg['path']['conlite_config'] = CON_FRONTEND_PATH . '/data/config/' . CL_ENVIRONMENT . '/';
+$cfg['path']['conlite_logs'] = CON_FRONTEND_PATH . '/data/logs/';
 
 if(!is_dir($cfg['path']['conlite_config'])) {
     die("Setup cannot find the config folder \"".$cfg['path']['conlite_config']."\"! Make shure folder exists and is readable.");
