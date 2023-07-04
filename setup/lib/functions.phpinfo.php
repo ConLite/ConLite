@@ -121,7 +121,6 @@ function isPHPExtensionLoaded($extension)
  * Test for PHP compatibility
  *
  * @param string $sVersion phpversion to test
- * @return boolean
  */
 function isPHPCompatible($sVersion = "8.0.0"): bool
 {
