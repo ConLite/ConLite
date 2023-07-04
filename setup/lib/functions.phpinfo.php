@@ -32,7 +32,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
+/** @todo move to enum */
 define("E_EXTENSION_AVAILABLE", 1);
 define("E_EXTENSION_UNAVAILABLE", 2);
 define("E_EXTENSION_CANTCHECK", 3);
