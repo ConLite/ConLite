@@ -134,5 +134,3 @@ match ($iStep) {
     'doinstall' => checkAndInclude('steps/setup/doinstall.php'),
     default => checkAndInclude('steps/languagechooser.php'),
 };
-
-?>
