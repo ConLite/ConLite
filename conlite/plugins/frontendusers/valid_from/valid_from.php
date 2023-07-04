@@ -10,34 +10,26 @@ function frontendusers_valid_from_getTitle ()
 
 function frontendusers_valid_from_display ()
 {
-	global $feuser,$db,$belang;
+	global $feuser;
 	
 	$template  = '%s';
-    
-	$currentValue = $feuser->get("valid_from");
-	
-	if ($currentValue == '') {
-		$currentValue = '1000-01-01';
+
+    $currentValue = $feuser->get("valid_from");
+
+	if($currentValue == "0000-00-00 00:00:00" || $currentValue == "") {
+		$currentValue = null;
+	} else {
+		$datetime = new DateTime($currentValue);
+		$currentValue = $datetime->format('Y-m-d\TH:i');
 	}
-	$currentValue = str_replace('00:00:00', '', $currentValue);
-	
-	$sValidFrom = '<style type="text/css">@import url(./scripts/jscalendar/calendar-contenido.css);</style>
-<script type="text/javascript" src="./scripts/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="./scripts/jscalendar/lang/calendar-'.substr(strtolower($belang),0,2).'.js"></script>
-<script type="text/javascript" src="./scripts/jscalendar/calendar-setup.js"></script>';
-	$sValidFrom .= '<input type="text" id="valid_from" name="valid_from" value="'.$currentValue.'" />&nbsp;<img src="images/calendar.gif" id="trigger" /">';
-	$sValidFrom .= '<script type="text/javascript">
-  Calendar.setup(
-    {
-		inputField  : "valid_from",
-		ifFormat    : "%Y-%m-%d",
-		button      : "trigger",
-		weekNumbers	: true,
-		firstDay	:	1
-    }
-  );
-</script>';
-	
+
+	$sValidFrom = '<input 
+	id="valid_from" 
+	type="datetime-local" 
+	name="valid_from" 
+	 pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" 
+	value="'.$currentValue.'" />';
+
 	return sprintf($template,$sValidFrom);
 }
 
@@ -54,14 +46,7 @@ function frontendusers_valid_from_wantedVariables ()
  */
 function frontendusers_valid_from_store ($variables) {
     global $feuser;
- 
-    if(Contenido_Security::isMySQLDate($variables["valid_from"], true)
-            || Contenido_Security::isMySQLDateTime($variables["valid_from"], true)
-            || empty($variables["valid_from"])
-            || $variables["valid_from"] == "0000-00-00"
-            || $variables["valid_from"] == "1000-01-01") {
-        
-        $feuser->set("valid_from", $variables["valid_from"], false);
-    }
+	if(!is_null($variables["valid_from"])) {
+		$feuser->set("valid_from", $variables["valid_from"], false);
+	}
 }
-?>
