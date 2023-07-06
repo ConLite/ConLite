@@ -11,12 +11,20 @@ class ComposerStaticInit030320213c853f2cfb8481e1bb7caf00
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'C' => 
+        array (
+            'ConLite\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'ConLite\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/conlite/classes',
         ),
     );
 
