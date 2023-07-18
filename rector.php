@@ -1,12 +1,14 @@
 <?php
+declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
+use Rector\Set\ValueObject\SetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->paths([
-        __DIR__,
+        __DIR__.'/conlite',
     ]);
     $rectorConfig->skip([
         __DIR__ . DIRECTORY_SEPARATOR . 'node_modules',
@@ -14,5 +16,10 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . DIRECTORY_SEPARATOR . 'vendor',
     ]);
     $rectorConfig->importNames();
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_80);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_80,
+        SetList::CODE_QUALITY,
+        SetList::DEAD_CODE,
+        SetList::NAMING,
+    ]);
 };
