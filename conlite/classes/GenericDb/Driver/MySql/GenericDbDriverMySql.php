@@ -2,7 +2,9 @@
 
 namespace ConLite\GenericDb\Driver\MySql;
 
+use cCharacterConverter;
 use ConLite\GenericDb\Driver\GenericDbDriver;
+use Contenido_Security;
 
 class GenericDbDriverMySql extends GenericDbDriver
 {
