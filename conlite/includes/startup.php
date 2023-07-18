@@ -142,7 +142,7 @@ require_once($cfg['path']['conlite'] . $cfg['path']['includes'] . '/api/function
 include_once($cfg['path']['conlite'] . $cfg['path']['classes'] . 'class.autoload.php');
 cAutoload::initialize($cfg);
 // init composer autoload
-include_once($cfg['path']['conlite'] . 'vendor/autoload.php');
+include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 
 
 // 2. security check: Check HTTP parameters, if requested
