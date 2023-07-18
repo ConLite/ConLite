@@ -392,7 +392,7 @@ class DBFSItem extends Item {
             $value = str_replace('"', "", $value);
         }
 
-        parent::setField($field, $value, $safe);
+        return parent::setField($field, $value, $safe);
     }
 
 }
