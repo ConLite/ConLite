@@ -232,7 +232,8 @@ if (!$perm->have_perm_area_action($area)) {
         $tpl->set('d', 'CATNAME', i18n("Client name"));
         $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
         $tpl->set('d', "BORDERCOLOR", $cfg["color"]["table_border"]);
-        $tpl->set('d', 'CATFIELD', formGenerateField("text", "clientname", clHtmlSpecialChars($db->f("name")), 50, 255));
+        $clientName = is_null($db->f("name"))?'':clHtmlSpecialChars($db->f("name"));
+        $tpl->set('d', 'CATFIELD', formGenerateField("text", "clientname", $clientName, 50, 255));
         $tpl->set('d', 'BRDRT', 0);
         $tpl->set('d', 'BRDRB', 1);
         $tpl->set('d', 'FONT', 'text_medium');
