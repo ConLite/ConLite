@@ -148,7 +148,7 @@ include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 // 2. security check: Check HTTP parameters, if requested
 if ($cfg['http_params_check']['enabled'] === true) {
     $oHttpInputValidator =
-        new HttpInputValidator($cfg['path']['conlite'] . $cfg['path']['includes'] . '/config.http_check.php');
+        new HttpInputValidator($cfg['path']['config'] . CL_ENVIRONMENT . DIRECTORY_SEPARATOR . 'config.http_check.php');
 }
 
 /* Generate arrays for available login languages
