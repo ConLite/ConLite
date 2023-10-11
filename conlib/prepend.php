@@ -35,8 +35,8 @@ if (!defined('CON_FRAMEWORK')) {
    die('Illegal call');
 }
 
-$_PHPLIB = array();
-$_PHPLIB['libdir'] = str_replace ('\\', '/', dirname(__FILE__) . '/');
+$_PHPLIB = [];
+$_PHPLIB['libdir'] = str_replace ('\\', '/', __DIR__ . '/');
 
 global $cfg;
 

@@ -84,9 +84,10 @@ if (!$layout->virgin) {
     $ret = tplBrowseLayoutForContainers($idlay);
 
     if (strlen($ret) != 0) {
+        $container = [];
+        $types =[];
         $containers = explode("&", $ret);
 
-        $types = array();
 
         foreach ($containers as $value) {
             if ($value != "") {
@@ -107,11 +108,7 @@ if (!$layout->virgin) {
         }
 
         $types = array_unique($types);
-        if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
-            $layout->setProperty("layout", "used-types", implode(";", $types));
-        } else {
-            $layout->setProperty("layout", "used-types", implode($types, ";"));
-        }
+        $layout->setProperty("layout", "used-types", implode(";", $types));
 
         $msg = "";
 
@@ -138,7 +135,6 @@ if (!$layout->virgin) {
         }
 
         foreach ($v->missingNodes as $value) {
-            $idqualifier = "";
 
             $attr = array();
 
@@ -237,4 +233,3 @@ if (stripslashes($_REQUEST['idlay'])) {
 }
 $page->addScript('reload', $sReloadScript);
 $page->render();
-?>

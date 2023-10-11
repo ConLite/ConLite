@@ -106,13 +106,13 @@ if(!is_dir($cfg['path']['conlite_config'])) {
 checkAndInclude($cfg['path']['conlite_config'] . 'config.misc.php');
 checkAndInclude($cfg['path']['conlite_config'] . 'cfg_sql.inc.php');
 
+include_once dirname(__DIR__, 2) . '/vendor/autoload.php';
+
 // includes
 /** @todo use conlite autoload to load needed classes */
 checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.registry.php');
-// load all genericdb classes
-checkAndInclude($cfg['path']['conlite'] . 'classes/genericdb/class.item.base.abstract.php');
-checkAndInclude($cfg['path']['conlite'] . 'classes/genericdb/class.item.cache.php');
+
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.genericdb.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml5.common.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');

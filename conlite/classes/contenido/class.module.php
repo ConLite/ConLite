@@ -57,10 +57,8 @@ class cApiModuleCollection extends ItemCollection {
         $oMod = $this->_itemClassInstance;
         $oMod->_bNoted = TRUE;
         $oMod->loadByPrimaryKey($iIdMod);
-        if ($oMod->isLoaded()) {
-            if ($oMod->hasModuleFolder()) {
-                $oMod->deleteModuleFolder();
-            }
+        if ($oMod->isLoaded() && $oMod->hasModuleFolder()) {
+            $oMod->deleteModuleFolder();
         }
         unset($oMod);
         return parent::delete($iIdMod);
@@ -73,6 +71,12 @@ class cApiModuleCollection extends ItemCollection {
  */
 class cApiModule extends Item {
 
+    public $_oldumask;
+    /**
+     * @var mixed
+     */
+    public $_sModAliasOld;
+    public $_bNoted;
     protected $_error;
 
     /**
@@ -83,10 +87,7 @@ class cApiModule extends Item {
     protected $_bOutputFromFile = false;
     protected $_bInputFromFile = false;
 
-    /**
-     * @var array
-     */
-    private $aUsedTemplates = array();
+    private array $aUsedTemplates = [];
 
     /**
      * Configuration Array of ModFileEdit
@@ -94,25 +95,12 @@ class cApiModule extends Item {
      * 
      * @var array 
      */
-    private $_aModFileEditConf = array(
-        'use' => false,
-        'modFolderName' => 'data/modules'
-    );
+    private $_aModFileEditConf = ['use' => false, 'modFolderName' => 'data/modules'];
 
-    /**
-     *
-     * @var string 
-     */
-    private $_sModAlias;
+    private ?string $_sModAlias = null;
 
-    /**
-     *
-     * @var string
-     */
-    private $_sModPath;
-    private $_aModDefaultStruct = array(
-        'css', 'js', 'php', 'template', 'image', 'lang', 'xml'
-    );
+    private ?string $_sModPath = null;
+    private array $_aModDefaultStruct = ['css', 'js', 'php', 'template', 'image', 'lang', 'xml'];
 
     /**
      * Constructor Function
@@ -128,13 +116,9 @@ class cApiModule extends Item {
         // That's why you don't have to stripslashes values if you store them
         // using ->set. You have to add slashes, if you store data directly
         // (data not from a form field)
-        $this->setFilters(array(), array());
+        $this->setFilters([], []);
 
-        $this->_packageStructure = array(
-            "jsfiles" => $cfgClient["js"]["path"],
-            "tplfiles" => $cfgClient["tpl"]["path"],
-            "cssfiles" => $cfgClient["css"]["path"]
-                );
+        $this->_packageStructure = ["jsfiles" => $cfgClient["js"]["path"], "tplfiles" => $cfgClient["tpl"]["path"], "cssfiles" => $cfgClient["css"]["path"]];
 
         if (isset($cfg['dceModEdit']) && is_array($cfg['dceModEdit'])) {
             $this->_aModFileEditConf['clientPath'] = $cfgClient["path"]["frontend"];
@@ -145,9 +129,9 @@ class cApiModule extends Item {
             }
         }
 
-        $oClient = new cApiClient(cRegistry::getClientId());
-        $aClientProp = $oClient->getPropertiesByType('modfileedit');
-        if (count($aClientProp) > 0) {
+        $cApiClient = new cApiClient(cRegistry::getClientId());
+        $aClientProp = $cApiClient->getPropertiesByType('modfileedit');
+        if ($aClientProp !== []) {
             $this->_aModFileEditConf = array_merge($this->_aModFileEditConf, $aClientProp);
         }
 
@@ -164,7 +148,7 @@ class cApiModule extends Item {
             try {
                 mkdir($this->_aModFileEditConf['modPath'], 0777, true);
             } catch (Exception $ex) {
-                $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
+                $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
                 $oLog = new cLog($oWriter);
                 $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
             }
@@ -176,7 +160,7 @@ class cApiModule extends Item {
                 try {
                     mkdir($this->getModulePath(), 0777);
                 } catch (Exception $ex) {
-                    $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
+                    $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
                     $oLog = new cLog($oWriter);
                     $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
                 }
@@ -187,7 +171,7 @@ class cApiModule extends Item {
                 umask($this->_oldumask);
             }
         } else {
-            $oWriter = cLogWriter::factory("File", array('destination' => $sPathErrorLog));
+            $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
             $oLog = new cLog($oWriter);
             $oLog->log(__FILE__ . " (" . __LINE__ . "): " . 'Error: Cannot create mod path '.$this->getModulePath(), cLog::WARN);
         }
@@ -195,10 +179,8 @@ class cApiModule extends Item {
     }
 
     public function deleteModuleFolder() {
-        if ($this->_aModFileEditConf['use'] == TRUE && is_writable($this->_aModFileEditConf['modPath'])) {
-            if (is_dir($this->getModulePath())) {
-                return $this->_recursiveRemoveDirectory($this->getModulePath());
-            }
+        if ($this->_aModFileEditConf['use'] == TRUE && is_writable($this->_aModFileEditConf['modPath']) && is_dir($this->getModulePath())) {
+            return $this->_recursiveRemoveDirectory($this->getModulePath());
         }
         return FALSE;
     }
@@ -273,12 +255,12 @@ class cApiModule extends Item {
         $code .= $this->get("input");
 
         // Initialize array
-        $strings = array();
+        $strings = [];
 
         // Split the code into mi18n chunks
         $varr = preg_split('/mi18n([\s]*)\(([\s]*)"/', $code, -1);
 
-        if (count($varr) > 1) {
+        if ((is_countable($varr) ? count($varr) : 0) > 1) {
             foreach ($varr as $key => $value) {
                 // Search first closing
                 $closing = strpos($value, '")');
@@ -298,7 +280,7 @@ class cApiModule extends Item {
                 preg_match_all('/mi18n([\s]*)\("(.*)"\)/', $varr[$key], $results);
 
                 // Append to strings array if there are any results
-                if (is_array($results[1]) && count($results[2]) > 0) {
+                if (is_array($results[1]) && (is_countable($results[2]) ? count($results[2]) : 0) > 0) {
                     $strings = array_merge($strings, $results[2]);
                 }
 
@@ -310,7 +292,7 @@ class cApiModule extends Item {
         // adding dynamically new module translations by content types
         // this function was introduced with contenido 4.8.13
         // checking if array is set to prevent crashing the module translation page
-        if (is_array($cfg['translatable_content_types']) && count($cfg['translatable_content_types']) > 0) {
+        if (is_array($cfg['translatable_content_types']) && $cfg['translatable_content_types'] !== []) {
             // iterate over all defines cms content types
             foreach ($cfg['translatable_content_types'] as $sContentType) {
                 // check if the content type exists and include his class file
@@ -321,7 +303,7 @@ class cApiModule extends Item {
                     // add the additional translations for the module
                     if (class_exists($sContentType) && method_exists($sContentType, 'addModuleTranslations') && preg_match('/' . strtoupper($sContentType) . '\[\d+\]/', $code)) {
 
-                        $strings = call_user_func(array($sContentType, 'addModuleTranslations'), $strings);
+                        $strings = call_user_func([$sContentType, 'addModuleTranslations'], $strings);
                     }
                 }
             }
@@ -338,7 +320,7 @@ class cApiModule extends Item {
     public function moduleInUse($module, $bSetData = false) {
         global $cfg;
 
-        $db = new DB_ConLite();
+        $dbConLite = new DB_ConLite();
 
         $sql = "SELECT
                     c.idmod, c.idtpl, t.name
@@ -350,17 +332,17 @@ class cApiModule extends Item {
                     t.idtpl=c.idtpl
                 GROUP BY c.idtpl
                 ORDER BY t.name";
-        $db->query($sql);
+        $dbConLite->query($sql);
 
-        if ($db->nf() == 0) {
+        if ($dbConLite->nf() == 0) {
             return false;
         } else {
             $i = 0;
             // save the datas of used templates in array
             if ($bSetData === true) {
-                while ($db->next_record()) {
-                    $this->aUsedTemplates[$i]['tpl_name'] = $db->f('name');
-                    $this->aUsedTemplates[$i]['tpl_id'] = (int) $db->f('idmod');
+                while ($dbConLite->next_record()) {
+                    $this->aUsedTemplates[$i]['tpl_name'] = $dbConLite->f('name');
+                    $this->aUsedTemplates[$i]['tpl_id'] = (int) $dbConLite->f('idmod');
                     $i++;
                 }
             }
@@ -385,16 +367,16 @@ class cApiModule extends Item {
      */
     public function isOldModule() {
         // Keywords to scan
-        $scanKeywords = array('$cfgTab', 'idside', 'idsidelang');
+        $scanKeywords = ['$cfgTab', 'idside', 'idsidelang'];
 
         $input = $this->get("input");
         $output = $this->get("output");
 
-        foreach ($scanKeywords as $keyword) {
-            if (strstr($input, $keyword)) {
+        foreach ($scanKeywords as $scanKeyword) {
+            if (strstr($input, $scanKeyword)) {
                 return true;
             }
-            if (strstr($output, $keyword)) {
+            if (strstr($output, $scanKeyword)) {
                 return true;
             }
         }
@@ -403,11 +385,8 @@ class cApiModule extends Item {
     public function getField($field) {
         $value = parent::getField($field);
 
-        switch ($field) {
-            case "name":
-                if ($value == "") {
-                    $value = i18n("- Unnamed Module -");
-                }
+        if ($field === "name" && $value == "") {
+            $value = i18n("- Unnamed Module -");
         }
         return ($value);
     }
@@ -415,7 +394,7 @@ class cApiModule extends Item {
     public function store($bJustStore = false) {
         global $cfg;
         /* dceModFileEdit (c)2009-2011 www.dceonline.de */
-        if ($this->_aModFileEditConf['use'] == true && ($this->_aModFileEditConf['allModsFromFile'] == true || in_array($this->get('idmod'), $this->_aModFileEditConf['modsFromFile']))) {
+        if ($this->_aModFileEditConf['use'] == true && ($this->_aModFileEditConf['allModsFromFile'] == true || (is_array($this->_aModFileEditConf['modsFromFile']) && in_array($this->get('idmod'), $this->_aModFileEditConf['modsFromFile'])))) {
             $this->modifiedValues['output'] = true;
             $this->modifiedValues['input'] = true;
         }
@@ -430,11 +409,9 @@ class cApiModule extends Item {
 
             conGenerateCodeForAllArtsUsingMod($this->get("idmod"));
 
-            if ($this->_shouldStoreToFile()) {
-                if ($this->_makeFileDirectoryStructure()) {
-                    $sRootPath = $cfg['path']['contenido'] . $cfg['path']['modules'] . $this->get("idclient") . "/";
-                    file_put_contents($sRootPath . $this->get("idmod") . ".xml", $this->export($this->get("idmod") . ".xml", true));
-                }
+            if ($this->_shouldStoreToFile() && $this->_makeFileDirectoryStructure()) {
+                $sRootPath = $cfg['path']['contenido'] . $cfg['path']['modules'] . $this->get("idclient") . "/";
+                file_put_contents($sRootPath . $this->get("idmod") . ".xml", $this->export($this->get("idmod") . ".xml", true));
             }
         }
     }
@@ -443,7 +420,7 @@ class cApiModule extends Item {
         return $this->_aModFileEditConf;
     }
 
-    protected function _recursiveRemoveDirectory($directory) {
+    protected function _recursiveRemoveDirectory($directory): bool {
         foreach (glob("{$directory}/*") as $file) {
             if (is_dir($file)) {
                 $this->_recursiveRemoveDirectory($file);
@@ -508,26 +485,23 @@ class cApiModule extends Item {
     private function _parseImportFile($sFile, $sType = "module", $sEncoding = "ISO-8859-1") {
         global $_mImport;
 
-        $oParser = new clXmlParser($sEncoding);
+        $clXmlParser = new clXmlParser($sEncoding);
 
         if ($sType == "module") {
-            $oParser->setEventHandlers(array("/module/name" => "cHandler_ModuleData",
-                "/module/description" => "cHandler_ModuleData",
-                "/module/type" => "cHandler_ModuleData",
-                "/module/input" => "cHandler_ModuleData",
-                "/module/output" => "cHandler_ModuleData"));
+            $clXmlParser->setEventHandlers(["/module/name" => "cHandler_ModuleData", "/module/description" => "cHandler_ModuleData", "/module/type" => "cHandler_ModuleData", "/module/input" => "cHandler_ModuleData", "/module/output" => "cHandler_ModuleData"]);
         } else {
-            $aHandler = array("/modulepackage/guid" => "cHandler_ModuleData",
+            $aHandler = [
+                "/modulepackage/guid" => "cHandler_ModuleData",
                 #"/modulepackage/repository_guid"    => "cHandler_ModuleData",
                 "/modulepackage/module/name" => "cHandler_ModuleData",
                 "/modulepackage/module/description" => "cHandler_ModuleData",
                 "/modulepackage/module/type" => "cHandler_ModuleData",
-                "/modulepackage/module/input" => "cHandler_ModuleData",
                 "/modulepackage/module/output" => "cHandler_ModuleData",
-                "/modulepackage/module/input" => "cHandler_ModuleData");
+                "/modulepackage/module/input" => "cHandler_ModuleData",
+            ];
 
             // Add file handler (e.g. js, css, templates)
-            foreach ($this->_packageStructure As $sFileType => $sFilePath) {
+            foreach (array_keys($this->_packageStructure) As $sFileType) {
                 // Note, that $aHandler["/modulepackage/" . $sFileType] and using
                 // a handler which uses the node name (here: FileType) doesn't work,
                 // as the event handler for the filetype node will be fired
@@ -550,13 +524,13 @@ class cApiModule extends Item {
             $aHandler["/modulepackage/translations/string/original"] = "cHandler_ItemName";
             $aHandler["/modulepackage/translations/string/translation"] = "cHandler_Translation";
 
-            $oParser->setEventHandlers($aHandler);
+            $clXmlParser->setEventHandlers($aHandler);
         }
 
-        if ($oParser->parseFile($sFile)) {
+        if ($clXmlParser->parseFile($sFile)) {
             return true;
         } else {
-            $this->_error = $oParser->error;
+            $this->_error = $clXmlParser->error;
             return false;
         }
     }
@@ -595,8 +569,8 @@ class cApiModule extends Item {
      * @param $return    boolean if false, the result is immediately sent to the browser
      */
     public function export($filename, $return = false) {
-        $tree = new XmlTree('1.0', 'ISO-8859-1');
-        $root = & $tree->addRoot('module');
+        $xmlTree = new XmlTree('1.0', 'ISO-8859-1');
+        $root = & $xmlTree->addRoot('module');
 
         $root->appendChild("name", clHtmlSpecialChars($this->get("name")));
         $root->appendChild("description", clHtmlSpecialChars($this->get("description")));
@@ -607,11 +581,11 @@ class cApiModule extends Item {
         if ($return == false) {
             ob_end_clean();
             header("Content-Type: text/xml");
-            header("Etag: " . md5(mt_rand()));
+            header("Etag: " . md5(random_int(0, mt_getrandmax())));
             header("Content-Disposition: attachment;filename=\"$filename\"");
-            $tree->dump(false);
+            $xmlTree->dump(false);
         } else {
-            return stripslashes($tree->dump(true));
+            return stripslashes($xmlTree->dump(true));
         }
     }
 
@@ -619,13 +593,13 @@ class cApiModule extends Item {
         global $_mImport;
 
         if ($this->_parseImportFile($sFile, "package")) {
-            $aData = array();
+            $aData = [];
             $aData["guid"] = $_mImport["module"]["guid"];
             $aData["repository_guid"] = $_mImport["module"]["repository_guid"];
             $aData["name"] = $_mImport["module"]["name"];
 
             // Files
-            foreach ($this->_packageStructure as $sFileType => $sFilePath) {
+            foreach (array_keys($this->_packageStructure) as $sFileType) {
                 if (is_array($_mImport["items"][$sFileType])) {
                     $aData[$sFileType] = array_keys($_mImport["items"][$sFileType]);
                 }
@@ -666,26 +640,27 @@ class cApiModule extends Item {
      *
      * @return bool Returns true, if import has been successfully finished
      */
-    public function importPackage($sFile, $aOptions = array()) {
+    public function importPackage($sFile, $aOptions = []) {
+        $bStore = null;
         global $_mImport, $client;
 
         cInclude("includes", "functions.file.php");
         cInclude("includes", "functions.lay.php"); // You won't believe the code in there (or what is missing in class.layout.php...)
         // Ensure correct options structure
-        foreach ($this->_packageStructure as $sFileType => $sFilePath) {
+        foreach (array_keys($this->_packageStructure) as $sFileType) {
             if (!is_array($aOptions["items"][$sFileType])) {
-                $aOptions["items"][$sFileType] = array();
+                $aOptions["items"][$sFileType] = [];
             }
         }
 
         // Layouts
         if (!is_array($aOptions["items"]["layouts"])) {
-            $aOptions["items"]["layouts"] = array();
+            $aOptions["items"]["layouts"] = [];
         }
 
         // Translations
         if (!is_array($aOptions["translations"])) {
-            $aOptions["translations"] = array();
+            $aOptions["translations"] = [];
         }
 
         // Parse file
@@ -712,7 +687,7 @@ class cApiModule extends Item {
                                 createFile($sFileName, $sFilePath);
                             }
                             fileEdit($sFileName, $aContent["content"], $sFilePath);
-                        } else if ($aOptions["items"][$sFileType][clHtmlSpecialChars($sFileName)] == "append") {
+                        } elseif ($aOptions["items"][$sFileType][clHtmlSpecialChars($sFileName)] == "append") {
                             $sOriginalContent = getFileContent($sFileName, $sFilePath);
                             fileEdit($sFileName, $sOriginalContent . $aContent["content"], $sFilePath);
                         }
@@ -751,13 +726,13 @@ class cApiModule extends Item {
 
             // Translations
             if (is_array($_mImport["translations"])) {
-                $oTranslations = new cApiModuleTranslationCollection();
+                $cApiModuleTranslationCollection = new cApiModuleTranslationCollection();
                 $iID = $this->get($this->primaryKey);
 
-                foreach ($_mImport["translations"] as $sPackageLang => $aTranslations) {
+                foreach (array_keys($_mImport["translations"]) as $sPackageLang) {
                     if (array_key_exists($sPackageLang, $aOptions["translations"])) {
                         foreach ($_mImport["translations"][$sPackageLang] as $sOriginal => $sTranslation) {
-                            $oTranslations->create($iID, $aOptions["translations"][$sPackageLang], $sOriginal, $sTranslation);
+                            $cApiModuleTranslationCollection->create($iID, $aOptions["translations"][$sPackageLang], $sOriginal, $sTranslation);
                         }
                     }
                 }
@@ -779,21 +754,21 @@ class cApiModule extends Item {
 
         cInclude("includes", "functions.file.php");
 
-        $oTree = new XmlTree('1.0', 'ISO-8859-1');
-        $oRoot = & $oTree->addRoot('modulepackage');
+        $xmlTree = new XmlTree('1.0', 'ISO-8859-1');
+        $oRoot = & $xmlTree->addRoot('modulepackage');
 
         $oRoot->appendChild("package_guid", $this->get("package_guid"));
         $oRoot->appendChild("package_data", $this->get("package_data")); // This is serialized and more or less informal data
 
         $aData = unserialize($this->get("package_data"));
         if (!is_array($aData)) {
-            $aData = array();
+            $aData = [];
             $aData["repository_guid"] = "";
-            $aData["jsfiles"] = array();
-            $aData["tplfiles"] = array();
-            $aData["cssfiles"] = array();
-            $aData["layouts"] = array();
-            $aData["translations"] = array();
+            $aData["jsfiles"] = [];
+            $aData["tplfiles"] = [];
+            $aData["cssfiles"] = [];
+            $aData["layouts"] = [];
+            $aData["translations"] = [];
         }
 
         // Export basic module
@@ -807,14 +782,12 @@ class cApiModule extends Item {
         // Export files (e.g. js, css, templates)
         foreach ($this->_packageStructure As $sFileType => $sFilePath) {
             $oNodeFiles = & $oRoot->appendChild($sFileType);
-            if (count($aData[$sFileType]) > 0) {
-                foreach ($aData[$sFileType] as $sFileName) {
-                    if (is_readable($sFilePath . $sFileName)) {
-                        $sContent = getFileContent($sFileName, $sFilePath);
-                        $oNodeFiles->appendChild("area", clHtmlSpecialChars($sFileType));
-                        $oNodeFiles->appendChild("name", clHtmlSpecialChars($sFileName));
-                        $oNodeFiles->appendChild("content", clHtmlSpecialChars($sContent));
-                    }
+            foreach ($aData[$sFileType] as $sFileName) {
+                if (is_readable($sFilePath . $sFileName)) {
+                    $sContent = getFileContent($sFileName, $sFilePath);
+                    $oNodeFiles->appendChild("area", clHtmlSpecialChars($sFileType));
+                    $oNodeFiles->appendChild("name", clHtmlSpecialChars($sFileName));
+                    $oNodeFiles->appendChild("content", clHtmlSpecialChars($sContent));
                 }
             }
         }
@@ -823,11 +796,11 @@ class cApiModule extends Item {
         // Export layouts
         $oNodeLayouts = & $oRoot->appendChild("layouts");
 
-        $oLayouts = new cApiLayoutCollection;
-        $oLayouts->setWhere("idclient", $client);
-        $oLayouts->query();
+        $cApiLayoutCollection = new cApiLayoutCollection;
+        $cApiLayoutCollection->setWhere("idclient", $client);
+        $cApiLayoutCollection->query();
 
-        while ($oLayout = $oLayouts->next()) {
+        while ($oLayout = $cApiLayoutCollection->next()) {
             if (in_array($oLayout->get($oLayout->primaryKey), $aData["layouts"])) {
                 $oNodeLayouts->appendChild("area", "layouts");
                 $oNodeLayouts->appendChild("name", clHtmlSpecialChars($oLayout->get("name")));
@@ -836,24 +809,23 @@ class cApiModule extends Item {
             }
         }
         unset($oLayout);
-        unset($oLayouts);
+        unset($cApiLayoutCollection);
 
         // Export translations
-        $oLangs = new cApiLanguageCollection();
-        $oLangs->setOrder("idlang");
-        $oLangs->query();
+        $cApiLanguageCollection = new cApiLanguageCollection();
+        $cApiLanguageCollection->setOrder("idlang");
+        $cApiLanguageCollection->query();
 
-        if ($oLangs->count() > 0) {
+        if ($cApiLanguageCollection->count() > 0) {
             $iIDMod = $this->get($this->primaryKey);
-            while ($oLang = $oLangs->next()) {
+            while ($oLang = $cApiLanguageCollection->next()) {
                 $iID = $oLang->get($oLang->primaryKey);
 
                 if (in_array($iID, $aData["translations"])) {
                     $oNodeTrans = & $oRoot->appendChild("translations");
                     // This is nice, but it doesn't help so much,
                     // as this data is available too late on import ...
-                    $oNodeTrans->setNodeAttribs(array("origin-language-id" => $iID,
-                        "origin-language-name" => clHtmlSpecialChars($oLang->get("name"))));
+                    $oNodeTrans->setNodeAttribs(["origin-language-id" => $iID, "origin-language-name" => clHtmlSpecialChars($oLang->get("name"))]);
                     // ... so we store the important information with the data
                     $oNodeTrans->appendChild("language", clHtmlSpecialChars($oLang->get("name")));
 
@@ -870,17 +842,17 @@ class cApiModule extends Item {
                 }
             }
         }
-        unset($oLangs);
+        unset($cApiLanguageCollection);
         unset($oLang);
 
         if ($bReturn == false) {
             ob_end_clean();
             header("Content-Type: text/xml");
-            header("Etag: " . md5(mt_rand()));
+            header("Etag: " . md5(random_int(0, mt_getrandmax())));
             header("Content-Disposition: attachment;filename=\"$sPackageFileName\"");
-            $oTree->dump(false);
+            $xmlTree->dump(false);
         } else {
-            return stripslashes($oTree->dump(true));
+            return stripslashes($xmlTree->dump(true));
         }
     }
 
@@ -926,7 +898,7 @@ class cApiModule extends Item {
     }
 
     private function _displayNoteFromFile($bIsOldPath = FALSE) {
-        if (isset($this->_bNoted) && $this->_bNoted === true) {
+        if (property_exists($this, '_bNoted') && $this->_bNoted !== null && $this->_bNoted === true) {
             return;
         }
         global $frame, $area;
@@ -935,23 +907,22 @@ class cApiModule extends Item {
             if ($bIsOldPath) {
                 $sAddMess .= "<br>" . i18n("Using old CamelCase for name of modulefolder. You may lowercase the name for modulefolder");
             }
-            $oNote = new Contenido_Notification();
-            $oNote->displayNotification('warning', i18n("Module uses Output- and/or InputFromFile. Editing and Saving may not be possible in backend.") . $sAddMess);
+            $contenidoNotification = new Contenido_Notification();
+            $contenidoNotification->displayNotification('warning', i18n("Module uses Output- and/or InputFromFile. Editing and Saving may not be possible in backend.") . $sAddMess);
             $this->_bNoted = true;
         }
     }
 
     /**
      * read file and set an object field
-     * 
+     *
      * @param string $sFile 
      * @param string $sField
-     * @return boolean
      */
-    private function _setFieldFromFile($sField, $sFile) {
+    private function _setFieldFromFile($sField, $sFile): bool {
         $bIsOldPath = TRUE;
         $sFile = strtolower($sFile);
-        if (FALSE === strstr($sFile, $this->_aModFileEditConf['modPath'])) {
+        if (!str_contains($sFile, $this->_aModFileEditConf['modPath'])) {
             $sFile = $this->_aModFileEditConf['modPath'] . $sFile;
         }
         // check for new struct since CL 2.0
@@ -996,17 +967,12 @@ class cApiModule extends Item {
     }
 
     public function isLoadedFromFile($sWhat = "all") {
-        switch ($sWhat) {
-            case "all":
-                return (($this->_bOutputFromFile || $this->_bInputFromFile) ? TRUE : FALSE);
-                break;
-            case "output":
-                return $this->_bOutputFromFile;
-            case "input":
-                return $this->_bInputFromFile;
-            default:
-                return false;
-        }
+        return match ($sWhat) {
+            "all" => $this->_bOutputFromFile || $this->_bInputFromFile,
+            "output" => $this->_bOutputFromFile,
+            "input" => $this->_bInputFromFile,
+            default => false,
+        };
     }
 
     /* End dceModFileEdit (c)2009-2012 www.dceonline.de */
@@ -1026,10 +992,7 @@ class cApiModule extends Item {
 
     private function _createModulePhpFiles() {
         $sPath = $this->_sModPath . "php/";
-        $aFileTpl = array(
-            'output' => "<?php\n\n?>",
-            'input' => "?><?php\n\n?><?php"
-        );
+        $aFileTpl = ['output' => "<?php\n\n?>", 'input' => "?><?php\n\n?><?php"];
 
         if (is_writable($sPath)) {
             $sOutputFile = $sPath . $this->_sModAlias . "_output.php";
@@ -1085,8 +1048,8 @@ class cApiModuleTranslationCollection extends ItemCollection {
     public function create($idmod, $idlang, $original, $translation = false) {
         // Check if the original already exists. If it does,
         // update the translation if passed
-        $mod = new cApiModuleTranslation();
-        $sorg = $mod->_inFilter($original);
+        $cApiModuleTranslation = new cApiModuleTranslation();
+        $sorg = $cApiModuleTranslation->_inFilter($original);
 
         $this->select("idmod = '$idmod' AND idlang = '$idlang' AND original = '$sorg'");
 
@@ -1142,21 +1105,20 @@ class cApiModuleTranslationCollection extends ItemCollection {
     public function import($idmod, $idlang, $file) {
         global $_mImport;
 
-        $parser = new clXmlParser("ISO-8859-1");
+        $clXmlParser = new clXmlParser("ISO-8859-1");
 
-        $parser->setEventHandlers(array("/module/translation/string/original" => "cHandler_ItemName",
-            "/module/translation/string/translation" => "cHandler_Translation"));
+        $clXmlParser->setEventHandlers(["/module/translation/string/original" => "cHandler_ItemName", "/module/translation/string/translation" => "cHandler_Translation"]);
 
         $_mImport["current_item_area"] = "current"; // Pre-specification, as this won't be set from the XML file (here)
 
-        if ($parser->parseFile($file)) {
+        if ($clXmlParser->parseFile($file)) {
             foreach ($_mImport["translations"]["current"] as $sOriginal => $sTranslation) {
                 $this->create($idmod, $idlang, $sOriginal, $sTranslation);
             }
 
             return true;
         } else {
-            $this->_error = $parser->error;
+            $this->_error = $clXmlParser->error;
             return false;
         }
     }
@@ -1170,21 +1132,20 @@ class cApiModuleTranslationCollection extends ItemCollection {
      * @param $return    boolean if false, the result is immediately sent to the browser
      */
     public function export($idmod, $idlang, $filename, $return = false) {
-        $langobj = new cApiLanguage($idlang);
+        $cApiLanguage = new cApiLanguage($idlang);
 
         #$langstring = $langobj->get("name") . ' ('.$idlang.')';
 
-        $translations = new cApiModuleTranslationCollection;
-        $translations->select("idmod = '$idmod' AND idlang='$idlang'");
+        $cApiModuleTranslationCollection = new cApiModuleTranslationCollection;
+        $cApiModuleTranslationCollection->select("idmod = '$idmod' AND idlang='$idlang'");
 
-        $tree = new XmlTree('1.0', 'ISO-8859-1');
-        $root = & $tree->addRoot('module');
+        $xmlTree = new XmlTree('1.0', 'ISO-8859-1');
+        $root = & $xmlTree->addRoot('module');
 
         $translation = & $root->appendChild('translation');
-        $translation->setNodeAttribs(array("origin-language-id" => $idlang,
-            "origin-language-name" => $langobj->get("name")));
+        $translation->setNodeAttribs(["origin-language-id" => $idlang, "origin-language-name" => $cApiLanguage->get("name")]);
 
-        while ($otranslation = $translations->next()) {
+        while ($otranslation = $cApiModuleTranslationCollection->next()) {
             $string = &$translation->appendChild("string");
 
             $string->appendChild("original", clHtmlSpecialChars($otranslation->get("original")));
@@ -1193,11 +1154,11 @@ class cApiModuleTranslationCollection extends ItemCollection {
 
         if ($return == false) {
             header("Content-Type: text/xml");
-            header("Etag: " . md5(mt_rand()));
+            header("Etag: " . md5(random_int(0, mt_getrandmax())));
             header("Content-Disposition: attachment;filename=\"$filename\"");
-            $tree->dump(false);
+            $xmlTree->dump(false);
         } else {
-            return $tree->dump(true);
+            return $xmlTree->dump(true);
         }
     }
 

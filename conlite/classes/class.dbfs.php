@@ -382,7 +382,8 @@ class DBFSItem extends Item {
         parent::store();
     }
 
-    public function setField($field, $value, $safe = true) {
+    public function setField($field, $value, $safe = true): bool
+    {
         if ($field == "dirname" || $field == "filename" || $field == "mimetype") {
             // Don't do safe encoding
             $safe = false;
@@ -391,7 +392,7 @@ class DBFSItem extends Item {
             $value = str_replace('"', "", $value);
         }
 
-        parent::setField($field, $value, $safe);
+        return parent::setField($field, $value, $safe);
     }
 
 }

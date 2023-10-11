@@ -41,13 +41,13 @@ $clang = new cApiLanguage($idlang);
 #Script for refreshing Language Box in Header
 $newOption = '';
 
-$db2 = new DB_ConLite;
+$db2 = new DB_ConLite();
 
-$sReload = '<script language="javascript">
-                var left_bottom = top.content.left.left_bottom;
+$sReload = '<script>
+                let left_bottom = top.content.left.left_bottom;
 
                 if (left_bottom) {
-                    var href = left_bottom.location.href;
+                    let href = left_bottom.location.href;
                     href = href.replace(/&idlang[^&]*/, \'\');
                     left_bottom.location.href = href+"&idlang="+"' . $idlang . '";
                 }
@@ -59,9 +59,9 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
     if ($action == "lang_deletelanguage") {
         // finally delete from dropdown in header
         $newOption = '<script>
-                                    var langList = top.header.document.getElementById("cLanguageSelect");
-                                    var thepos="";
-                                    for(var i=0;i<langList.length;i++) {
+                                    let langList = top.header.document.getElementById("cLanguageSelect");
+                                    let thepos="";
+                                    for(let i=0;i<langList.length;i++) {
                                             if(langList.options[i].value == ' . $idlang . ') {
                                                     thepos = langList.options[i].index;
                                             }
@@ -72,15 +72,15 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
 
     if ($action == "lang_newlanguage") {
         // update language dropdown in header
-        $new_idlang = 0;
+        $new_idlang = 1;
         $db->query('SELECT max(idlang) as newlang FROM ' . $cfg["tab"]["lang"] . ';');
         if ($db->next_record()) {
             $new_idlang = $db->f('newlang');
         }
 
-        $newOption = '<script language="javascript">
-                                    var newLang = new Option("' . i18n("New language") . ' (' . $new_idlang . ')", "' . $new_idlang . '", false, false);
-                                    var langList = top.header.document.getElementById("cLanguageSelect");
+        $newOption = '<script>
+                                    let newLang = new Option("' . i18n("New language") . ' (' . $new_idlang . ')", "' . $new_idlang . '", false, false);
+                                    let langList = top.header.document.getElementById("cLanguageSelect");
                                     langList.options[langList.options.length] = newLang;
                                 </script>';
         $idlang = $new_idlang;
