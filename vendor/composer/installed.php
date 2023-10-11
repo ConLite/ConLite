@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '9d2f901385912df64e41f232d3aed5c03d588c06',
+        'reference' => '6a28bd3eaf02f74b5cf1aae2abe1b1d53e971e67',
         'name' => 'org.conlite/conlite',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '9d2f901385912df64e41f232d3aed5c03d588c06',
+            'reference' => '6a28bd3eaf02f74b5cf1aae2abe1b1d53e971e67',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
