@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MessDetectorOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCSFixerOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PHPCodeSnifferOptionsConfiguration">
+    <option name="highlightLevel" value="WARNING" />
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/conlite/external/phpqrcode/bindings" />
+      <path value="$PROJECT_DIR$/conlite/external/phpqrcode/tools" />
+      <path value="$PROJECT_DIR$/conlite/external/edit_area/plugins" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/cache" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/images" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/css" />
+      <path value="$PROJECT_DIR$/conlite/external/composer" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/data" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/upload" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/templates" />
+      <path value="$PROJECT_DIR$/conlite/external/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/conlite/external/edit_area/langs" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/js" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/includes" />
+      <path value="$PROJECT_DIR$/conlite/external/wysiwyg/tinymce3" />
+      <path value="$PROJECT_DIR$/conlite/external/edit_area/images" />
+      <path value="$PROJECT_DIR$/conlite/external/edit_area/reg_syntax" />
+      <path value="$PROJECT_DIR$/conlite/external/frontend/logs" />
+      <path value="$PROJECT_DIR$/conlite/external/endroid/qr-code" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
+  </component>
+  <component name="PhpStanOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+  <component name="PsalmOptionsConfiguration">
+    <option name="transferred" value="true" />
+  </component>
+</project>
