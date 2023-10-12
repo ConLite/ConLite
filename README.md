@@ -2,7 +2,7 @@ This is the readme file for **ConLite 2.1.3**
 
 Any help you need you may find by visiting the following links.
 
-* CL-Portal [https//conlite.org](https//conlite.org)
+* CL-Portal [https://conlite.org](https://conlite.org)
 * CL-Forum [http://forum.conlite.org](http://forum.conlite.org)
 * CL-Bugtracker [https://gitport.de/ConLite/ConLite/issues](https://gitport.de/ConLite/ConLite/issues)
 * CL-API-Doc [http://conlite.conrepo.org/api/4.8.16CL](http://conlite.conrepo.org/api/4.8.16CL)
