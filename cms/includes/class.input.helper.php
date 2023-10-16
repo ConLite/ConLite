@@ -144,8 +144,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
      *
      * @return int		Number of items added
      * */
-    function addCategories($iMaxLevel = 0, $bColored = false, $bCatVisible = true, $bCatPublic = true,
-            $bWithArt = false, $bArtOnline = true) {
+    function addCategories($iMaxLevel = 0, $bColored = false, $bCatVisible = true, $bCatPublic = true, $bWithArt = false, $bArtOnline = true) {
         global $cfg, $client, $lang;
 
         $oDB = new DB_Contenido;
@@ -259,27 +258,18 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
         }
     }
 
-    /**
-     * Selects specified elements as selected
-     *
-     * @param array		$aElements Array with "values" of the cHTMLOptionElement to set
-     *
-     * @return none
-     */
-    function setSelected($aElements) {
-        if (is_array($this->_options) && is_array($aElements)) {
-            foreach ($this->_options as $sKey => $oOption) {
-                if (in_array($oOption->getAttribute("value"), $aElements)) {
-                    $oOption->setSelected(true);
-                    $this->_options[$sKey] = $oOption;
-                } else {
-                    $oOption->setSelected(false);
-                    $this->_options[$sKey] = $oOption;
-                }
-            }
-        }
+    public function addFiles($sPath) {
+        $iCount = 0;
+        $aFiles = cDirHandler::read($sPath);
+        asort($aFiles);
+        $iCounter = count($this->_options);
+        foreach ($aFiles as $sValue) {
+            $oOption = new cHTMLOptionElement($sValue, $sValue);            
+            $this->addOptionElement($iCounter, $oOption);
+            $iCounter++;
+        }        
+        return count($aFiles);
     }
-
 }
 
 class UI_Config_Table {
@@ -302,16 +292,24 @@ class UI_Config_Table {
     var $_sColorLight;
     var $_sColorDark;
 
+    /**
+     * 
+     * @var type
+     */
+    protected $_iRowCnt = 0;
+
     function __construct() {
-        global $cfg;
+        $cfg = cRegistry::getConfig();
 
         $this->_sPadding = 2;
         $this->_sBorder = 0;
-        $this->_sBorderColor = $cfg['color']['table_border'];
-        $this->_sTplCellCode = '        <td align="{ALIGN}" valign="{VALIGN}" class="{CLASS}" colspan="{COLSPAN}" style="{EXTRA}white-space:nowrap;" nowrap="nowrap">{CONTENT}</td>' . "\n";
+        $this->_sBorderColor = cRegistry::getConfigValue('color', 'table_border');
+        $this->_sTplCellCode = '<td align="{ALIGN}" valign="{VALIGN}" class="{CLASS}" colspan="{COLSPAN}" style="{EXTRA}white-space:nowrap;" nowrap="nowrap">' . "\n"
+                . '{CONTENT}' . "\n"
+                . '</td>' . "\n";
         $this->_sTplTableFile = $cfg['path']['contenido'] . $cfg['path']['templates'] . $cfg['templates']['generic_list'];
-        $this->_sColorLight = $cfg['color']['table_light'];
-        $this->_sColorDark = $cfg['color']['table_dark'];
+        $this->_sColorLight = cRegistry::getConfigValue('color', 'table_light');
+        $this->_sColorDark = cRegistry::getConfigValue('color', 'table_dark');
     }
 
     function setCellTemplate($sCode) {
@@ -417,8 +415,37 @@ class UI_Config_Table {
         return $sSkript;
     }
 
-    function render($bPrint = false) {
-        $oTable = new Template;
+    /**
+     * increase row counter
+     */
+    public function nextRow() {
+        $this->_iRowCnt++;
+    }
+    
+    /**
+     * get current row count
+     * 
+     * @return int row count
+     */
+    public function getRowCount() : int {
+        return $this->_iRowCnt;
+    }
+
+    public function setRowCell(int $iCell, $mContent) {
+        $this->setCell($this->_iRowCnt, $iCell, $mContent);
+    }
+
+    public function setRowBorder(string $sWhich = 'bottom') {
+        $sStyle = '';
+        switch ($sWhich) {
+            case 'bottom':
+                $this->setRowExtra($this->_iRowCnt, 'border-bottom: 1px solid silver;');
+                break;
+        }
+    }
+
+    public function render($bPrint = false) {
+        $oTable = new Template();
         $oTable->reset();
 
         $oTable->set('s', 'CELLPADDING', $this->_sPadding);
@@ -437,6 +464,8 @@ class UI_Config_Table {
                 $iCount = 0;
 
                 foreach ($aCells as $sCell => $sData) {
+                    $sData = $this->_processContentData($sData);
+
                     $iCount++;
                     $sTplCell = $this->_sTplCellCode;
 
@@ -525,6 +554,57 @@ class UI_Config_Table {
         }
     }
 
-}
+    /**
+     * returns different types of content data as string
+     * you can use 
+     * - string
+     * - object, needs to have a render method
+     * - array of objects and/or strings
+     * 
+     * @author Ortwin Pinke
+     * @since 2.3.0
+     * 
+     * 
+     * @param mixed $mData
+     * @return string
+     */
+    protected function _processContentData($mData): string {
+        if (is_string($mData)) {
+            return $mData;
+        }
 
-?>
+        $sData = '';
+
+        if (is_array($mData) && count($mData) > 0) {
+            foreach ($mData as $mElement) {
+                if (is_string($mElement)) {
+                    $sData .= $mElement;
+                    continue;
+                }
+                $sData .= $this->_renderObject($mElement);
+            }
+        } else {
+            $sData = $this->_renderObject($mData);
+        }
+
+        return $sData;
+    }
+
+    /**
+     * Renders an object using its render method
+     * 
+     * @author Ortwin Pinke 
+     * @since 2.3.0
+     * 
+     * @param type $oObject
+     * @return string rendered string from object | empty string
+     */
+    protected function _renderObject($oObject): string {
+        $sReturn = '';
+        if (is_object($oObject) && method_exists($oObject, 'render')) {
+            $sReturn = $oObject->render();
+        }
+        return $sReturn;
+    }
+
+}

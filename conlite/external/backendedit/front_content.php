@@ -92,7 +92,7 @@ if ($cfg["use_pseudocron"] == true) {
  * PHPLIB application development toolkit
  * @see http://sourceforge.net/projects/phplib
  */
-if (!empty($contenido)) {
+if (isset($contenido)) {
     //Backend
     page_open(array('sess' => 'Contenido_Session', 'auth' => 'Contenido_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
     i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
@@ -129,9 +129,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
     # Don't do anything else
     exit();
 }
-
-// Call hook after plugins are loaded, added by Murat Purc, 2008-09-07
-CEC_Hook::execute('Contenido.Frontend.AfterLoadPlugins');
 
 if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     // get encodings of all languages
@@ -241,7 +238,7 @@ $errsite = 'Location: ' . Contenido_Url::getInstance()->buildRedirect($aParams);
  * Note: These variables can be set via http globals e.g. front_content.php?idcat=41&idart=34&idcatart=35&idartlang=42
  * If not the values will be computed.
  */
-if ($idart && !$idcat && !$idcatart) {
+if (!empty($idart) && empty($idcat) && empty($idcatart)) {
     /* Try to fetch the first idcat */
     $sql = "SELECT idcat FROM " . $cfg["tab"]["cat_art"] . " WHERE idart = '" . Contenido_Security::toInteger($idart) . "'";
     $db->query($sql);
@@ -410,7 +407,7 @@ if ($cfg["cache"]["disable"] != '1') {
  * The reason is to avoid cross-site scripting errors in the backend, if the backend domain differs from
  * the frontend domain.
  */
-if ($contenido) {
+if (isset($contenido)) {
     $perm->load_permissions();
 
     /* Change mode edit / view */
@@ -533,7 +530,7 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
 ##############################################
 
     /* Mark submenuitem 'Preview' in the Contenido Backend (Area: Contenido --> Articles --> Preview) */
-    if ($contenido) {
+    if (isset($contenido)) {
         $markscript = markSubMenuItem(4, true);
     }
 
@@ -610,9 +607,11 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
     /* If article is in use, display notification */
     if (!empty($sHtmlInUseCss) && !empty($sHtmlInUseMessage)) {
         $code = preg_replace("/<\/head>/i", "$sHtmlInUseCss\n</head>", $code, 1);
-        $code = preg_replace("/(<body[^>]*)>/i", "\${1}> \n $sHtmlInUseMessage", $code, 1);
+        if(!preg_match("/(<body[^>]*)>.*/i", $code)) {
+            $code = preg_replace("/(<body[^>]*)>/i", "\${1}> \n $sHtmlInUseMessage", $code, 1);
+            $bInUseSet = true;
+        }
     }
-
     /* Check if category is public */
     $sql = "SELECT public FROM " . $cfg["tab"]["cat_lang"] . " WHERE idcat='" . Contenido_Security::toInteger($idcat) . "' AND idlang='" . Contenido_Security::toInteger($lang) . "'";
 
@@ -651,7 +650,7 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
                              WHERE B.name = 'front_allow' AND C.name = 'str' AND A.user_id = '" . Contenido_Security::escapeDB($user_id, $db2) . "' AND A.idcat = '" . Contenido_Security::toInteger($idcat) . "'
                                     AND A.idarea = C.idarea AND B.idaction = A.idaction";
 
-                    $db2 = new DB_ConLite;
+                    $db2 = new DB_ConLite();
                     $db2->query($sql);
 
                     if ($db2->num_rows() > 0) {
@@ -795,12 +794,16 @@ if (empty($inUse) && (isset($allow) && $allow == true) && $view == "edit" && ($p
             if (in_array(Contenido_Security::toInteger($idart), $aExclude)) {
                 eval("?>\n" . $code . "\n<?php\n");
             } else {
+                chdir($cfgClient[$client]["path"]["frontend"]);
                 // write html output into output buffer and assign it to an variable
                 ob_start();
                 eval("?>\n" . $code . "\n<?php\n");
                 $htmlCode = ob_get_contents();
                 ob_end_clean();
-
+                
+                if(!empty($sHtmlInUseMessage) && empty($bInUseSet)) {
+                    $htmlCode = preg_replace("/(<body[^>]*)>/i", "\${1}> \n $sHtmlInUseMessage", $htmlCode, 1);
+                }
                 // process CEC to do some preparations before output
                 $htmlCode = CEC_Hook::executeAndReturn('Contenido.Frontend.HTMLCodeOutput', $htmlCode);
 

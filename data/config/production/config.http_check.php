@@ -70,6 +70,8 @@ $sMode = 'training';
 
 #### Check whitelist ####
 $aCheck = array();
+$aCheck['GET']['error'] = CON_CHECK_INTEGER;
+
 $aCheck['GET']['idart'] = CON_CHECK_INTEGER;
 $aCheck['GET']['idcat'] = CON_CHECK_INTEGER;
 $aCheck['GET']['idartlang'] = CON_CHECK_INTEGER;
@@ -87,5 +89,3 @@ $aCheck['GET']['page'] = CON_CHECK_INTEGER;
 
 $aCheck['GET']['catname'] = CON_CHECK_PRIMITIVESTRING;
 $aCheck['GET']['contenido'] = CON_CHECK_HASH32;
-
-?>

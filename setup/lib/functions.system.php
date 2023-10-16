@@ -48,27 +48,13 @@ function checkExistingPlugin($db, $sPluginname) {
     $sTable = $_SESSION["dbprefix"] . "_nav_sub";
     $sSql = "";
 
-    switch ($sPluginname) {
-        case 'plugin_conman':
-            $sSql = "SELECT * FROM %s WHERE idnavs='900'";
-            break;
-
-        case 'plugin_content_allocation':
-            $sSql = "SELECT * FROM %s WHERE idnavs='800'";
-            break;
-
-        case 'plugin_newsletter':
-            $sSql = "SELECT * FROM %s WHERE idnavs='610'";
-            break;
-
-        case 'mod_rewrite':
-            $sSql = "SELECT * FROM %s WHERE idnavs='700' OR location='mod_rewrite/xml/;navigation/content/mod_rewrite'";
-            break;
-
-        default:
-            $sSql = "";
-            break;
-    }
+    $sSql = match ($sPluginname) {
+        'plugin_conman' => "SELECT * FROM %s WHERE idnavs='900'",
+        'plugin_content_allocation' => "SELECT * FROM %s WHERE idnavs='800'",
+        'plugin_newsletter' => "SELECT * FROM %s WHERE idnavs='610'",
+        'mod_rewrite' => "SELECT * FROM %s WHERE idnavs='700' OR location='mod_rewrite/xml/;navigation/content/mod_rewrite'",
+        default => "",
+    };
 
     if ($sSql) {
         $db->query(sprintf($sSql, $sTable));
@@ -86,21 +72,7 @@ function checkExistingPlugin($db, $sPluginname) {
  * @param string $table db-table name
  */
 function updateSystemProperties($db, $table) {
-    $aStandardvalues = array(array('type' => 'pw_request', 'name' => 'enable', 'value' => 'true'),
-        array('type' => 'system', 'name' => 'mail_sender_name', 'value' => 'noreply%40conlite.org'),
-        array('type' => 'system', 'name' => 'mail_sender', 'value' => 'ConLite+Backend'),
-        array('type' => 'system', 'name' => 'mail_host', 'value' => 'localhost'),
-        array('type' => 'maintenance', 'name' => 'mode', 'value' => 'disabled'),
-        array('type' => 'edit_area', 'name' => 'activated', 'value' => 'true'),
-        array('type' => 'update', 'name' => 'check', 'value' => 'false'),
-        array('type' => 'update', 'name' => 'news_feed', 'value' => 'false'),
-        array('type' => 'update', 'name' => 'check_period', 'value' => '60'),
-        array('type' => 'system', 'name' => 'clickmenu', 'value' => 'false'),
-        array('type' => 'versioning', 'name' => 'activated', 'value' => 'true'),
-        array('type' => 'versioning', 'name' => 'prune_limit', 'value' => '0'),
-        array('type' => 'versioning', 'name' => 'path', 'value' => ''),
-        array('type' => 'system', 'name' => 'insight_editing_activated', 'value' => 'true')
-    );
+    $aStandardvalues = [['type' => 'pw_request', 'name' => 'enable', 'value' => 'true'], ['type' => 'system', 'name' => 'mail_sender_name', 'value' => 'noreply%40conlite.org'], ['type' => 'system', 'name' => 'mail_sender', 'value' => 'ConLite+Backend'], ['type' => 'system', 'name' => 'mail_host', 'value' => 'localhost'], ['type' => 'maintenance', 'name' => 'mode', 'value' => 'disabled'], ['type' => 'edit_area', 'name' => 'activated', 'value' => 'true'], ['type' => 'update', 'name' => 'check', 'value' => 'false'], ['type' => 'update', 'name' => 'news_feed', 'value' => 'false'], ['type' => 'update', 'name' => 'check_period', 'value' => '60'], ['type' => 'system', 'name' => 'clickmenu', 'value' => 'false'], ['type' => 'versioning', 'name' => 'activated', 'value' => 'true'], ['type' => 'versioning', 'name' => 'prune_limit', 'value' => '0'], ['type' => 'versioning', 'name' => 'path', 'value' => ''], ['type' => 'system', 'name' => 'insight_editing_activated', 'value' => 'true']];
 
     foreach ($aStandardvalues as $aData) {
         $sql = "SELECT value FROM %s WHERE type='" . $aData['type'] . "' AND name='" . $aData['name'] . "'";
@@ -163,10 +135,10 @@ function listClients($db, $table) {
 
     $db->query(sprintf($sql, Contenido_Security::escapeDB($table, $db)));
 
-    $clients = array();
+    $clients = [];
 
     while ($db->next_record()) {
-        $clients[$db->f("idclient")] = array("name" => $db->f("name"), "frontendpath" => $db->f("frontendpath"), "htmlpath" => $db->f("htmlpath"));
+        $clients[$db->f("idclient")] = ["name" => $db->f("name"), "frontendpath" => $db->f("frontendpath"), "htmlpath" => $db->f("htmlpath")];
     }
 
     return $clients;
@@ -192,8 +164,8 @@ function getSystemDirectories($bOriginalPath = false) {
 
     $root_path = str_replace("\\", "/", $root_path);
 
-    $root_path = dirname(dirname(dirname($root_path)));
-    $root_http_path = dirname(dirname($_SERVER["PHP_SELF"]));
+    $root_path = dirname($root_path, 3);
+    $root_http_path = dirname($_SERVER["PHP_SELF"], 2);
 
     $root_path = str_replace("\\", "/", $root_path);
     $root_http_path = str_replace("\\", "/", $root_http_path);
@@ -216,7 +188,7 @@ function getSystemDirectories($bOriginalPath = false) {
     }
 
     if ($bOriginalPath == true) {
-        return array($root_path, $root_http_path);
+        return [$root_path, $root_http_path];
     }
 
     if (isset($_SESSION["override_root_path"])) {
@@ -230,7 +202,7 @@ function getSystemDirectories($bOriginalPath = false) {
     $root_path = stripLastSlash($root_path);
     $root_http_path = stripLastSlash($root_http_path);
 
-    return array($root_path, $root_http_path);
+    return [$root_path, $root_http_path];
 }
 
 function findSimilarText($string1, $string2) {

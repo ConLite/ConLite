@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -28,111 +29,96 @@
  * }}
  * 
  */
-
 if (!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+    die('Illegal call');
 }
 
 
 $langobj = new cApiLanguage($lang);
 
-$langstring = $langobj->get("name") . ' ('.$lang.')';
+$langstring = $langobj->get("name") . ' (' . $lang . ')';
 
 $moduletranslations = new cApiModuleTranslationCollection;
 $module = new cApiModule($idmod);
 
-if ($action == "mod_translation_save")
-{
-	$strans = new cApiModuleTranslation;
-	$strans->loadByPrimaryKey($idmodtranslation);
+if ($action == "mod_translation_save") {
+    $strans = new cApiModuleTranslation;
+    $strans->loadByPrimaryKey($idmodtranslation);
 
-	if ($strans->get("idmod") == $idmod)
-	{
-		$module->setTranslatedName($translatedname);
+    if ($strans->get("idmod") == $idmod) {
+        $module->setTranslatedName($translatedname);
 
-		$strans->set("translation", stripslashes($t_trans));
-		$strans->store();
+        $strans->set("translation", stripslashes($t_trans));
+        $strans->store();
 
-		/* Increase idmodtranslation */
-		$moduletranslations->select("idmod = '$idmod' AND idlang = '$lang'");
+        /* Increase idmodtranslation */
+        $moduletranslations->select("idmod = '$idmod' AND idlang = '$lang'");
 
-		while ($mitem = $moduletranslations->next())
-		{
-			if ($mitem->get("idmodtranslation") == $idmodtranslation)
-			{
-				$mitem2 = $moduletranslations->next();
+        while ($mitem = $moduletranslations->next()) {
+            if ($mitem->get("idmodtranslation") == $idmodtranslation) {
+                $mitem2 = $moduletranslations->next();
 
-				if (is_object($mitem2))
-				{
-					$idmodtranslation = $mitem2->get("idmodtranslation");
-					break;
-				}
-			}
-		}
-	}
+                if (is_object($mitem2)) {
+                    $idmodtranslation = $mitem2->get("idmodtranslation");
+                    break;
+                }
+            }
+        }
+    }
 }
 
-if ($action == "mod_importexport_translation")
-{
-	if ($mode == "export")
-	{
-		$sFileName = uplCreateFriendlyName(strtolower($module->get("name") . "_" . $langobj->get("name")));
+if ($action == "mod_importexport_translation") {
+    if ($mode == "export") {
+        $sFileName = uplCreateFriendlyName(strtolower($module->get("name") . "_" . $langobj->get("name")));
 
-		if ($sFileName != "")
-		{
-			$moduletranslations->export($idmod, $lang,  $sFileName . ".xml");
-		}
-	}
-	if ($mode == "import")
-	{
-		if (file_exists($_FILES["upload"]["tmp_name"]))
-		{
-			$moduletranslations->import($idmod, $lang, $_FILES["upload"]["tmp_name"]);
-		}
-	}
-} 
+        if ($sFileName != "") {
+            $moduletranslations->export($idmod, $lang, $sFileName . ".xml");
+        }
+    }
+    if ($mode == "import") {
+        if (file_exists($_FILES["upload"]["tmp_name"])) {
+            $moduletranslations->import($idmod, $lang, $_FILES["upload"]["tmp_name"]);
+        }
+    }
+}
 
 
-if (!isset($idmodtranslation))
-{
-	$idmodtranslation = 0;
+if (!isset($idmodtranslation)) {
+    $idmodtranslation = 0;
 }
 
 $mtrans = new cApiModuleTranslation;
 $mtrans->loadByPrimaryKey($idmodtranslation);
 
-if ($mtrans->get("idmod") != $idmod)
-{
-	$moduletranslations->select("idmod = '$idmod' AND idlang = '$lang'", '', 'idmodtranslation DESC', '1');
-	$mtrans = $moduletranslations->next();
-	
-	if (is_object($mtrans))
-	{
-		$idmodtranslation = $mtrans->get("idmodtranslation");
-	} else {
-		$mtrans = new cApiModuleTranslation;
-	}
+if ($mtrans->get("idmod") != $idmod) {
+    $moduletranslations->select("idmod = '$idmod' AND idlang = '$lang'", '', 'idmodtranslation DESC', '1');
+    $mtrans = $moduletranslations->next();
+
+    if (is_object($mtrans)) {
+        $idmodtranslation = $mtrans->get("idmodtranslation");
+    } else {
+        $mtrans = new cApiModuleTranslation;
+    }
 }
 
 $strings = $module->parseModuleForStrings();
 
 /* Insert new strings */
-foreach ($strings as $string)
-{
-	$moduletranslations->create($idmod, $lang, $string);
+foreach ($strings as $string) {
+    $moduletranslations->create($idmod, $lang, $string);
 }
 
 $moduletranslations->select("idmod = '$idmod' AND idlang = '$lang'");
 
-while ($d_modtrans = $moduletranslations->next())
-{
-	if (!in_array($d_modtrans->get("original"), $strings))
-	{
-		$moduletranslations->delete($d_modtrans->get("idmodtranslation"));
-	}
+while ($d_modtrans = $moduletranslations->next()) {
+    if (!in_array($d_modtrans->get("original"), $strings)) {
+        $moduletranslations->delete($d_modtrans->get("idmodtranslation"));
+    }
 }
 
 $page = new cPage;
+$page->setHtml5();
+$page->setEncoding('UTF-8');
 
 $form = new UI_Table_Form("translation");
 $form->addHeader(sprintf(i18n("Translate module '%s'"), $module->get("name")));
@@ -142,7 +128,7 @@ $form->setVar("idmod", $idmod);
 $form->setVar("idmodtranslation", $idmodtranslation);
 $form->setVar("action", "mod_translation_save");
 
-$transmodname = new cHTMLTextbox("translatedname", $module->getTranslatedName(),60);
+$transmodname = new cHTMLTextbox("translatedname", $module->getTranslatedName(), 60);
 
 $form->add(i18n("Translated Name"), $transmodname);
 
@@ -152,21 +138,20 @@ $ilink->setCustom("idmod", $idmod);
 $ilink->setCustom("idmodtranslation", $mtrans->get("idmodtranslation"));
 $ilink->setAnchor($mtrans->get("idmodtranslation"));
 
-$iframe = '<iframe frameborder="0" style="border: 1px;border-color: black; border-style: solid;" width="620" src="'.$ilink->getHREF().'"></iframe>';
+$iframe = '<iframe frameborder="0" style="border: 1px;border-color: black; border-style: solid;" width="620" src="' . $ilink->getHREF() . '"></iframe>';
 
-$table = '<table border="0" width="600" border="0"><tr><td width="50%">'.i18n("Original module string").'</td><td width="50%">'.sprintf(i18n("Translation for %s"), $langstring).'</td><td width="20">&nbsp;</td></tr><tr><td colspan="3">'.$iframe.'</td></tr>';
+$table = '<table border="0" width="600" border="0"><tr><td width="50%">' . i18n("Original module string") . '</td><td width="50%">' . sprintf(i18n("Translation for %s"), $langstring) . '</td><td width="20">&nbsp;</td></tr><tr><td colspan="3">' . $iframe . '</td></tr>';
 
-$original = new cHTMLTextarea("t_orig",clHtmlSpecialChars($mtrans->get("original")));
+$original = new cHTMLTextarea("t_orig", clHtmlSpecialChars($mtrans->get("original")));
 $original->setStyle("width: 300px;");
-$translated = new cHTMLTextarea("t_trans",clHtmlSpecialChars($mtrans->get("translation")));
+$translated = new cHTMLTextarea("t_trans", $mtrans->get("translation"));
 $translated->setStyle("width: 300px;");
 
-$table .= '<tr><td>'.$original->render().'</td><td>'.$translated->render().'</td><td width="20">&nbsp;</td></tr></table>';
+$table .= '<tr><td>' . $original->render() . '</td><td>' . $translated->render() . '</td><td width="20">&nbsp;</td></tr></table>';
 $table .= i18n("Hint: Hit ALT+SHIFT+S to save the translated entry and advance to the next string.");
 $form->add(i18n("String list"), $table);
 
 $mark = '<script language="JavaScript">document.translation.t_trans.focus();</script>';
-
 
 $import = new cHTMLRadiobutton("mode", "import");
 $export = new cHTMLRadiobutton("mode", "export");
@@ -189,15 +174,14 @@ $form2->setVar("idmod", $idmod);
 $form2->setVar("idmodtranslation", $idmodtranslation);
 $form2->custom["submit"]["accesskey"] = '';
 
-$page->setContent($form->render(). $mark ."<br>". $form2->render());
+$page->setContent($form->render() . $mark . "<br>" . $form2->render());
 $page->setMarkScript(2);
 
 $clang = new cApiLanguage($lang);
 
 $page->setEncoding($clang->get("encoding"));
 
-if (!($action == "mod_importexport_translation" && $mode == "export"))
-{
-	$page->render();
+if (!($action == "mod_importexport_translation" && $mode == "export")) {
+    $page->render();
 }
 ?>

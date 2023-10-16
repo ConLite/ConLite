@@ -157,12 +157,12 @@ class FrontendUser extends Item
      * @param string $field Specifies the field to set
      * @param string $value Specifies the value to set
      */
-    public function setField($field, $value, $safe = true)
+    public function setField($field, $value, $safe = true): bool
     {
         if ($field == "password") {
-            parent::setField($field, md5($value), $safe);
+            return parent::setField($field, md5($value), $safe);
         } else {
-            parent::setField($field, $value, $safe);
+            return parent::setField($field, $value, $safe);
         }
     }
 

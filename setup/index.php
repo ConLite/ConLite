@@ -28,9 +28,9 @@ if (!defined('CON_FRAMEWORK')) {
     define('CON_FRAMEWORK', true);
 }
 
-define('CON_SETUP_PATH', str_replace('\\', '/', realpath(dirname(__FILE__))));
+define('CON_SETUP_PATH', str_replace('\\', '/', realpath(__DIR__)));
 
-define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')));
+define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(__DIR__ . '/../')));
 
 include_once('lib/startup.php');
 
@@ -70,7 +70,7 @@ if (is_array($_REQUEST)) {
 }
 
 
-if (getPHPIniSetting('session.use_cookies') == 0) {
+if (ini_get('session.use_cookies') == 0) {
     $sNotInstallableReason = 'session_use_cookies';
     checkAndInclude('steps/notinstallable.php');
 }
@@ -104,92 +104,33 @@ if (array_key_exists('step', $_REQUEST)) {
     $iStep = '';
 }
 
-switch ($iStep) {
-    case 'setuptype':
-        checkAndInclude('steps/setuptype.php');
-        break;
-    case 'setup1':
-        checkAndInclude('steps/setup/step1.php');
-        break;
-    case 'setup2':
-        checkAndInclude('steps/setup/step2.php');
-        break;
-    case 'setup3':
-        checkAndInclude('steps/setup/step3.php');
-        break;
-    case 'setup4':
-        checkAndInclude('steps/setup/step4.php');
-        break;
-    case 'setup5':
-        checkAndInclude('steps/setup/step5.php');
-        break;
-    case 'setup6':
-        checkAndInclude('steps/setup/step6.php');
-        break;
-    case 'setup7':
-        checkAndInclude('steps/setup/step7.php');
-        break;
-    case 'setup8':
-        checkAndInclude('steps/setup/step8.php');
-        break;
-    case 'migration1':
-        checkAndInclude('steps/migration/step1.php');
-        break;
-    case 'migration2':
-        checkAndInclude('steps/migration/step2.php');
-        break;
-    case 'migration3':
-        checkAndInclude('steps/migration/step3.php');
-        break;
-    case 'migration4':
-        checkAndInclude('steps/migration/step4.php');
-        break;
-    case 'migration5':
-        checkAndInclude('steps/migration/step5.php');
-        break;
-    case 'migration6':
-        checkAndInclude('steps/migration/step6.php');
-        break;
-    case 'migration7':
-        checkAndInclude('steps/migration/step7.php');
-        break;
-    case 'migration8':
-        checkAndInclude('steps/migration/step8.php');
-        break;
-    case 'upgrade1':
-        checkAndInclude('steps/upgrade/step1.php');
-        break;
-    case 'upgrade2':
-        checkAndInclude('steps/upgrade/step2.php');
-        break;
-    case 'upgrade3':
-        checkAndInclude('steps/upgrade/step3.php');
-        break;
-    case 'upgrade4':
-        checkAndInclude('steps/upgrade/step4.php');
-        break;
-    case 'upgrade5':
-        checkAndInclude('steps/upgrade/step5.php');
-        break;
-    case 'upgrade6':
-        checkAndInclude('steps/upgrade/step6.php');
-        break;
-    case 'upgrade7':
-        checkAndInclude('steps/upgrade/step7.php');
-        break;
-    case 'domigration':
-        checkAndInclude('steps/migration/domigration.php');
-        break;
-    case 'doupgrade':
-        checkAndInclude('steps/upgrade/doupgrade.php');
-        break;
-    case 'doinstall':
-        checkAndInclude('steps/setup/doinstall.php');
-        break;
-    case 'languagechooser':
-    default:
-        checkAndInclude('steps/languagechooser.php');
-        break;
-}
-
-?>
+match ($iStep) {
+    'setuptype' => checkAndInclude('steps/setuptype.php'),
+    'setup1' => checkAndInclude('steps/setup/step1.php'),
+    'setup2' => checkAndInclude('steps/setup/step2.php'),
+    'setup3' => checkAndInclude('steps/setup/step3.php'),
+    'setup4' => checkAndInclude('steps/setup/step4.php'),
+    'setup5' => checkAndInclude('steps/setup/step5.php'),
+    'setup6' => checkAndInclude('steps/setup/step6.php'),
+    'setup7' => checkAndInclude('steps/setup/step7.php'),
+    'setup8' => checkAndInclude('steps/setup/step8.php'),
+    'migration1' => checkAndInclude('steps/migration/step1.php'),
+    'migration2' => checkAndInclude('steps/migration/step2.php'),
+    'migration3' => checkAndInclude('steps/migration/step3.php'),
+    'migration4' => checkAndInclude('steps/migration/step4.php'),
+    'migration5' => checkAndInclude('steps/migration/step5.php'),
+    'migration6' => checkAndInclude('steps/migration/step6.php'),
+    'migration7' => checkAndInclude('steps/migration/step7.php'),
+    'migration8' => checkAndInclude('steps/migration/step8.php'),
+    'upgrade1' => checkAndInclude('steps/upgrade/step1.php'),
+    'upgrade2' => checkAndInclude('steps/upgrade/step2.php'),
+    'upgrade3' => checkAndInclude('steps/upgrade/step3.php'),
+    'upgrade4' => checkAndInclude('steps/upgrade/step4.php'),
+    'upgrade5' => checkAndInclude('steps/upgrade/step5.php'),
+    'upgrade6' => checkAndInclude('steps/upgrade/step6.php'),
+    'upgrade7' => checkAndInclude('steps/upgrade/step7.php'),
+    'domigration' => checkAndInclude('steps/migration/domigration.php'),
+    'doupgrade' => checkAndInclude('steps/upgrade/doupgrade.php'),
+    'doinstall' => checkAndInclude('steps/setup/doinstall.php'),
+    default => checkAndInclude('steps/languagechooser.php'),
+};

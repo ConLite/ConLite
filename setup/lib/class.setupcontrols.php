@@ -33,11 +33,12 @@
  	
 
 class cHTMLAlphaImage extends cHTMLImage {
-    var $_sClickImage;
-    var $_sMouseoverClickImage;
-    var $_sMouseoverSrc;
+    protected $_sClickImage;
+    protected $_sMouseoverClickImage;
+    protected $_sMouseoverSrc;
 
-    function __construct()	{
+    public function __construct()
+    {
         parent::__construct();
     }
 	
@@ -76,20 +77,21 @@ class cHTMLAlphaImage extends cHTMLImage {
 				$this->attachEventDefinition("mouseover", 	"onMouseOut", sprintf($sMouseScript, $this->_src) );
 			}
 		}
-		
 
-		return parent::toHTML();
+
+        return parent::toHTML();
 	}
 }
 
 class cHTMLErrorMessageList extends cHTMLDiv {
-    
+    protected cHTMLTable $_oTable;
+
     /**
      *  cHTMLErrorMessageList list all errors using a table
      */
     public function __construct() {
         $this->_oTable = new cHTMLTable();
-        $this->_oTable->setWidth("100%");		
+        $this->_oTable->setWidth("100%");
         parent::__construct();
         $this->setClass("errorlist");
         $this->setStyle("width: 450px; height: 218px; overflow: auto; border: 1px solid black;");
@@ -106,7 +108,13 @@ class cHTMLErrorMessageList extends cHTMLDiv {
 }
 
 class cHTMLFoldableErrorMessage extends cHTMLTableRow {
-    
+    protected cHTMLTableData $_oFolding;
+    public cHTMLTableData $_oContent;
+    protected cHTMLTableData $_oIcon;
+    protected cHTMLAlphaImage $_oIconImg;
+    protected cHTMLDiv $_oTitle;
+    protected cHTMLDiv $_oMessage;
+
     /**
      *
      * @param string $sTitle
@@ -143,7 +151,7 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
 
         $this->_oContent->setVerticalAlignment("top");
         $this->_oContent->setClass("entry");
-        $this->_oContent->setContent(array($this->_oTitle, $this->_oMessage));
+        $this->_oContent->setContent([$this->_oTitle, $this->_oMessage]);
 
         $this->_oIcon->setClass("icon");
         $this->_oIcon->setVerticalAlignment("top");
@@ -162,18 +170,19 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
         } else {
         $this->_oIcon->setContent("&nbsp;");	
         }
-
         parent::__construct();
     }
 	
     function toHTML()	{
-        $this->setContent(array($this->_oFolding, $this->_oContent, $this->_oIcon));
-        return parent::toHTML();	
+        $this->setContent([$this->_oFolding, $this->_oContent, $this->_oIcon]);
+        return parent::toHTML();
     }
 }
 
 class cHTMLInfoMessage extends cHTMLTableRow {
-    
+    protected cHTMLTableData $_oTitle;
+    protected cHTMLTableData $_oMessage;
+
     /**
      *
      * @param string $sTitle
@@ -195,7 +204,7 @@ class cHTMLInfoMessage extends cHTMLTableRow {
     }
 	
     function toHTML()	{
-        $this->setContent(array($this->_oTitle, $this->_oMessage));
+        $this->setContent([$this->_oTitle, $this->_oMessage]);
         return parent::toHTML();
     }
 }
@@ -210,7 +219,7 @@ class cHTMLLanguageLink extends cHTMLDiv {
      */
     function __construct($langcode, $langname, $stepnumber) {
         parent::__construct();
-		
+
         $linkImage = new cHTMLAlphaImage();
         $linkImage->setAlt("");
         $linkImage->setSrc("../conlite/images/submit.gif");
@@ -250,7 +259,7 @@ class cHTMLButtonLink extends cHTMLDiv {
      */
     function __construct($href, $title)	{
         parent::__construct();
-		
+
         $linkImage = new cHTMLAlphaImage();
         $linkImage->setSrc("../conlite/images/submit.gif");
         $linkImage->setMouseover("../conlite/images/submit_hover.gif");
@@ -278,4 +287,3 @@ class cHTMLButtonLink extends cHTMLDiv {
         $this->setContent(sprintf($alignment, $link->render(), $link2->render()));
     }
 }
-?>

@@ -116,8 +116,8 @@ $db->query($sql);
 
 while ($db->next_record()) {
 
-        $tplname     = clHtmlEntities($db->f("name"));
-        $description = clHtmlEntities($db->f("description"));
+        $tplname     = clHtmlEntities($db->f("name"));     
+        $description = empty($db->f("description"))?'':clHtmlEntities($db->f("description"));
 
         $sTable .= $table->row();
         $sTable .= $table->cell($tplname,"", "", " class=\"td_rights0\"", false);

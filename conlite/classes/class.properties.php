@@ -447,7 +447,7 @@ class PropertyItem extends Item
 	 * @param  string  $value
 	 * @param  bool    $safe  Flag to run filter on passed value
      */
-    public function setField($field, $value, $safe = true)
+    public function setField($field, $value, $safe = true): bool
     {
         if (array_key_exists($field, $this->maximumLength)) {
             if (strlen($value) > $this->maximumLength[$field]) {
@@ -455,7 +455,7 @@ class PropertyItem extends Item
             }
         }
 
-        parent::setField($field, $value, $safe);
+        return parent::setField($field, $value, $safe);
     }
 }
 

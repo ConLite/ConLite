@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -30,7 +31,6 @@
  * }}
  * 
  */
-
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -73,18 +73,17 @@ if (!defined('CON_FRAMEWORK')) {
  * @param   string  $bReturnPath  Flag to return the path instead of including the file
  * @return  void
  */
-function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = false)
-{
+function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = false) {
     global $client, $cfg, $cfgClient;
 
     // Sanity check for $sWhat
-    $sWhat  = trim($sWhat);
+    $sWhat = trim($sWhat);
     $sWhere = strtolower($sWhere);
     $bError = false;
 
     switch ($sWhere) {
         case 'config':
-            $sInclude = $cfg['path']['config']. $sWhat;
+            $sInclude = $cfg['path']['config'] . $sWhat;
             break;
         case 'frontend':
             $sInclude = $cfgClient[$client]['path']['frontend'] . $sWhat;
@@ -113,7 +112,7 @@ function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = fals
                     unset($sWhere);
                 } else {
                     $aPaths = explode(PATH_SEPARATOR, ini_get('include_path'));
-                    $iLast  = count($aPaths) - 1;
+                    $iLast = count($aPaths) - 1;
                     if ($iLast >= 2) {
                         $tmp = $aPaths[1];
                         $aPaths[1] = $aPaths[$iLast];
@@ -176,14 +175,14 @@ function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = fals
 
     if ($bError) {
         $aBackTrace = debug_backtrace();
-        if(is_array($aBackTrace[1])) {
-            $sError = " in <b>".$aBackTrace[1]['file']
-                    ."</b> on line <b>".$aBackTrace[1]['line']
-                    ."</b> <i>function</i>: ".$aBackTrace[1]['function']." ";
+        if (is_array($aBackTrace[1])) {
+            $sError = " in <b>" . $aBackTrace[1]['file']
+                    . "</b> on line <b>" . $aBackTrace[1]['line']
+                    . "</b> <i>function</i>: " . $aBackTrace[1]['function'] . " ";
         } else {
             $sError = "";
         }
-        
+
         trigger_error("Can't include $sInclude $sError", E_USER_ERROR);
         return;
     }
@@ -196,7 +195,6 @@ function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = fals
     }
 }
 
-
 /**
  * Shortcut to contenido_include.
  *
@@ -207,8 +205,7 @@ function contenido_include($sWhere, $sWhat, $bForce = false, $bReturnPath = fals
  * @param   bool    $bForce  If true, force the file to be included
  * @return  void
  */
-function cInclude($sWhere, $sWhat, $bForce = false)
-{
+function cInclude($sWhere, $sWhat, $bForce = false) {
     contenido_include($sWhere, $sWhat, $bForce);
 }
 
@@ -224,21 +221,18 @@ function cInclude($sWhere, $sWhat, $bForce = false)
  */
 function plugin_include($sWhere, $sWhat) {
     global $cfg;
-    $sInclude = $cfg['path']['contenido'] . $cfg['path']['plugins'] . $sWhere. '/' . $sWhat;
-    if(is_readable($sInclude)) {
+    $sInclude = $cfg['path']['contenido'] . $cfg['path']['plugins'] . $sWhere . '/' . $sWhat;
+    if (is_readable($sInclude)) {
         include_once($sInclude);
     } else {
         $sCaller = "";
         $aTrace = debug_backtrace();
-        foreach($aTrace as $iKey=>$aValue) {
-            if($aValue['function'] == __METHOD__) {
-                $sCaller = $aValue['file']." line ".$aValue['line'];
+        foreach ($aTrace as $iKey => $aValue) {
+            if ($aValue['function'] == __METHOD__) {
+                $sCaller = $aValue['file'] . " line " . $aValue['line'];
                 break;
             }
-        }        
-        trigger_error("Function ".__METHOD__.": Can't include $sInclude in ".$sCaller, E_USER_WARNING);
+        }
+        trigger_error("Function " . __METHOD__ . ": Can't include $sInclude in " . $sCaller, E_USER_WARNING);
     }
 }
-
-
-?>

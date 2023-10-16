@@ -32,7 +32,7 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = array()) {
+function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = []) {
     $file = trim($file);
 
     if (!isReadable($file)) {
@@ -56,7 +56,7 @@ function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = array()
         $db->query($sqlChunk);
 
         if ($db->Errno != 0) {
-            $failedChunks[] = array("sql" => $sqlChunk, "errno" => $db->Errno, "error" => $db->Error);
+            $failedChunks[] = ["sql" => $sqlChunk, "errno" => $db->Errno, "error" => $db->Error];
         }
     }
 
@@ -130,10 +130,10 @@ function split_sql_file($sql, $delimiter) {
 
     // try to save mem.
     $sql = "";
-    $output = array();
+    $output = [];
 
     // we don't actually care about the matches preg gives us.
-    $matches = array();
+    $matches = [];
 
     // this is faster than calling count($oktens) every time thru the loop.
     $token_count = count($tokens);

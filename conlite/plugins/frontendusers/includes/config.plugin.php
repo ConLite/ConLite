@@ -3,5 +3,4 @@
 * $Id$
 */
 cInclude("includes", "functions.general.php");
-scanPlugins("frontendusers"); 
-?>
+scanPlugins("frontendusers");

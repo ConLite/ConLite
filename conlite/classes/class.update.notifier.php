@@ -508,23 +508,47 @@ class Contenido_UpdateNotifier {
         $response = false;
 
         if ($this->_bUseCurl) {
-            if ($bCheckCon) {
-                $ch = $this->_checkCon2Host($sHost);
-            } else {
-                $ch = curl_init("http://" . $sHost);
-            }
-            if (is_resource($ch)) {
-                curl_setopt($ch, CURLOPT_URL, "http://" . $sHost . $sFile);
+            $sUrl = "https://" . $sHost . $sFile;
+            $ch = $this->_checkCon2Host($sUrl);
+
+            if ($ch !== false) {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
-                curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                 $response = curl_exec($ch);
+
+                //Check for errors.
+                if (curl_errno($ch)) {
+                    throw new Exception(curl_error($ch));
+                }                
                 curl_close($ch);
             }
+            /*
+              if ($bCheckCon) {
+              $ch = $this->_checkCon2Host($sHost);
+              } else {
+              $ch = curl_init("https://" . $sHost);
+              }
+              if (is_resource($ch)) {
+              curl_setopt($ch, CURLOPT_URL, "https://" . $sHost . $sFile);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: close'));
+              curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+              $response = curl_exec($ch);
+              curl_close($ch);
+              } */
         } else {
-            $source = file_get_contents("http://" . $sHost . $sFile);
-            if ($source !== false AND ! empty($source)) {
+            $arrContextOptions = array(
+                "ssl" => array(
+                    "verify_peer" => false,
+                    "verify_peer_name" => false,
+                )
+            );
+
+            $source = file_get_contents("https://" . $sHost . $sFile, false, stream_context_create($arrContextOptions));
+
+            if ($source !== false AND !empty($source)) {
                 $response = $source;
             }
         }
@@ -539,13 +563,12 @@ class Contenido_UpdateNotifier {
      * @param string $sHost 
      * @return obj|boolean curl object or false
      */
-    protected function _checkCon2Host($sHost) {
-        $ch = curl_init("http://" . $sHost);
-        if (!is_resource($ch)) {
+    protected function _checkCon2Host($sUrl) {
+        $ch = curl_init($sUrl);
+        if ($ch === false) {
             $sErrorMessage = i18n('Unable to check for updates!') . " "
                     . sprintf(i18n('Connection to %s failed!'), $sHost);
             $this->sErrorOutput = $this->renderOutput($sErrorMessage);
-            return false;
         }
         return $ch;
     }
@@ -700,7 +723,7 @@ class Contenido_UpdateNotifier {
                 if (strlen($sText) > 150) {
                     $sText = capiStrTrimAfterWord($sText, 150) . '...';
                 }
-                 //echo $aItem->title;
+                //echo $aItem->title;
                 $oTpl->set("d", "NEWS_DATE", $aItem->pubDate);
                 $oTpl->set("d", "NEWS_TITLE", utf8_decode($aItem->title));
                 $oTpl->set("d", "NEWS_TEXT", $sText);

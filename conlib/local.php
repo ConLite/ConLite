@@ -41,6 +41,7 @@ if (!defined('CON_FRAMEWORK')) {
  * DB-class for all DB handling
  */
 class DB_ConLite extends DB_Sql {
+    protected bool $NoRecord;
 
     /**
      * Constructor of database class.
@@ -58,13 +59,13 @@ class DB_ConLite extends DB_Sql {
      *                          - $options['enableProfiling']  (bool)  Optional, flag to enable profiling
      * @return  void
      */
-    public function __construct(array $options = array()) {
+    public function __construct(array $options = []) {
         global $cachemeta;
 
         parent::__construct($options);
 
         if (!is_array($cachemeta)) {
-            $cachemeta = array();
+            $cachemeta = [];
         }
 
         // TODO check this out
@@ -108,7 +109,7 @@ class DB_ConLite extends DB_Sql {
      */
     public function copyResultToArray($sTable = '') {
 
-        $aValues = array();
+        $aValues = [];
 
         
         $aMetadata = $this->metadata($sTable);
@@ -131,17 +132,8 @@ class DB_ConLite extends DB_Sql {
  * 
  * @deprecated since version 2.0.0, use DB_ConLite instead
  */
-class DB_Contenido extends DB_ConLite {
-
-    /**
-     * 
-     * @deprecated since version 2.0.0
-     * @param array $options
-     */
-    public function __construct(array $options = array()) {
-        parent::__construct($options);
-    }
-
+class DB_Contenido extends DB_ConLite
+{
 }
 
 class Contenido_CT_Sql extends CT_Sql {
@@ -175,17 +167,12 @@ class Contenido_CT_Sql extends CT_Sql {
      * @param   string  $id    The session id (hash)
      * @param   string  $name  Name of the session
      * @param   string  $str   The value to store
-     * @return  bool
      */
-    public function ac_store($id, $name, $str) {
-        switch ($this->encoding_mode) {
-            case 'slashes':
-                $str = addslashes($name . ':' . $str);
-                break;
-            case 'base64':
-            default:
-                $str = base64_encode($name . ':' . $str);
-        }
+    public function ac_store($id, $name, $str): bool {
+        $str = match ($this->encoding_mode) {
+            'slashes' => addslashes($name . ':' . $str),
+            default => base64_encode($name . ':' . $str),
+        };
 
         $name = addslashes($name);
         $now = date('YmdHis', time());
@@ -194,7 +181,7 @@ class Contenido_CT_Sql extends CT_Sql {
                 "REPLACE INTO %s (sid, name, val, changed) VALUES ('%s', '%s', '%s', '%s')", $this->database_table, $id, $name, $str, $now
         );
 
-        return ($this->db->query($iquery)) ? true : false;
+        return (bool) $this->db->query($iquery);
     }
 
 }
@@ -279,14 +266,12 @@ class Contenido_CT_Shm extends CT_Shm {
 class Contenido_CT_Session extends CT_Session {
 
     public function __construct() {
-        $this->ac_start(array(
+        $this->ac_start([
             'namespace' => 'contenido_ct_session_ns',
-            'session.hash_function' => '1', // use sha-1 function
-            'session.hash_bits_per_character' => '5', // and set 5 character to achieve 32 chars
-#            'session.save_path'                => 'your path',
-#            'session.name'                     => 'your session name',
-#            'session.gc_maxlifetime'           => 'your lifetime in seconds',
-        ));
+            'session.hash_function' => '1',
+            // use sha-1 function
+            'session.hash_bits_per_character' => '5',
+        ]);
     }
 
 }
@@ -320,8 +305,8 @@ class Contenido_Session extends Session {
     }
 
     public function delete() {
-        $oCol = new InUseCollection();
-        $oCol->removeSessionMarks($this->id);
+        $inUseCollection = new InUseCollection();
+        $inUseCollection->removeSessionMarks($this->id);
         parent::delete();
     }
 
@@ -435,6 +420,8 @@ class Contenido_Challenge_Auth extends Auth {
     }
 
     public function auth_validatelogin() {
+        $pass = null;
+        $uid = null;
         global $username, $password, $challenge, $response, $timestamp;
 
         if ($password == '') {
@@ -522,7 +509,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
     public function auth_loglogin($uid) {
         global $cfg, $client, $lang, $auth, $sess, $saveLoginTime;
 
-        $perm = new Contenido_Perm();
+        $contenidoPerm = new Contenido_Perm();
         $timestamp = date('Y-m-d H:i:s');
         $idcatart = '0';
 
@@ -539,7 +526,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
             $iTmpClient = $this->db->f('idclient');
             $iTmpLang = $this->db->f('idlang');
 
-            if ($perm->have_perm_client_lang($iTmpClient, $iTmpLang)) {
+            if ($contenidoPerm->have_perm_client_lang($iTmpClient, $iTmpLang)) {
                 $client = $iTmpClient;
                 $lang = $iTmpLang;
                 $bFound = true;
@@ -564,7 +551,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
             return;
         }
 
-        $idaction = $perm->getIDForAction('login');
+        $idaction = $contenidoPerm->getIDForAction('login');
         $lastentry = $this->db->nextid($cfg['tab']['actionlog']);
 
         $sql = "INSERT INTO
@@ -584,9 +571,12 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
     }
 
     public function auth_validatelogin() {
+        $uid = null;
+        $perm = null;
+        $pass = null;
         global $username, $password, $challenge, $response, $formtimestamp, $auth_handlers;
 
-        $gperm = array();
+        $gperm = [];
 
         if ($password == '') {
             return false;
@@ -621,11 +611,9 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
             $pass = $this->db->f('password');   ## Password is stored as a md5 hash
 
             $bInMaintenance = false;
-            if ($sMaintenanceMode == 'enabled') {
-                #sysadmins are allowed to login every time
-                if (!preg_match('/sysadmin/', $perm)) {
-                    $bInMaintenance = true;
-                }
+            #sysadmins are allowed to login every time
+            if ($sMaintenanceMode == 'enabled' && !preg_match('/sysadmin/', $perm)) {
+                $bInMaintenance = true;
             }
 
             if ($bInMaintenance) {
@@ -634,14 +622,11 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                 unset($pass);
             }
 
-            if (is_array($auth_handlers) && !$bInMaintenance) {
-                if (array_key_exists($pass, $auth_handlers)) {
-                    $success = call_user_func($auth_handlers[$pass], $username, $password);
-
-                    if ($success) {
-                        $uid = md5($username);
-                        $pass = md5($password);
-                    }
+            if (is_array($auth_handlers) && !$bInMaintenance && array_key_exists($pass, $auth_handlers)) {
+                $success = call_user_func($auth_handlers[$pass], $username, $password);
+                if ($success) {
+                    $uid = md5($username);
+                    $pass = md5($password);
                 }
             }
         }
@@ -663,9 +648,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                 $gperm[] = $this->db->f('perms');
             }
 
-            if (is_array($gperm)) {
-                $perm = implode(',', $gperm);
-            }
+            $perm = implode(',', $gperm);
 
             if ($response == '') {                    ## True when JS is disabled
                 if (md5($password) != $pass) {       ## md5 hash for non-JavaScript browsers
@@ -717,8 +700,6 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
         global $password;
 
         if ($password == '') {
-            /* Stay as nobody when an empty password is passed */
-            $uid = $this->auth['uname'] = $this->auth['uid'] = 'nobody';
             return false;
         }
 
@@ -735,13 +716,18 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
     }
 
     public function auth_validatelogin() {
+        $perm = null;
+        $gperm = [];
+        $pass = null;
         global $username, $password, $challenge, $response, $auth_handlers, $client;
 
         $client = (int) $client;
 
         if (isset($username)) {
-            $this->auth['uname'] = $username;     ## This provides access for 'loginform.ihtml'
-        } else if ($this->nobody) {                      ##  provides for 'default login cancel'
+            $this->auth['uname'] = $username;
+            ## This provides access for 'loginform.ihtml'
+        } elseif ($this->nobody) {
+            ##  provides for 'default login cancel'
             $uid = $this->auth['uname'] = $this->auth['uid'] = 'nobody';
             return $uid;
         }
@@ -767,13 +753,11 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
                 $perm = $this->db->f('perms');
                 $pass = $this->db->f('password');   ## Password is stored as a md5 hash
 
-                if (is_array($auth_handlers)) {
-                    if (array_key_exists($pass, $auth_handlers)) {
-                        $success = call_user_func($auth_handlers[$pass], $username, $password);
-                        if ($success) {
-                            $uid = md5($username);
-                            $pass = md5($password);
-                        }
+                if (is_array($auth_handlers) && array_key_exists($pass, $auth_handlers)) {
+                    $success = call_user_func($auth_handlers[$pass], $username, $password);
+                    if ($success) {
+                        $uid = md5($username);
+                        $pass = md5($password);
                     }
                 }
             }
@@ -795,9 +779,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
                     $gperm[] = $this->db->f('perms');
                 }
 
-                if (is_array($gperm)) {
-                    $perm = implode(',', $gperm);
-                }
+                $perm = implode(',', $gperm);
             }
         }
 
@@ -836,16 +818,16 @@ function register_auth_handler($aHandlers) {
     global $auth_handlers;
 
     if (!is_array($auth_handlers)) {
-        $auth_handlers = array();
+        $auth_handlers = [];
     }
 
     if (!is_array($aHandlers)) {
-        $aHandlers = Array($aHandlers);
+        $aHandlers = [$aHandlers];
     }
 
-    foreach ($aHandlers as $sHandler) {
-        if (!in_array($sHandler, $auth_handlers)) {
-            $auth_handlers[md5($sHandler)] = $sHandler;
+    foreach ($aHandlers as $aHandler) {
+        if (!in_array($aHandler, $auth_handlers)) {
+            $auth_handlers[md5($aHandler)] = $aHandler;
         }
     }
 }

@@ -188,7 +188,7 @@ if ($oFeUser->virgin == false && $oFeUser->get("idclient") == $client) {
 	$form->add(i18n("Active"), $active->toHTML(false));
 	
 	$pluginOrder = trim_array(explode(",",getSystemProperty("plugin", "frontendusers-pluginorder")));
-	
+	krsort($pluginOrder);
 	/* Check out if there are any plugins */
 	if (is_array($pluginOrder)) {
      foreach ($pluginOrder as $plugin) {

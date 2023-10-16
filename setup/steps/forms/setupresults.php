@@ -37,7 +37,7 @@ class cSetupResults extends cSetupMask {
             $this->_oStepTemplate->set("s", "FINISHTEXT", i18n_setup("You can now start using ConLite. Please delete the folder named 'setup'!"));
 
 
-            list($root_path, $root_http_path) = getSystemDirectories();
+            [$root_path, $root_http_path] = getSystemDirectories();
 
 
 
@@ -64,7 +64,7 @@ class cSetupResults extends cSetupMask {
 
 
 
-            list($sRootPath, $rootWebPath) = getSystemDirectories();
+            [$sRootPath, $rootWebPath] = getSystemDirectories();
 
             if (file_exists($sRootPath . "/data/logs/setuplog.txt")) {
                 $sErrorLink = '<a target="_blank" href="../data/logs/setuplog.txt">setuplog.txt</a>';

@@ -49,21 +49,15 @@ cInclude ("includes", "functions.con.php");
  */
 function layEditLayout($idlay, $name, $description, $code) {
 
-    global $client, $auth, $cfg, $sess, $area_tree, $perm, $cfgClient;
+    global $client, $auth, $cfg, $cfgClient;
 
-    $db2= new DB_ConLite;
-    $db = new DB_ConLite;
+    $db = new DB_ConLite();
 
     $date = date("Y-m-d H:i:s");
-    $author = "".$auth->auth["uname"]."";
-    $description = (string) stripslashes($description);
-    
-    /**
-    set_magic_quotes_gpc($name);
-    set_magic_quotes_gpc($description);
-    set_magic_quotes_gpc($code);
-    **/
-    //$code = addslashes($code);
+    $author = $auth->auth["uname"];
+    $description = stripslashes($description);
+
+    $code = addslashes($code);
     if (strlen(trim($name)) == 0) {
         $name = i18n('-- Unnamed Layout --');
     }

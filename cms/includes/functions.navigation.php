@@ -24,9 +24,10 @@ if (!defined('CON_FRAMEWORK')) {
 
 // create Navigation array for one level
 function createNavigationArray($start_id, $db) {
-    global $user, $cfg, $client, $lang, $auth;
+    global $cfg, $client, $lang, $auth;
 
-    $navigation = array();
+    $groups = [];
+    $navigation = [];
     $FrontendPermissionCollection = new FrontendPermissionCollection;
 
 //	SECURITY-FIX
@@ -61,7 +62,6 @@ function createNavigationArray($start_id, $db) {
 
             $FrontendGroupMemberCollection->setWhere("idfrontenduser", $auth->auth['uid']);
             $FrontendGroupMemberCollection->query();
-            $groups = array();
             while ($member = $FrontendGroupMemberCollection->next()) {
                 $groups[] = $member->get("idfrontendgroup");
             }
@@ -74,10 +74,12 @@ function createNavigationArray($start_id, $db) {
             }
         }
         if ($visible) {
-            $navigation[$cat_id] = array("idcat" => $cat_id,
+            $navigation[$cat_id] = [
+                "idcat" => $cat_id,
                 "name" => $db->f("name"),
-                "target" => '_self', # you can not call getTarget($cat_id, &$db) at this point with the same db instance!			
-                "public" => $db->f("public"));
+                "target" => '_self',
+                "public" => $db->f("public"),
+            ];
         }
     } // end while
 
@@ -197,7 +199,7 @@ function getLevel($catid, &$db) {
  * Return path of a given category up to a certain level  
  */
 function getCategoryPath($cat_id, $level, $reverse = true, &$db) {
-    $root_path = array();
+    $root_path = [];
 
     array_push($root_path, $cat_id);
 
@@ -222,12 +224,13 @@ function getCategoryPath($cat_id, $level, $reverse = true, &$db) {
  * Return location string of a given category
  */
 function getLocationString($iStartCat, $level, $seperator, $sLinkStyleClass, $sTextStyleClass, $fullweblink = false, $reverse = true, $mod_rewrite = true, $db) {
+    $aLocation = [];
     global $sess, $cfgClient, $client;
 
     $aCatPath = getCategoryPath($iStartCat, $level, $reverse, $db);
 
     if (is_array($aCatPath) AND count($aCatPath) > 0) {
-        $aLocation = array();
+        $aLocation = [];
         foreach ($aCatPath as $value) {
             if (!$fullweblink) {
                 if ($mod_rewrite == true) {
@@ -265,6 +268,7 @@ function getLocationString($iStartCat, $level, $seperator, $sLinkStyleClass, $sT
  */
 function getSubTree($idcat_start, $db) {
     global $client, $cfg;
+    $deeper_cats = [];
 
     //	SECURITY-FIX
     $sql = "SELECT
@@ -299,6 +303,7 @@ function getSubTree($idcat_start, $db) {
 
 function getTeaserDeeperCategories($iIdcat, $db) {
     global $client, $cfg, $lang;
+    $deeper_cats = [];
 
     //	SECURITY-FIX	
     $sql = "SELECT
@@ -345,6 +350,7 @@ function getTeaserDeeperCategories($iIdcat, $db) {
  */
 function getProtectedSubTree($idcat_start, $db) {
     global $client, $cfg, $lang;
+    $deeper_cats = [];
 
     //	SECURITY-FIX
     $sql = "SELECT
@@ -416,10 +422,8 @@ function getCategoryName($cat_id, &$db) {
 
 // get direct subcategories of a given category 
 function getSubCategories($parent_id, $db) {
-
-    $subcategories = array();
-
     global $cfg, $client, $lang;
+    $subcategories = [];
 
 //	SECURITY-FIX
     $sql = "SELECT
@@ -453,11 +457,8 @@ function getSubCategories($parent_id, $db) {
 
 // get direct subcategories with protected categories
 function getProtectedSubCategories($parent_id, $db) {
-
-    $subcategories = array();
-    unset($subcategories);
-
     global $cfg, $client, $lang;
+    $subcategories = [];
 
 //	SECURITY-FIX
     $sql = "SELECT
@@ -488,23 +489,18 @@ function getProtectedSubCategories($parent_id, $db) {
 // end function
 
 function checkCatPermission($idcatlang, $public) {
-    #Check if current user has permissions to access cat
-
     global $auth;
+    $groups = [];
 
-    $oDB = new DB_ConLite();
-
-    $FrontendPermissionCollection = new FrontendPermissionCollection;
+    $FrontendPermissionCollection = new FrontendPermissionCollection();
     $visible = false;
 
     if ($public != 0) {
         $visible = true;
-        $groups = array();
     } elseif (($auth->auth['uid'] != '') && ($auth->auth['uid'] != 'nobody')) {
         $FrontendGroupMemberCollection = new FrontendGroupMemberCollection;
         $FrontendGroupMemberCollection->setWhere("idfrontenduser", $auth->auth['uid']);
         $FrontendGroupMemberCollection->query();
-        $groups = array();
         while ($member = $FrontendGroupMemberCollection->next()) {
             $groups[] = $member->get("idfrontendgroup");
         }

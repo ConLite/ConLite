@@ -149,25 +149,23 @@ function capiImgScaleLQ($img, $maxX, $maxY, $crop = false, $expand = false, $cac
         }
     }
 
-    /* Get out which file we have */
+    $imageHandle = null;
+
     switch (strtolower($filetype)) {
-        case ".gif": $function = "imagecreatefromgif";
+        case ".gif":
+            $imageHandle = imagecreatefromgif($filename);
             break;
-        case ".png": $function = "imagecreatefrompng";
+        case ".png":
+            $imageHandle = imagecreatefrompng($filename);
             break;
-        case ".jpg": $function = "imagecreatefromjpeg";
-            break;
-        case "jpeg": $function = "imagecreatefromjpeg";
+        case ".jpeg":
+        case "jpg":
+            $imageHandle = imagecreatefromjpeg($filename);
             break;
         default: return false;
     }
 
-    if (function_exists($function)) {
-        $imageHandle = @$function($filename);
-    }
-
-    /* If we can't open the image, return false */
-    if (!$imageHandle) {
+    if((gettype($imageHandle) == "object" && get_class($imageHandle) == "GdImage") !== true) {
         return false;
     }
 
@@ -696,7 +694,7 @@ function checkImageEditingPosibility() {
             if (function_exists('gd_info')) {
                 $arrGDInformations = gd_info();
 
-                if (preg_match('#([0-9\.])+#', $arrGDInformations['GD Version'], $strGDVersion)) {
+                if (preg_match('#([0-9.])+#', $arrGDInformations['GD Version'], $strGDVersion)) {
                     if ($strGDVersion[0] >= '2') {
                         return '2';
                     }
@@ -709,5 +707,3 @@ function checkImageEditingPosibility() {
         return '0';
     }
 }
-
-?>

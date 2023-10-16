@@ -5,7 +5,7 @@
  *
  * Description:
  *  Base Class for all cHTML Elements
- * 
+ *
  * @category ConLite
  * @package Core
  * @subpackage cHTML
@@ -20,11 +20,7 @@
 
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
-/*
-if (!class_exists("HTML_Common2")) {
-    cInclude("pear", "HTML/Common2.php");
-}
-*/
+
 /* Global ID counter */
 $cHTMLIDCount = 0;
 
@@ -33,11 +29,12 @@ $cHTMLIDCount = 0;
  *
  * @author Ortwin Pinke <o.pinke@conlite.org>
  */
-class cHTML extends cHTML5Common {
-    
+class cHTML extends cHTML5Common
+{
+
     /**
      * Storage of the open SGML tag template
-     * @var string 
+     * @var string
      */
     protected $_skeleton_open;
 
@@ -61,15 +58,15 @@ class cHTML extends cHTML5Common {
 
     /**
      * Defines the style definitions
-     * @var string
+     * @var array
      */
-    protected $_styledefs;
+    protected $_styledefs = [];
 
     /**
      * Defines all scripts which are required by the current element
      * @var array
      */
-    protected $_requiredScripts;
+    protected $_requiredScripts = [];
 
     /**
      * @var boolean Defines if the current tag is a contentless tag
@@ -79,31 +76,32 @@ class cHTML extends cHTML5Common {
     /**
      * @var array Defines which JS events contain which scripts
      */
-    protected $_aEventDefinitions;
+    protected $_aEventDefinitions = [];
 
     /**
-    * @var array Style definitions 
-    */
-    protected $_aStyleDefinitions;
+     * @var array Style definitions
+     */
+    protected $_aStyleDefinitions = [];
 
     /**
-    * @var string The content itself
-    */
+     * @var string The content itself
+     */
     protected $_content;
-    
+
     protected $_aCfg;
-	
+
     /**
-    * Constructor Function
-    * Initializes the SGML open/close tags
-    * 
-    * @param none
-    * @return void
-    */
-    public function __construct()	{
-        global $cfg;
-        $this->_aCfg = $cfg;
-        
+     * Constructor Function
+     * Initializes the SGML open/close tags
+     *
+     * @param none
+     * @return void
+     */
+    public function __construct()
+    {
+
+        $this->_aCfg = cRegistry::getConfig();
+
         parent::__construct();
         $this->_skeleton_open = '<%s%s>';
         $this->_skeleton_close = '</%s>';
@@ -112,50 +110,52 @@ class cHTML extends cHTML5Common {
         /* Cache the XHTML setting for performance reasons */
         if (!is_array($this->_aCfg) || !array_key_exists("generate_xhtml", $this->_aCfg)) {
             if (function_exists("getEffectiveSetting")) {
-                $bXhtml = (getEffectiveSetting("generator", "xhtml") == 'true' 
-                        || getEffectiveSetting("generator", "xhtml") === TRUE)?true:false;
+                $bXhtml = (getEffectiveSetting("generator", "xhtml") == 'true'
+                    || getEffectiveSetting("generator", "xhtml") === TRUE) ? true : false;
                 $this->_aCfg["generate_xhtml"] = $bXhtml;
             } else {
-                $this->_aCfg["generate_xhtml"] = false;	
+                $this->_aCfg["generate_xhtml"] = false;
             }
         }
 
-        if($this->_aCfg["generate_xhtml"] === true) {
+        if ($this->_aCfg["generate_xhtml"] === true) {
             $this->_skeleton_single = '<%s%s />';
         } else {
             $this->_skeleton_single = '<%s%s>';
         }
 
-        $this->_styledefs = array ();
-        $this->_aStyleDefinitions = array();
+        $this->_styledefs = [];
+        $this->_aStyleDefinitions = [];
         $this->setContentlessTag();
 
         $this->advanceID();
-        $this->_requiredScripts = array ();
-        $this->_aEventDefinitions = array ();
+        $this->_requiredScripts = [];
+        $this->_aEventDefinitions = [];
     }
 
     /**
      *
-     * @param type $contentlessTag 
+     * @param type $contentlessTag
      */
-    public function setContentlessTag($contentlessTag = true)	{
+    public function setContentlessTag($contentlessTag = true)
+    {
         $this->_contentlessTag = $contentlessTag;
     }
 
     /**
      * advances to the next ID available in the system.
-     * 
+     *
      * This function is useful if you need to use HTML elements
      * in a loop, but don't want to re-create new objects each time.
      *
-     * @return void 
+     * @return void
      */
-    public function advanceID() {
+    public function advanceID()
+    {
         global $cHTMLIDCount;
 
-        $cHTMLIDCount ++;
-        $this->updateAttributes(array ("id" => "m".$cHTMLIDCount));
+        $cHTMLIDCount++;
+        $this->updateAttributes(array("id" => "m" . $cHTMLIDCount));
     }
 
     /**
@@ -163,24 +163,26 @@ class cHTML extends cHTML5Common {
      *
      * @return string current ID
      */
-    public function getID()	{
+    public function getID()
+    {
         return $this->getAttribute("id");
     }
 
     /**
      * setAlt: sets the alt and title attributes
      *
-     * Sets the "alt" and "title" tags. Usually, "alt" is used 
+     * Sets the "alt" and "title" tags. Usually, "alt" is used
      * for accessibility and "title" for mouse overs.
-     * 
+     *
      * To set the text for all browsers for mouse over, set "alt"
-     * and "title". IE behaves incorrectly and shows "alt" on 
+     * and "title". IE behaves incorrectly and shows "alt" on
      * mouse over. Mozilla browsers only show "title" as mouse over.
      *
      * @param string $alt Text to set as the "alt" attribute
      */
-    public function setAlt($alt)	{
-        $attributes = array ("alt" => $alt, "title" => $alt);
+    public function setAlt($alt)
+    {
+        $attributes = array("alt" => $alt, "title" => $alt);
         $this->updateAttributes($attributes);
     }
 
@@ -189,8 +191,9 @@ class cHTML extends cHTML5Common {
      *
      * @param string $class Text to set as the "id"
      */
-    public function setID($id) {
-        $this->updateAttributes(array ("id" => $id));
+    public function setID($id)
+    {
+        $this->updateAttributes(array("id" => $id));
     }
 
     /**
@@ -198,8 +201,9 @@ class cHTML extends cHTML5Common {
      *
      * @param string $class Text to set as the "class" attribute
      */
-    public function setClass($class) {
-        $this->updateAttributes(array ("class" => $class));
+    public function setClass($class)
+    {
+        $this->updateAttributes(array("class" => $class));
     }
 
     /**
@@ -207,8 +211,9 @@ class cHTML extends cHTML5Common {
      *
      * @param $class string Text to set as the "style" attribute
      */
-    public function setStyle($style) {
-        $this->updateAttributes(array ("style" => $style));
+    public function setStyle($style)
+    {
+        $this->updateAttributes(array("style" => $style));
     }
 
     /**
@@ -220,11 +225,12 @@ class cHTML extends cHTML5Common {
      * @param $event string Type of the event
      * @param $action string Function or action to call (JavaScript Code)
      */
-    public function setEvent($event, $action) {
+    public function setEvent($event, $action)
+    {
         if (substr($event, 0, 2) != "on") {
-            $this->updateAttributes(array ("on".$event => $action));
+            $this->updateAttributes(array("on" . $event => $action));
         } else {
-            $this->updateAttributes(array ($event => $action));
+            $this->updateAttributes(array($event => $action));
         }
     }
 
@@ -236,9 +242,10 @@ class cHTML extends cHTML5Common {
      *
      * @param $event string Type of the event
      */
-    public function unsetEvent($event) {
+    public function unsetEvent($event)
+    {
         if (substr($event, 0, 2) != "on") {
-            $this->removeAttribute("on".$event);
+            $this->removeAttribute("on" . $event);
         } else {
             $this->removeAttribute($event);
         }
@@ -246,7 +253,7 @@ class cHTML extends cHTML5Common {
 
     /**
      * fillSkeleton: Fills the open SGML tag skeleton
-     * 
+     *
      * fillSkeleton fills the SGML opener tag with the
      * specified attributes. Attributes need to be passed
      * in the stringyfied variant.
@@ -254,11 +261,12 @@ class cHTML extends cHTML5Common {
      * @param $attributes string Attributes to set
      * @return string filled SGML opener skeleton
      */
-    public function fillSkeleton($attributes) {
+    public function fillSkeleton($attributes)
+    {
         if ($this->_contentlessTag == true) {
             return sprintf($this->_skeleton_single, $this->_tag, $attributes);
         } else {
-            return sprintf($this->_skeleton_open, $this->_tag, $attributes);
+            return is_null($this->_skeleton_open) ? '' : sprintf($this->_skeleton_open, $this->_tag, $attributes);
         }
     }
 
@@ -268,63 +276,68 @@ class cHTML extends cHTML5Common {
      * @param none
      * @return string filled SGML closer skeleton
      */
-    public function fillCloseSkeleton() {
-        return sprintf($this->_skeleton_close, $this->_tag);
+    public function fillCloseSkeleton()
+    {
+        return is_null($this->_skeleton_close) ? '' : sprintf($this->_skeleton_close, $this->_tag);
     }
 
     /**
      * addStyleDefinition
      *
-     * @deprecated name change, use attachStyleDefinition
      * @param $entity string Entity to define
-     * @param $definition string Definition for the given entity 
+     * @param $definition string Definition for the given entity
      * @return string filled SGML closing skeleton
+     * @deprecated name change, use attachStyleDefinition
      */
-    public function setStyleDefinition($entity, $definition) {
+    public function setStyleDefinition($entity, $definition)
+    {
         $this->_styledefs[$entity] = $definition;
     }
-	
+
     /**
      * attachStyleDefinition: Attaches a style definition.
-     * 
+     *
      * This function is not restricted to a single style, e.g.
      * you can set multiple style definitions as-is to the handler.
-     * 
+     *
      * $example->attachStyle("myIdentifier",
-     * 			"border: 1px solid black; white-space: nowrap");
+     *            "border: 1px solid black; white-space: nowrap");
      * $example->attachStyle("myIdentifier2",
-     * 						"padding: 0px");
-     * 
+     *                        "padding: 0px");
+     *
      * Results in:
-     * 
+     *
      * style="border: 1px solid black; white-space: nowrap; padding: 0px;"
      *
-     * @param $sName   		string Name for a style definition
-     * @param $sDefinition 	string Definition for the given entity 
+     * @param $sName        string Name for a style definition
+     * @param $sDefinition    string Definition for the given entity
      * @return string filled SGML closing skeleton
      */
-    public function attachStyleDefinition($sName, $sDefinition) {
+    public function attachStyleDefinition($sName, $sDefinition)
+    {
         $this->_aStyleDefinitions[$sName] = $sDefinition;
     }
 
     /**
-     * 
+     *
      * @param string $script
      */
-    public function addRequiredScript($script) {
+    public function addRequiredScript($script)
+    {
         if (!is_array($this->_requiredScripts)) {
-            $this->_requiredScripts = array ();
+            $this->_requiredScripts = [];
         }
         $this->_requiredScripts[] = $script;
         $this->_requiredScripts = array_unique($this->_requiredScripts);
     }
-        
+
     /**
-     * 
+     *
      * @param array $aAttributes
      * @return array
      */
-    public function updateAttributes($aAttributes) {
+    public function updateAttributes($aAttributes)
+    {
         return $this->mergeAttributes($aAttributes);
     }
 
@@ -334,20 +347,21 @@ class cHTML extends cHTML5Common {
      * @param $content string/object String with the content or an object to render.
      *
      */
-    public function _setContent($content) {
+    public function _setContent($content)
+    {
         $this->setContentlessTag(false);
         /* Is it an array? */
-        if(is_array($content)) {
+        if (is_array($content)) {
             unset ($this->_content);
             $this->_content = "";
-            
-            foreach($content as $item) {
-                if(is_object($item)) {
-                    if(method_exists($item, "render")) {
+
+            foreach ($content as $item) {
+                if (is_object($item)) {
+                    if (method_exists($item, "render")) {
                         $this->_content .= $item->render();
                     }
-                    
-                    if(count($item->_requiredScripts) > 0) {
+
+                    if (count($item->_requiredScripts) > 0) {
                         $this->_requiredScripts = array_merge($this->_requiredScripts, $item->_requiredScripts);
                     }
                 } else {
@@ -355,12 +369,12 @@ class cHTML extends cHTML5Common {
                 }
             }
         } else {
-            if(is_object($content)) {
-                if(method_exists($content, "render")) {
+            if (is_object($content)) {
+                if (method_exists($content, "render")) {
                     $this->_content = $content->render();
                 }
-                
-                if(count($content->_requiredScripts) > 0) {
+
+                if (is_countable($content->_requiredScripts) && count($content->_requiredScripts) > 0) {
                     $this->_requiredScripts = array_merge($this->_requiredScripts, $content->_requiredScripts);
                 }
                 return;
@@ -372,92 +386,95 @@ class cHTML extends cHTML5Common {
 
     /**
      * attachEventDefinition: Attaches the code for an event
-     * 
+     *
      * Example to attach an onClick handler:
      * setEventDefinition("foo", "onClick", "alert('foo');");
-     * 
+     *
      * @param $sName string defines the name of the event
      * @param $sEvent string defines the event (e.g. onClick)
      * @param $sCode string defines the code
      */
-    public function attachEventDefinition($sName, $sEvent, $sCode) {
+    public function attachEventDefinition($sName, $sEvent, $sCode)
+    {
         $this->_aEventDefinitions[strtolower($sEvent)][$sName] = $sCode;
     }
 
     /**
      * setAttribte: Sets a specific attribute
-     * 
+     *
      * @param $sAttributeName string Name of the attribute
      * @param $sValue string Value of the attribute
      */
-    public function setAttribute($sAttributeName, $sValue = NULL) {
+    public function setAttribute($sAttributeName, $sValue = NULL)
+    {
         $sAttributeName = strtolower($sAttributeName);
         if (is_null($sValue)) {
             $sValue = $sAttributeName;
         }
-        $this->updateAttributes(array ($sAttributeName => $sValue));
+        $this->updateAttributes(array($sAttributeName => $sValue));
     }
-        
+
     /**
-     * 
+     *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->toHtml();
     }
 
-   /**
-    * Renders the output
-    * If the tag 
-    */
-   public function toHTML() {
-       /* Fill style definition */
-       $style = $this->getAttribute("style");
-       
-       /* If the style doesn't end with a semicolon, append one */
-       if(is_string($style)) {
-           $style = trim($style);
-           
-           if (substr($style, strlen($style) - 1) != ";") {
-               $style .= ";";
-           }
-       }
-       
-       foreach($this->_aStyleDefinitions as $sEntry) {
-           $style .= $sEntry;
-           
-           if (substr($style, strlen($style) - 1) != ";") {
-               $style .= ";";
-           }			
-       }
-       
-       foreach($this->_aEventDefinitions as $sEventName => $sEntry) {
-           $aFullCode = array();
-           
-           foreach ($sEntry as $sName => $sCode) {
-               $aFullCode[] = $sCode;
-           }
-           $this->setAttribute($sEventName, $this->getAttribute($sEventName).implode(" ", $aFullCode));
-       }
-       
-       /* Apply all stored styles */
-       foreach ($this->_styledefs as $key => $value) {
-           $style .= "$key: $value;";
-       }
-       
-       if ($style != "") {
-           $this->setStyle($style);
-       }
-       
-       if ($this->_content != "" || $this->_contentlessTag == false) {
-           $attributes = $this->getAttributes(true);
-           return $this->fillSkeleton($attributes).$this->_content.$this->fillCloseSkeleton();
-       } else {
-           /* This is a single style tag */
-           $attributes = $this->getAttributes(true);
-           return $this->fillSkeleton($attributes);
-       }
-   }
+    /**
+     * Renders the output
+     * If the tag
+     */
+    public function toHTML()
+    {
+        /* Fill style definition */
+        $style = $this->getAttribute("style");
+
+        /* If the style doesn't end with a semicolon, append one */
+        if (!empty($style) && is_string($style)) {
+            $style = trim($style);
+
+            if (substr($style, strlen($style) - 1) != ";") {
+                $style .= ";";
+            }
+        }
+
+        foreach ($this->_aStyleDefinitions as $sKey => $sEntry) {
+            $style .= $sKey . ': ' . $sEntry;
+
+            if (substr($style, strlen($style) - 1) != ";") {
+                $style .= ";";
+            }
+        }
+        /* Apply all stored styles */
+        foreach ($this->_styledefs as $key => $value) {
+            $style .= "$key: $value;";
+        }
+
+        if ($style != "") {
+            $this->setStyle($style);
+        }
+
+        foreach ($this->_aEventDefinitions as $sEventName => $sEntry) {
+            $aFullCode = [];
+
+            foreach ($sEntry as $sName => $sCode) {
+                $aFullCode[] = $sCode;
+            }
+            $this->setAttribute($sEventName, $this->getAttribute($sEventName) . implode(" ", $aFullCode));
+        }
+
+        if ($this->_content != "" || $this->_contentlessTag == false) {
+            $attributes = $this->getAttributes(true);
+            return $this->fillSkeleton($attributes) . $this->_content . $this->fillCloseSkeleton();
+        } else {
+            /* This is a single style tag */
+            $attributes = $this->getAttributes(true);
+            return $this->fillSkeleton($attributes);
+        }
+    }
 
     /**
      * render(): Alias for toHtml
@@ -465,8 +482,8 @@ class cHTML extends cHTML5Common {
      * @param none
      * @return string Rendered HTML
      */
-    public function render() {
+    public function render()
+    {
         return $this->toHtml();
     }
 }
-?>

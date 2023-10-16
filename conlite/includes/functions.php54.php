@@ -60,10 +60,11 @@ function clPhp54FixedFunc($funcname, $value, $flags = '', $encoding = '') {
  * @param string $encoding
  * @return string
  */
+/*
 function clHtmlSpecialChars($value, $flags = '', $encoding = '') {    
     return clPhp54FixedFunc("htmlspecialchars", $value, $flags, $encoding);
 }
-
+*/
 /**
  * 
  * @uses clPhp54FixedFunc multi fix func for PHP5.4
@@ -74,9 +75,12 @@ function clHtmlSpecialChars($value, $flags = '', $encoding = '') {
  * @param string $encoding
  * @return string
  */
+/*
 function clHtmlEntityDecode($value, $flags = '', $encoding = '') {
     return clPhp54FixedFunc("html_entity_decode", $value, $flags, $encoding);
 }
+ * 
+ */
 
 /**
  *
@@ -88,9 +92,12 @@ function clHtmlEntityDecode($value, $flags = '', $encoding = '') {
  * @param string $encoding
  * @return string
  */
+/*
 function clHtmlEntities($value, $flags = '', $encoding = '') {
     return clPhp54FixedFunc("htmlentities", $value, $flags, $encoding);
 }
+ * 
+ */
 
 /**
  * 
@@ -101,9 +108,12 @@ function clHtmlEntities($value, $flags = '', $encoding = '') {
  * @param mixed $flags
  * @return string
  */
+/*
 function clGetHtmlTranslationTable($table = '', $flags = '') {
     return clPhp54FixedFunc("get_html_translation_table", $table, $flags);
 }
+ * 
+ */
 
 
 // hold old functions from con 4.8 but use new ConLite functions, mark them as deprecated
@@ -112,38 +122,11 @@ function clGetHtmlTranslationTable($table = '', $flags = '') {
  * Use compatible clHtmlSpecialChars instead
  * @deprecated since version 2.0
  */
+/**
 if (function_exists('conHtmlSpecialChars') == false) {
 	function conHtmlSpecialChars($value, $flags = '', $encoding = '') {
 		return clHtmlSpecialChars($value, $flags, $encoding);
 	}
 }
-
-/**
- * Use compatible clHtmlEntityDecode instead
- * @deprecated since version 2.0
+ * 
  */
-if (function_exists('conHtmlEntityDecode') == false) {
-	function conHtmlEntityDecode($value, $flags = '', $encoding = '') {
-		return clHtmlEntityDecode($value, $flags, $encoding);
-	}
-}
-
-/**
- * Use compatible clHtmlEntities instead
- * @deprecated since version 2.0
- */
-if (function_exists('conHtmlentities') == false) {
-	function conHtmlentities($value, $flags = '', $encoding = '') {
-            return clHtmlEntities($value, $flags, $encoding);
-	}
-}
-
-/**
- * Use compatible clGetHtmlTranslationTable instead
- * @deprecated since version 2.0
- */
-if (function_exists('conGetHtmlTranslationTable') == false) {
-	function conGetHtmlTranslationTable($table = '', $flags = '') {
-		return clGetHtmlTranslationTable($table, $flags);
-	}
-}
