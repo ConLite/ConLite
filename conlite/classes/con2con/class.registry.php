@@ -32,7 +32,7 @@ class cRegistry {
      */
     public static function getBackendPath() {
         $cfg = self::getConfig();
-        return $cfg['path']['contenido'];
+        return $cfg['path']['conlite'];
     }
 
     /**
@@ -58,7 +58,7 @@ class cRegistry {
     public static function getFrontendPath() {
         $cfgClient = self::getClientConfig();
         $client = self::getClientId();
-        return $cfgClient[$client]['path']['frontend'];
+        return (empty($cfgClient))?'':$cfgClient[$client]['path']['frontend'];
     }
 
     /**

@@ -247,9 +247,11 @@ class Article extends Item
      * @param string Property name
      * @return mixed Property value
      */
-    public function getField($name)
-    {
-        return urldecode($this->values[$name]);
+    public function getField($name) {
+        if(!is_null($name) && !empty($this->values[$name])) {
+            return urldecode($this->values[$name]);
+        }
+        
     }
 
     /**
@@ -283,7 +285,7 @@ class Article extends Item
      */
     public function getContent($type, $id = NULL)
     {
-        if ($type == '') {
+        if (empty($type)) {
             return 'Class ' . get_class($this) . ': content-type must be specified!';
         }
 
@@ -295,7 +297,7 @@ class Article extends Item
 
         if (is_null($id)) {
             // return Array
-            return $this->content[$type];
+            return (empty($this->content[$type]))?'':$this->content[$type];
         }
 
         // return String

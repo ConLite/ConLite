@@ -31,6 +31,8 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+//print_r($_SESSION);
+
 class cSetupSetupSummary extends cSetupMask {
 
     public function __construct($step, $previous, $next) {
@@ -62,27 +64,21 @@ class cSetupSetupSummary extends cSetupMask {
                 break;
         }
 
-        $messages = array(
-            i18n_setup("Installation type") . ":" => $sType,
-            i18n_setup("Database parameters") . ":" => i18n_setup("Database host") . ": " . $_SESSION["dbhost"] . "<br>" . i18n_setup("Database name") . ": " . $_SESSION["dbname"] . "<br>" . i18n_setup("Database username") . ": " . $_SESSION["dbuser"] . "<br>" . i18n_setup("Database prefix") . ": " . $_SESSION["dbprefix"],
-        );
+        $messages = [i18n_setup("Installation type") . ":" => $sType, i18n_setup("Database parameters") . ":" => i18n_setup("Database host") . ": " . $_SESSION["dbhost"] . "<br>" . i18n_setup("Database name") . ": " . $_SESSION["dbname"] . "<br>" . i18n_setup("Database username") . ": " . $_SESSION["dbuser"] . "<br>" . i18n_setup("Database prefix") . ": " . $_SESSION["dbprefix"]];
 
         if ($_SESSION["setuptype"] == "setup") {
-            $aChoices = array("CLIENTEXAMPLES" => i18n_setup("Client with example modules and example content"),
-                "CLIENTMODULES" => i18n_setup("Client with example modules but without example content"),
-                "CLIENT" => i18n_setup("Client without examples"),
-                "NOCLIENT" => i18n_setup("Don't create a client"));
+            $aChoices = ["CLIENTEXAMPLES" => i18n_setup("Client with example modules and example content"), "CLIENTMODULES" => i18n_setup("Client with example modules but without example content"), "CLIENT" => i18n_setup("Client without examples"), "NOCLIENT" => i18n_setup("Don't create a client")];
             $messages[i18n_setup("Client installation") . ":"] = $aChoices[$_SESSION["clientmode"]];
         }
 
         // additional plugins
         $aPlugins = $this->_getSelectedAdditionalPlugins();
-        if (count($aPlugins) > 0) {
+        if ((is_countable($aPlugins) ? count($aPlugins) : 0) > 0) {
             $messages[i18n_setup("Additional Plugins") . ":"] = implode('<br>', $aPlugins);
             ;
         }
 
-        $cHTMLFoldableErrorMessages = array();
+        $cHTMLFoldableErrorMessages = [];
 
         foreach ($messages as $key => $message) {
             $cHTMLFoldableErrorMessages[] = new cHTMLInfoMessage($key, $message);
@@ -96,7 +92,7 @@ class cSetupSetupSummary extends cSetupMask {
     }
 
     public function _getSelectedAdditionalPlugins() {
-        $aPlugins = array();
+        $aPlugins = [];
         if (isset($_SESSION['plugin_newsletter']) && $_SESSION['plugin_newsletter'] == 'true') {
             $aPlugins[] = i18n_setup('Newsletter');
         }

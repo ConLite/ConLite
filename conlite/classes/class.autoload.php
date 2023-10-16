@@ -238,7 +238,7 @@ class cAutoload {
      * @return  (string|null)  Path and filename or null
      */
     private static function _getContenidoClassFile($className) {
-        $file = isset(self::$_includeFiles[$className]) ? self::$_conRootPath . self::$_includeFiles[$className] : null;
+        $file = isset(self::$_includeFiles[$className]) ? self::$_conRootPath . self::$_includeFiles[$className] : '';
         return self::_validateClassAndFile($className, $file);
     }
 
@@ -247,7 +247,7 @@ class cAutoload {
      *
      * @param   string  $className
      * @param   string  $filePathName
-     * @return  (string|null)  The file if validation was successfull, otherwhise null
+     * @return  (string)  The file if validation was successfull, otherwhise empty
      */
     private static function _validateClassAndFile($className, $filePathName) {
         if (class_exists($className)) {
@@ -256,14 +256,14 @@ class cAutoload {
                 'file' => str_replace(self::$_conRootPath, '', $filePathName),
                 'error' => self::ERROR_CLASS_EXISTS
             );
-            return null;
+            return '';
         } elseif (!is_file($filePathName)) {
             self::$_errors[] = array(
                 'class' => $className,
                 'file' => str_replace(self::$_conRootPath, '', $filePathName),
                 'error' => self::ERROR_FILE_NOT_FOUND
             );
-            return null;
+            return '';
         }
 
         return $filePathName;

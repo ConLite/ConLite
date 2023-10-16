@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>test</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="expires" content="0">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="pragma" content="no-cache">
+        <script src="scripts/jquery/jquery.js"></script>
+        <script src="scripts/jquery/jquery-ui.js"></script>
+        <script src="scripts/general.js" type="text/javascript"></script>
+        <link href="scripts/fancytree/skin-lion/ui.fancytree.css" rel="stylesheet" type="text/css"/>
+        <link href="scripts/fancytree/lib/contextmenu-abs/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="tree">
+            {item_list}
+        </div>
+<!--
+        <div>Selected node: <span id="echoActivated">-</span></div>
+-->
+        <script src="scripts/fancytree/jquery.fancytree-all.min.js"></script>
+        <link rel="stylesheet"  href="//cdn.jsdelivr.net/npm/jquery-contextmenu@2.9.0/dist/jquery.contextMenu.min.css" />
+        <script src="//cdn.jsdelivr.net/npm/jquery-contextmenu@2.9.0/dist/jquery.contextMenu.min.js"></script>
+
+
+
+        <script>
+            // --- Contextmenu helper --------------------------------------------------
+            function bindContextMenu(node) {
+                if (node.extraClasses == "directory") {
+                    $(node.span).contextMenu({menu: "myMenuFolder"}, function (action, el, pos) {
+                        switch (action) {
+                            default:
+                                alert("Todo: appply action '" + action + "' to node " + node.title);
+                        }
+                    });
+                } else {
+                    $(node.span).contextMenu({menu: "myMenuFile"}, function (action, el, pos) {
+                        switch (action) {
+                            case 'edit':
+                                alert('edit');
+                                break;
+                            default:
+                                alert("Todo: apply action '" + action + "' to node " + node.title);
+                        }
+                    });
+                }
+            }
+
+
+            $(function () {
+                // using default options
+                $("#tree").fancytree({
+                    imagePath: "images/filetypes/",
+                    activate: function (event, data) {
+                        var node = data.node;
+                        console.log(data);
+                        $("#echoActivated").text(node.title + ", key=" + node.key);
+                    }
+                });
+
+                $.contextMenu({
+                    selector: "#tree span.fancytree-title",
+                    items: {
+                        "edit": {
+                            name: "Edit",
+                            icon: "edit",
+                            disabled: function (event, ui) {
+                                var node = $.ui.fancytree.getNode(this);
+                                console.log(node);
+                                console.log(ui);
+                                // return `true` to disable, `"hide"` to remove entry:
+                                return (node.hasClass('file')) ? false : true;
+                            },
+                            callback: function (itemKey, opt, e) {
+                                var node = $.ui.fancytree.getNode(this);
+                                var file = node.data.filepath;
+                                console.log(node.data);
+                                console.log(`This is ${file}  times easier!`);
+                                conMultiLink(
+                                        'right_top',
+                                        `{multilink1}`,
+                                        'right_bottom',
+                                        `{multilink2}`
+                                );
+                            }
+                        },
+                        "delete": {name: "Delete", icon: "delete", disabled: function (event, ui) {
+                                var node = $.ui.fancytree.getNode(this);
+                                console.log(node);
+                                console.log(ui);
+                                // return `true` to disable, `"hide"` to remove entry:
+                                return (node.hasClass('notwritable')) ? true : (node.hasClass('file')) ? false : true;
+                            }}
+                    },
+                    callback: function (itemKey, opt) {
+                        var node = $.ui.fancytree.getNode(opt.$trigger);
+
+                        alert("select " + itemKey + " on " + node);
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>

@@ -347,7 +347,7 @@ class UploadList extends FrontendList {
                     case "xbm":
                     case "wbmp":
                         $sCacheThumbnail = uplGetThumbnail($data, 150);
-                        $sCacheName = substr($sCacheThumbnail, strrpos($sCacheThumbnail, "/") + 1, strlen($sCacheThumbnail) - (strrchr($sCacheThumbnail, '/') + 1));
+                        $sCacheName = substr($sCacheThumbnail, strrpos($sCacheThumbnail, "/") + 1, strlen($sCacheThumbnail) - (strlen(strrchr($sCacheThumbnail, '/')) + 1));
                         $sFullPath = $cfgClient[$client]['path']['frontend'] . 'cache/' . $sCacheName;
                         if (file_exists($sFullPath)) {
                             $aDimensions = getimagesize($sFullPath);
@@ -430,16 +430,20 @@ class UploadList extends FrontendList {
  * @param type $sErrorMessage
  * @return type
  */
-function uplRender($path, $sortby, $sortmode, $startpage = 1, $thumbnailmode, $sErrorMessage) {
+function uplRender($path, $sortby, $sortmode, $startpage, $thumbnailmode, $sErrorMessage) {
     global $cfg, $client, $cfgClient, $area, $frame, $sess, $browserparameters, $appendparameters, $perm, $auth, $sReloadScript, $notification, $bDirectoryIsWritable;
 
-    if ($sortby == "") {
+    if(empty($sortby)) {
         $sortby = 3;
         $sortmode = "ASC";
     }
 
-    if ($startpage == "") {
+    if(empty($startpage)) {
         $startpage = 1;
+    }
+    
+    if(is_null($path)) {
+        $path = '';
     }
 
     $thisfile = $sess->url("main.php?idarea=$area&frame=$frame&path=$path&thumbnailmode=$thumbnailmode&appendparameters=$appendparameters");

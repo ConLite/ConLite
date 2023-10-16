@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project:
  * Contenido Content Management System
@@ -35,14 +36,12 @@
  * TODO error handling!!!
  * TODO export functions to new ConUser object!
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
 cInclude('includes', 'functions.rights.php');
-
 
 if (!($perm->have_perm_area_action($area, $action) || $perm->have_perm_area_action('user', $action))) {
     // access denied
@@ -55,8 +54,8 @@ if (!isset($userid)) {
     return;
 }
 
-$aPerms        = array();
-$bError        = false;
+$aPerms = array();
+$bError = false;
 $sNotification = '';
 
 // delete user
@@ -65,11 +64,11 @@ if ($action == 'user_delete') {
     $oUsers->deleteUserByID($userid);
 
     $sql = "DELETE FROM " . $cfg["tab"]["groupmembers"]
-         . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
+            . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
     $sql = "DELETE FROM " . $cfg["tab"]["rights"]
-         ." WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
+            . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
     $sNotification = $notification->displayNotification("info", i18n("User deleted"));
@@ -87,7 +86,7 @@ if ($action == 'user_delete') {
 </body>
 </html>
     ';
-    
+
     $tpl->reset();
     $tpl->set('s', 'NOTIFICATION', $sNotification);
     $tpl->generate($sTemplate);
@@ -158,13 +157,19 @@ $oUser = new User();
 $oUser->loadUserByUserID(Contenido_Security::escapeDB($userid, $db));
 
 // delete user property
-if (is_string($del_userprop_type) && is_string($del_userprop_name)) {
+if (!empty($del_userprop_type) 
+        && !empty($del_userprop_name)
+        && is_string($del_userprop_type) 
+        && is_string($del_userprop_name)) {
     $oUser->deleteUserProperty($del_userprop_type, $del_userprop_name);
 }
 
 // edit user property
-if (is_string($userprop_type) && is_string($userprop_name) && is_string($userprop_value)
-    && !empty($userprop_type) && !empty($userprop_name)) {
+if (!empty($userprop_type) 
+        && !empty($userprop_name)
+        && is_string($userprop_type)
+        && is_string($userprop_name)
+        && is_string($userprop_value)) {
     $oUser->setUserProperty($userprop_type, $userprop_name, $userprop_value);
 }
 
@@ -174,16 +179,16 @@ if (count($aPerms) == 0 || $action == '' || !isset($action)) {
 
 
 $tpl->reset();
-$tpl->set('s','SID', $sess->id);
-$tpl->set('s','NOTIFICATION', $sNotification);
+$tpl->set('s', 'SID', $sess->id);
+$tpl->set('s', 'NOTIFICATION', $sNotification);
 
-$form = '<form name="user_properties" method="post" action="'.$sess->url("main.php?").'">
-             '.$sess->hidden_session(true).'
-             <input type="hidden" name="area" value="'.$area.'">
+$form = '<form name="user_properties" method="post" action="' . $sess->url("main.php?") . '">
+             ' . $sess->hidden_session(true) . '
+             <input type="hidden" name="area" value="' . $area . '">
              <input type="hidden" name="action" value="user_edit">
-             <input type="hidden" name="frame" value="'.$frame.'">
-             <input type="hidden" name="userid" value="'.$userid.'">
-             <input type="hidden" name="idlang" value="'.$lang.'">';
+             <input type="hidden" name="frame" value="' . $frame . '">
+             <input type="hidden" name="userid" value="' . $userid . '">
+             <input type="hidden" name="idlang" value="' . $lang . '">';
 
 $tpl->set('s', 'FORM', $form);
 $tpl->set('s', 'GET_USERID', $userid);
@@ -193,9 +198,8 @@ $tpl->set('s', 'SUBMITTEXT', i18n("Save changes"));
 $tpl->set('s', 'CANCELTEXT', i18n("Discard changes"));
 $tpl->set('s', 'CANCELLINK', $sess->url("main.php?area=$area&frame=4&userid=$userid"));
 
-
 $tpl->set('d', 'CATNAME', i18n("Property"));
-$tpl->set('d', 'BGCOLOR',  $cfg["color"]["table_header"]);
+$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_header"]);
 $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
 $tpl->set('d', 'CATFIELD', i18n("Value"));
 $tpl->next();
@@ -203,7 +207,7 @@ $tpl->next();
 $tpl->set('d', 'CATNAME', i18n("Username"));
 $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
 $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', $oUser->getField('username').'<img align="top" src="images/spacer.gif" height="20">');
+$tpl->set('d', 'CATFIELD', $oUser->getField('username') . '<img align="top" src="images/spacer.gif" height="20">');
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Name"));
@@ -213,7 +217,7 @@ $tpl->set('d', 'CATFIELD', formGenerateField("text", "realname", $oUser->getFiel
 $tpl->next();
 
 // @since 2006-07-04 Display password fields only if not authenticated via LDAP/AD
-if ($msysadmin || $oUser->getField('password') != 'active_directory_auth') {
+if ((isset($msysadmin) && $msysadmin) || $oUser->getField('password') != 'active_directory_auth') {
     $tpl->set('d', 'CATNAME', i18n("New password"));
     $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
     $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
@@ -280,14 +284,14 @@ $oClientsCollection = new cApiClientCollection();
 $aClients = $oClientsCollection->getAvailableClients();
 $sClientCheckboxes = '';
 foreach ($aClients as $idclient => $item) {
-    if (in_array("admin[".$idclient."]", $aAuthPerms) || in_array('sysadmin', $aAuthPerms)){
-        $sClientCheckboxes .= formGenerateCheckbox("madmin[".$idclient."]", $idclient, in_array("admin[".$idclient."]", $aPerms), $item['name']." (".$idclient.")")."<br>";
+    if (in_array("admin[" . $idclient . "]", $aAuthPerms) || in_array('sysadmin', $aAuthPerms)) {
+        $sClientCheckboxes .= formGenerateCheckbox("madmin[" . $idclient . "]", $idclient, in_array("admin[" . $idclient . "]", $aPerms), $item['name'] . " (" . $idclient . ")") . "<br>";
     }
 }
 
 if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Administrator"));
-    $tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
     $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
@@ -296,14 +300,14 @@ if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
 // clients perms
 $sClientCheckboxes = '';
 foreach ($aClients as $idclient => $item) {
-    if ((in_array("client[".$idclient."]", $aAuthPerms) || in_array('sysadmin', $aAuthPerms) || in_array("admin[".$idclient."]", $aAuthPerms)) && !in_array("admin[".$idclient."]", $aPerms)) {
-        $sClientCheckboxes .= formGenerateCheckbox("mclient[".$idclient."]", $idclient, in_array("client[".$idclient."]", $aPerms), $item['name']." (". $idclient . ")")."<br>";
+    if ((in_array("client[" . $idclient . "]", $aAuthPerms) || in_array('sysadmin', $aAuthPerms) || in_array("admin[" . $idclient . "]", $aAuthPerms)) && !in_array("admin[" . $idclient . "]", $aPerms)) {
+        $sClientCheckboxes .= formGenerateCheckbox("mclient[" . $idclient . "]", $idclient, in_array("client[" . $idclient . "]", $aPerms), $item['name'] . " (" . $idclient . ")") . "<br>";
     }
 }
 
 if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Access clients"));
-    $tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
     $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
@@ -313,14 +317,14 @@ if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
 $aClientsLanguages = getAllClientsAndLanguages();
 $sClientCheckboxes = '';
 foreach ($aClientsLanguages as $item) {
-    if (($perm->have_perm_client("lang[".$item['idlang']."]") || $perm->have_perm_client("admin[".$item['idclient']."]")) && !in_array("admin[".$item['idclient']."]", $aPerms)) {
-        $sClientCheckboxes .= formGenerateCheckbox("mlang[".$item['idlang']."]", $item['idlang'], in_array("lang[".$item['idlang']."]", $aPerms), $item['langname']." (". $item['clientname'] .")") ."<br>";
+    if (($perm->have_perm_client("lang[" . $item['idlang'] . "]") || $perm->have_perm_client("admin[" . $item['idclient'] . "]")) && !in_array("admin[" . $item['idclient'] . "]", $aPerms)) {
+        $sClientCheckboxes .= formGenerateCheckbox("mlang[" . $item['idlang'] . "]", $item['idlang'], in_array("lang[" . $item['idlang'] . "]", $aPerms), $item['langname'] . " (" . $item['clientname'] . ")") . "<br>";
     }
 }
 
 if ($sClientCheckboxes != '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Access languages"));
-    $tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
     $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
@@ -329,11 +333,11 @@ if ($sClientCheckboxes != '' && !in_array('sysadmin', $aPerms)) {
 
 // user properties
 $aProperties = $oUser->getUserProperties();
-$sPropRows   = '';
+$sPropRows = '';
 foreach ($aProperties as $entry) {
     $type = $entry['type'];
     if ($type != 'system') {
-        $name  = $entry['name'];
+        $name = $entry['name'];
         $value = $entry['value'];
         $sPropRows .= '
         <tr class="text_medium">
@@ -347,11 +351,11 @@ foreach ($aProperties as $entry) {
     }
 }
 $table = '
-    <table width="100%" cellspacing="0" cellpadding="2" style="border:1px solid '.$cfg["color"]["table_border"].';">
-    <tr style="background-color:'.$cfg["color"]["table_header"].'" class="text_medium">
-        <td>'.i18n("Area/Type").'</td>
-        <td>'.i18n("Property").'</td>
-        <td>'.i18n("Value").'</td>
+    <table width="100%" cellspacing="0" cellpadding="2" style="border:1px solid ' . $cfg["color"]["table_border"] . ';">
+    <tr style="background-color:' . $cfg["color"]["table_header"] . '" class="text_medium">
+        <td>' . i18n("Area/Type") . '</td>
+        <td>' . i18n("Property") . '</td>
+        <td>' . i18n("Value") . '</td>
         <td>&nbsp;</td>
     </tr>
     ' . $sPropRows . '
@@ -364,7 +368,7 @@ $table = '
     </table>';
 
 $tpl->set('d', 'CATNAME', i18n("User-defined properties"));
-$tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
 $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
 $tpl->set('d', 'CATFIELD', $table);
 $tpl->next();
@@ -383,9 +387,9 @@ $sCurrentValueFrom = trim(str_replace('1000-01-01', '', $sCurrentValueFrom));
 
 $sInputValidFrom = '<style type="text/css">@import url(./scripts/jscalendar/calendar-contenido.css);</style>
                 <script type="text/javascript" src="./scripts/jscalendar/calendar.js"></script>
-                <script type="text/javascript" src="./scripts/jscalendar/lang/calendar-'.substr(strtolower($belang),0,2).'.js"></script>
+                <script type="text/javascript" src="./scripts/jscalendar/lang/calendar-' . substr(strtolower($belang), 0, 2) . '.js"></script>
                 <script type="text/javascript" src="./scripts/jscalendar/calendar-setup.js"></script>';
-$sInputValidFrom .= '<input type="text" id="valid_from" name="valid_from" value="'.$sCurrentValueFrom.'" />&nbsp;<img src="images/calendar.gif" id="trigger" /">';
+$sInputValidFrom .= '<input type="text" id="valid_from" name="valid_from" value="' . $sCurrentValueFrom . '" />&nbsp;<img src="images/calendar.gif" id="trigger" /">';
 $sInputValidFrom .= '<script type="text/javascript">
                      Calendar.setup({
                          inputField:  "valid_from",
@@ -406,7 +410,7 @@ $sCurrentValueTo = str_replace('00:00:00', '', $oUser->getField('valid_to'));
 $sCurrentValueTo = trim(str_replace('0000-00-00', '', $sCurrentValueTo));
 $sCurrentValueTo = trim(str_replace('1000-01-01', '', $sCurrentValueTo));
 
-$sInputValidTo  = '<input type="text" id="valid_to" name="valid_to" value="'.$sCurrentValueTo.'" />&nbsp;<img src="images/calendar.gif" id="trigger_to" /">';
+$sInputValidTo = '<input type="text" id="valid_to" name="valid_to" value="' . $sCurrentValueTo . '" />&nbsp;<img src="images/calendar.gif" id="trigger_to" /">';
 $sInputValidTo .= '<script type="text/javascript">
                    Calendar.setup({
                        inputField:  "valid_to",
@@ -418,7 +422,7 @@ $sInputValidTo .= '<script type="text/javascript">
                    </script>';
 
 $tpl->set('d', 'CATNAME', i18n("Valid to"));
-$tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
 $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
 $tpl->set('d', 'CATFIELD', $sInputValidTo);
 $tpl->next();
@@ -445,7 +449,7 @@ if (($sCurrentValueFrom > $sCurrentDate) || ($sCurrentValueTo < $sCurrentDate)) 
 $tpl->set('d', 'CATNAME', '&nbsp;');
 $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
 $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'CATFIELD', '<span style="color:'.$sAccountColor.';">'.$sAccountState.'</span>');
+$tpl->set('d', 'CATFIELD', '<span style="color:' . $sAccountColor . ';">' . $sAccountState . '</span>');
 $tpl->next();
 
 // Show backend user's group memberships
@@ -458,12 +462,11 @@ if (count($aGroups) > 0) {
 }
 
 $tpl->set('d', 'CATNAME', i18n("Group membership"));
-$tpl->set('d', 'BORDERCOLOR',  $cfg["color"]["table_border"]);
+$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
 $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
 $tpl->set('d', 'CATFIELD', $sGroups);
 $tpl->next();
 
 // Generate template
 $tpl->generate($cfg['path']['templates'] . $cfg['templates']['rights_overview']);
-
 ?>

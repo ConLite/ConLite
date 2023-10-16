@@ -80,7 +80,7 @@ function isImageMagickAvailable ()
 		}
 	}
 	
-	$output = array();
+	$output = [];
 	
 	$retval = "";
 	
@@ -91,7 +91,7 @@ function isImageMagickAvailable ()
         return false;
     }
     	
-	if (strpos($output[0],"ImageMagick") !== false)
+	if (str_contains($output[0],"ImageMagick"))
 	{
 		$_imagemagickAvailable = true;
 		return true;

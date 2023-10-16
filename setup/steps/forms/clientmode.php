@@ -41,14 +41,14 @@ class cSetupClientMode extends cSetupMask {
 
         cInitializeArrayKey($_SESSION, "clientmode", "");
 
-        $aChoices = array();
+        $aChoices = [];
 
         $aChoices["CLIENTEXAMPLES"] = "none"; //i18n_setup("Client with example modules and example content");
         $aChoices["CLIENTMODULES"] = "none"; //i18n_setup("Client with example modules, but without example content");
         $aChoices["CLIENT"] = i18n_setup("Client without examples");
         $aChoices["NOCLIENT"] = i18n_setup("Don't create client");
         
-        $sChoiceDefault = "CLIENTEXAMPLES";
+        $sChoiceDefault = "NOCLIENT";
 
         foreach ($aChoices as $sKey => $sChoice) {
             if ($sChoice == "none") {

@@ -419,13 +419,7 @@ function getLanguageNamesByClient($client) {
 }
 
 function set_magic_quotes_gpc(&$code) {
-    global $cfg;
-
-    if (!$cfg['simulate_magic_quotes']) {
-        if (get_magic_quotes_gpc() == 0) {
             $code = addslashes($code);
-        }
-    }
 }
 
 /**
@@ -1434,23 +1428,9 @@ function isImageMagickAvailable() {
             return false;
         }
     }
-
-    $output = array();
-    $retval = 0;
-
-    @exec("convert", $output, $retval);
-
-    if (!is_array($output) || count($output) == 0) {
-        return false;
-    }
-
-    if (strpos($output[0], "ImageMagick") !== false) {
-        $_imagemagickAvailable = true;
-        return true;
-    } else {
-        $_imagemagickAvailable = false;
-        return false;
-    }
+    
+    $_imagemagickAvailable = (extension_loaded('imagick'))?true:false;
+    return $_imagemagickAvailable;
 }
 
 /**
@@ -1738,6 +1718,9 @@ function sendPostRequest($host, $path, $data, $referer = "", $port = 80) {
 }
 
 function is_dbfs($file) {
+    if(is_null($file)) {
+        $file = '';
+    }
     if (substr($file, 0, 5) == "dbfs:") {
         return true;
     }
@@ -2069,57 +2052,6 @@ function notifyOnError($errortitle, $errormessage) {
     }
 }
 
-function cIDNAEncode($sourceEncoding, $string) {
-    if (extension_loaded("iconv")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = iconv("UTF-8", $sourceEncoding, $string);
-        $string = $idn->encode($string);
-
-        return ($string);
-    }
-
-    if (extension_loaded("recode")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = $idn->decode($string);
-        $string = recode_string("UTF-8.." . $sourceEncoding, $string);
-        return $string;
-    }
-
-    return $string;
-}
-
-function cIDNADecode($targetEncoding, $string) {
-    if (extension_loaded("iconv")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = $idn->decode($string);
-        $string = iconv($targetEncoding, "UTF-8", $string);
-
-        return ($string);
-    }
-
-    if (extension_loaded("recode")) {
-        cInclude('pear', 'Net/IDNA.php');
-
-        $idn = Net_IDNA :: getInstance();
-
-        $string = recode_string($targetEncoding . "..UTF-8", $string);
-        $string = $idn->decode($string);
-
-        return $string;
-    }
-
-    return $string;
-}
-
 /**
  * Checks for a named key of an array, pushes it if not set with a default value
  * 
@@ -2238,4 +2170,66 @@ function IP_match($network, $mask, $ip) {
     }
 }
 
-?>
+/**
+ * Wrapper for php-function htmlspecialchars
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses htmlspecialchars php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the converted string
+ */
+function clHtmlSpecialChars(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+    return htmlspecialchars($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function html_entity_decode
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses html_entity_decode php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the decoded string
+ */
+function clHtmlEntityDecode(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+    return html_entity_decode($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function htmlentities
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses htmlentities php-function
+ * 
+ * @param string $value
+ * @param int $flags
+ * @param string $encoding default UTF-8
+ * @return string Returns the converted string
+ */
+function clHtmlEntities(string $value,?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+    return htmlentities($value, $flags, $encoding);
+}
+
+/**
+ * Wrapper for php-function get_html_translation_table
+ * 
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
+ * @since 2.3.0
+ * @uses get_html_translation_table php-function
+ *
+ * @param int $table
+ * @param int $flags
+ * @param string $encoding
+ * @return array
+ */
+function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = "UTF-8") {
+    return get_html_translation_table($table, $flags, $encoding);
+}

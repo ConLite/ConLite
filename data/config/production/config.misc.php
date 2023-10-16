@@ -139,27 +139,25 @@ $cfg['native_i18n'] = false;
  */
 
 /* Don't display errors */
-@ini_set("display_errors", false);
+ini_set("display_errors", false);
 
 /* Log errors to a file */
-@ini_set("log_errors", true);
+ini_set("log_errors", true);
 
 /* The file in which we write the error log */
-@ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
+ini_set("error_log", $cfg['path']['conlite_logs'] . "errorlog.txt");
 
-/* Report all errors except warnings */
-if ($cfg["develop"]["show_errors"] && $_SERVER['SERVER_NAME'] == "local.dceserver.de") {
+/**
+ *  Report all errors except warnings
+ **/
+if ($cfg["develop"]["show_errors"]) {
     error_reporting(E_ALL);
 } else {
     if ($cfg["develop"]["show_deprecated"]) {
         error_reporting(E_ALL ^ E_NOTICE);
     } else {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) { // remove unknown deprecated for PHP < 5.3
-            error_reporting(E_ALL ^ E_NOTICE);
-        } else if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
+         if (version_compare(PHP_VERSION, '7.4.0', '>=')) {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_WARNING);
-        } else if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED ^ E_STRICT);
         } else {
             error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_USER_DEPRECATED);
         }
@@ -322,4 +320,3 @@ $cfg['password']['numbers_mandatory'] = 3;
  */
 // Define here all content types which includes special module translations (dont forget the prefix "CMS_"!)
 $cfg['translatable_content_types'] = array('CMS_TEASER', 'CMS_FILELIST');
-?>

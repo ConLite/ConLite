@@ -144,12 +144,9 @@ class pimPluginHandler {
         $aGeneral = array();
         if (is_object($this->_oPiXml)) {
             $aGeneral = $this->_xml2Array($this->_oPiXml->general);
-            if($aDependencies = $this->_getDepencyArray()) {
-                foreach ($aDependencies as $aDependency) {
-                    
-                }
-            }
-            $aGeneral['dependencies'] = print_r($aDependencies, TRUE);
+            $aDependencies = $this->_xml2Array($this->_oPiXml->dependencies);
+            
+            $aGeneral['dependencies'] = $aDependencies;
         }
         return $aGeneral;
     }

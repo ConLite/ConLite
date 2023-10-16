@@ -34,7 +34,7 @@
 
 function getSafeModeStatus ()
 {
-	if (getPHPIniSetting("safe_mode") == "1")
+	if (ini_get("safe_mode") == "1")
 	{
 		return true;	
 	} else {
@@ -44,7 +44,7 @@ function getSafeModeStatus ()
 
 function getSafeModeGidStatus ()
 {
-	if (getPHPIniSetting("safe_mode_gid") == "1")
+	if (ini_get("safe_mode_gid") == "1")
 	{
 		return true;	
 	} else {
@@ -54,16 +54,16 @@ function getSafeModeGidStatus ()
 
 function getSafeModeIncludeDir ()
 {
-	return getPHPIniSetting("safe_mode_include_dir");	
+	return ini_get("safe_mode_include_dir");	
 }
 
 function getOpenBasedir ()
 {
-	return getPHPIniSetting("open_basedir");
+	return ini_get("open_basedir");
 }
 
 function getDisabledFunctions ()
 {
-	return getPHPIniSetting("disable_functions");	
+	return ini_get("disable_functions");	
 }
 ?>

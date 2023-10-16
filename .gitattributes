@@ -1,0 +1,5 @@
+.gitattributes export-ignore
+.gitignore export-ignore
+.project export-ignore
+/nbproject export-ignore
+phpdoc.dist.xml export-ignore

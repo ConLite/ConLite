@@ -48,7 +48,7 @@ function getServerUID ()
 		return posix_getuid();	
 	}
 	
-	$sFilename = md5(mt_rand()) . ".txt";
+	$sFilename = md5(random_int(0, mt_getrandmax())) . ".txt";
 	
 	if (isWriteable("."))
 	{
@@ -81,7 +81,7 @@ function getServerGID ()
 		return posix_getgid();	
 	}
 		
-	$sFilename = md5(mt_rand()) . ".txt";
+	$sFilename = md5(random_int(0, mt_getrandmax())) . ".txt";
 	
 	if (isWriteable("."))
 	{
@@ -131,7 +131,7 @@ function cInitializeArrayKey (&$aArray, $sKey, $mDefault = "")
 			return false;	
 		}
 		
-		$aArray = array();
+		$aArray = [];
 	}
 	
 	if (!array_key_exists($sKey, $aArray))

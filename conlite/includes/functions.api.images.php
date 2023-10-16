@@ -149,25 +149,23 @@ function capiImgScaleLQ($img, $maxX, $maxY, $crop = false, $expand = false, $cac
         }
     }
 
-    /* Get out which file we have */
+    $imageHandle = null;
+
     switch (strtolower($filetype)) {
-        case ".gif": $function = "imagecreatefromgif";
+        case ".gif":
+            $imageHandle = imagecreatefromgif($filename);
             break;
-        case ".png": $function = "imagecreatefrompng";
+        case ".png":
+            $imageHandle = imagecreatefrompng($filename);
             break;
-        case ".jpg": $function = "imagecreatefromjpeg";
-            break;
-        case "jpeg": $function = "imagecreatefromjpeg";
+        case ".jpeg":
+        case "jpg":
+            $imageHandle = imagecreatefromjpeg($filename);
             break;
         default: return false;
     }
 
-    if (function_exists($function)) {
-        $imageHandle = @$function($filename);
-    }
-
-    /* If we can't open the image, return false */
-    if (!$imageHandle) {
+    if((gettype($imageHandle) == "object" && get_class($imageHandle) == "GdImage") !== true) {
         return false;
     }
 
@@ -516,12 +514,14 @@ function capiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
     }
 
     /* Try to execute convert */
-    $output = array();
-    $retVal = 0;
-    if ($crop) {
-        exec("convert -gravity center -quality " . $quality . " -crop {$maxX}x{$maxY}+1+1 \"$filename\" $cacheFile", $output, $retVal);
-    } else {
-        exec("convert -quality " . $quality . " -geometry {$targetX}x{$targetY} \"$filename\" $cacheFile", $output, $retVal);
+    if (function_exists("exec")) {
+        $output = array();
+        $retVal = 0;
+        if ($crop) {
+            exec("convert -gravity center -quality " . $quality . " -crop {$maxX}x{$maxY}+1+1 \"$filename\" $cacheFile", $output, $retVal);
+        } else {
+            exec("convert -quality " . $quality . " -geometry {$targetX}x{$targetY} \"$filename\" $cacheFile", $output, $retVal);
+        }
     }
 
     if (!file_exists($cacheFile)) {
@@ -539,6 +539,25 @@ function capiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
  * @return boolean true (gif is animated)/ false (single frame gif)
  */
 function isAnimGif($sFile) {
+     if(!($fh = @fopen($sFile, 'rb')))
+        return false;
+    $count = 0;
+    //an animated gif contains multiple "frames", with each frame having a
+    //header made up of:
+    // * a static 4-byte sequence (\x00\x21\xF9\x04)
+    // * 4 variable bytes
+    // * a static 2-byte sequence (\x00\x2C)
+
+    // We read through the file til we reach the end of the file, or we've found
+    // at least 2 frame headers
+    while(!feof($fh) && $count < 2) {
+        $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+        $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00\x2C#s', $chunk, $matches);
+    }
+    fclose($fh);
+    return $count > 1;
+    
+    /*
     $output = array();
     $retval = 0;
 
@@ -549,6 +568,8 @@ function isAnimGif($sFile) {
     }
 
     return true;
+     * 
+     */
 }
 
 /**
@@ -673,7 +694,7 @@ function checkImageEditingPosibility() {
             if (function_exists('gd_info')) {
                 $arrGDInformations = gd_info();
 
-                if (preg_match('#([0-9\.])+#', $arrGDInformations['GD Version'], $strGDVersion)) {
+                if (preg_match('#([0-9.])+#', $arrGDInformations['GD Version'], $strGDVersion)) {
                     if ($strGDVersion[0] >= '2') {
                         return '2';
                     }
@@ -686,5 +707,3 @@ function checkImageEditingPosibility() {
         return '0';
     }
 }
-
-?>

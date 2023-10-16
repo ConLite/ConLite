@@ -1,0 +1,6 @@
+[submodule "conlite/plugins/cl-newsletter"]
+	path = conlite/plugins/cl-newsletter
+	url = https://gitport.de/ConLite/cl-newsletter.git
+[submodule "conlite/plugins/cl-content-allocation"]
+	path = conlite/plugins/cl-content-allocation
+	url = https://gitport.de/ConLite/cl-content-allocation.git

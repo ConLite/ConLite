@@ -232,8 +232,8 @@ class Contenido_Perm {
                 return true;
             } elseif ($item_rights[$area] != "noright") {
 
-                $groupsForUser = $this->getGroupsForUser($auth->auth[uid]);
-                $groupsForUser[] = $auth->auth[uid];
+                $groupsForUser = $this->getGroupsForUser($auth->auth['uid']);
+                $groupsForUser[] = $auth->auth['uid'];
 
                 $tmp_userstring = implode("','", $groupsForUser);
 
@@ -596,8 +596,8 @@ class Contenido_Perm {
                     }
                 } elseif ($item_rights[$value] != "noright") {
 
-                    $groupsForUser = $this->getGroupsForUser($auth->auth[uid]);
-                    $groupsForUser[] = $auth->auth[uid];
+                    $groupsForUser = $this->getGroupsForUser($auth->auth['uid']);
+                    $groupsForUser[] = $auth->auth['uid'];
 
                     //else search for rights for this user in this area
                     $sql = "SELECT

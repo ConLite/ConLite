@@ -101,7 +101,7 @@ function canWriteFile($sFilename) {
 
         #try to find a random filename for write test, which does not exist
         while (file_exists($sRandFilenamePath) && $i < 100) {
-            $sRandFilename = 'con_test' . rand(0, 1000000000) . 'con_test';
+            $sRandFilename = 'con_test' . random_int(0, 1_000_000_000) . 'con_test';
             $sRandFilenamePath = '';
 
             if ($sFilename[strlen($sFilename) - 1] == '/') {
@@ -122,7 +122,7 @@ function canWriteFile($sFilename) {
          * a wrong information
          */
         $fp = @fopen($sRandFilenamePath, "w");
-        if ($fp) {
+        if (is_resource($fp)) {
             @fclose($fp);
             unlink($sRandFilenamePath);
             return true;
@@ -144,7 +144,9 @@ function canWriteFile($sFilename) {
          * a wrong information
          */
         $fp = @fopen($sFilename, "w");
-        @fclose($fp);
+        if (is_resource($fp)) {
+            fclose($fp);
+        }
 
         if (file_exists($sFilename)) {
             @unlink($sFilename);
@@ -223,7 +225,7 @@ function getFileInfo($sFilename) {
             break;
     }
 
-    $aFileinfo = array();
+    $aFileinfo = [];
     $aFileinfo["info"] = $info;
     $aFileinfo["type"] = $type;
     $aFileinfo["owner"]["read"] = ($oiFilePermissions & 0x0100) ? true : false;
@@ -238,7 +240,7 @@ function getFileInfo($sFilename) {
 }
 
 function checkOpenBasedirCompatibility() {
-    $value = getPHPIniSetting("open_basedir");
+    $value = ini_get("open_basedir");
 
     if (isWindows()) {
         $aBasedirEntries = explode(";", $value);

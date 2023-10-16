@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -28,9 +29,8 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 
@@ -46,13 +46,12 @@ $page->setEncoding("utf-8");
 
 $tpl->reset();
 
-if (!$perm->have_perm_area_action($area, $action))
-{
+if (!$perm->have_perm_area_action($area, $action)) {
     $notification->displayNotification("error", i18n("Permission denied"));
 } else if (!(int) $client > 0) {
-  #if there is no client selected, display empty page
-  $page->render();
-} else {    
+    #if there is no client selected, display empty page
+    $page->render();
+} else {
     $path = $cfgClient[$client]["css"]["path"];
     if (stripslashes($_REQUEST['file'])) {
         $sReloadScript = "<script type=\"text/javascript\">
@@ -60,7 +59,7 @@ if (!$perm->have_perm_area_action($area, $action))
                              if (left_bottom) {
                                  var href = left_bottom.location.href;
                                  href = href.replace(/&file.*/, '');
-                                 left_bottom.location.href = href+'&file='+'".$_REQUEST['file']."';
+                                 left_bottom.location.href = href+'&file='+'" . $_REQUEST['file'] . "';
 
                              }
                          </script>";
@@ -68,114 +67,100 @@ if (!$perm->have_perm_area_action($area, $action))
         $sReloadScript = "";
     }
 
-	$sTempFilename = stripslashes($_REQUEST['tmp_file']);
+    $sTempFilename = stripslashes($_REQUEST['tmp_file']);
     $sOrigFileName = $sTempFilename;
-	
-	if (getFileType($_REQUEST['file']) != $sFileType AND strlen(stripslashes(trim($_REQUEST['file']))) > 0)
-    {
-    	$sFilename .= stripslashes($_REQUEST['file']).".$sFileType";
-    }else
-    {
-    	$sFilename .= stripslashes($_REQUEST['file']);
+
+    if (getFileType($_REQUEST['file']) != $sFileType AND strlen(stripslashes(trim($_REQUEST['file']))) > 0) {
+        $sFilename .= stripslashes($_REQUEST['file']) . ".$sFileType";
+    } else {
+        $sFilename .= stripslashes($_REQUEST['file']);
     }
-        
+
     if (stripslashes($_REQUEST['file'])) {
         $sReloadScript = "<script type=\"text/javascript\">
                              var left_bottom = parent.parent.frames['left'].frames['left_bottom'];
                              if (left_bottom) {
                                  var href = left_bottom.location.href;
                                  href = href.replace(/&file[^&]*/, '');
-                                 left_bottom.location.href = href+'&file='+'".$sFilename."';
+                                 left_bottom.location.href = href+'&file='+'" . $sFilename . "';
 
                              }
                          </script>";
     } else {
         $sReloadScript = "";
-    }    
-    
+    }
+
     // Content Type is css
-	$sTypeContent = "css";
-    $aFileInfo = getFileInformation ($client, $sTempFilename, $sTypeContent, $db);
-    
-	# create new file
-    if ( $_REQUEST['action'] == $sActionCreate AND $_REQUEST['status'] == 'send')
-    {
-    	$sTempFilename = $sFilename;
-    	createFile($sFilename, $path);
-    	$bEdit = fileEdit($sFilename, $_REQUEST['code'], $path);
+    $sTypeContent = "css";
+    $aFileInfo = getFileInformation($client, $sTempFilename, $sTypeContent, $db);
+
+    # create new file
+    if ($_REQUEST['action'] == $sActionCreate AND $_REQUEST['status'] == 'send') {
+        $sTempFilename = $sFilename;
+        createFile($sFilename, $path);
+        $bEdit = fileEdit($sFilename, $_REQUEST['code'], $path);
         updateFileInformation($client, $sFilename, 'css', $auth->auth['uid'], $_REQUEST['description'], $db);
         $sReloadScript .= "<script type=\"text/javascript\">
                  var right_top = top.content.right.right_top;
                  if (right_top) {
-                     var href = '".$sess->url("main.php?area=$area&frame=3&file=$sTempFilename")."';
+                     var href = '" . $sess->url("main.php?area=$area&frame=3&file=$sTempFilename") . "';
                      right_top.location.href = href;
                  }
                  </script>";
     }
 
-	# edit selected file
-    if ( $_REQUEST['action'] == $sActionEdit AND $_REQUEST['status'] == 'send') 
-    {
-    	if ($sFilename != $sTempFilename)
-    	{	
-    		$sTempFilename = renameFile($sTempFilename, $sFilename, $path);
+    # edit selected file
+    if ($_REQUEST['action'] == $sActionEdit AND $_REQUEST['status'] == 'send') {
+        if ($sFilename != $sTempFilename) {
+            $sTempFilename = renameFile($sTempFilename, $sFilename, $path);
             $sReloadScript .= "<script type=\"text/javascript\">
                  var right_top = top.content.right.right_top;
                  if (right_top) {
-                     var href = '".$sess->url("main.php?area=$area&frame=3&file=$sTempFilename")."';
+                     var href = '" . $sess->url("main.php?area=$area&frame=3&file=$sTempFilename") . "';
                      right_top.location.href = href;
                  }
                  </script>";
-    	}else
-    	{	
-    		$sTempFilename = $sFilename;
-    	}
-		
-				
+        } else {
+            $sTempFilename = $sFilename;
+        }
+
+
         updateFileInformation($client, $sOrigFileName, 'css', $auth->auth['uid'], $_REQUEST['description'], $db, $sFilename);
-        
-		/**
-		* START TRACK VERSION
-		**/
+
+        /**
+         * START TRACK VERSION
+         * */
         // For read Fileinformation an get the id of current File
         cInclude("includes", "functions.file.php");
-			
-        if((count($aFileInfo) == 0) || ((int)$aFileInfo["idsfi"] == 0)) {
-            $aFileInfo = getFileInformation ($client, $sTempFilename, $sTypeContent, $db); 
+
+        if ((count($aFileInfo) == 0) || ((int) $aFileInfo["idsfi"] == 0)) {
+            $aFileInfo = getFileInformation($client, $sTempFilename, $sTypeContent, $db);
             $aFileInfo['description'] = '';
         }
-        
-        if((count($aFileInfo) == 0) || ($aFileInfo["idsfi"] !="")) {        
-            $oVersion = new VersionFile($aFileInfo["idsfi"], $aFileInfo, $sFilename, $sTypeContent, $cfg, $cfgClient, $db, $client, $area, $frame, $sOrigFileName);				
+
+        if ((count($aFileInfo) == 0) || ($aFileInfo["idsfi"] != "")) {
+            $oVersion = new VersionFile($aFileInfo["idsfi"], $aFileInfo, $sFilename, $sTypeContent, $cfg, $cfgClient, $db, $client, $area, $frame, $sOrigFileName);
             // Create new version
             $oVersion->createNewVersion();
         }
 
-		/**
-		* END TRACK VERSION
-		**/
-    	
-    	
-    	$bEdit = fileEdit($sFilename, $_REQUEST['code'], $path);
-        
-	}
-	
-	# generate edit form 
-	if (isset($_REQUEST['action']))	{
-		
-		$sAction = ($bEdit) ? $sActionEdit : $_REQUEST['action'];
-        
-        if ($_REQUEST['action'] == $sActionEdit)
-		{
-			$sCode = getFileContent($sFilename, $path);
-		}else
-		{
-			$sCode = stripslashes($_REQUEST['code']); # stripslashes is required here in case of creating a new file
-		}
-        
-        $aFileInfo = getFileInformation ($client, $sTempFilename, "css", $db);
+        /**
+         * END TRACK VERSION
+         * */
+        $bEdit = fileEdit($sFilename, $_REQUEST['code'], $path);
+    }
 
-		
+    # generate edit form 
+    if (isset($_REQUEST['action'])) {
+
+        $sAction = ($bEdit) ? $sActionEdit : $_REQUEST['action'];
+
+        if ($_REQUEST['action'] == $sActionEdit) {
+            $sCode = getFileContent($sFilename, $path);
+        } else {
+            $sCode = empty($_REQUEST['code'])?'':$_REQUEST['code'];
+        }
+
         $form = new UI_Table_Form("file_editor");
         $form->addHeader(i18n("Edit file"));
         $form->setWidth("100%");
@@ -184,28 +169,33 @@ if (!$perm->have_perm_area_action($area, $action))
         $form->setVar("frame", $frame);
         $form->setVar("status", 'send');
         $form->setVar("tmp_file", $sTempFilename);
-        
-        $tb_name = new cHTMLTextbox("file", $sFilename, 60);
-        $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
-        $descr	 = new cHTMLTextarea("description", clHtmlSpecialChars($aFileInfo["description"]), 100, 5);
 
-		
-        $ta_code->setStyle("font-family: monospace;width: 100%;");
-        $descr->setStyle("font-family: monospace;width: 100%;");
+        $tb_name = new cHTMLTextbox("file", $sFilename, 60);
+        $form->add(i18n("Name"), $tb_name);
+        
+        $ta_code = new cHTMLTextarea("code", clHtmlSpecialChars($sCode), 100, 35, "code");
         $ta_code->updateAttributes(array("wrap" => getEffectiveSetting('style_editor', 'wrap', 'off')));
+        $ta_code->setStyle("font-family: monospace;width: 100%;");
+        $form->add(i18n("Code"), $ta_code);
         
-        $form->add(i18n("Name"),$tb_name);
+        $aFileInfo = getFileInformation($client, $sTempFilename, "css", $db);
+        if(!empty($aFileInfo["description"])) {
+            $sDescription = clHtmlSpecialChars($aFileInfo["description"]);
+        } else {
+            $sDescription = '';
+        }
+        
+        $descr = new cHTMLTextarea("description", $sDescription, 100, 5);
+
+        $descr->setStyle("font-family: monospace;width: 100%;");
         $form->add(i18n("Description"), $descr->render());
-        $form->add(i18n("Code"),$ta_code);            
-        
+
         $page->setContent($form->render());
-        
+
         $oEditArea = new EditArea('code', 'css', substr(strtolower($belang), 0, 2), true, $cfg);
         $page->addScript('editarea', $oEditArea->renderScript());
-        
+
         $page->addScript('reload', $sReloadScript);
-    	$page->render();  
+        $page->render();
     }
 }
-
-?> 

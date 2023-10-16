@@ -238,46 +238,30 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
         foreach ($a_container as $key => $value) {
 
-            $sql = "SELECT output, template, name FROM " . $cfg["tab"]["mod"] . " WHERE idmod='" . $a_d[$value] . "'";
-
-            $db->query($sql);
-            $db->next_record();
-
             if (is_numeric($a_d[$value])) {
                 $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
                 $thisContainer = '<?php $cCurrentContainer = ' . ((int) $value) . '; ?>';
             }
-            /* dceModFileEdit (c)2009 www.dceonline.de */
-            if ($cfg['dceModEdit']['use']
-                    && ($cfg['dceModEdit']['allModsFromFile'] == true
-                    || in_array((int) $a_d[$value], $cfg['dceModEdit']['modsFromFile']))) {
-                cInclude('classes', 'contenido/class.module.php');
-                $tmpModule = new cApiModule;
-                $tmpModule->loadByPrimaryKey($a_d[$value]);
-                $output = $thisModule . $thisContainer . $tmpModule->get("output");
-                unset($tmpModule);
-            } else {
-                $output = $thisModule . $thisContainer . $db->f("output");
-            }
-            /* dceModFileEdit (c)2009 www.dceonline.de */
+
+            $oModule = new cApiModule($a_d[$value]);
+            $output = $thisModule . $thisContainer . $oModule->get("output");
+            $template = $oModule->get("template");
+
             $output = AddSlashes($output) . "\n";
 
-            $template = $db->f("template");
-
-            $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
-
-            $tmp1 = preg_split("/&/", $a_c[$value]);
-
             $varstring = array();
+            if (!empty($a_c[$value])) {
+                $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
+                $tmp1 = preg_split("/&/", $a_c[$value]);
 
-            foreach ($tmp1 as $key1 => $value1) {
+                foreach ($tmp1 as $key1 => $value1) {
 
-                $tmp2 = explode("=", $value1);
-                foreach ($tmp2 as $key2 => $value2) {
-                    $varstring["$tmp2[0]"] = $tmp2[1];
+                    $tmp2 = explode("=", $value1);
+                    foreach ($tmp2 as $key2 => $value2) {
+                        $varstring["$tmp2[0]"] = $tmp2[1];
+                    }
                 }
             }
-
             $CiCMS_Var = '$C' . $value . 'CMS_VALUE';
             $CiCMS_VALUE = '';
 
@@ -298,21 +282,21 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
                 $fedebug .= "Container: CMS_CONTAINER[$value]" . '\\\\n';
             }
             if ($frontend_debug["module_display"] == true) {
-                $fedebug .= "Modul: " . $db->f("name") . '\\\\n';
+                $fedebug .= "Modul: " . $oModule->get("name") . '\\\\n';
             }
             if ($frontend_debug["module_timing_summary"] == true || $frontend_debug["module_timing"] == true) {
                 $fedebug .= 'Eval-Time: $modtime' . $value . '\\\\n';
                 $output = '<?php $modstart' . $value . ' = getmicrotime(); ?' . '>' . $output . '<?php $modend' . $value . ' = getmicrotime()+0.001; $modtime' . $value . ' = $modend' . $value . ' - $modstart' . $value . '; ?' . '>';
             }
 
-            if ($fedebug != "") {
+            if (!empty($fedebug)) {
                 $output = addslashes('<?php echo \'<img onclick="javascript:showmod' . $value . '();" src="' . $cfg['path']['contenido_fullhtml'] . 'images/but_preview.gif">\'; ?' . '>' . "<br>") . $output;
                 $output = $output . addslashes('<?php echo \'<script language="javascript">function showmod' . $value . ' () { window.alert(\\\'\'. "' . addslashes($fedebug) . '".\'\\\');} </script>\'; ?' . '>');
             }
 
             if ($frontend_debug["module_timing_summary"] == true) {
                 $output .= addslashes(' <?php $cModuleTimes["' . $value . '"] = $modtime' . $value . '; ?>');
-                $output .= addslashes(' <?php $cModuleNames["' . $value . '"] = "' . addslashes($db->f("name")) . '"; ?>');
+                $output .= addslashes(' <?php $cModuleNames["' . $value . '"] = "' . addslashes($oModule->get("name")) . '"; ?>');
             }
             /* Replace new containers */
             $code = preg_replace("/<container( +)id=\\\\\"$value\\\\\"(.*)>(.*)<\/container>/Uis", "CMS_CONTAINER[$value]", $code);
@@ -471,7 +455,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
                 }
 
                 //add system meta tag if there is no user meta tag
-                if ($bExists == false && strlen($aAutValue['content']) > 0) {
+                if ($bExists == false && isset($aAutValue['content']) && strlen($aAutValue['content']) > 0) {
                     array_push($metatags, $aAutValue);
                 }
             }
@@ -481,7 +465,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
     foreach ($metatags as $value) {
         if (getEffectiveSetting('generator', 'html5', "false") == "true") {
-            if ($value['name'] == 'date')
+            if (isset($value['name']) && $value['name'] == 'date')
                 continue;
         }
         if (!empty($value['content'])) {
@@ -497,7 +481,7 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
         $oMetaTagGen->removeAttribute("id");
 
         /* Check if metatag already exists */
-        if (preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
+        if (isset($value["name"]) && preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
             $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
         } else if (array_key_exists("charset", $value)
                 && preg_match('/(<meta(?:\s+)charset(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(.*)(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(?:\s*|\/)(?:[\^\>]+)\r?\n?)/i', $code, $aTmetatagfound)) {
@@ -589,21 +573,18 @@ function conGetAvailableMetaTagTypes() {
  * @return string tag value or empty string
  */
 function conGetMetaValue($idartlang, $idmetatype) {
+    $sRet = "";
+    if (!empty($idartlang)) {
+        $oMetaTags = new cApiMetaTagCollection();
+        $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
+        $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
+        $oMetaTags->query();
 
-    if ($idartlang == 0)
-        return;
-
-    $oMetaTags = new cApiMetaTagCollection();
-    $oMetaTags->setWhere('idartlang', Contenido_Security::toInteger($idartlang));
-    $oMetaTags->setWhere('idmetatype', Contenido_Security::toInteger($idmetatype));
-    $oMetaTags->query();
-
-    if ($oMetaTags->count() > 0) {
-        $sRet = $oMetaTags->next()->get('metavalue');
-    } else {
-        $sRet = "";
+        if ($oMetaTags->count() > 0) {
+            $sRet = $oMetaTags->next()->get('metavalue');
+        }
+        unset($oMetaTags); // save mem
     }
-    unset($oMetaTags); // save mem
     return $sRet;
 }
 
@@ -638,48 +619,30 @@ function conSetMetaValue($idartlang, $idmetatype, $value) {
 }
 
 /**
- * (re)generate keywords for all articles of a given client (with specified language) 
- * @param $client Client
- * @param $lang Language of a client 
- * @return void
- *
- * @author Willi Man
- * Created   :   12.05.2004
- * Modified  :   13.05.2004
- * @copyright four for business AG 2003
+ * 
+ * @param int $client
+ * @param int $lang
  */
-function conGenerateKeywords($client, $lang) {
-    global $cfg;
-    $db_art = new DB_ConLite;
+function conGenerateKeywords(int $client = null, int $lang = null) {
+    $aOptions = [];
+    $aOptions['start'] = true;
+    $aOptions['offline'] = true;
+    $aOptions['client'] = $client ?? 0;
+    $aOptions['lang'] = $lang ?? 0;
 
-    $options = array("img", "link", "linktarget", "swf"); // cms types to be excluded from indexing
-
-    $sql = "SELECT
-	    			a.idart, b.idartlang
-	    		FROM
-	    			" . $cfg["tab"]["art"] . " AS a,
-	    			" . $cfg["tab"]["art_lang"] . " AS b
-	    		WHERE
-	    			a.idart    = b.idart AND
-	    			a.idclient = " . Contenido_Security::escapeDB($client, $db) . " AND
-	    			b.idlang = " . Contenido_Security::escapeDB($lang, $db);
-
-    $db_art->query($sql);
-
-    $articles = array();
-    while ($db_art->next_record()) {
-        $articles[$db_art->f("idart")] = $db_art->f("idartlang");
-    }
-
-    if (count($articles) > 0) {
-        foreach ($articles as $artid => $article_lang) {
-            $article_content = array();
-            $article_content = conGetContentFromArticle($article_lang);
-
-            if (count($article_content) > 0) {
-                $art_index = new Index($db_art);
-                $art_index->lang = $lang;
-                $art_index->start($artid, $article_content, 'auto', $options);
+    $oArticleCollector = new cArticleCollector();
+    $oArticleCollector->setOptions($aOptions);
+    $oArticleCollector->loadArticles();
+   /* @var $oArticle cApiArticleLanguage */
+    if ($oArticleCollector->count() > 0) {
+        foreach ($oArticleCollector as $oArticle) {
+            $aArticleContent = [];
+            $aArticleContent = $oArticle->getContent();
+            if(!empty($aArticleContent)) {
+                /* @var $oIndex Index */
+                $oIndex = new Index();
+                //$oIndex->setDebug(true);
+                $oIndex->start($oArticle->get('idart'), $aArticleContent, 'auto', array("img", "link", "linktarget", "swf"));
             }
         }
     }

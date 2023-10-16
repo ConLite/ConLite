@@ -1,0 +1,26 @@
+{
+    "name": "org.conlite/conlite",
+    "description": "ConLite vendor libs",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "oldperl",
+            "email": "ortwin.pinke@php-backoffice.de"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "phpmailer/phpmailer": "v6.8.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.0",
+        "rector/rector": "^0.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "ConLite\\": "conlite/classes"
+        }
+    }
+}

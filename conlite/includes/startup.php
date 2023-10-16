@@ -71,7 +71,7 @@ if (!defined('CL_ENVIRONMENT')) {
  */
 if (!defined('CL_VERSION')) {
 
-define('CL_VERSION', '2.1.2');
+define('CL_VERSION', '3.0.0 RC');
 
 }
 
@@ -135,18 +135,20 @@ if(!isset($belang) || empty($belang)) {
 $I18N_EMULATE_GETTEXT = false;
 
 // Various base API functions
-require_once($cfg['path']['contenido'] . $cfg['path']['includes'] . '/api/functions.api.general.php');
+require_once($cfg['path']['conlite'] . $cfg['path']['includes'] . '/api/functions.api.general.php');
 
 
 // Initialization of autoloader
-include_once($cfg['path']['contenido'] . $cfg['path']['classes'] . 'class.autoload.php');
+include_once($cfg['path']['conlite'] . $cfg['path']['classes'] . 'class.autoload.php');
 cAutoload::initialize($cfg);
+// init composer autoload
+include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 
 
 // 2. security check: Check HTTP parameters, if requested
 if ($cfg['http_params_check']['enabled'] === true) {
     $oHttpInputValidator =
-        new HttpInputValidator($cfg['path']['contenido'] . $cfg['path']['includes'] . '/config.http_check.php');
+        new HttpInputValidator($cfg['path']['config'] . CL_ENVIRONMENT . DIRECTORY_SEPARATOR . 'config.http_check.php');
 }
 
 /* Generate arrays for available login languages
@@ -175,6 +177,7 @@ while ($locale = readdir($handle)) {
 cInclude('includes', 'functions.general.php');
 cInclude('conlib', 'prepend.php');
 cInclude('includes', 'functions.i18n.php');
+cInclude('includes', 'functions.con.php');
 
 
 // Initialization of CEC

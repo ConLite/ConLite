@@ -33,13 +33,13 @@ if (!defined('CON_FRAMEWORK')) {
     define('CON_FRAMEWORK', true);
 }
 
-define('CON_SETUP_PATH', str_replace('\\', '/', realpath(dirname(__FILE__))));
+define('CON_SETUP_PATH', str_replace('\\', '/', realpath(__DIR__)));
 
-define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')));
+define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(__DIR__ . '/../')));
 
 include_once('lib/startup.php');
 
-list($root_path, $root_http_path) = getSystemDirectories();
+[$root_path, $root_http_path] = getSystemDirectories();
 
 $tpl = new Template();
 $tpl->set('s', 'CONTENIDO_ROOT', $root_path);
@@ -94,7 +94,7 @@ if ($_SESSION['configmode'] == 'save') {
     }
 } else {
     header('Content-Type: application/octet-stream');
-    header('Etag: ' . md5(mt_rand()));
+    header('Etag: ' . md5(random_int(0, mt_getrandmax())));
     header('Content-Disposition: attachment;filename=config.php');
     $tpl->generate('templates/config.php.tpl', false, false);
 }

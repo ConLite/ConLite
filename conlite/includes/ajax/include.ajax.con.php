@@ -31,11 +31,13 @@ if (!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
-if (!$idcat) {
+$bDebug = false;
+
+if (!$idcat && !empty($_REQUEST['idcat'])) {
 	$idcat = Contenido_Security::toInteger($_REQUEST['idcat']);
 }
 
-$sCatlist = Contenido_Security::toString($_REQUEST['wholelist']);
+$sCatlist = (!empty($_REQUEST['wholelist']))?Contenido_Security::toString($_REQUEST['wholelist']):'';
 if ($sCatlist != '') {
 	$aCatlist = explode(',', $sCatlist);
 } else {

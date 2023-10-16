@@ -43,7 +43,7 @@ if (!isset($HTTP_POST_VARS) && isset($_POST)) {
     }
 }
 
-if (!isset($_REQUEST) || $cfg['simulate_magic_quotes']) {
+if (!isset($_REQUEST)) {
     /* Register post,get and cookie variables into $_REQUEST */
     $_REQUEST = array_merge($_GET, $_POST, $_COOKIE);
 }

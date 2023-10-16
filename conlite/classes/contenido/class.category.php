@@ -53,5 +53,3 @@ class cApiCategory extends Item {
     }
 
 }
-
-?>

@@ -59,8 +59,8 @@ function tplEditTemplate($changelayout, $idtpl, $name, $description, $idlay, $c,
     $author = "" . $auth->auth["uname"] . "";
 
     //******** entry in 'tpl'-table ***************
-    set_magic_quotes_gpc($name);
-    set_magic_quotes_gpc($description);
+    //set_magic_quotes_gpc($name);
+    //set_magic_quotes_gpc($description);
 
     if (!$idtpl) {
 
@@ -208,12 +208,13 @@ function tplBrowseLayoutForContainers($idlay, $raw_code = NULL) {
     preg_match_all("/CMS_CONTAINER\[([0-9]*)\]/", $code, $a_container);
     $iPosBody = stripos($code, '<body>');
     $sCodeBeforeHeader = substr($code, 0, $iPosBody);
-
-    foreach ($a_container[1] as $value) {
-        if (preg_match("/CMS_CONTAINER\[$value\]/", $sCodeBeforeHeader)) {
-            $containerinf[$idlay][$value]["is_body"] = false;
-        } else {
-            $containerinf[$idlay][$value]["is_body"] = true;
+    if (!empty($a_container)) {
+        foreach ($a_container[1] as $value) {
+            if (preg_match("/CMS_CONTAINER\[$value\]/", $sCodeBeforeHeader)) {
+                $containerinf[$idlay][$value]["is_body"] = false;
+            } else {
+                $containerinf[$idlay][$value]["is_body"] = true;
+            }
         }
     }
 
@@ -230,11 +231,13 @@ function tplBrowseLayoutForContainers($idlay, $raw_code = NULL) {
             $container[] = $value;
         }
     }
-
+    
     asort($container);
 
-    if (is_array($container)) {
+    if (is_array($container) && !empty($container)) {
         $tmp_returnstring = implode("&", $container);
+    } else {
+        $tmp_returnstring = "";
     }
     return $tmp_returnstring;
 }
@@ -291,7 +294,7 @@ function tplGetContainerTypes($idlay, $container) {
     global $db;
     global $cfg;
     global $containerinf;
-    
+
     $list = array();
 
     if (is_array($containerinf[$idlay])) {
@@ -359,16 +362,14 @@ function tplPreparseLayout($idlay, $raw_code = NULL) {
         if ($parser->iNodeName == "container" && $parser->iNodeType == NODE_TYPE_ELEMENT) {
             $idcontainer = $parser->iNodeAttributes["id"];
 
-            $mode = $parser->iNodeAttributes["mode"];
-
-            if ($mode == "") {
-                $mode = "optional";
-            }
+            $sMode = (isset($parser->iNodeAttributes["mode"]))?$parser->iNodeAttributes["mode"]:'optional';
+            $sDefault = (isset($parser->iNodeAttributes["default"]))?$parser->iNodeAttributes["default"]:'';
+            $sTypes = (isset($parser->iNodeAttributes["types"]))?$parser->iNodeAttributes["types"]:'';
 
             $containerinf[$idlay][$idcontainer]["name"] = $parser->iNodeAttributes["name"];
-            $containerinf[$idlay][$idcontainer]["mode"] = $mode;
-            $containerinf[$idlay][$idcontainer]["default"] = $parser->iNodeAttributes["default"];
-            $containerinf[$idlay][$idcontainer]["types"] = $parser->iNodeAttributes["types"];
+            $containerinf[$idlay][$idcontainer]["mode"] = $sMode;
+            $containerinf[$idlay][$idcontainer]["default"] = $sDefault;
+            $containerinf[$idlay][$idcontainer]["types"] = $sTypes;
             $containerinf[$idlay][$idcontainer]["is_body"] = $bIsBody;
         }
     }
@@ -726,7 +727,6 @@ function tplAutoFillModules($idtpl) {
                     if ($db_autofill->next_record()) {
                         $idmod = $db_autofill->f("idmod");
 
-
                         $sql = "SELECT idcontainer FROM " . $cfg["tab"]["container"] . " WHERE idtpl = '" . Contenido_Security::toInteger($idtpl) . "' AND number = '" . Contenido_Security::toInteger($container) . "'";
 
                         $db_autofill->query($sql);
@@ -759,7 +759,6 @@ function tplAutoFillModules($idtpl) {
 
                     if ($db_autofill->next_record()) {
                         $idmod = $db_autofill->f("idmod");
-
 
                         $sql = "SELECT idcontainer, idmod FROM " . $cfg["tab"]["container"]
                                 . " WHERE idtpl = '" . Contenido_Security::toInteger($idtpl) . "' AND number = '" . Contenido_Security::toInteger($container) . "'";

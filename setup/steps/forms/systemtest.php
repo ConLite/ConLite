@@ -24,6 +24,8 @@ define("C_SEVERITY_ERROR", 4);
 
 class cSetupSystemtest extends cSetupMask {
 
+    public array $_aMessages;
+
     public function __construct($step, $previous, $next) {
         parent::__construct("templates/setup/forms/systemtest.tpl", $step);
         $bErrors = false;
@@ -34,7 +36,7 @@ class cSetupSystemtest extends cSetupMask {
 
         $cHTMLErrorMessageList = new cHTMLErrorMessageList;
 
-        $this->_aMessages = array();
+        $this->_aMessages = [];
 
         /* Run PHP tests */
         $this->doPHPTests();
@@ -58,7 +60,7 @@ class cSetupSystemtest extends cSetupMask {
             $this->doExistingOldPluginTests();
         }
 
-        $cHTMLFoldableErrorMessages = array();
+        $cHTMLFoldableErrorMessages = [];
 
         foreach ($this->_aMessages as $iSeverity => $aMessageEntry) {
             switch ($iSeverity) {
@@ -99,7 +101,7 @@ class cSetupSystemtest extends cSetupMask {
         $sMessage = '';
 
         //get all tables in database and list it into array
-        $aAvariableTableNames = array();
+        $aAvariableTableNames = [];
         $aTableNames = $db->table_names();
 
         //print_r($db);
@@ -112,10 +114,7 @@ class cSetupSystemtest extends cSetupMask {
         }
 
         //list of plugin tables to copy into new plugin tables
-        $aOldPluginTables = array('Workflow' => array('piwf_actions', 'piwf_allocation', 'piwf_art_allocation',
-                'piwf_items', 'piwf_user_sequences', 'piwf_workflow'),
-            'Content Allocation' => array('pica_alloc', 'pica_alloc_con', 'pica_lang'),
-            'Linkchecker' => array('pi_externlinks', 'pi_linkwhitelist'));
+        $aOldPluginTables = ['Workflow' => ['piwf_actions', 'piwf_allocation', 'piwf_art_allocation', 'piwf_items', 'piwf_user_sequences', 'piwf_workflow'], 'Content Allocation' => ['pica_alloc', 'pica_alloc_con', 'pica_lang'], 'Linkchecker' => ['pi_externlinks', 'pi_linkwhitelist']];
 
         foreach ($aOldPluginTables as $sPlugin => $aTables) {
             $bPluginExists = false;
@@ -162,7 +161,7 @@ class cSetupSystemtest extends cSetupMask {
          * @todo: Store results into an external file
          */
         if ($mResult == false && $iSeverity != C_SEVERITY_NONE) {
-            $this->_aMessages[$iSeverity][] = array($sHeadline, $sErrorMessage);
+            $this->_aMessages[$iSeverity][] = [$sHeadline, $sErrorMessage];
         }
     }
 
@@ -210,7 +209,7 @@ class cSetupSystemtest extends cSetupMask {
         }
 
 
-        $iMemoryLimit = return_bytes(getPHPIniSetting("memory_limit"));
+        $iMemoryLimit = return_bytes(ini_get("memory_limit"));
 
         if ($iMemoryLimit > 0) {
             $this->runTest(($iMemoryLimit > 1024 * 1024 * 32), C_SEVERITY_WARNING, i18n_setup("PHP memory_limit directive too small"), i18n_setup("The memory_limit directive is set to 32 MB or lower. This might be not enough for ConLite to operate correctly. We recommend to disable this setting completely, as this can cause problems with large ConLite projects."));
@@ -261,7 +260,7 @@ class cSetupSystemtest extends cSetupMask {
 
     public function doMySQLTests() {
 
-        list($handle, $status) = doMySQLConnect($_SESSION["dbhost"], $_SESSION["dbuser"], $_SESSION["dbpass"]);
+        [$handle, $status] = doMySQLConnect($_SESSION["dbhost"], $_SESSION["dbuser"], $_SESSION["dbpass"]);
 
         if (hasMySQLiExtension() && !hasMySQLExtension()) {
             $sErrorMessage = mysqli_error($handle->Link_ID);
@@ -507,6 +506,7 @@ class cSetupSystemtest extends cSetupMask {
     }
 
     public function logFilePrediction($sFile, $iSeverity = C_SEVERITY_WARNING) {
+        $sPredictMessage = null;
         $status = canWriteFile("../" . $sFile);
         $sTitle = sprintf(i18n_setup("Can't write %s"), $sFile);
         $sMessage = sprintf(i18n_setup("Setup or ConLite can't write to the file %s. Please change the file permissions to correct this problem."), $sFile);

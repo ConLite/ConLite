@@ -44,14 +44,14 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
     }
 
     $sql = "SELECT
-			a.idtpl, a.name as name, a.description, a.idlay, b.description as laydescription, a.defaulttemplate 
-			FROM
-			" . $cfg['tab']['tpl'] . " AS a
-			LEFT JOIN
-			" . $cfg['tab']['lay'] . " AS b
-			ON a.idlay=b.idlay
-			WHERE a.idtpl='" . Contenido_Security::toInteger($idtpl) . "'
-			ORDER BY name";
+                a.idtpl, a.name as name, a.description, a.idlay, b.description as laydescription, a.defaulttemplate 
+                FROM
+                " . $cfg['tab']['tpl'] . " AS a
+                LEFT JOIN
+                " . $cfg['tab']['lay'] . " AS b
+                ON a.idlay=b.idlay
+                WHERE a.idtpl='" . Contenido_Security::toInteger($idtpl) . "'
+                ORDER BY name";
 
     $db->query($sql);
 
@@ -65,11 +65,11 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
     }
 
     $sql = "SELECT
-			number, idmod
-			FROM
-			" . $cfg['tab']['container'] . "
-			WHERE
-			idtpl='" . Contenido_Security::toInteger($idtpl) . "'";
+                number, idmod
+                FROM
+                " . $cfg['tab']['container'] . "
+                WHERE
+                idtpl='" . Contenido_Security::toInteger($idtpl) . "'";
 
     $db->query($sql);
     while ($db->next_record()) {
@@ -93,12 +93,12 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
         $tpl2->next();
     }
     $sql = "SELECT
-			idlay, name
-			FROM
-			" . $cfg['tab']['lay'] . "
-			WHERE
-			idclient='" . Contenido_Security::toInteger($client) . "'
-			ORDER BY name";
+                idlay, name
+                FROM
+                " . $cfg['tab']['lay'] . "
+                WHERE
+                idclient='" . Contenido_Security::toInteger($client) . "'
+                ORDER BY name";
 
     $db->query($sql);
 
@@ -119,12 +119,12 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
     $select = $tpl2->generate($cfg['path']['templates'] . $cfg['templates']['generic_select'], true);
 
     $sql = "SELECT
-			idmod, name, type
-			FROM
-			" . $cfg['tab']['mod'] . "
-			WHERE
-			idclient='" . Contenido_Security::toInteger($client) . "'
-			ORDER BY name";
+                idmod, name, type
+                FROM
+                " . $cfg['tab']['mod'] . "
+                WHERE
+                idclient='" . Contenido_Security::toInteger($client) . "'
+                ORDER BY name";
 
     $db->query($sql);
 
@@ -153,7 +153,6 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
     $descr = new cHTMLTextarea("description", $description);
     $form->add(i18n("Description"), $descr->render());
 
-
     $standardcb = new cHTMLCheckbox("vdefault", 1, "", $vdefault);
     $form->add(i18n("Default"), $standardcb->toHTML(false));
 
@@ -165,7 +164,12 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
         $raw_code = ($oLayout->virgin) ? "" : $oLayout->getLayout();
         tplPreparseLayout($idlay, $raw_code);
         $tmp_returnstring = tplBrowseLayoutForContainers($idlay, $raw_code);
-        $a_container = explode("&", $tmp_returnstring);
+        if(empty($tmp_returnstring)) {
+            $a_container = [];
+        } else {
+            $a_container = explode("&", $tmp_returnstring);
+        }
+        
         foreach ($a_container as $key => $value) {
             if ($value != 0) {
                 // Loop through containers ****************
@@ -212,7 +216,7 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
                     }
 
                     $allowedtypes = tplGetContainerTypes($idlay, $value);
-
+                    
                     foreach ($modules as $key => $val) {
                         $option = new cHTMLOptionElement($val["name"], $key);
 
@@ -251,4 +255,3 @@ if (($action == "tpl_new") && (!$perm->have_perm_area_action_anyitem($area, $act
 
     $page->render();
 }
-?>

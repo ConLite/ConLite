@@ -24,14 +24,38 @@ if (!defined('CON_FRAMEWORK')) {
 }
 
 class cSetupMask {
+    
+    /**
+     * @var object Template
+     */
+    protected $_oTpl;
+    
+    /**
+     * @var object Template
+     */
+    protected $_oStepTemplate;
+    
+    /**
+     * 
+     * @var bool
+     */
+    protected $_bNavigationEnabled = false;
+    
+    /**
+     * 
+     * @var string
+     */
+    protected $_sHeader;
+    public mixed $_bBackstep;
+    public mixed $_bNextstep;
 
-    public function __construct($sStepTemplate, $iStep = false) {
-        $this->_oTpl = new Template;
-        $this->_oStepTemplate = new Template;
-
-        $this->_sStepTemplate = $sStepTemplate;
-        $this->_iStep = $iStep;
-        $this->_bNavigationEnabled = false;
+    /**
+     * @param string $sStepTemplate
+     * @param int $iStep
+     */
+    public function __construct(protected $_sStepTemplate, protected $_iStep = false) {
+        $this->_oTpl = new Template();
+        $this->_oStepTemplate = new Template();
     }
 
     public function setNavigation($sBackstep, $sNextstep) {
@@ -47,20 +71,12 @@ class cSetupMask {
             $sSetupType = "";
         }
 
-        switch ($sSetupType) {
-            case "setup":
-                $this->_sHeader = "Setup - " . $sHeader;
-                break;
-            case "upgrade":
-                $this->_sHeader = "Upgrade - " . $sHeader;
-                break;
-            case "migration":
-                $this->_sHeader = "Migration - " . $sHeader;
-                break;
-            default:
-                $this->_sHeader = $sHeader;
-                break;
-        }
+        $this->_sHeader = match ($sSetupType) {
+            "setup" => "Setup - " . $sHeader,
+            "upgrade" => "Upgrade - " . $sHeader,
+            "migration" => "Migration - " . $sHeader,
+            default => $sHeader,
+        };
     }
 
     public function _createNavigation() {

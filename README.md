@@ -1,5 +1,4 @@
-----------------------------------------------------------------------------------------------------
-This is the readme file for ConLite 2.1.2
+This is the readme file for ConLite 2.2.0 beta
 
 Any help you need you may find by visiting the following links.
 
@@ -56,6 +55,9 @@ FS#25 - Collision with pre-installed AMR after Migration
 
 
 ** History / Changelog **
+ConLite 2.2.0 beta
+
+ConLite 2.1.3
 ConLite 2.1.2
 ConLite 2.1.1
 ConLite 2.1.0

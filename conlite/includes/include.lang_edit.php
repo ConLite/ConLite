@@ -41,13 +41,13 @@ $clang = new cApiLanguage($idlang);
 #Script for refreshing Language Box in Header
 $newOption = '';
 
-$db2 = new DB_ConLite;
+$db2 = new DB_ConLite();
 
-$sReload = '<script language="javascript">
-                var left_bottom = top.content.left.left_bottom;
+$sReload = '<script>
+                let left_bottom = top.content.left.left_bottom;
 
                 if (left_bottom) {
-                    var href = left_bottom.location.href;
+                    let href = left_bottom.location.href;
                     href = href.replace(/&idlang[^&]*/, \'\');
                     left_bottom.location.href = href+"&idlang="+"' . $idlang . '";
                 }
@@ -59,30 +59,30 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
     if ($action == "lang_deletelanguage") {
         // finally delete from dropdown in header
         $newOption = '<script>
-							var langList = top.header.document.getElementById("cLanguageSelect");
-							var thepos="";
-							for(var i=0;i<langList.length;i++) {
-								if(langList.options[i].value == ' . $idlang . ') {
-									thepos = langList.options[i].index;
-								}
-							}
-							langList.remove(thepos);
-						  </script>';
+                                    let langList = top.header.document.getElementById("cLanguageSelect");
+                                    let thepos="";
+                                    for(let i=0;i<langList.length;i++) {
+                                            if(langList.options[i].value == ' . $idlang . ') {
+                                                    thepos = langList.options[i].index;
+                                            }
+                                    }
+                                    langList.remove(thepos);
+                              </script>';
     }
 
     if ($action == "lang_newlanguage") {
         // update language dropdown in header
-        $new_idlang = 0;
+        $new_idlang = 1;
         $db->query('SELECT max(idlang) as newlang FROM ' . $cfg["tab"]["lang"] . ';');
         if ($db->next_record()) {
             $new_idlang = $db->f('newlang');
         }
 
-        $newOption = '<script language="javascript">
-							var newLang = new Option("' . i18n("New language") . ' (' . $new_idlang . ')", "' . $new_idlang . '", false, false);
-							var langList = top.header.document.getElementById("cLanguageSelect");
-							langList.options[langList.options.length] = newLang;
-							</script>';
+        $newOption = '<script>
+                                    let newLang = new Option("' . i18n("New language") . ' (' . $new_idlang . ')", "' . $new_idlang . '", false, false);
+                                    let langList = top.header.document.getElementById("cLanguageSelect");
+                                    langList.options[langList.options.length] = newLang;
+                                </script>';
         $idlang = $new_idlang;
     }
 
@@ -106,16 +106,16 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
 
         // update dropdown in header
         $newOption = '<script language="javascript">
-						var langList = top.header.document.getElementById("cLanguageSelect");
-						var thepos="";
-						for(var i=0;i<langList.length;i++)
-						{
-							if(langList.options[i].value == ' . $idlang . ')
-							{
-								langList.options[i].innerHTML = \'' . $langname . ' (' . $idlang . ')\';
-							}
-						}
-						</script>';
+                                        var langList = top.header.document.getElementById("cLanguageSelect");
+                                        var thepos="";
+                                        for(var i=0;i<langList.length;i++)
+                                        {
+                                                if(langList.options[i].value == ' . $idlang . ')
+                                                {
+                                                        langList.options[i].innerHTML = \'' . $langname . ' (' . $idlang . ')\';
+                                                }
+                                        }
+                                    </script>';
     }
 
     if (!$perm->have_perm_area_action($area, $action)) {
@@ -135,14 +135,14 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
             $tpl->reset();
 
             $sql = "SELECT
-						A.idlang AS idlang, A.name AS name, A.active as active, A.encoding as encoding, A.direction as direction,
-						B.idclient AS idclient 
-					FROM
-						" . $cfg["tab"]["lang"] . " AS A,
-						" . $cfg["tab"]["clients_lang"] . " AS B
-					WHERE
-						A.idlang = '" . Contenido_Security::toInteger($idlang) . "' AND
-						B.idlang = '" . Contenido_Security::toInteger($idlang) . "'";
+                                A.idlang AS idlang, A.name AS name, A.active as active, A.encoding as encoding, A.direction as direction,
+                                B.idclient AS idclient 
+                        FROM
+                                " . $cfg["tab"]["lang"] . " AS A,
+                                " . $cfg["tab"]["clients_lang"] . " AS B
+                        WHERE
+                                A.idlang = '" . Contenido_Security::toInteger($idlang) . "' AND
+                                B.idlang = '" . Contenido_Security::toInteger($idlang) . "'";
 
             $db->query($sql);
             $db->next_record();
@@ -201,7 +201,11 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
             $eselect = new cHTMLSelectElement("sencoding");
             $eselect->setStyle('width:255px');
             $eselect->autoFill($charsets);
-            $eselect->setDefault($db->f("encoding"));
+            if($db->f("encoding")) {
+                $eselect->setDefault($db->f("encoding"));
+            } else {
+                $eselect->setDefault('utf-8');
+            }
 
             $languagecode = new cHTMLSelectElement("languagecode");
             $languagecode->setStyle('width:255px');
@@ -256,9 +260,7 @@ if ($action == "lang_newlanguage" || $action == "lang_deletelanguage") {
             if ($_REQUEST['action'] != '') {
                 $page->addScript('reload', $sReload);
             }
-
             $page->render();
         }
     }
 }
-?>

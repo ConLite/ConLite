@@ -36,7 +36,7 @@ class cApiUploadCollection extends ItemCollection {
     public function sync($dir, $file) {
         global $client;
 
-        if (strstr(strtolower($_ENV["OS"]), 'windows') === FALSE) {
+        if (!empty($_ENV["OS"]) && strstr(strtolower($_ENV["OS"]), 'windows') === FALSE) {
             #Unix  style OS distinguish between lower and uppercase file names, i.e. test.gif is not the same as Test.gif
             $this->select("dirname = BINARY '$dir' AND filename = BINARY '$file' AND idclient = '$client'");
         } else {

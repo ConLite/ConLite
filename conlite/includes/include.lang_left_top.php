@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Project: 
  * Contenido Content Management System
@@ -27,9 +28,8 @@
  * }}
  * 
  */
-
-if(!defined('CON_FRAMEWORK')) {
-	die('Illegal call');
+if (!defined('CON_FRAMEWORK')) {
+    die('Illegal call');
 }
 
 $tpl->set('s', 'CLASS', 'text_medium');
@@ -42,7 +42,6 @@ $tpl->set('s', 'SID', $sess->id);
 
 $clients = $classclient->getAccessibleClients();
 
-
 $tpl2 = new Template;
 $tpl2->set('s', 'ID', 'editclient');
 $tpl2->set('s', 'NAME', 'editclient');
@@ -53,23 +52,20 @@ $iClientcount = count($clients);
 
 foreach ($clients as $key => $value) {
 
-        if ($client == $key)
-        {
-        	$selected = "selected";
-        } else {
-        	$selected = "";
-        }
+    if ($client == $key) {
+        $selected = "selected";
+    } else {
+        $selected = "";
+    }
 
-		if (strlen($value['name']) > 15)
-		{
-			$value['name'] = substr($value['name'],0,12). "...";
-		}
+    if (strlen($value['name']) > 15) {
+        $value['name'] = substr($value['name'], 0, 12) . "...";
+    }
 
-        $tpl2->set('d', 'VALUE',    $key);
-        $tpl2->set('d', 'CAPTION',  $value['name']);
-        $tpl2->set('d', 'SELECTED', $selected);
-        $tpl2->next();
-
+    $tpl2->set('d', 'VALUE', $key);
+    $tpl2->set('d', 'CAPTION', $value['name']);
+    $tpl2->set('d', 'SELECTED', $selected);
+    $tpl2->next();
 }
 
 $select = $tpl2->generate($cfg["path"]["templates"] . $cfg['templates']['generic_select'], true);
@@ -77,7 +73,7 @@ $select = $tpl2->generate($cfg["path"]["templates"] . $cfg['templates']['generic
 $tpl->set('s', 'CLIENTSELECT', $select);
 
 if ($perm->have_perm_area_action($area, "lang_newlanguage") && $iClientcount > 0) {
-    $tpl->set('s', 'NEWLANG', '<a class="addfunction" href="javascript:languageNewConfirm()">'.i18n("Create language").'</a>');
+    $tpl->set('s', 'NEWLANG', '<a class="addfunction" href="javascript:languageNewConfirm()">' . i18n("Create language") . '</a>');
 } else if ($iClientcount == 0) {
     $tpl->set('s', 'NEWLANG', i18n('No Client selected'));
 } else {
@@ -85,5 +81,3 @@ if ($perm->have_perm_area_action($area, "lang_newlanguage") && $iClientcount > 0
 }
 
 $tpl->generate($cfg['path']['templates'] . $cfg['templates']['lang_left_top']);
-
-?>

@@ -330,13 +330,9 @@ if( sizeof($_GET) == 0 && isset($_POST['save_search']) )
 // STORED SEARCH HAS BEEN CALLED
 elseif( sizeof($_GET) > 0)
 {
-	$itemtypeReq = $_GET['itemtype'];
-	$itemidReq = $_GET['itemid'];
-	// Do we have the request parameters we need to fetch search values of stored search ?
-	if( (isset($itemtypeReq) && strlen($itemtypeReq)>0) && 
-			(isset($itemidReq) && strlen($itemidReq)>0)
-		)
-	{
+	$itemtypeReq = (isset($itemtypeReq))?$_GET['itemtype']:'';
+	$itemidReq = (isset($itemidReq))?$_GET['itemid']:'';
+	if(strlen($itemtypeReq) > 0 && strlen($itemidReq) > 0) {
 		$searchResults = getSearchResults($itemidReq, $itemtypeReq);
 		$sSearchStr_tmp = $searchResults[$save_title];
 		$iSearchID_tmp = $searchResults[$save_id];
@@ -403,13 +399,13 @@ if ($iSearchID_tmp > 0) {
 }
 // Date
 if ($sSearchStrDateType_tmp != 'n/a') {
-	if (($sSearchStrDateFromDay_tmp > 0) && ($sSearchStrDateFromMonth_tmp > 0) && ($sSearchStrDateFromYear_tmp > 0)) {
+	if (!empty($sSearchStrDateFromDay_tmp) && !empty($sSearchStrDateFromMonth_tmp) && !empty($sSearchStrDateFromYear_tmp)) {
 		$sSearchStrDateFrom = $sSearchStrDateFromYear_tmp.'-'.$sSearchStrDateFromMonth_tmp.'-'.$sSearchStrDateFromDay_tmp.' 00:00:00';
 	} else {
 		$sSearchStrDateFrom = '';
 	}
 
-	if (($sSearchStrDateToDay_tmp > 0) && ($sSearchStrDateToMonth_tmp > 0) && ($sSearchStrDateToYear_tmp > 0)) {
+	if (!empty($sSearchStrDateToDay_tmp) && !empty($sSearchStrDateToMonth_tmp) && !empty($sSearchStrDateToYear_tmp)) {
 		$sSearchStrDateTo = $sSearchStrDateToYear_tmp.'-'.$sSearchStrDateToMonth_tmp.'-'.$sSearchStrDateToDay_tmp.' 23:59:59';
 	} else {
 		$sSearchStrDateTo = '';
@@ -559,8 +555,8 @@ if (empty($where) || $iAffectedRows <= 0) {
 		#Check rights per cat
 		if (!$check_rights) {
 			//hotfix timo trautmann 2008-12-10 also check rights in associated groups
-			$aGroupsForUser = $perm->getGroupsForUser($auth->auth[uid]);
-			$aGroupsForUser[] = $auth->auth[uid];
+			$aGroupsForUser = $perm->getGroupsForUser($auth->auth['uid']);
+			$aGroupsForUser[] = $auth->auth['uid'];
 			$sTmpUserString = implode("','", $aGroupsForUser);
 			
 			#Check if any rights are applied to current user or his groups
@@ -623,7 +619,9 @@ if (empty($where) || $iAffectedRows <= 0) {
 		    // fuer den ersten gefundenen Artikel die Werte fuer CategoryID und TemplateID merken
 	        if ($i == 0) {
 	            $iIDCat = $idcat;
-	            $iIDTpl = $idtpl;
+                    if(!empty($idtpl)) {
+                        $iIDTpl = $idtpl;
+                    }
 	        }
 		    
 		    /* Funktion zum umwandeln in Startartikel/normale Artikel*/
@@ -637,8 +635,10 @@ if (empty($where) || $iAffectedRows <= 0) {
 			    }
 			} else {
 			    if( $startidartlang == $idartlang ) {
+			        $sFlagTitle = i18n('Flag as normal article');
 			        $makeStartarticle = "<td nowrap=\"nowrap\" class=\"bordercell\"><img src=\"images/isstart1.gif\" border=\"0\" title=\"{$sFlagTitle}\" alt=\"{$sFlagTitle}\"></td>";
 				} else {
+			        $sFlagTitle = i18n('Flag as start article');
 			    	$makeStartarticle = "<td nowrap=\"nowrap\" class=\"bordercell\"><img src=\"images/isstart0.gif\" border=\"0\" title=\"{$sFlagTitle}\" alt=\"{$sFlagTitle}\"></td>";
 				}
 			}
@@ -703,7 +703,7 @@ if (empty($where) || $iAffectedRows <= 0) {
 			}
 		    
 		    if ($perm->have_perm_area_action_item("con", "con_deleteart",$idcat)) {
-				$delete = "<a href=\"javascript://\" onclick=\"box.confirm(&quot;$sDeleteArticle&quot;, &quot;$sDeleteArticleQuestion:<br><br><b>$db->f('title')</b>&quot;, &quot;deleteArticle($idart,$idcat)&quot;)\" title=\"$sDeleteArticle\"><img src=\"images/delete.gif\" title=\"$sDeleteArticle\" alt=\"$sDeleteArticle\" border=\"0\"></a>";
+				$delete = "<a href=\"javascript://\" onclick=\"box.confirm(&quot;$sDeleteArticle&quot;, &quot;$sDeleteArticleQuestion:<br><br><b>".$db->f('title')."</b>&quot;, &quot;deleteArticle($idart,$idcat)&quot;)\" title=\"$sDeleteArticle\"><img src=\"images/delete.gif\" title=\"$sDeleteArticle\" alt=\"$sDeleteArticle\" border=\"0\"></a>";
 		    }else {
 		    	$delete = "";
 		    }
@@ -717,8 +717,6 @@ if (empty($where) || $iAffectedRows <= 0) {
 						<td nowrap=\"nowrap\" class=\"bordercell\">$sTemplateName</td>
 						<td nowrap=\"nowrap\" class=\"bordercell\">
 							<a id=\"m1\" onclick=\"javascript:window.open('main.php?subject=$todoListeSubject&amp;area=todo&amp;frame=1&amp;itemtype=idart&amp;itemid=$idart&amp;contenido=$sSession', 'todo', 'scrollbars=yes, height=300, width=550');\" alt=\"$sReminder\" title=\"$sReminder\" href=\"#\"><img id=\"m2\" style=\"padding-left: 2px; padding-right: 2px;\" alt=\"$sReminder\" src=\"images/but_setreminder.gif\" border=\"0\"></a>
-							$properties
-							$tplconfig
 							$duplicate
 							$delete
 						</td>
@@ -746,7 +744,7 @@ if (empty($where) || $iAffectedRows <= 0) {
 # Save Search Parameters
 ###########################
 
-if($bHit && sizeof($_GET) == 0 && isset($_POST) ) {
+if(!empty($bHit) && sizeof($_GET) == 0 && isset($_POST) ) {
     // Build form with hidden fields that contain all search parameters to be stored using generic db
     $searchForm = '<form id="save_search" target="right_bottom" method="post" action="backend_search.php">';
     // Meta for Contenido

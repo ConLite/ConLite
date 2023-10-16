@@ -34,7 +34,7 @@ class cArticleCollector implements SeekableIterator, Countable {
     protected $_aStartArticles = array();
     protected $_aOptions = array();
     protected $_aOptionsDefault = array();
-    private $_bAsObject = TRUE;
+    private $_bAsObject = true;
 
     /**
      *
@@ -65,14 +65,12 @@ class cArticleCollector implements SeekableIterator, Countable {
         }
         
         if (count($this->_aStartArticles) > 0) {
-            print_r($this->_aStartArticles);
             if ($this->_aOptions['start'] == false) {
                 $oArtLangColl->setWhere("cApiArticleLanguageCollection.idartlang", $this->_aStartArticles, "NOTIN");
                 //$sqlStartArticles = "a.idartlang NOT IN ('" . implode("','", $this->_startArticles) . "') AND ";
             }
 
             if ($this->_aOptions['startonly'] == true) {
-                echo "startonly";
                 $oArtLangColl->setWhere("cApiArticleLanguageCollection.idartlang", $this->_aStartArticles, "IN");
                 //$sqlStartArticles = "a.idartlang IN ('" . implode("','", $this->_startArticles) . "') AND ";
             }
@@ -89,7 +87,6 @@ class cArticleCollector implements SeekableIterator, Countable {
         $oArtLangColl->setWhere("cApiArticleLanguageCollection.idlang", $this->_aOptions['lang']);
 
         $oArtLangColl->query();
-        echo $oArtLangColl->_lastSQL;
         if ($oArtLangColl->count() > 0) {
             $aTable = $oArtLangColl->fetchTable();
             //echo $oArtLangColl->_lastSQL;
@@ -97,7 +94,6 @@ class cArticleCollector implements SeekableIterator, Countable {
             foreach ($aTable as $aItem) {
                 $this->_aArticles[] = $aItem['idartlang'];
             }
-            print_r($this->_aArticles);
         }
     }
 
@@ -162,7 +158,7 @@ class cArticleCollector implements SeekableIterator, Countable {
      * 
      * @return cApiArticleLanguage|int returns article language object or idartlang
      */
-    public function current() {
+    public function current()  :cApiArticleLanguage|int{
         $iIdartlang = $this->_aArticles[$this->_iCurrentPosition];
         if ($this->_bAsObject) {
             $oArticle = new cApiArticleLanguage($iIdartlang);

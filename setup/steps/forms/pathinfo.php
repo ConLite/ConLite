@@ -39,13 +39,13 @@ class cSetupPath extends cSetupMask {
         $this->_oStepTemplate->set("s", "TITLE", i18n_setup("System Directories"));
         $this->_oStepTemplate->set("s", "DESCRIPTION", i18n_setup("Please check the directories identified by the system. If you need to change a path, click on the name and enter the new path in the available input box."));
 
-        list($root_path, $root_http_path) = getSystemDirectories(true);
+        [$root_path, $root_http_path] = getSystemDirectories(true);
 
         $cHTMLErrorMessageList = new cHTMLErrorMessageList;
         $cHTMLErrorMessageList->setStyle("width: 580px; height: 200px; overflow: auto; border: 1px solid black;");
-        $cHTMLFoldableErrorMessages = array();
+        $cHTMLFoldableErrorMessages = [];
 
-        list($a_root_path, $a_root_http_path) = getSystemDirectories();
+        [$a_root_path, $a_root_http_path] = getSystemDirectories();
         $oRootPath = new cHTMLTextbox("override_root_path", $a_root_path);
         $oRootPath->setWidth(100);
         $oRootPath->setClass("small");

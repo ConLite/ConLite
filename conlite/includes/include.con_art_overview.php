@@ -305,8 +305,7 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
             $sortkey = $sart["artsort"];
             $locked = $sart["locked"];
             $redirect = $sart["redirect"];
-
-            $published = ($published != '1000-01-01 00:00:00') ? date($dateformat, strtotime($published)) : i18n("not yet published");
+            $published = (strtotime($published) > 0) ? date($dateformat, strtotime($published)) : i18n("not yet published");
             $created = date($dateformat, strtotime($created));
             $modified = date($dateformat, strtotime($modified));
             $alttitle = "idart" . '&#58; ' . $idart . ' ' . "idcatart" . '&#58; ' . $idcatart . ' ' . "idartlang" . '&#58; ' . $idartlang;
@@ -475,7 +474,7 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
             }
 
             $imgsrc .= '.gif';
-
+            $tmp_img = '';
             if (($perm->have_perm_area_action("con", "con_makestart") || $perm->have_perm_area_action_item("con", "con_makestart", $idcat)) && $idcat != 0) {
                 if ($is_start == false) {
                     $tmp_link = '<a href="' . $sess->url("main.php?area=con&amp;idcat=$idcat&amp;action=con_makestart&amp;idcatart=$idcatart&amp;frame=4&is_start=1&amp;next=$next") . '" title="' . i18n("Flag as start article") . '"><img src="images/' . $imgsrc . '" border="0" title="' . i18n("Flag as start article") . '" alt="' . i18n("Flag as start article") . '" style="margin-left:3px;"></a>';
@@ -860,13 +859,14 @@ if (is_numeric($idcat) && ($idcat >= 0)) {
           if ($perm->have_perm_area_action("str_tplcfg","str_tplcfg") ||
           $perm->have_perm_area_action_item("str_tplcfg","str_tplcfg",$lidcat)) */
 
-        if (($perm->have_perm_area_action_item("con", "con_tplcfg_edit", $idcat) || $perm->have_perm_area_action("con", "con_tplcfg_edit"))) {
+        if (($perm->have_perm_area_action_item("con", "con_tplcfg_edit", $idcat) 
+                || $perm->have_perm_area_action("con", "con_tplcfg_edit"))) {
 
             if (0 != $idcat) {
 
                 $tpl->set('s', 'CATEGORY', $cat_name);
-                $tpl->set('s', 'CATEGORY_CONF', $tmp_img);
-                $tpl->set('s', 'CATEGORY_LINK', $tmp_link);
+                $tpl->set('s', 'CATEGORY_CONF', (!empty($tmp_img))?$tmp_img:'');
+                $tpl->set('s', 'CATEGORY_LINK', (!empty($tmp_link))?$tmp_link:'');
             } else {
                 $tpl->set('s', 'CATEGORY', $cat_name);
                 $tpl->set('s', 'CATEGORY_CONF', '&nbsp;');

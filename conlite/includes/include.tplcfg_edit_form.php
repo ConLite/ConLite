@@ -278,7 +278,7 @@ $tpl->set('s', 'TEMPLATECAPTION', i18n("Template"));
 $tpl2 = new Template;
 $tpl2->set('s', 'NAME', 'idtpl');
 $tpl2->set('s', 'CLASS', 'text_medium');
-
+$disabled2 = '';
 if (!$perm->have_perm_area_action_item("con", "con_changetemplate", $idcat)) {
     $disabled2 = 'disabled="disabled"';
 }

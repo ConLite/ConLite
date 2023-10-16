@@ -318,12 +318,12 @@ class cSession {
                 break;
             case "object":
                 ## $$var is an object. Enumerate the slots and serialize them.
-                eval("\$k = \$${var}->classname; \$l = reset(\$${var}->persistent_slots);");
+                eval("\$k = \${$var}->classname; \$l = reset(\${$var}->persistent_slots);");
                 $str.="\$$var = new $k; ";
                 while ($l) {
                     ## Structural recursion.
                     $this->serialize($var . "->" . $l, $str);
-                    eval("\$l = next(\$${var}->persistent_slots);");
+                    eval("\$l = next(\${$var}->persistent_slots);");
                 }
 
                 break;

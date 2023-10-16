@@ -14,7 +14,11 @@
 # $Id: htaccess_simple.txt 145 2019-10-25 16:00:47Z oldperl $
 ################################################################################
 
-#SetEnv CONLITE_ENVIRONMENT development
+# easily set this enviroment variable to the config you want to use
+# add a config folder with the same name in data/config and cms/data/config
+# and use your custom config for development
+
+#SetEnv CONLITE_ENVIRONMENT develop
 
 <IfModule mod_rewrite.c>
 
@@ -33,7 +37,7 @@
     RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
     RewriteCond %{QUERY_STRING} ftp://.*$  [NC,OR]
     RewriteCond %{QUERY_STRING} http[s]*://.*$ [NC]
-    RewriteRule ^.* - [F,L]  # all matching conditions from above will end in nirvana
+    RewriteRule ^.* - [F,L,DPI]  # all matching conditions from above will end in nirvana
 
     # Rewrite request to root to front_content.php
     RewriteRule ^$ front_content.php [QSA,L]
@@ -44,7 +48,7 @@
     RewriteCond %{REQUEST_FILENAME} -s [OR]
     RewriteCond %{REQUEST_FILENAME} -l [OR]
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^.*$ - [NC,L]
+    RewriteRule ^.*$ - [NC,L,DPI]
 
     # Pass other requests to front_content.php
     RewriteRule ^.*$ front_content.php [QSA,NC,L]

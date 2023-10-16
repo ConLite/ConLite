@@ -513,7 +513,8 @@ abstract class HTML_Common2 implements ArrayAccess
      * @return boolean Returns true on success or false on failure.
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      */
-    public function offsetExists($offset)
+    #[ReturnTypeWillChange] 
+    public function offsetExists($offset) 
     {
         return isset($this->attributes[strtolower($offset)]);
     }
@@ -527,6 +528,7 @@ abstract class HTML_Common2 implements ArrayAccess
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
      * @see getAttribute()
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->getAttribute($offset);
@@ -542,6 +544,7 @@ abstract class HTML_Common2 implements ArrayAccess
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      * @see setAttribute()
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (null !== $offset) {
@@ -561,6 +564,7 @@ abstract class HTML_Common2 implements ArrayAccess
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      * @see removeAttribute
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->removeAttribute($offset);
