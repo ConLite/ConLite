@@ -184,7 +184,6 @@ class Template {
         global $cCurrentModule;
 
         $cfg = cRegistry::getConfig();
-        $aCfgClient = cRegistry::getClientConfig(cRegistry::getClientId());
         $bModTplUsed = FALSE;
 
         if (isset($cCurrentModule) && $cfg['dceModEdit']['use']) {
@@ -201,8 +200,8 @@ class Template {
             }
         }
 
-        if (is_file("templates/" . $template) && !$bModTplUsed) {
-            $template = "templates/" . $template;
+        if (is_file(cRegistry::getFrontendPath() . "templates/" . $template) && !$bModTplUsed) {
+            $template = cRegistry::getFrontendPath() . "templates/" . $template;
         }
 
         //check if the template is a file or a string
