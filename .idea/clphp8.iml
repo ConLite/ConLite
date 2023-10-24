@@ -19,6 +19,8 @@
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/sebastian/comparator/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/sebastian/complexity/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/conlite/external/sebastian/object-enumerator/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/conlite/classes" isTestSource="false" packagePrefix="ConLite\" />
+      <sourceFolder url="file://$MODULE_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/classes" isTestSource="false" packagePrefix="SoccerBettingGame\" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/vendor/phpmailer/phpmailer" />
       <excludeFolder url="file://$MODULE_DIR$/conlite/vendor/phpstan/phpstan" />
@@ -28,6 +30,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/vendor/rinvex/countries" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
