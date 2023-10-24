@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8eedb38c-41ce-4f3c-a016-df6a207a4233" name="Changes" comment="gitadmin" />
+    <list default="true" id="8eedb38c-41ce-4f3c-a016-df6a207a4233" name="Changes" comment="composer stuff" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,6 +17,7 @@
       <option value="$PROJECT_DIR$/conlite/external/phpstan/phpstan/composer.json" />
       <option value="$PROJECT_DIR$/conlite/external/symfony/options-resolver/composer.json" />
       <option value="$PROJECT_DIR$/cms/securimage/composer.json" />
+      <option value="$PROJECT_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/composer.json" />
     </option>
   </component>
   <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
@@ -28,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev_php82" />
+        <entry key="$PROJECT_DIR$" value="database-setup-very-slow-#49" />
         <entry key="$PROJECT_DIR$/cms/secureimage" value="master" />
       </map>
     </option>
@@ -40,12 +41,24 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/usr/bin/php">
     <include_path>
+      <path value="$PROJECT_DIR$/conlite/external/phpqrcode/bindings" />
+      <path value="$PROJECT_DIR$/conlite/external/phpqrcode/tools" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/conlite/vendor/phpmailer/phpmailer" />
       <path value="$PROJECT_DIR$/conlite/vendor/composer" />
       <path value="$PROJECT_DIR$/conlite/vendor/rector/rector" />
       <path value="$PROJECT_DIR$/conlite/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/vendor/composer" />
+      <path value="$PROJECT_DIR$/conlite/plugins/de.ortwinpinke.soccer_betting_game/vendor/rinvex/countries" />
     </include_path>
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
   <component name="ProjectId" id="2OsnK7aTqPj8IgMHzGyLAOICLU1" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -138,6 +151,7 @@
       <workItem from="1682512266209" duration="329000" />
       <workItem from="1682512610923" duration="100000" />
       <workItem from="1682512717674" duration="523000" />
+      <workItem from="1698146304227" duration="473000" />
     </task>
     <task id="LOCAL-00001" summary="move composer vendor folder">
       <created>1682442332378</created>
@@ -202,7 +216,23 @@
       <option name="project" value="LOCAL" />
       <updated>1682513087275</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="composer stuff">
+      <option name="closed" value="true" />
+      <created>1698146381823</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1698146381823</updated>
+    </task>
+    <task id="LOCAL-00011" summary="composer stuff">
+      <option name="closed" value="true" />
+      <created>1698146770538</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1698146770538</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,7 +257,8 @@
     <MESSAGE value="add module package xml" />
     <MESSAGE value="updated doc-blocks and module package" />
     <MESSAGE value="gitadmin" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitadmin" />
+    <MESSAGE value="composer stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="composer stuff" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
