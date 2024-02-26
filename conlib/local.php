@@ -80,16 +80,20 @@ class DB_ConLite extends DB_Sql {
     /**
      * Fetches the next recordset from result set
      *
-     * @param  bool
+     * @deprecated since ConLite 2.3
      */
-    public function next_record() {
-        global $cCurrentModule;
-        // FIXME  For what reason is NoRecord used???
-        $this->NoRecord = false;
+    public function next_record(): bool|int
+    {
+        return $this->nextRecord();
+    }
+
+    public function nextRecord(): bool|int
+    {
+        $currentModule = cRegistry::getCurrentModule();
+
         if (!$this->Query_ID) {
-            $this->NoRecord = true;
-            if ($cCurrentModule > 0) {
-                $this->halt("next_record called with no query pending in Module ID $cCurrentModule.");
+            if ($currentModule > 0) {
+                $this->halt("next_record called with no query pending in Module ID $currentModule.");
             } else {
                 $this->halt("next_record called with no query pending.");
             }

@@ -219,6 +219,11 @@ class cRegistry {
         return self::_fetchGlobalVariable('edit', FALSE);
     }
 
+    public static function getCurrentModule()
+    {
+        return self::_fetchGlobalVariable('cCurrentModule', 0);
+    }
+
     /**
      * Fetches the global variable requested.
      * If variable is not set, the default value is returned.
@@ -247,4 +252,3 @@ class cRegistry {
         return new $apiClassName($objectId);
     }
 }
-?>

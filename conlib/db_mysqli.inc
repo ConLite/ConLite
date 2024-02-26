@@ -185,7 +185,8 @@ class DB_Sql extends DB_Sql_Abstract {
     /**
      * @see DB_Sql_Abstract::next_record()
      */
-    public function next_record() {
+    public function next_record(): bool|int
+    {
         if (!$this->Query_ID instanceof mysqli_result) {
             return false;
         }
