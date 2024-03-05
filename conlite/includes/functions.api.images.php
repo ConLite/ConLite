@@ -601,8 +601,8 @@ function isAnimGif($sFile) {
  *
  * @return string Path to the resulting image
  */
-function capiImgScale($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $wantHQ = false, $quality = 75, $keepType = false) {
-    global $client, $db, $cfg, $cfgClient;
+function capiImgScale($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $wantHQ = false, $quality = 75, $keepType = true) {
+    global $client, $cfgClient;
 
     $deleteAfter = false;
 
