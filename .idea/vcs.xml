@@ -2,6 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-content-allocation" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-mod-rewrite" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/conlite/plugins/cl-newsletter" vcs="Git" />
   </component>
 </project>
