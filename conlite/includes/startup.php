@@ -211,7 +211,7 @@ if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     $encoding = array();
     $sql = "SELECT idlang, encoding FROM " . $cfg["tab"]["lang"];
     $db->query($sql);
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $encoding[$db->f('idlang')] = $db->f('encoding');
     }
 }
@@ -221,4 +221,3 @@ if($cfg['debug']['sendnocacheheader']) {
     header("Pragma: no-cache"); // HTTP 1.0.
     header("Expires: 0"); // Proxies.
 }
-?>
