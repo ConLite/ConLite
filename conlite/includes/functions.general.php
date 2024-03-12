@@ -1571,10 +1571,10 @@ function scanDirectory($sDirectory, $bRecursive = false)
  * The plugin's directory and file name have to be the
  * same, otherwise the function won't find them!
  *
- * @param $entity Name of the directory to scan
+ * @param string $entity Name of the directory to scan
  * @return string client name
  */
-function scanPlugins($entity)
+function scanPlugins(string $entity): string
 {
     global $cfg;
 
@@ -1638,9 +1638,9 @@ function scanPlugins($entity)
  * Example:
  * includePlugins("frontendusers");
  *
- * @param $entity Name of the directory to scan
+ * @param string $entity Name of the directory to scan
  */
-function includePlugins($entity)
+function includePlugins(string $entity): void
 {
     global $cfg;
 
@@ -1657,32 +1657,35 @@ function includePlugins($entity)
  * Example:
  * callPluginStore("frontendusers");
  *
- * @param $entity Name of the directory to scan
+ * @param string $entity Name of the directory to scan
  */
-function callPluginStore($entity)
+function callPluginStore(string $entity): void
 {
     global $cfg;
 
     /* Check out if there are any plugins */
     if (is_array($cfg['plugins'][$entity])) {
         foreach ($cfg['plugins'][$entity] as $plugin) {
-            if (function_exists($entity . "_" . $plugin . "_wantedVariables") && function_exists($entity . "_" . $plugin . "_store")) {
+            if (function_exists($entity . "_" . $plugin . "_wantedVariables")
+                && function_exists($entity . "_" . $plugin . "_store")) {
                 $wantVariables = call_user_func($entity . "_" . $plugin . "_wantedVariables");
+                $varArray = [];
 
                 if (is_array($wantVariables)) {
-                    $varArray = array();
-
                     foreach ($wantVariables as $value) {
                         $varArray[$value] = stripslashes($GLOBALS[$value]);
                     }
                 }
-                $store = call_user_func($entity . "_" . $plugin . "_store", $varArray);
+
+                if (count($varArray) > 0) {
+                    $store = call_user_func($entity . "_" . $plugin . "_store", $varArray);
+                }
             }
         }
     }
 }
 
-function displayPlugin($entity, &$form)
+function displayPlugin($entity, &$form): void
 {
     /* TODO: Function can't work, as $feuser is not defined (see $display = 
      * call_user_func($entity."_".$plugin."_display", $feuser);) and plugins need
