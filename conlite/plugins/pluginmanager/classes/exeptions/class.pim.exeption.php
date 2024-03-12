@@ -1,4 +1,8 @@
 <?php
+
+use ConLite\Log\LogWriter;
+use ConLite\Log\Log;
+
 if(!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
@@ -12,11 +16,11 @@ class pimExeption extends Exception {
         parent::__construct($message, $code, $previous);
 
         // create a logger class and save it for all logging purposes
-        $writer = cLogWriter::factory("File", array(
+        $writer = LogWriter::factory("File", array(
             'destination' => cRegistry::getConfigValue('path', 'data')
             . 'logs/exception.log'
         ));
-        $this->_logger = new cLog($writer);
+        $this->_logger = new Log($writer);
 
         // determine if exception should be logged
         if (false === $this->_log_exception

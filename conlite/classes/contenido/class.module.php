@@ -19,6 +19,10 @@
  * 
  * $Id$
  */
+
+use ConLite\Log\LogWriter;
+use ConLite\Log\Log;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -148,9 +152,9 @@ class cApiModule extends Item {
             try {
                 mkdir($this->_aModFileEditConf['modPath'], 0777, true);
             } catch (Exception $ex) {
-                $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
-                $oLog = new cLog($oWriter);
-                $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
+                $writer = LogWriter::factory("File", ['destination' => $sPathErrorLog]);
+                $log = new Log($writer);
+                $log->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), Log::WARN);
             }
         }
 
@@ -160,9 +164,9 @@ class cApiModule extends Item {
                 try {
                     mkdir($this->getModulePath(), 0777);
                 } catch (Exception $ex) {
-                    $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
-                    $oLog = new cLog($oWriter);
-                    $oLog->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), cLog::WARN);
+                    $writer = LogWriter::factory("File", ['destination' => $sPathErrorLog]);
+                    $log = new Log($writer);
+                    $log->log($ex->getFile() . " (" . $ex->getLine() . "): " . $ex->getMessage(), Log::WARN);
                 }
 
                 if (is_writable($this->getModulePath())) {
@@ -171,9 +175,9 @@ class cApiModule extends Item {
                 umask($this->_oldumask);
             }
         } else {
-            $oWriter = cLogWriter::factory("File", ['destination' => $sPathErrorLog]);
-            $oLog = new cLog($oWriter);
-            $oLog->log(__FILE__ . " (" . __LINE__ . "): " . 'Error: Cannot create mod path '.$this->getModulePath(), cLog::WARN);
+            $writer = LogWriter::factory("File", ['destination' => $sPathErrorLog]);
+            $log = new Log($writer);
+            $log->log(__FILE__ . " (" . __LINE__ . "): " . 'Error: Cannot create mod path '.$this->getModulePath(), Log::WARN);
         }
         return FALSE;
     }
@@ -244,7 +248,8 @@ class cApiModule extends Item {
      *
      * @return array Found strings for this module
      */
-    public function parseModuleForStrings() {
+    public function parseModuleForStrings(): bool|array
+    {
         global $cfg;
         if ($this->virgin == true) {
             return false;
