@@ -1572,9 +1572,8 @@ function scanDirectory($sDirectory, $bRecursive = false)
  * same, otherwise the function won't find them!
  *
  * @param string $entity Name of the directory to scan
- * @return string client name
  */
-function scanPlugins(string $entity): string
+function scanPlugins(string $entity)
 {
     global $cfg;
 
