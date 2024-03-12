@@ -107,6 +107,9 @@
 
  * ************************************************************************* */
 
+use ConLite\Log\Log;
+use ConLite\Log\LogWriter;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -182,7 +185,8 @@ chdir($PC_reqDir);
 if ($PC_debug)
     echo "\n</pre>";
 
-function logMessage($msg, $PC_writeDir, $PC_useLog, $PC_debug) {
+function logMessage($msg, $PC_writeDir, $PC_useLog, $PC_debug): void
+{
     $oCronLog = new cCronJob();
     $oCronLog->useCronLog($PC_useLog);
     $oCronLog->logMessages($msg);
@@ -193,20 +197,22 @@ function logMessage($msg, $PC_writeDir, $PC_useLog, $PC_debug) {
     }
 }
 
-function lTrimZeros($number) {
-    
+function lTrimZeros($number)
+{
+
     /*
     while ($number[0] == '0') {
         $number = substr($number, 1);
     }
      * 
      */
-    
+
     $number = intval(ltrim($number, '0'));
-    return (is_numeric($number))?$number:0;
+    return (is_numeric($number)) ? $number : 0;
 }
 
-function parseElement($element, &$targetArray, $numberOfElements) {
+function parseElement($element, &$targetArray, $numberOfElements)
+{
 
     $subelements = explode(",", $element);
     for ($i = 0; $i < $numberOfElements; $i++) {
@@ -235,7 +241,8 @@ function parseElement($element, &$targetArray, $numberOfElements) {
     }
 }
 
-function decDate(&$dateArr, $amount, $unit, $PC_debug) {
+function decDate(&$dateArr, $amount, $unit, $PC_debug)
+{
 
     if ($PC_debug)
         echo sprintf("Decreasing from %02d.%02d. %02d:%02d by %d %6s ", $dateArr[mday], $dateArr[mon], $dateArr[hours], $dateArr[minutes], $amount, $unit);
@@ -249,11 +256,11 @@ function decDate(&$dateArr, $amount, $unit, $PC_debug) {
             $dateArr["wday"] += 7;
         }
         if ($dateArr["mday"] < 1) {
-            $dateArr["mon"] --;
+            $dateArr["mon"]--;
             switch ($dateArr["mon"]) {
                 case 0:
                     $dateArr["mon"] = 12;
-                    $dateArr["year"] --;
+                    $dateArr["year"]--;
                 // fall through
                 case 1:
                 case 3:
@@ -281,28 +288,29 @@ function decDate(&$dateArr, $amount, $unit, $PC_debug) {
         } else {
             $dateArr["minutes"] = 59;
             $dateArr["seconds"] = 59;
-            $dateArr["hours"] --;
+            $dateArr["hours"]--;
         }
     } elseif ($unit == "minute") {
         if ($dateArr["minutes"] == 0) {
             decDate($dateArr, 1, "hour", $PC_debug);
         } else {
             $dateArr["seconds"] = 59;
-            $dateArr["minutes"] --;
+            $dateArr["minutes"]--;
         }
     }
     if ($PC_debug)
         echo sprintf("to %02d.%02d. %02d:%02d\n", $dateArr[mday], $dateArr[mon], $dateArr[hours], $dateArr[minutes]);
 }
 
-function getLastScheduledRunTime($job, $PC_debug) {
+function getLastScheduledRunTime($job, $PC_debug)
+{
 
     $dateArr = getdate();
     $minutesBack = 0;
     while (
-    $minutesBack < 525600 AND ( !$job[PC_MINUTE][$dateArr["minutes"]] OR ! $job[PC_HOUR][$dateArr["hours"]] OR ( !$job[PC_DOM][$dateArr["mday"]] OR ! $job[PC_DOW][$dateArr["wday"]]) OR ! $job[PC_MONTH][$dateArr["mon"]])
+        $minutesBack < 525600 and (!$job[PC_MINUTE][$dateArr["minutes"]] or !$job[PC_HOUR][$dateArr["hours"]] or (!$job[PC_DOM][$dateArr["mday"]] or !$job[PC_DOW][$dateArr["wday"]]) or !$job[PC_MONTH][$dateArr["mon"]])
     ) {
-        if (!$job[PC_DOM][$dateArr["mday"]] OR ! $job[PC_DOW][$dateArr["wday"]]) {
+        if (!$job[PC_DOM][$dateArr["mday"]] or !$job[PC_DOW][$dateArr["wday"]]) {
             decDate($dateArr, 1, "mday", $PC_debug);
             $minutesBack += 1440;
             continue;
@@ -325,13 +333,15 @@ function getLastScheduledRunTime($job, $PC_debug) {
     return mktime($dateArr["hours"], $dateArr["minutes"], 0, $dateArr["mon"], $dateArr["mday"], $dateArr["year"]);
 }
 
-function getJobFileName($jobname, $PC_writeDir) {
+function getJobFileName($jobname, $PC_writeDir)
+{
 
     $jobfile = $PC_writeDir . urlencode($jobname) . ".job";
     return $jobfile;
 }
 
-function getLastActialRunTime($jobname, $PC_writeDir) {
+function getLastActialRunTime($jobname, $PC_writeDir)
+{
 
     $jobfile = getJobFileName($jobname, $PC_writeDir);
     if (file_exists($jobfile)) {
@@ -345,7 +355,8 @@ function getLastActialRunTime($jobname, $PC_writeDir) {
     return 0;
 }
 
-function markLastRun($jobname, $lastRun, $PC_writeDir) {
+function markLastRun($jobname, $lastRun, $PC_writeDir)
+{
 
     $jobfile = getJobFileName($jobname, $PC_writeDir);
 
@@ -357,12 +368,13 @@ function markLastRun($jobname, $lastRun, $PC_writeDir) {
     }
 }
 
-function runJob($job, $PC_jobDir, $PC_writeDir, $PC_useLog, $PC_debug = false) {
+function runJob($job, $PC_jobDir, $PC_writeDir, $PC_useLog, $PC_debug = false)
+{
     global $cfg, $sess, $PC_logDir;
     if (!is_writable($PC_writeDir)) {
         return false;
     }
-    $extjob = Array();
+    $extjob = array();
     $jobfile = getJobFileName($job[PC_CMD], $PC_writeDir);
     parseElement($job[PC_MINUTE], $extjob[PC_MINUTE], 60);
     parseElement($job[PC_HOUR], $extjob[PC_HOUR], 24);
@@ -376,9 +388,9 @@ function runJob($job, $PC_jobDir, $PC_writeDir, $PC_useLog, $PC_debug = false) {
     //echo "LastSch: " . $lastScheduled . " ::: LastAct: " . $lastActual . "\n";
 
     if ($lastScheduled > $lastActual) {
-        logMessage("Running    " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
-        logMessage("  Last run:       " . date("r", $lastActual), $PC_writeDir, $PC_useLog, $PC_debug);
-        logMessage("  Last scheduled: " . date("r", $lastScheduled), $PC_writeDir, $PC_useLog, $PC_debug);
+        logMessage("Running " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
+        logMessage("Last run: " . date("r", $lastActual), $PC_writeDir, $PC_useLog, $PC_debug);
+        logMessage("Last scheduled: " . date("r", $lastScheduled), $PC_writeDir, $PC_useLog, $PC_debug);
         markLastRun($job[PC_CMD], $lastScheduled, $PC_writeDir);
 
         if ($PC_debug) {
@@ -393,27 +405,28 @@ function runJob($job, $PC_jobDir, $PC_writeDir, $PC_useLog, $PC_debug = false) {
                 $sess->thaw();
             }
         }
-        logMessage("Completed   " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
+        logMessage("Completed " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
         return true;
     } else {
         if ($PC_debug) {
-            logMessage("Skipping    " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
-            logMessage("  Last run:       " . date("r", $lastActual), $PC_writeDir, $PC_useLog, $PC_debug);
-            logMessage("  Last scheduled: " . date("r", $lastScheduled), $PC_writeDir, $PC_useLog, $PC_debug);
-            logMessage("Completed   " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
+            logMessage("Skipping " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
+            logMessage("Last run: " . date("r", $lastActual), $PC_writeDir, $PC_useLog, $PC_debug);
+            logMessage("Last scheduled: " . date("r", $lastScheduled), $PC_writeDir, $PC_useLog, $PC_debug);
+            logMessage("Completed " . $job[PC_CRONLINE], $PC_writeDir, $PC_useLog, $PC_debug);
         }
         return false;
     }
 }
 
-function parseCronFile($PC_cronTabFile, $PC_debug) {
+function parseCronFile($PC_cronTabFile, $PC_debug)
+{
 
     $file = @file($PC_cronTabFile);
-    $job = Array();
-    $jobs = Array();
-	if(!is_countable($file)) {
-		return $jobs;
-	}
+    $job = [];
+    $jobs = [];
+    if (!is_countable($file)) {
+        return $jobs;
+    }
     for ($i = 0; $i < count($file); $i++) {
         if ($file[$i][0] != '#') {
 //         old regex, without dow abbreviations:
@@ -421,9 +434,9 @@ function parseCronFile($PC_cronTabFile, $PC_debug) {
             if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)(#.*)?$~i", $file[$i], $job)) {
                 $jobNumber = count($jobs);
                 $jobs[$jobNumber] = $job;
-                if ($jobs[$jobNumber][PC_DOW][0] != '*' AND ! is_numeric($jobs[$jobNumber][PC_DOW])) {
+                if ($jobs[$jobNumber][PC_DOW][0] != '*' and !is_numeric($jobs[$jobNumber][PC_DOW])) {
                     $jobs[$jobNumber][PC_DOW] = str_replace(
-                            Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"), Array(0, 1, 2, 3, 4, 5, 6), $jobs[$jobNumber][PC_DOW]);
+                        array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"), array(0, 1, 2, 3, 4, 5, 6), $jobs[$jobNumber][PC_DOW]);
                 }
                 $jobs[$jobNumber][PC_CMD] = trim($job[PC_CMD]);
                 $jobs[$jobNumber][PC_CRONLINE] = $file[$i];
@@ -436,32 +449,42 @@ function parseCronFile($PC_cronTabFile, $PC_debug) {
     return $jobs;
 }
 
-class cCronJob {
+class cCronJob
+{
 
-    protected $_sCronTabFileName = "crontab.txt";
-    protected $_sCronTabLocalFileName = "crontab.local.txt";
-    protected $_sLogFileName = "pseudo-cron.log";
-    protected $_sJobDir;
-    protected $_sCronDir;
-    protected $_sLogDir;
-    private $_bUseLog;
-    private $_iMaxLogFileSize = 1024;
+    protected string $_sCronTabFileName = "crontab.txt";
+    protected string $_sCronTabLocalFileName = "crontab.local.txt";
+    protected string $_sLogFileName = "pseudo-cron.log";
+    protected string $_sJobDir;
+    protected string|array|null $_sCronDir;
+    protected string|array|null $_sLogDir;
+    private bool $_bUseLog;
+    private int $_iMaxLogFileSize = 1024;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->_sJobDir = cRegistry::getConfigValue('path', 'conlite') . cRegistry::getConfigValue('path', 'cronjobs');
         $this->_sCronDir = cRegistry::getConfigValue('path', 'conlite_cronlog');
         $this->_sLogDir = cRegistry::getConfigValue('path', 'conlite_logs');
+
     }
 
-    public function runJob() {
-        
+    public function runJob()
+    {
+
     }
 
-    public function useCronLog($bUse = TRUE) {
+    public function useCronLog($bUse = TRUE): void
+    {
         $this->_bUseLog = boolval($bUse);
     }
 
-    public function logMessages($sMsg) {
+    /**
+     * @throws \ConLite\Exceptions\InvalidArgumentException
+     */
+    public function logMessages($sMsg): void
+    {
+        var_dump($sMsg);
         if (!$this->_bUseLog) {
             return;
         }
@@ -474,44 +497,9 @@ class cCronJob {
             return;
         }
 
-        if ($sMsg[strlen($sMsg) - 1] != "\n") {
-            $sMsg .= "\r\n";
-        }
-        $this->_rotateLogFiles($logfile);
-        file_put_contents($logfile, $sMsg, FILE_APPEND);
-    }
-
-    private function _rotateLogFiles($sLogFile) {
-        if (file_exists($sLogFile) &&
-                filesize($sLogFile) >= $this->_iMaxLogFileSize * 1024) {
-            // rotate
-            $path_info = pathinfo($sLogFile);
-            $base_directory = $path_info['dirname'];
-            $base_name = $path_info['basename'];
-            $num_map = array();
-            foreach (new DirectoryIterator($base_directory) as $fInfo) {
-                if ($fInfo->isDot() || !$fInfo->isFile()) {
-                    continue;
-                }
-                if (preg_match('/^' . $base_name . '\.?([0-9]*)$/', $fInfo->getFilename(), $matches)) {
-                    $num = $matches[1];
-                    $file2move = $fInfo->getFilename();
-                    if ($num == '') {
-                        $num = 0;
-                    }
-                    $num_map[$num] = $file2move;
-                }
-            }
-            krsort($num_map);
-            foreach ($num_map as $num => $file2move) {
-                $targetN = $num + 1;
-                if($targetN > 10) {
-                    unlink($base_directory . DIRECTORY_SEPARATOR . $file2move);
-                    continue;
-                }                
-                rename($base_directory . DIRECTORY_SEPARATOR . $file2move, $base_directory . DIRECTORY_SEPARATOR .$base_name . '.' . $targetN);
-            }
-        }
+        $writer = LogWriter::factory('File', ['destination' => $logfile]);
+        $log = new Log($writer);
+        $log->addPriority('CRON', 200);
+        $log->log($sMsg, 'CRON');
     }
 }
-?>

@@ -41,11 +41,7 @@ include_once ($cfg['path']['contenido'].$cfg["path"]["includes"] . 'cfg_language
 include_once ($cfg['path']['contenido'].$cfg["path"]["includes"] . 'functions.con.php');
 
 if(!isRunningFromWeb() || function_exists("runJob") || $area == "cronjobs") {
-
 	$db = new DB_ConLite;
-
 	conFlagOnOffline();
-
 	conMoveArticles();
 }
-?>
