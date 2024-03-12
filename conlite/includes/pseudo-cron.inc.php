@@ -484,7 +484,6 @@ class cCronJob
      */
     public function logMessages($sMsg): void
     {
-        var_dump($sMsg);
         if (!$this->_bUseLog) {
             return;
         }
