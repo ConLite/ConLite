@@ -27,7 +27,14 @@ class LogWriterFile extends LogWriter
      * @throws Exception
      */
     public function __construct(array $options = []) {
+
         parent::__construct($options);
+
+        $logFileSize = (int) getEffectiveSetting('log', 'writer-file-size-' . basename($this->getOption('destination')), $this->getOption('logFileSize') ?? 0);
+
+        if($logFileSize > 0) {
+            $this->maxLogFileSize = $logFileSize;
+        }
 
         $this->createHandle();
     }
@@ -114,5 +121,15 @@ class LogWriterFile extends LogWriter
         }
 
         return false;
+    }
+
+    public function getMaxLogFileSize(): int
+    {
+        return $this->maxLogFileSize;
+    }
+
+    public function setMaxLogFileSize(int $maxLogFileSize): void
+    {
+        $this->maxLogFileSize = $maxLogFileSize;
     }
 }
