@@ -24,9 +24,9 @@ abstract class LogWriter
      */
     public static function factory($writerName, array $writerOptions): LogWriter
     {
-        $logWriterClassName = 'LogWriter' . ucfirst($writerName);
+        $logWriterClassName = __NAMESPACE__ . '\\LogWriter' . ucfirst($writerName);
         if(!class_exists($logWriterClassName)) {
-            throw new InvalidArgumentException('Unknown ConLite LogWriter class: ' . $writerName);
+            throw new InvalidArgumentException('Unknown ConLite LogWriter class: ' . $logWriterClassName);
         }
 
         $writer = new $logWriterClassName($writerOptions);
