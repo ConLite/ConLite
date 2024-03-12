@@ -75,13 +75,6 @@ define('CL_VERSION', '3.0.0 RC');
 
 }
 
-// fixed functions for PHP 5.4 and later
-// @todo: Check what is needed for PHP7+
-include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/includes/functions.php54.php');
-
-// simulate PHP 7.3 functions
-include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/includes/functions.php73.php');
-
 // 1. security check: Include security class and invoke basic request checks
 include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/classes/class.security.php');
 try {
@@ -218,7 +211,7 @@ if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     $encoding = array();
     $sql = "SELECT idlang, encoding FROM " . $cfg["tab"]["lang"];
     $db->query($sql);
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $encoding[$db->f('idlang')] = $db->f('encoding');
     }
 }
@@ -228,4 +221,3 @@ if($cfg['debug']['sendnocacheheader']) {
     header("Pragma: no-cache"); // HTTP 1.0.
     header("Expires: 0"); // Proxies.
 }
-?>

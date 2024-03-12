@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Project: 
+ * Project:
  * Contenido Content Management System
- * 
- * Description: 
+ *
+ * Description:
  * Defines the general contenido functions
  *
  * @package    Contenido Backend includes
@@ -15,7 +15,7 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
+ *
  *   $Id$:
  */
 if (!defined('CON_FRAMEWORK')) {
@@ -29,13 +29,14 @@ if (!defined('CON_FRAMEWORK')) {
  * f.e. $a_content['CMS_HTML'][1] = content string
  * Same for array $a_description
  *
- * @param   int  $idartlang  Language specific ID of the arcticle
+ * @param int $idartlang Language specific ID of the arcticle
  * @return  void
  *
  * @author Jan Lengowski <Jan.Lengowski@4fb.de>
  * @copyright four for business AG
  */
-function getAvailableContentTypes($idartlang) {
+function getAvailableContentTypes($idartlang)
+{
     global $db, $cfg, $a_content, $a_description;
 
     $sql = "SELECT
@@ -60,10 +61,11 @@ function getAvailableContentTypes($idartlang) {
 /**
  * Checks if an article is assigned to multiple categories
  *
- * @param   int  $idart  Article-Id
+ * @param int $idart Article-Id
  * @return  bool  Article assigned to multiple categories
  */
-function isArtInMultipleUse($idart) {
+function isArtInMultipleUse($idart)
+{
     global $cfg, $client;
 
     $db = new DB_ConLite;
@@ -76,14 +78,15 @@ function isArtInMultipleUse($idart) {
 /**
  * Checks if a value is alphanumeric
  *
- * @param   mixed  $test     Value to test
- * @param   bool   $umlauts  [Use german Umlaute] Optional
+ * @param mixed $test Value to test
+ * @param bool $umlauts [Use german Umlaute] Optional
  * @return  bool   Value is alphanumeric
  */
-function is_alphanumeric($test, $umlauts = true) {
+function is_alphanumeric($test, $umlauts = true)
+{
 
     if ($umlauts == true) {
-        $match = "/^[a-z0-9������� ]+$/i";
+        $match = "/^[a-z0-9ÄäÖöÜüß ]+$/i";
     } else {
         $match = "/^[a-z0-9 ]+$/i";
     }
@@ -94,10 +97,11 @@ function is_alphanumeric($test, $umlauts = true) {
 /**
  * Returns multi-language month name (canonical) by its numeric value
  *
- * @param   int  $month
+ * @param int $month
  * @return  string
  */
-function getCanonicalMonth($month) {
+function getCanonicalMonth($month)
+{
     switch ($month) {
         case 1 :
             return (i18n("January"));
@@ -140,11 +144,12 @@ function getCanonicalMonth($month) {
 
 /**
  * Get multi-language day
- * 
- * @param   int     $iDay  The day number of date(w)
+ *
+ * @param int $iDay The day number of date(w)
  * @return  string  Dayname of current language
  */
-function getCanonicalDay($iDay) {
+function getCanonicalDay($iDay)
+{
     switch ($iDay) {
         case 1 :
             return (i18n("Monday"));
@@ -167,17 +172,19 @@ function getCanonicalDay($iDay) {
         case 0 :
             return (i18n("Sunday"));
             break;
-        default: break;
+        default:
+            break;
     }
 }
 
 /**
  * Returns the id of passed area
  *
- * @param   mixed  $area  Area name
+ * @param mixed $area Area name
  * @return  int
  */
-function getIDForArea($area) {
+function getIDForArea($area)
+{
     global $client, $lang, $cfg, $sess;
 
     $db = new DB_ConLite;
@@ -202,10 +209,11 @@ function getIDForArea($area) {
 /**
  * Returns the parent id of passed area
  *
- * @param   mixed  $area
+ * @param mixed $area
  * @return  int
  */
-function getParentAreaId($area) {
+function getParentAreaId($area)
+{
     global $client, $lang, $cfg, $sess;
 
     $db = new DB_ConLite;
@@ -247,7 +255,8 @@ function getParentAreaId($area) {
  * @author Jan Lengowski <Jan.Lengowski@4fb.de>
  * @copyright four for business AG <www.4fb.de>
  */
-function markSubMenuItem($menuitem, $return = false) {
+function markSubMenuItem($menuitem, $return = false)
+{
     $str = '<script type="text/javascript">
 	
 			try {
@@ -289,7 +298,8 @@ function markSubMenuItem($menuitem, $return = false) {
  * @author Jan Lengowski <Jan.Lengowski@4fb.de>
  * @copyright four for business AG <www.4fb.de>
  */
-function backToMainArea($send) {
+function backToMainArea($send)
+{
     if ($send) {
         /* Global vars */
         global $area, $cfg, $db, $sess, $idart, $idcat, $idartlang, $idcatart, $frame;
@@ -319,7 +329,8 @@ function backToMainArea($send) {
     }
 }
 
-function showLocation($area) {
+function showLocation($area)
+{
     global $db;
     global $cfgPath, $lngArea;
     global $cfg;
@@ -361,7 +372,8 @@ function showLocation($area) {
     }
 }
 
-function showTable($tablename) {
+function showTable($tablename)
+{
     global $db;
 
     $sql = "SELECT * FROM $tablename";
@@ -376,13 +388,14 @@ function showTable($tablename) {
 
 /**
  * Get languages for given client
- * 
- * @deprecated since ConLite version 2.0.0, use method in class cApiLanguageCollection instead
- * 
+ *
  * @param int $client
  * @return array Array of language ids
+ * @deprecated since ConLite version 2.0.0, use method in class cApiLanguageCollection instead
+ *
  */
-function getLanguagesByClient($client) {
+function getLanguagesByClient($client)
+{
     $oClLangs = new cApiLanguageCollection();
     return $oClLangs->getClientLanguages($client);
 }
@@ -390,10 +403,11 @@ function getLanguagesByClient($client) {
 /**
  * Returns all languages (language ids and names) of an client
  *
- * @param   int  $client
+ * @param int $client
  * @return  array  List of languages where the key is the language id and value the language name
  */
-function getLanguageNamesByClient($client) {
+function getLanguageNamesByClient($client)
+{
     global $db;
     global $cfg;
     $list = [];
@@ -418,8 +432,9 @@ function getLanguageNamesByClient($client) {
     return $list;
 }
 
-function set_magic_quotes_gpc(&$code) {
-            $code = addslashes($code);
+function set_magic_quotes_gpc(&$code)
+{
+    $code = addslashes($code);
 }
 
 /**
@@ -431,7 +446,8 @@ function set_magic_quotes_gpc(&$code) {
  *                 - $arr[0]['idclient']
  *                 - $arr[0]['clientname']
  */
-function getAllClientsAndLanguages() {
+function getAllClientsAndLanguages()
+{
     global $db, $cfg;
 
     $sql = "SELECT
@@ -460,7 +476,8 @@ function getAllClientsAndLanguages() {
     return $aRs;
 }
 
-function fakeheader($time) {
+function fakeheader($time)
+{
     global $con_time0;
     if (!isset($con_time0)) {
         $con_time0 = $time;
@@ -472,7 +489,8 @@ function fakeheader($time) {
     } // end if
 }
 
-function recursive_copy($from_path, $to_path) {
+function recursive_copy($from_path, $to_path)
+{
     $oldumask = umask(0);
     if (mkdir($to_path, 0777)) {
         umask($oldumask);
@@ -502,16 +520,18 @@ function recursive_copy($from_path, $to_path) {
     }
 }
 
-function getmicrotime() {
+function getmicrotime()
+{
     list ($usec, $sec) = explode(" ", microtime());
-    return ((float) $usec + (float) $sec);
+    return ((float)$usec + (float)$sec);
 }
 
 /* Small hack to clean up unused sessions.
   As we are probably soon rewriting the
   session management, this hack is OK. */
 
-function cleanupSessions() {
+function cleanupSessions()
+{
     global $cfg;
 
     $db = new DB_ConLite;
@@ -547,7 +567,8 @@ function cleanupSessions() {
     }
 }
 
-function isGroup($uid) {
+function isGroup($uid)
+{
     $users = new User;
 
     if ($users->loadUserByUserID($uid) == false) {
@@ -557,7 +578,8 @@ function isGroup($uid) {
     }
 }
 
-function getGroupOrUserName($uid) {
+function getGroupOrUserName($uid)
+{
     $users = new User;
 
     if ($users->loadUserByUserID($uid) === false) {
@@ -628,7 +650,8 @@ function getGroupOrUserName($uid) {
  * @return array see above for example
  * @author Marco Jahn
  */
-function getPhpModuleInfo($moduleName) {
+function getPhpModuleInfo($moduleName)
+{
     $moduleSettings = array();
     ob_start();
     phpinfo(INFO_MODULES); // get information vor modules
@@ -675,7 +698,8 @@ function getPhpModuleInfo($moduleName) {
     return $moduleSettings;
 }
 
-function isValidMail($sEMail, $bStrict = false) {
+function isValidMail($sEMail, $bStrict = false)
+{
     if ($bStrict) {
         // HerrB (14.02.2008), code posted by Calvini
         // See http://www.contenido.org/forum/viewtopic.php?p=106612#106612
@@ -699,7 +723,8 @@ function isValidMail($sEMail, $bStrict = false) {
     }
 }
 
-function htmldecode($string) {
+function htmldecode($string)
+{
     $trans_tbl = clGetHtmlTranslationTable(HTML_ENTITIES);
     $trans_tbl = array_flip($trans_tbl);
     $ret = strtr($string, $trans_tbl);
@@ -709,14 +734,15 @@ function htmldecode($string) {
 
 /**
  * build or rebuild array $cfgClient
- * 
+ *
  * @global array $cfgClient
  * @global int $errsite_idcat
  * @global int $errsite_idart
  * @global DB_ConLite $db
  * @global array $cfg
  */
-function rereadClients() {
+function rereadClients()
+{
     global $cfgClient;
     global $errsite_idcat;
     global $errsite_idart;
@@ -792,7 +818,7 @@ function rereadClients() {
 
 /**
  * Sets a system property entry
- * 
+ *
  * @modified Timo Trautmann 22.02.2008 Support for editing name and type
  *
  * @param string $type The type of the item
@@ -800,7 +826,8 @@ function rereadClients() {
  * @param string $value The value of the item
  * @param int $idsystemprop The sysprop id, use optional. If set it allows to modify type name and value
  */
-function setSystemProperty($type, $name, $value, $idsystemprop = 0) {
+function setSystemProperty($type, $name, $value, $idsystemprop = 0)
+{
     global $cfg;
     if ($type == "" || $name == "") {
         return false;
@@ -836,11 +863,12 @@ function setSystemProperty($type, $name, $value, $idsystemprop = 0) {
 
 /**
  * Remove a system property entry
- * 
+ *
  * @param string $type The type of the item
  * @param string $name The name of the item
  */
-function deleteSystemProperty($type, $name) {
+function deleteSystemProperty($type, $name)
+{
     global $cfg;
 
     $db_systemprop = new DB_ConLite;
@@ -861,9 +889,10 @@ function deleteSystemProperty($type, $name) {
  * $array[$type][$name][idsystemprop] = $idsystemprop;
  *
  * @param boolean bGetPropId - if true special mode is activated which generates for each property a third array, which also contains idsystemprop value
- * @return array 
+ * @return array
  */
-function getSystemProperties($bGetPropId = 0) {
+function getSystemProperties($bGetPropId = 0)
+{
     global $cfg;
 
     $db_systemprop = new DB_ConLite;
@@ -888,12 +917,13 @@ function getSystemProperties($bGetPropId = 0) {
 
 /**
  * Gets a system property entry
- * 
+ *
  * @param string $type The type of the item
  * @param string $name The name of the item
- * @return mixed boolean false if nothing was found, or 
+ * @return mixed boolean false if nothing was found, or
  */
-function getSystemProperty($sType, $sName) {
+function getSystemProperty($sType, $sName)
+{
 
     $oProperties = new cApiSystemPropertyCollection();
     return $oProperties->getSystemProperty($sType, $sName);
@@ -917,12 +947,13 @@ function getSystemProperty($sType, $sName) {
 }
 
 /**
- * Gets system property entries 
- * 
- * @param string $type The type of the item 
- * @return array Value 
+ * Gets system property entries
+ *
+ * @param string $type The type of the item
+ * @return array Value
  */
-function getSystemPropertiesByType($sType) {
+function getSystemPropertiesByType($sType)
+{
     global $cfg;
 
     $aResult = array();
@@ -947,13 +978,14 @@ function getSystemPropertiesByType($sType) {
  *
  * System properties can be overridden by the group, and group
  * properties can be overridden by the user.
- * 
+ *
  * @param string $type The type of the item
  * @param string $name The name of the item
  * @param string $default Optional default value
- * @return mixed boolean false if nothing was found 
+ * @return mixed boolean false if nothing was found
  */
-function getEffectiveSetting($type, $name, $default = "") {
+function getEffectiveSetting($type, $name, $default = "")
+{
     global $auth, $client, $lang;
 
     if ($auth->auth["uid"] != "nobody") {
@@ -989,28 +1021,29 @@ function getEffectiveSetting($type, $name, $default = "") {
 }
 
 /**
- * Returns the current effective settings for a type of properties. 
- * 
- * The order is: 
- * System => Client => Group => User 
- * 
- * System properties can be overridden by the group, and group 
+ * Returns the current effective settings for a type of properties.
+ *
+ * The order is:
+ * System => Client => Group => User
+ *
+ * System properties can be overridden by the group, and group
  * properties can be overridden by the user.
- * 
+ *
  * You may use default array to preset settings, this will not override found settings
- * 
- * @version $Rev$
- * @author Ortwin Pinke <o.pinke@conlite.org> 
- * 
- * @global object $auth
- * @global int $client
- * @global array $cfg
- * @global int $lang
+ *
  * @param string $sType
  * @param array $aDefault
  * @return array
+ * @global int $client
+ * @global array $cfg
+ * @global int $lang
+ * @version $Rev$
+ * @author Ortwin Pinke <o.pinke@conlite.org>
+ *
+ * @global object $auth
  */
-function getEffectiveSettingsByType($sType, $aDefault = array()) {
+function getEffectiveSettingsByType($sType, $aDefault = array())
+{
     global $auth, $client, $cfg, $lang;
 
     $aResult = getSystemPropertiesByType($sType);
@@ -1047,7 +1080,8 @@ function getEffectiveSettingsByType($sType, $aDefault = array()) {
  *
  * @return array list of article specifications
  */
-function getArtspec() {
+function getArtspec()
+{
     global $db, $cfg, $lang, $client;
     $sql = "SELECT artspec, idartspec, online, artspecdefault FROM " . $cfg['tab']['art_spec'] . "
 			WHERE client='" . Contenido_Security::toInteger($client) . "' AND lang='" . Contenido_Security::toInteger($lang) . "' ORDER BY artspec ASC";
@@ -1070,7 +1104,8 @@ function getArtspec() {
  *
  * @return void
  */
-function addArtspec($artspectext, $online) {
+function addArtspec($artspectext, $online)
+{
     global $db, $cfg, $lang, $client;
 
     if (isset($_POST['idartspec'])) { //update
@@ -1096,7 +1131,8 @@ function addArtspec($artspectext, $online) {
  *
  * @return void
  */
-function deleteArtspec($idartspec) {
+function deleteArtspec($idartspec)
+{
     global $db, $cfg;
     $sql = "DELETE FROM " . $cfg['tab']['art_spec'] . " WHERE idartspec = '" . Contenido_Security::toInteger($idartspec) . "'";
     $db->query($sql);
@@ -1115,7 +1151,8 @@ function deleteArtspec($idartspec) {
  *
  * @return void
  */
-function setArtspecOnline($idartspec, $online) {
+function setArtspecOnline($idartspec, $online)
+{
     global $db, $cfg;
     $sql = "UPDATE " . $cfg['tab']['art_spec'] . " SET online=" . Contenido_Security::toInteger($online) . " WHERE idartspec=" . Contenido_Security::toInteger($idartspec) . "";
     $db->query($sql);
@@ -1130,7 +1167,8 @@ function setArtspecOnline($idartspec, $online) {
  *
  * @return void
  */
-function setArtspecDefault($idartspec) {
+function setArtspecDefault($idartspec)
+{
     global $db, $cfg, $lang, $client;
     $sql = "UPDATE " . $cfg['tab']['art_spec'] . " SET artspecdefault=0 WHERE client='" . Contenido_Security::toInteger($client) . "' AND lang='" . Contenido_Security::toInteger($lang) . "'";
     $db->query($sql);
@@ -1146,7 +1184,8 @@ function setArtspecDefault($idartspec) {
  * @param String Value of the SelectBox
  * @return String HTML
  */
-function buildArticleSelect($sName, $iIdCat, $sValue) {
+function buildArticleSelect($sName, $iIdCat, $sValue)
+{
     global $cfg, $client, $lang, $idcat;
     $db = new DB_ConLite;
 
@@ -1184,7 +1223,8 @@ function buildArticleSelect($sName, $iIdCat, $sValue) {
  * @param String Optional style informations for select
  * @return String HTML
  */
-function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "") {
+function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "")
+{
     global $cfg, $client, $lang, $idcat;
 
     $db = new DB_ConLite;
@@ -1259,7 +1299,8 @@ function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "") {
  * @param string $filename Name of the file
  * @return extension on success, false if no extension could be extracted.
  */
-function getFileExtension($filename) {
+function getFileExtension($filename)
+{
     $dotposition = strrpos($filename, ".");
 
     if ($dotposition !== false) {
@@ -1269,14 +1310,15 @@ function getFileExtension($filename) {
     }
 }
 
-function human_readable_size($number) {
+function human_readable_size($number)
+{
     $base = 1024;
     $suffixes = array(" B", " KB", " MB", " GB", " TB", " PB", " EB");
 
     $usesuf = 0;
-    $n = (float) $number; //Appears to be necessary to avoid rounding
+    $n = (float)$number; //Appears to be necessary to avoid rounding
     while ($n >= $base) {
-        $n /= (float) $base;
+        $n /= (float)$base;
         $usesuf++;
     }
 
@@ -1292,7 +1334,8 @@ function human_readable_size($number) {
  * @param array Array to trim
  * @return array Trimmed array
  */
-function trim_array($array) {
+function trim_array($array)
+{
     if (!is_array($array)) {
         return $array;
     }
@@ -1304,7 +1347,8 @@ function trim_array($array) {
     return $array;
 }
 
-function array_csort() { //coded by Ichier2003
+function array_csort()
+{ //coded by Ichier2003
     $args = func_get_args();
     $marray = array_shift($args);
     $msortline = "return(array_multisort(";
@@ -1322,7 +1366,7 @@ function array_csort() { //coded by Ichier2003
         $msortline .= "\$sortarr[" . $i . "],";
     }
     $msortline .= "\$marray));";
-    if(is_array($marray) && count($marray) > 0) {
+    if (is_array($marray) && count($marray) > 0) {
         @ eval($msortline);
     }
     return $marray;
@@ -1337,9 +1381,10 @@ function array_csort() { //coded by Ichier2003
  * @param $replace string String to replace
  * @param $subject string String to process
  *
- * @return string Processed string		
+ * @return string Processed string
  */
-function str_ireplace_once($find, $replace, $subject) {
+function str_ireplace_once($find, $replace, $subject)
+{
     $start = strpos(strtolower($subject), strtolower($find));
 
     if ($start === false) {
@@ -1365,9 +1410,10 @@ function str_ireplace_once($find, $replace, $subject) {
  * @param $replace string String to replace
  * @param $subject string String to process
  *
- * @return string Processed string		
+ * @return string Processed string
  */
-function str_ireplace_once_reverse($find, $replace, $subject) {
+function str_ireplace_once_reverse($find, $replace, $subject)
+{
     $start = str_rpos(strtolower($subject), strtolower($find));
 
     if ($start === false) {
@@ -1388,15 +1434,16 @@ function str_ireplace_once_reverse($find, $replace, $subject) {
  * str_rpos - Finds a string position in reverse direction
  *
  * NOTE: The original strrpos-Function of PHP4 only finds
- * 		 a single character as needle.
+ *         a single character as needle.
  *
  * @param $haystack string  String to search in
  * @param $needle   string  String to search for
  * @param $start    integer Offset
  *
- * @return string Processed string		
+ * @return string Processed string
  */
-function str_rpos($haystack, $needle, $start = 0) {
+function str_rpos($haystack, $needle, $start = 0)
+{
     $tempPos = strpos($haystack, $needle, $start);
 
     if ($tempPos === false) {
@@ -1416,9 +1463,10 @@ function str_rpos($haystack, $needle, $start = 0) {
 /**
  * isImageMagickAvailable - checks if ImageMagick is available
  *
- * @return boolean true if ImageMagick is available		
+ * @return boolean true if ImageMagick is available
  */
-function isImageMagickAvailable() {
+function isImageMagickAvailable()
+{
     global $_imagemagickAvailable;
 
     if (is_bool($_imagemagickAvailable)) {
@@ -1428,17 +1476,18 @@ function isImageMagickAvailable() {
             return false;
         }
     }
-    
-    $_imagemagickAvailable = (extension_loaded('imagick'))?true:false;
+
+    $_imagemagickAvailable = (extension_loaded('imagick')) ? true : false;
     return $_imagemagickAvailable;
 }
 
 /**
  * isRunningFromWeb - checks if the script is being runned from the web
  *
- * @return boolean true if the script is running from the web		
+ * @return boolean true if the script is running from the web
  */
-function isRunningFromWeb() {
+function isRunningFromWeb()
+{
     if ($_SERVER["PHP_SELF"] == "" || php_sapi_name() == "cgi" || php_sapi_name() == "cli") {
         return false;
     }
@@ -1449,9 +1498,10 @@ function isRunningFromWeb() {
 /**
  * getClientName: Returns the client name for a given ID
  *
- * @return string client name		
+ * @return string client name
  */
-function getClientName($idclient) {
+function getClientName($idclient)
+{
     global $cfg;
 
     $db = new DB_ConLite;
@@ -1467,7 +1517,8 @@ function getClientName($idclient) {
     }
 }
 
-function scanDirectory($sDirectory, $bRecursive = false) {
+function scanDirectory($sDirectory, $bRecursive = false)
+{
     if (substr($sDirectory, strlen($sDirectory) - 1, 1) == "/") {
         $sDirectory = substr($sDirectory, 0, strlen($sDirectory) - 1);
     }
@@ -1501,7 +1552,7 @@ function scanDirectory($sDirectory, $bRecursive = false) {
 
 /**
  * scanPlugins: Scans a given plugin directory and places the
- * 				found plugins into the array $cfg['plugins']
+ *                found plugins into the array $cfg['plugins']
  *
  *
  * Example:
@@ -1520,10 +1571,10 @@ function scanDirectory($sDirectory, $bRecursive = false) {
  * The plugin's directory and file name have to be the
  * same, otherwise the function won't find them!
  *
- * @param $entity Name of the directory to scan
- * @return string client name		
+ * @param string $entity Name of the directory to scan
  */
-function scanPlugins($entity) {
+function scanPlugins(string $entity)
+{
     global $cfg;
 
     $pluginorder = getSystemProperty("plugin", $entity . "-pluginorder");
@@ -1586,9 +1637,10 @@ function scanPlugins($entity) {
  * Example:
  * includePlugins("frontendusers");
  *
- * @param $entity Name of the directory to scan
+ * @param string $entity Name of the directory to scan
  */
-function includePlugins($entity) {
+function includePlugins(string $entity): void
+{
     global $cfg;
 
     if (is_array($cfg['plugins'][$entity])) {
@@ -1604,31 +1656,36 @@ function includePlugins($entity) {
  * Example:
  * callPluginStore("frontendusers");
  *
- * @param $entity Name of the directory to scan
+ * @param string $entity Name of the directory to scan
  */
-function callPluginStore($entity) {
+function callPluginStore(string $entity): void
+{
     global $cfg;
 
     /* Check out if there are any plugins */
     if (is_array($cfg['plugins'][$entity])) {
         foreach ($cfg['plugins'][$entity] as $plugin) {
-            if (function_exists($entity . "_" . $plugin . "_wantedVariables") && function_exists($entity . "_" . $plugin . "_store")) {
+            if (function_exists($entity . "_" . $plugin . "_wantedVariables")
+                && function_exists($entity . "_" . $plugin . "_store")) {
                 $wantVariables = call_user_func($entity . "_" . $plugin . "_wantedVariables");
+                $varArray = [];
 
                 if (is_array($wantVariables)) {
-                    $varArray = array();
-
                     foreach ($wantVariables as $value) {
                         $varArray[$value] = stripslashes($GLOBALS[$value]);
                     }
                 }
-                $store = call_user_func($entity . "_" . $plugin . "_store", $varArray);
+
+                if (count($varArray) > 0) {
+                    $store = call_user_func($entity . "_" . $plugin . "_store", $varArray);
+                }
             }
         }
     }
 }
 
-function displayPlugin($entity, & $form) {
+function displayPlugin($entity, &$form): void
+{
     /* TODO: Function can't work, as $feuser is not defined (see $display = 
      * call_user_func($entity."_".$plugin."_display", $feuser);) and plugins need
      * - if data has to be shown - global objects ...
@@ -1665,9 +1722,10 @@ function displayPlugin($entity, & $form) {
  * echo createRandomName(8);
  *
  * @param $nameLength Length of the generated string
- * @return string random name		
+ * @return string random name
  */
-function createRandomName($nameLength) {
+function createRandomName($nameLength)
+{
     $NameChars = 'abcdefghijklmnopqrstuvwxyz';
     $Vouel = 'aeiou';
     $Name = "";
@@ -1691,13 +1749,14 @@ function createRandomName($nameLength) {
  * Example:
  * sendPostRequest("hostname", "serverpath/test.php", $data);
  *
- * @param $host 	Hostname or domain
+ * @param $host    Hostname or domain
  * @param $pathhost Path on the host or domain
- * @param $data		Data to send
- * @param $referer	Referer (optional)
- * @param $port		Port (default: 80)
+ * @param $data        Data to send
+ * @param $referer    Referer (optional)
+ * @param $port        Port (default: 80)
  */
-function sendPostRequest($host, $path, $data, $referer = "", $port = 80) {
+function sendPostRequest($host, $path, $data, $referer = "", $port = 80)
+{
     $fp = fsockopen($host, $port);
 
     fputs($fp, "POST $path HTTP/1.1\n");
@@ -1717,8 +1776,9 @@ function sendPostRequest($host, $path, $data, $referer = "", $port = 80) {
     return $res;
 }
 
-function is_dbfs($file) {
-    if(is_null($file)) {
+function is_dbfs($file)
+{
+    if (is_null($file)) {
         $file = '';
     }
     if (substr($file, 0, 5) == "dbfs:") {
@@ -1726,7 +1786,8 @@ function is_dbfs($file) {
     }
 }
 
-function setHelpContext($area) {
+function setHelpContext($area)
+{
     global $cfg;
 
     if ($cfg['help'] == true) {
@@ -1738,7 +1799,8 @@ function setHelpContext($area) {
     return $hc;
 }
 
-function define_if($constant, $value) {
+function define_if($constant, $value)
+{
     if (!defined($constant)) {
         define($constant, $value);
     }
@@ -1746,7 +1808,7 @@ function define_if($constant, $value) {
 
 /**
  * Specify platform specific newline character; PHP_EOL has been introduced in PHP 5.0.2
- * Note, that Mac seems to use \r, sorry guys 
+ * Note, that Mac seems to use \r, sorry guys
  */
 if (!defined('PHP_EOL')) {
     if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
@@ -1756,7 +1818,8 @@ if (!defined('PHP_EOL')) {
     }
 }
 
-function locale_arsort($locale, $array) {
+function locale_arsort($locale, $array)
+{
     $oldlocale = setlocale(LC_COLLATE, 0);
     setlocale(LC_COLLATE, $locale);
 
@@ -1771,7 +1834,8 @@ function locale_arsort($locale, $array) {
 /* Note: If subarrays exists, this function currently returns the key of the array
   given by $array, and not from the subarrays (todo: add flag to allow this) */
 
-function array_search_recursive($search, $array, $partial = false, $strict = false) {
+function array_search_recursive($search, $array, $partial = false, $strict = false)
+{
     foreach ($array as $key => $value) {
         if (is_array($value)) {
             $val = array_search_recursive($search, $value, $partial, $strict);
@@ -1802,15 +1866,16 @@ function array_search_recursive($search, $array, $partial = false, $strict = fal
 
 /**
  * cDie: Contenido die-alternative
- * 
- * @author  unknown
  *
- * @param string $file	   File name   (use __FILE__)
- * @param string $line    Line number (use __LINE__)
+ * @param string $file File name   (use __FILE__)
+ * @param string $line Line number (use __LINE__)
  * @param string $message Message to display
  * @return void
+ * @author  unknown
+ *
  */
-function cDie($file, $line, $message) {
+function cDie(string $file, string $line, string $message): void
+{
     cError($file, $line, $message);
     die("$file $line: $message");
 }
@@ -1818,39 +1883,38 @@ function cDie($file, $line, $message) {
 /**
  * cWarning: Contenido warning
  *
- * @param $file	   File name   (use __FILE__)
- * @param $line    Line number (use __LINE__)
- * @param $message Message to display
+ * @param string $file File name   (use __FILE__)
+ * @param string $line Line number (use __LINE__)
+ * @param string $message Message to display
  */
-function cWarning($file, $line, $message) {
+function cWarning(string $file, string $line, string $message): void
+{
     trigger_error("$file $line: $message", E_USER_WARNING);
 }
 
 /**
  * cError: Contenido error
  *
- * @param $file	   File name   (use __FILE__)
- * @param $line    Line number (use __LINE__)
- * @param $message Message to display
+ * @param string $file File name   (use __FILE__)
+ * @param string $line Line number (use __LINE__)
+ * @param string $message Message to display
  */
-function cError($file, $line, $message) {
+function cError(string $file, string $line, string $message): void
+{
     trigger_error("$file $line: $message", E_USER_ERROR);
 }
 
 /**
  * cDeprecated: Trigger deprecated stuff
- * 
- * @author Ortwin Pinke <o.pinke@conlite.org>
+ *
  * @param string $file File name (use __FILE__)
  * @param string $line Line number (use __LINE__)
  * @param string $message Message to display
+ * @author Ortwin Pinke <o.pinke@conlite.org>
  */
-function cDeprecated($file, $line, $message) {
-    if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-        trigger_error($file . " " . $line . ": " . $message, E_USER_DEPRECATED);
-    } else {
-        trigger_error("$file $line: $message", E_USER_WARNING);
-    }
+function cDeprecated(string $file, string $line, string $message): void
+{
+    trigger_error("$file $line: $message", E_USER_WARNING);
 }
 
 /**
@@ -1859,7 +1923,8 @@ function cDeprecated($file, $line, $message) {
  * @param $frame   Frame number
  * @return string  Canonical name of the frame
  */
-function getNamedFrame($frame) {
+function getNamedFrame($frame)
+{
     switch ($frame) {
         case 1 :
             return ("left_top");
@@ -1882,12 +1947,13 @@ function getNamedFrame($frame) {
 /**
  * startTiming: Starts the timing for a specific function
  *
- * @param function string Name of the function 
+ * @param function string Name of the function
  * @param parameters array All parameters for the function to measure
  *
  * @return int uuid for this measure process
  */
-function startTiming($function, $parameters = array()) {
+function startTiming($function, $parameters = array())
+{
     global $_timings, $cfg;
 
     if ($cfg["debug"]["functiontiming"] == false) {
@@ -1913,9 +1979,10 @@ function startTiming($function, $parameters = array()) {
 /**
  * endAndLogTiming: Ends the timing process and logs it to the timings file
  *
- * @param uuid int UUID which has been used for timing 
+ * @param uuid int UUID which has been used for timing
  */
-function endAndLogTiming($uuid) {
+function endAndLogTiming($uuid)
+{
     global $_timings, $cfg;
 
     if ($cfg["debug"]["functiontiming"] == false) {
@@ -1959,7 +2026,8 @@ function endAndLogTiming($uuid) {
 }
 
 // @TODO: it's better to create a instance of DB_ConLite class, the class constructor connects also to the database. 
-function checkMySQLConnectivity() {
+function checkMySQLConnectivity()
+{
     global $contenido_host, $contenido_database, $contenido_user, $contenido_password, $cfg;
 
     if ($cfg["database_extension"] == "mysqli") {
@@ -2017,7 +2085,8 @@ function checkMySQLConnectivity() {
     }
 }
 
-function notifyOnError($errortitle, $errormessage) {
+function notifyOnError($errortitle, $errormessage)
+{
     global $cfg;
     $sFileNotify = $cfg['path']['conlite_logs'] . "notify.txt";
 
@@ -2054,13 +2123,14 @@ function notifyOnError($errortitle, $errormessage) {
 
 /**
  * Checks for a named key of an array, pushes it if not set with a default value
- * 
+ *
  * @param array $aArray reference of array
  * @param string $sKey key to check for and to set
  * @param multi $mDefault default value
  * @return boolean false if no array is given, void otherwise
  */
-function cInitializeArrayKey(&$aArray, $sKey, $mDefault = "") {
+function cInitializeArrayKey(&$aArray, $sKey, $mDefault = "")
+{
     if (!is_array($aArray)) {
         if (isset($aArray)) {
             return false;
@@ -2083,13 +2153,14 @@ function cInitializeArrayKey(&$aArray, $sKey, $mDefault = "") {
  * @param DB_ConLite $db
  * @param array $cfg global cfg-array
  * @param int $lang global language id
- * 
+ *
  * @since 4.6.18
- * 
+ *
  * @version 1.0.0
  * @author Holger Librenz
  */
-function sendEncodingHeader($db, $cfg, $lang) {
+function sendEncodingHeader($db, $cfg, $lang)
+{
     if (array_key_exists("use_encoding", $_GET)) {
         $use_encoding = trim(strip_tags($_GET["use_encoding"]));
     }
@@ -2140,7 +2211,8 @@ function sendEncodingHeader($db, $cfg, $lang) {
  * @param string $ip
  * @return boolean
  */
-function IP_match($network, $mask, $ip) {
+function IP_match($network, $mask, $ip)
+{
     bcscale(3);
     $ip_long = ip2long($ip);
     $mask_long = ip2long($network);
@@ -2172,64 +2244,68 @@ function IP_match($network, $mask, $ip) {
 
 /**
  * Wrapper for php-function htmlspecialchars
- * 
- * @author Ortwin Pinke <ortwinpinke@conlite.org>
- * @since 2.3.0
- * @uses htmlspecialchars php-function
- * 
+ *
  * @param string $value
  * @param int $flags
  * @param string $encoding default UTF-8
  * @return string Returns the converted string
+ * @since 2.3.0
+ * @uses htmlspecialchars php-function
+ *
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
  */
-function clHtmlSpecialChars(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlSpecialChars(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8')
+{
     return htmlspecialchars($value, $flags, $encoding);
 }
 
 /**
  * Wrapper for php-function html_entity_decode
- * 
- * @author Ortwin Pinke <ortwinpinke@conlite.org>
- * @since 2.3.0
- * @uses html_entity_decode php-function
- * 
+ *
  * @param string $value
  * @param int $flags
  * @param string $encoding default UTF-8
  * @return string Returns the decoded string
+ * @since 2.3.0
+ * @uses html_entity_decode php-function
+ *
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
  */
-function clHtmlEntityDecode(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlEntityDecode(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8')
+{
     return html_entity_decode($value, $flags, $encoding);
 }
 
 /**
  * Wrapper for php-function htmlentities
- * 
- * @author Ortwin Pinke <ortwinpinke@conlite.org>
- * @since 2.3.0
- * @uses htmlentities php-function
- * 
+ *
  * @param string $value
  * @param int $flags
  * @param string $encoding default UTF-8
  * @return string Returns the converted string
+ * @since 2.3.0
+ * @uses htmlentities php-function
+ *
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
  */
-function clHtmlEntities(string $value,?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8') {
+function clHtmlEntities(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = 'UTF-8')
+{
     return htmlentities($value, $flags, $encoding);
 }
 
 /**
  * Wrapper for php-function get_html_translation_table
- * 
- * @author Ortwin Pinke <ortwinpinke@conlite.org>
- * @since 2.3.0
- * @uses get_html_translation_table php-function
  *
  * @param int $table
  * @param int $flags
  * @param string $encoding
  * @return array
+ * @since 2.3.0
+ * @uses get_html_translation_table php-function
+ *
+ * @author Ortwin Pinke <ortwinpinke@conlite.org>
  */
-function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = "UTF-8") {
+function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = "UTF-8")
+{
     return get_html_translation_table($table, $flags, $encoding);
 }

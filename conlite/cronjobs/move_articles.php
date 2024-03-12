@@ -25,27 +25,26 @@ if (!defined("CON_FRAMEWORK")) {
 // Contenido startup process
 include_once ('../includes/startup.php');
 
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.user.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.xml.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.navigation.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'template/class.template.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.backend.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.table.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.notification.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.area.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.layout.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.client.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.cat.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["classes"] . 'class.treeitem.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["includes"] . 'cfg_language_de.inc.php');
-include_once ($cfg['path']['contenido'].$cfg["path"]["includes"] . 'functions.con.php');
+$classPath = cRegistry::getConfigValue('path', 'conlite') . cRegistry::getConfigValue('path', 'classes');
+$includesPath = cRegistry::getConfigValue('path', 'conlite') . cRegistry::getConfigValue('path', 'includes');
+
+include_once ($classPath . 'class.user.php');
+include_once ($classPath . 'class.xml.php');
+include_once ($classPath . 'class.navigation.php');
+include_once ($classPath . 'template/class.template.php');
+include_once ($classPath . 'class.backend.php');
+include_once ($classPath . 'class.table.php');
+include_once ($classPath . 'class.notification.php');
+include_once ($classPath . 'class.area.php');
+include_once ($classPath . 'class.layout.php');
+include_once ($classPath . 'class.client.php');
+include_once ($classPath . 'class.cat.php');
+include_once ($classPath . 'class.treeitem.php');
+include_once ($includesPath . 'cfg_language_de.inc.php');
+include_once ($includesPath . 'functions.con.php');
 
 if(!isRunningFromWeb() || function_exists("runJob") || $area == "cronjobs") {
-
 	$db = new DB_ConLite;
-
 	conFlagOnOffline();
-
 	conMoveArticles();
 }
-?>
