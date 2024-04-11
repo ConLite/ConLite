@@ -51,17 +51,18 @@ class cApiCategoryLanguage extends Item {
         }
     }
 
-    public function setField($field, $value, $bSafe = true) {
+    public function setField($field, $value, $bSafe = true): bool
+    {
         switch ($field) {
             case "name":
-                $this->setField("urlname", $value);
+                self::setField("urlname", $value, $bSafe);
                 break;
             case "urlname":
                 $value = clHtmlSpecialChars(capiStrCleanURLCharacters($value), ENT_QUOTES);
                 break;
         }
 
-        parent::setField($field, $value);
+        return parent::setField($field, $value, $bSafe);
     }
 
     public function assignTemplate($idtpl) {
