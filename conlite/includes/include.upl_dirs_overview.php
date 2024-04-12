@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Project: 
+ * Project:
  * Contenido Content Management System
- * 
- * Description: 
+ *
+ * Description:
  * Directory overview
- * 
- * Requirements: 
+ *
+ * Requirements:
  * @con_php_req 5.0
- * 
+ *
  *
  * @package    Contenido Backend includes
  * @version    1.2.3
@@ -19,14 +19,14 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
+ *
+ * {@internal
  *   created 2003-12-28
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
  *   $Id$:
  * }}
- * 
+ *
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -36,18 +36,19 @@ if (!defined('CON_FRAMEWORK')) {
 cInclude("includes", "functions.con.php");
 cInclude("includes", "functions.str.php");
 
-if (!(int) $client > 0) {
+if (!(int)$client > 0) {
     #if there is no client selected, display empty page
     $oPage = new cPage;
     $oPage->render();
     return;
 }
 
-function getExpandCollapseButton($item) {
+function getExpandCollapseButton($item)
+{
     global $sess, $PHP_SELF, $frame, $area, $appendparameters;
     $selflink = "main.php";
 
-    if (count($item->subitems) > 0) {
+    if ((is_countable($item->subitems) ? count($item->subitems) : 0) > 0) {
         if ($item->collapsed == true) {
             $expandlink = $sess->url($selflink . "?area=$area&frame=$frame&appendparameters=$appendparameters&expand=" . $item->id);
             return ('<a href="' . $expandlink . '" alt="' . i18n('Open category') . '" title="' . i18n('Open category') . '"><img src="' . $item->collapsed_icon . '" border="0" align="middle" width="18"></a>');
@@ -55,12 +56,10 @@ function getExpandCollapseButton($item) {
             $collapselink = $sess->url($selflink . "?area=$area&appendparameters=$appendparameters&frame=$frame&collapse=" . $item->id);
             return ('<a href="' . $collapselink . '" alt="' . i18n('Close category') . '" title="' . i18n('Close category') . '"><img src="' . $item->expanded_icon . '" border="0" align="middle" width="18"></a>');
         }
+    } elseif ($item->custom["lastitem"]) {
+        return '<img src="images/but_lastnode.gif" align="middle" width="18" height="18">';
     } else {
-        if ($item->custom["lastitem"]) {
-            return '<img src="images/but_lastnode.gif" align="middle" width="18" height="18">';
-        } else {
-            return '<img src="images/grid_collapse.gif" align="middle" width="18" height="18">';
-        }
+        return '<img src="images/grid_collapse.gif" align="middle" width="18" height="18">';
     }
 }
 
@@ -73,7 +72,7 @@ if (!isset($path) && $sess->is_registered("upl_last_path")) {
     $path = $upl_last_path;
 }
 
-if(is_null($path)) {
+if (is_null($path)) {
     $path = '';
 }
 
@@ -90,20 +89,18 @@ $uplexpandedList = unserialize($currentuser->getUserProperty("system", "upl_expa
 $upldbfsexpandedList = unserialize($currentuser->getUserProperty("system", "upl_dbfs_expandstate"));
 
 if (!is_array($uplexpandedList)) {
-    $uplexpandedList = array();
+    $uplexpandedList = [];
 }
 
 if (!is_array($upldbfsexpandedList)) {
-    $upldbfsexpandedList = array();
+    $upldbfsexpandedList = [];
 }
 
-if ($action == "upl_renamedir") {
-    if ($perm->have_perm_area_action("upl", "upl_renamedir")) {
-        uplRenameDirectory($oldname, $newname, $parent);
-        $path = $cfgClient[$client]['upl']['path'] . $parent . $newname . "/";
-        if (in_array($cfgClient[$client]['upl']['path'] . $parent . $oldname . "/", $uplexpandedList)) {
-            $uplexpandedList[] = $cfgClient[$client]['upl']['path'] . $parent . $newname . "/";
-        }
+if ($action == "upl_renamedir" && $perm->have_perm_area_action("upl", "upl_renamedir")) {
+    uplRenameDirectory($oldname, $newname, $parent);
+    $path = $cfgClient[$client]['upl']['path'] . $parent . $newname . "/";
+    if (in_array($cfgClient[$client]['upl']['path'] . $parent . $oldname . "/", $uplexpandedList)) {
+        $uplexpandedList[] = $cfgClient[$client]['upl']['path'] . $parent . $newname . "/";
     }
 }
 
@@ -116,23 +113,22 @@ if ($action == "upl_delete") {
     if (is_dbfs($path)) {
         $dbfs->remove($path . "/.");
     } else {
+        $failedFiles = [];
         /* Check for files */
         if (uplHasFiles($path)) {
-            $failedFiles = array();
-
             $directory = opendir($cfgClient[$client]["upl"]["path"] . $path);
             while (false !== ($dir_entry = readdir($directory))) {
                 if ($dir_entry != "." && $dir_entry != "..") {
                     $res = @ unlink($cfgClient[$client]["upl"]["path"] . $path . $dir_entry);
 
-                    if ($res == false) {
+                    if (!$res) {
                         $failedFiles[] = $dir_entry;
                     }
                 }
             }
         }
 
-        if (count($failedFiles) > 0) {
+        if ($failedFiles !== []) {
             $notification->displayNotification("warning", i18n("Failed to delete the following files:") . "<br><br>" . implode("<br>", $failedFiles));
         } else {
             $res = @ rmdir($cfgClient[$client]['upl']['path'] . $path);
@@ -154,14 +150,14 @@ $pathstring = '';
  */
 $user_upload_path = getEffectiveSetting("upload", "userpath");
 
-if (is_string($user_upload_path) AND!empty($user_upload_path)) {
+if (is_string($user_upload_path) && !empty($user_upload_path)) {
     trim($user_upload_path);
     $file = $user_upload_path;
-    if (substr($user_upload_path, -1) != "/") {
+    if (!str_ends_with($user_upload_path, "/")) {
         $user_upload_path .= "/";
     }
     $pathstring = $user_upload_path;
-    if (substr($cfgClient[$client]["upl"]["path"], -1) != "/" AND substr($user_upload_path, 0, 1) == "/") {
+    if (!str_ends_with($cfgClient[$client]["upl"]["path"], "/") && str_starts_with($user_upload_path, "/")) {
         $user_upload_path = substr($user_upload_path, 1);
     }
 }
@@ -171,7 +167,7 @@ $rootTreeItem->custom["level"] = 0;
 $rootTreeItem->name = i18n("Upload directory");
 $aInvalidDirectories = uplRecursiveDirectoryList($cfgClient[$client]["upl"]["path"] . $user_upload_path, $rootTreeItem, 2);
 
-if (count($aInvalidDirectories) > 0) {
+if ((is_countable($aInvalidDirectories) ? count($aInvalidDirectories) : 0) > 0) {
     $sWarningInfo = i18n('The following directories contains invalid characters and were ignored: ');
     $sSeperator = '<br>';
     $sFiles = implode(', ', $aInvalidDirectories);
@@ -187,7 +183,7 @@ if (count($aInvalidDirectories) > 0) {
 }
 
 /* Mark all items in the expandedList as expanded */
-foreach ($uplexpandedList as $key => $value) {
+foreach ($uplexpandedList as $value) {
     $rootTreeItem->markExpanded($value);
 }
 
@@ -200,12 +196,12 @@ if (is_string($expand)) {
     $rootTreeItem->markExpanded($expand);
 }
 
-$uplexpandedList = Array();
+$uplexpandedList = [];
 $rootTreeItem->getExpandedList($uplexpandedList);
 
 $currentuser->setUserProperty("system", "upl_expandstate", serialize($uplexpandedList));
 
-$objects = Array();
+$objects = [];
 $rootTreeItem->traverse($objects);
 unset($objects[0]);
 
@@ -214,9 +210,9 @@ $bgcolor = (is_int($tpl->dyn_cnt / 2)) ? $cfg["color"]["table_light"] : $cfg["co
 if ($appendparameters == "filebrowser") {
     $mtree = new cWidgetTreeView("b58f0ae3-8d4e-4bb3-a754-5f0628863364");
     $cattree = conFetchCategoryTree();
-    $marray = array();
+    $marray = [];
 
-    foreach ($cattree as $key => $catitem) {
+    foreach ($cattree as $catitem) {
         $no_start = true;
         $no_online = true;
         $no_start = !strHasStartArticle($catitem["idcat"], $lang);
@@ -225,44 +221,26 @@ if ($appendparameters == "filebrowser") {
 
         if ($catitem["visible"] == 1) {
             if ($catitem["public"] == 0) {
-                if ($no_start || $no_online) {
-                    # Error found
-                    $tmp_img = "folder_on_error_locked.gif";
-                } else {
-                    # No error found
-                    $tmp_img = "folder_on_locked.gif";
-                }
-            } else {
+                $tmp_img = $no_start || $no_online ? "folder_on_error_locked.gif" : "folder_on_locked.gif";
+            } elseif ($no_start || $no_online) {
                 # Category is public
-                if ($no_start || $no_online) {
-                    # Error found
-                    $tmp_img = "folder_on_error.gif";
-                } else {
-                    # No error found
-                    $tmp_img = "folder_on.gif";
-                }
+                # Error found
+                $tmp_img = "folder_on_error.gif";
+            } else {
+                # No error found
+                $tmp_img = "folder_on.gif";
             }
-        } else {
+        } elseif ($catitem['public'] == 0) {
             # Category is offline
-            if ($catitem['public'] == 0) {
-                # Category is locked
-                if ($no_start || $no_online) {
-                    # Error found
-                    $tmp_img = "folder_off_error_locked.gif";
-                } else {
-                    # No error found
-                    $tmp_img = "folder_off_locked.gif";
-                }
-            } else {
-                # Category is public
-                if ($no_start || $no_online) {
-                    # Error found
-                    $tmp_img = "folder_off_error.gif";
-                } else {
-                    # No error found
-                    $tmp_img = "folder_off.gif";
-                }
-            }
+            # Category is locked
+            $tmp_img = $no_start || $no_online ? "folder_off_error_locked.gif" : "folder_off_locked.gif";
+        } elseif ($no_start || $no_online) {
+            # Category is public
+            # Error found
+            $tmp_img = "folder_off_error.gif";
+        } else {
+            # No error found
+            $tmp_img = "folder_off.gif";
         }
 
         $icon = "./images/" . $tmp_img;
@@ -270,7 +248,7 @@ if ($appendparameters == "filebrowser") {
         $idcat = $catitem["idcat"];
 
         $name = '&nbsp;<a href="' . $sess->url("main.php?area=$area&frame=5&idcat=$idcat&appendparameters=$appendparameters") . '" target="right_bottom">' . $catitem["name"] . '</a>';
-        $marray[] = array("id" => $catitem["idcat"], "name" => $name, "level" => $catitem["level"], "attributes" => array("icon" => $icon));
+        $marray[] = ["id" => $catitem["idcat"], "name" => $name, "level" => $catitem["level"], "attributes" => ["icon" => $icon]];
     }
 
     $mtree->setTreeName(i18n("Categories"));
@@ -287,7 +265,7 @@ if ($appendparameters == "filebrowser") {
     $mtree->setCollapsed($collapsed);
     $mtree->processParameters();
 
-    $collapsed = array();
+    $collapsed = [];
     $mtree->getCollapsedList($collapsed);
 
     $tpl->set('s', 'CATBROWSER', $mtree->render());
@@ -304,8 +282,8 @@ $tpl->set('s', 'SID', $sess->id);
 # create javascript multilink
 $tmp_mstr = '<a href="javascript:conMultiLink(\'%s\', \'%s\',\'%s\', \'%s\')">%s</a>';
 $mstr = sprintf($tmp_mstr, 'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
-        'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
-        '<img src="images/ordner_oben.gif" align="middle" alt="" border="0"><img align="middle" src="images/spacer.gif" width="5" border="0">' . $file);
+    'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
+    '<img src="images/ordner_oben.gif" align="middle" alt="" border="0"><img align="middle" src="images/spacer.gif" width="5" border="0">' . $file);
 
 $tpl->set('d', 'PATH', $pathstring);
 $tpl->set('d', 'BGCOLOR', $bgcolor);
@@ -339,10 +317,10 @@ if (is_array($objects)) {
         # create javascript multilink  # -> better create meaningful comments
         $tmp_mstr = '<a href="javascript:conMultiLink(\'%s\', \'%s\', \'%s\', \'%s\')">%s</a>';
         $mstr = sprintf(
-                $tmp_mstr,
-                'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
-                'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
-                '<img src="images/grid_folder.gif" align="middle" border="0" alt=""><img src="images/spacer.gif" align="middle" width="5" border="0">' . $file);
+            $tmp_mstr,
+            'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
+            'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
+            '<img src="images/grid_folder.gif" align="middle" border="0" alt=""><img src="images/spacer.gif" align="middle" width="5" border="0">' . $file);
 
         $hasFiles = uplHasFiles($pathstring);
         $hasSubdirs = uplHasSubdirs($pathstring);
@@ -350,11 +328,7 @@ if (is_array($objects)) {
         if ((!$hasSubdirs) && (!$hasFiles) && $perm->have_perm_area_action($tmp_area, "upl_rmdir")) {
             $deletebutton = '<a style="margin-left:10px;" title="' . i18n("Delete directory") . '" href="javascript://" onclick="event.cancelBubble=true;box.confirm(\'' . i18n("Delete directory") . '\', \'' . i18n("Do you really want to delete the following directory:") . '<b>' . $file . '</b>\', \'deleteDirectory(\\\'' . $pathstring . '\\\')\')"><img src="' . $cfg['path']['images'] . 'delete.gif" border="0" title="' . i18n("Delete directory") . '" alt="' . i18n("Delete directory") . '"></a>';
         } else {
-            if ($hasFiles) {
-                $message = i18n("Directory contains files");
-            } else {
-                $message = i18n("Permission denied");
-            }
+            $message = $hasFiles ? i18n("Directory contains files") : i18n("Permission denied");
 
             $deletebutton = "<img style=\"margin-left:10px;\" src=\"" . $cfg["path"]["images"] . "delete_inact.gif\" border=\"0\" alt=\"" . $message . "\" title=\"" . $message . "\">";
         }
@@ -403,7 +377,7 @@ $rootTreeItem->custom["level"] = 0;
 uplRecursiveDBDirectoryList("", $rootTreeItem, 2);
 
 /* Mark all items in the expandedList as expanded */
-foreach ($upldbfsexpandedList as $key => $value) {
+foreach ($upldbfsexpandedList as $value) {
     $rootTreeItem->markExpanded($value);
 }
 
@@ -416,12 +390,12 @@ if (is_string($expand)) {
     $rootTreeItem->markExpanded($expand);
 }
 
-$upldbfsexpandedList = Array();
+$upldbfsexpandedList = [];
 $rootTreeItem->getExpandedList($upldbfsexpandedList);
 
 $currentuser->setUserProperty("system", "upl_dbfs_expandstate", serialize($upldbfsexpandedList));
 
-$objects = Array();
+$objects = [];
 $rootTreeItem->traverse($objects);
 
 unset($objects[0]);
@@ -430,8 +404,8 @@ $bgcolor = (is_int($tpl->dyn_cnt / 2)) ? $cfg["color"]["table_light"] : $cfg["co
 
 $tmp_mstr = '<a href="javascript:conMultiLink(\'%s\', \'%s\', \'%s\', \'%s\')">%s</a>';
 $mstr = sprintf($tmp_mstr, 'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
-        'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
-        '<img src="images/ordner_oben.gif" alt="" border="0"><img align="middle" src="images/spacer.gif" width="5" border="0">' . $file);
+    'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
+    '<img src="images/ordner_oben.gif" alt="" border="0"><img align="middle" src="images/spacer.gif" width="5" border="0">' . $file);
 
 $tpl->set('d', 'PATH', $pathstring);
 $tpl->set('d', 'BGCOLOR', $bgcolor);
@@ -444,17 +418,17 @@ $tpl->next();
 
 $dbfsc = new DBFSCollection;
 
-$dlevels = array();
+$dlevels = [];
 
 if (is_array($objects)) {
-    foreach ($objects as $a_file) {
-        $file = $a_file->name;
-        $depth = $a_file->custom["level"] - 1;
-        $pathstring = $a_file->id;
-        $a_file->collapsed_icon = "images/grid_expand.gif";
-        $a_file->expanded_icon = "images/grid_collapse.gif";
-        $dlevels[$depth] = $a_file->custom["lastitem"];
-        $collapse = getExpandCollapseButton($a_file);
+    foreach ($objects as $object) {
+        $file = $object->name;
+        $depth = $object->custom["level"] - 1;
+        $pathstring = $object->id;
+        $object->collapsed_icon = "images/grid_expand.gif";
+        $object->expanded_icon = "images/grid_collapse.gif";
+        $dlevels[$depth] = $object->custom["lastitem"];
+        $collapse = getExpandCollapseButton($object);
         $fileurl = rawurlencode($path . $file . '/');
         $pathurl = rawurlencode($path);
 
@@ -474,19 +448,15 @@ if (is_array($objects)) {
         # create javascript multilink
         $tmp_mstr = '<a href="javascript:conMultiLink(\'%s\', \'%s\', \'%s\', \'%s\')">%s</a>';
         $mstr = sprintf($tmp_mstr, 'right_bottom', $sess->url("main.php?area=$area&frame=4&path=$pathstring&appendparameters=$appendparameters"),
-                'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
-                '<img src="images/grid_folder.gif" align="middle" border="0" alt=""><img src="images/spacer.gif" align="middle" width="5" border="0">' . $file);
+            'right_top', $sess->url("main.php?area=$area&frame=3&path=$pathstring&appendparameters=$appendparameters"),
+            '<img src="images/grid_folder.gif" align="middle" border="0" alt=""><img src="images/spacer.gif" align="middle" width="5" border="0">' . $file);
 
         $hasFiles = $dbfsc->hasFiles($pathstring);
 
         if (!$hasFiles && $perm->have_perm_area_action($tmp_area, "upl_rmdir")) {
             $deletebutton = '<a style="margin-left:10px;" title="' . i18n("Delete directory") . '" href="javascript://" onclick="event.cancelBubble=true;box.confirm(\'' . i18n("Delete directory") . '\', \'' . i18n("Do you really want to delete the following directory:") . '<b>' . $file . '</b>\', \'deleteDirectory(\\\'' . $pathstring . '\\\')\')"><img src="' . $cfg['path']['images'] . 'delete.gif" border="0" title="' . i18n("Delete directory") . '" alt="' . i18n("Delete directory") . '"></a>';
         } else {
-            if ($hasFiles) {
-                $message = i18n("Directory contains files");
-            } else {
-                $message = i18n("Permission denied");
-            }
+            $message = $hasFiles ? i18n("Directory contains files") : i18n("Permission denied");
 
             $deletebutton = "<img style=\"margin-left:10px;\" src=\"" . $cfg["path"]["images"] . "delete_inact.gif\" border=\"0\" alt=\"" . $message . "\" title=\"" . $message . "\">";
         }
@@ -507,7 +477,7 @@ if (is_array($objects)) {
             }
         }
 
-        $parent = str_replace($cfgClient[$client]['upl']['path'], "", $a_file->custom["parent"]);
+        $parent = str_replace($cfgClient[$client]['upl']['path'], "", $object->custom["parent"]);
         $tpl->set('d', 'DIRNAME', $mstr);
         $tpl->set('d', 'EDITBUTTON', '');
         $tpl->set('d', 'DELETEBUTTON', $deletebutton);
