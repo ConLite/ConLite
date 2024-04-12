@@ -36,7 +36,7 @@ if (!defined('CON_FRAMEWORK')) {
 cInclude("includes", "functions.con.php");
 cInclude("includes", "functions.str.php");
 
-if (!(int)$client > 0) {
+if (cRegistry::getClientId() > 0) {
     #if there is no client selected, display empty page
     $oPage = new cPage;
     $oPage->render();
@@ -205,7 +205,7 @@ $objects = [];
 $rootTreeItem->traverse($objects);
 unset($objects[0]);
 
-$bgcolor = (is_int($tpl->dyn_cnt / 2)) ? $cfg["color"]["table_light"] : $cfg["color"]["table_dark"];
+$bgcolor = (is_int($tpl->dyn_cnt / 2)) ? cRegistry::getConfigValue('color', 'table_light') : cRegistry::getConfigValue('color', 'table_dark');
 
 if ($appendparameters == "filebrowser") {
     $mtree = new cWidgetTreeView("b58f0ae3-8d4e-4bb3-a754-5f0628863364");
