@@ -116,10 +116,10 @@ if ($action == "upl_delete") {
     if (is_dbfs($path)) {
         $dbfs->remove($path . "/.");
     } else {
+        $failedFiles = [];
+
         /* Check for files */
         if (uplHasFiles($path)) {
-            $failedFiles = array();
-
             $directory = opendir($cfgClient[$client]["upl"]["path"] . $path);
             while (false !== ($dir_entry = readdir($directory))) {
                 if ($dir_entry != "." && $dir_entry != "..") {
@@ -132,11 +132,11 @@ if ($action == "upl_delete") {
             }
         }
 
-        if (count($failedFiles) > 0) {
+        if ($failedFiles !== []) {
             $notification->displayNotification("warning", i18n("Failed to delete the following files:") . "<br><br>" . implode("<br>", $failedFiles));
         } else {
-            $res = @ rmdir($cfgClient[$client]['upl']['path'] . $path);
-            if ($res == false) {
+            $res = @rmdir($cfgClient[$client]['upl']['path'] . $path);
+            if (!$res) {
                 $notification->displayNotification("warning", sprintf(i18n("Failed to remove directory %s"), $path));
             }
         }
