@@ -228,7 +228,7 @@ function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, b
 
     if ($fileType == 'gif' || $fileType == 'png' || $fileType == 'webp') {
         // Set alpha flag
-        imagesavealpha($png, true);
+        imagesavealpha($imageHandle, true);
         imagesavealpha($targetImage, true);
     }
 
@@ -240,7 +240,8 @@ function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, b
 }
 
 // ToDo
-function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false) {
+function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false)
+{
     if (!cFileHandler::exists($img)) {
         return false;
     } elseif (isFunctionDisabled('escapeshellarg') || isFunctionDisabled('exec')) {
@@ -489,7 +490,7 @@ function cApiImgCreateImageResourceFromFile(string $fileName, string $fileType =
  * @param bool $keepType
  * @return bool
  */
-function cApiImgSaveImageResourceToFile($targetImage, $saveTo, $quality, $fileType, $keepType): bool
+function cApiImgSaveImageResourceToFile(GdImage $targetImage, string $saveTo, int $quality, string $fileType, bool $keepType): bool
 {
     // save the file
     if ($keepType) {
@@ -510,4 +511,52 @@ function cApiImgSaveImageResourceToFile($targetImage, $saveTo, $quality, $fileTy
         $quality = cApiImgGetCompressionRate($fileType, $quality);
         return imagejpeg($targetImage, $saveTo, $quality);
     }
+}
+
+/**
+ * Returns new calculated dimensions of a target image.
+ *
+ * @param int $x
+ * @param int $y
+ * @param int $maxX
+ * @param int $maxY
+ * @param bool $expand
+ * @return array Index 0 is target X and index 1 is target Y
+ */
+function cApiImageGetTargetDimensions(int $x, int $y, int $maxX, int $maxY, bool $expand): array
+{
+    if (($maxX / $x) < ($maxY / $y)) {
+        $targetY = $y * ($maxX / $x);
+        $targetX = round($maxX);
+
+        // Force wished height
+        if ($targetY < $maxY) {
+            $targetY = ceil($targetY);
+        } else {
+            $targetY = floor($targetY);
+        }
+    } else {
+        $targetX = $x * ($maxY / $y);
+        $targetY = round($maxY);
+
+        // Force wished width
+        if ($targetX < $maxX) {
+            $targetX = ceil($targetX);
+        } else {
+            $targetX = floor($targetX);
+        }
+    }
+
+    if (!$expand && (($targetX > $x) || ($targetY > $y))) {
+        $targetX = $x;
+        $targetY = $y;
+    }
+
+    $targetX = ($targetX != 0) ? $targetX : 1;
+    $targetY = ($targetY != 0) ? $targetY : 1;
+
+    return [
+        $targetX,
+        $targetY
+    ];
 }
