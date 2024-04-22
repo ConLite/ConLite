@@ -1,655 +1,94 @@
 <?php
+/**
+ * ConLite Image API functions
+ *
+ * @package ConLite\Includes\Functions\Api\Images
+ * @version 2.0.0
+ * @since 3.0.0 recoded from original functions Contenido 4.8.x
+ * @author Ortwin Pinke <o.pinke@conlite.org>
+ * @author Timo A. Hummel
+ * @copyright 2012 - 2024 ConLite Team
+ * @copyright  - 2012 four for business AG <www.4fb.de>
+ * @link http://www.conlite.org ConLite.org
+ * @license http://www.gnu.de/documents/gpl.en.html GPL v3 (english version)
+ * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
+ */
+
+defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization - request aborted.');
 
 /**
- * Project: 
- * Contenido Content Management System
- * 
- * Description: 
- * Contenido Image API functions
- * 
- * Requirements: 
- * @con_php_req 5.0
- * 
- *
- * @package    Contenido Backend includes
- * @version    1.4.3
- * @author     Timo A. Hummel
- * @copyright  four for business AG <www.4fb.de>
- * @license    http://www.contenido.org/license/LIZENZ.txt
- * @link       http://www.4fb.de
- * @link       http://www.contenido.org
- * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
- *   created 2003-08-08
- *   modified 2008-06-25, Frederic Schneider, add security fix
- *
- *   $Id$:
- * }}
- * 
+ * @param string $img
+ * @param int $maxX
+ * @param int $maxY
+ * @param bool $crop
+ * @param bool $expand
+ * @param int $cacheTime
+ * @param bool $wantHQ
+ * @param int $quality
+ * @param bool $keepType
+ * @return bool|string
  */
-if (!defined('CON_FRAMEWORK')) {
-    die('Illegal call');
-}
-
-/* Info:
- * This file contains Contenido Image API functions.
- *
- * If you are planning to add a function, please make sure that:
- * 1.) The function is in the correct place
- * 2.) The function is documented
- * 3.) The function makes sense and is generically usable
- *
- */
-
-/**
- * capiImgScaleGetMD5CacheFile: Returns the MD5 Filename used
- * for caching.
- *
- * @return string Path to the resulting image
- */
-function capiImgScaleGetMD5CacheFile($sImg, $iMaxX, $iMaxY, $bCrop, $bExpand) {
-    if (!file_exists($sImg)) {
+function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, bool $expand = false, int $cacheTime = 10, bool $wantHQ = false, int $quality = 75, bool $keepType = true): bool|string
+{
+    if (!cFileHandler::exists($img)) {
         return false;
     }
 
-    $iFilesize = filesize($sImg);
-
-    if (function_exists("md5_file")) {
-        $sMD5 = md5(implode("", array(
-            $sImg,
-            md5_file($sImg),
-            $iFilesize,
-            $iMaxX,
-            $iMaxY,
-            $bCrop,
-            $bExpand)));
-    } else {
-        $sMD5 = md5(implode("", array(
-            $sImg,
-            $iFilesize,
-            $iMaxX,
-            $iMaxY,
-            $bCrop,
-            $bExpand)));
-    }
-
-    return $sMD5;
-}
-
-/**
- * capiImgScaleLQ: Scales (or crops) an image.
- * If scaling, the aspect ratio is maintained.
- *
- * Returns the path to the scaled temporary image.
- *
- * Note that this function does some very poor caching;
- * it calculates an md5 hash out of the image plus the
- * maximum X and Y sizes, and uses that as the file name.
- * If the file is older than 10 minutes, regenerate it.
- *
- * @param string 	$img		The path to the image (relative to the frontend)
- * @param int		$maxX 		The maximum size in x-direction
- * @param int		$maxY		The maximum size in y-direction
- * @param boolean 	$crop 		If true, the image is cropped and not scaled.
- * @param boolean 	$expand 	If true, the image is expanded (e.g. really scaled).
- * 								If false, the image will only be made smaller. 
- * @param int		$cacheTime	The number of minutes to cache the image, use 0 for unlimited
- * @param int		$quality	The quality of the output file
- * @param boolean	$keepType	If true and a png file is source, output file is also png
- *
- * @return string	!!!URL!!! to the resulting image (http://...
- */
-function capiImgScaleLQ($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 75, $keepType = false) {
-    global $cfgClient, $lang, $client;
-
-    $filename = $img;
-    $cacheTime = (int) $cacheTime;
-    $quality = (int) $quality;
-
-    if ($quality <= 0 || $quality > 100) {
-        $quality = 75;
-    }
-
-    $filetype = substr($filename, strlen($filename) - 4, 4);
-    $filesize = filesize($img);
-    $md5 = capiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
-
-    // Create the target file names for web and server
-    if ($keepType) { // Should we keep the file type?
-        switch (strtolower($filetype)) { // Just using switch if someone likes to add other types
-            case ".png":
-                $cfileName = $md5 . ".png";
-                break;
-            default:
-                $cfileName = $md5 . ".jpg";
-        }
-    } else { // No... use .jpg
-        $cfileName = $md5 . ".jpg";
-    }
-
-    $cacheFile = $cfgClient[$client]["path"]["frontend"] . "cache/" . $cfileName;
-    $webFile = $cfgClient[$client]["path"]["htmlpath"] . "cache/" . $cfileName;
-
-    // Check if the file exists. If it does, check if the file is valid.
-    if (file_exists($cacheFile)) {
-        if ($cacheTime == 0) {
-            // Do not check expiration date
-            return $webFile;
-        } else if (!function_exists("md5_file")) { // TODO: Explain why this is still needed ... or remove it
-            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
-                /* Cache time expired, unlink the file */
-                unlink($cacheFile);
-            } else {
-                /* Return the web file name */
-                return $webFile;
-            }
-        } else {
-            return $webFile;
-        }
-    }
-
-    $imageHandle = null;
-
-    switch (strtolower($filetype)) {
-        case ".gif":
-            $imageHandle = imagecreatefromgif($filename);
-            break;
-        case ".png":
-            $imageHandle = imagecreatefrompng($filename);
-            break;
-        case ".jpeg":
-        case "jpg":
-            $imageHandle = imagecreatefromjpeg($filename);
-            break;
-        default: return false;
-    }
-
-    if((gettype($imageHandle) == "object" && get_class($imageHandle) == "GdImage") !== true) {
-        return false;
-    }
-
-    $x = imagesx($imageHandle);
-    $y = imagesy($imageHandle);
-
-    /* Calculate the aspect ratio */
-    $aspectXY = $x / $y;
-    $aspectYX = $y / $x;
-
-    if (($maxX / $x) < ($maxY / $y)) {
-        $targetY = $y * ($maxX / $x);
-        $targetX = round($maxX);
-
-        // force wished height
-        if ($targetY < $maxY) {
-            $targetY = ceil($targetY);
-        } else {
-            $targetY = floor($targetY);
-        }
-    } else {
-        $targetX = $x * ($maxY / $y);
-        $targetY = round($maxY);
-
-        // force wished width
-        if ($targetX < $maxX) {
-            $targetX = ceil($targetX);
-        } else {
-            $targetX = floor($targetX);
-        }
-    }
-
-    if ($expand == false && (($targetX > $x) || ($targetY > $y))) {
-        $targetX = $x;
-        $targetY = $y;
-    }
-
-    $targetX = ($targetX != 0) ? $targetX : 1;
-    $targetY = ($targetY != 0) ? $targetY : 1;
-
-    /* Create the target image with the target size, resize it afterwards. */
-    if ($crop) {
-        /* Create the target image with the max size, crop it afterwards. */
-        $targetImage = imagecreate($maxX, $maxY);
-        imagecopy($targetImage, $imageHandle, 0, 0, 0, 0, $maxX, $maxY);
-    } else {
-        /* Create the target image with the target size, resize it afterwards. */
-        $targetImage = imagecreate($targetX, $targetY);
-        imagecopyresized($targetImage, $imageHandle, 0, 0, 0, 0, $targetX, $targetY, $x, $y);
-    }
-
-    // Output the file
-    if ($keepType) {
-        switch (strtolower($filetype)) {
-            case ".png":
-                imagepng($targetImage, $cacheFile); // no quality option available
-                break;
-            default:
-                imagejpeg($targetImage, $cacheFile, $quality);
-        }
-    } else {
-        imagejpeg($targetImage, $cacheFile, $quality);
-    }
-
-    return ($webFile);
-}
-
-/**
- * capiImgScaleHQ: Scales (or crops) an image in high quality.
- * If scaling, the aspect ratio is maintained.
- *
- * Note: GDLib 2.x is required!
- *
- * Returns the path to the scaled temporary image.
- *
- * Note that this function does some very poor caching;
- * it calculates an md5 hash out of the image plus the
- * maximum X and Y sizes, and uses that as the file name.
- * If the file is older than the specified cache time, regenerate it.
- *
- * @param string 	$img		The path to the image (relative to the frontend)
- * @param int		$maxX 		The maximum size in x-direction
- * @param int		$maxY		The maximum size in y-direction
- * @param boolean 	$crop 		If true, the image is cropped and not scaled.
- * @param boolean 	$expand 	If true, the image is expanded (e.g. really scaled).
- * 								If false, the image will only be made smaller. 
- * @param int		$cacheTime	The number of minutes to cache the image, use 0 for unlimited
- * @param int		$quality	The quality of the output file
- * @param boolean	$keepType	If true and a png file is source, output file is also png
- *
- * @return string 	!!!URL!!! to the resulting image (http://...)
- */
-function capiImgScaleHQ($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 75, $keepType = false) {
-    global $cfgClient, $lang, $client;
-
-    $filename = $img;
-    $cacheTime = (int) $cacheTime;
-    $quality = (int) $quality;
-
-    if ($quality <= 0 || $quality > 100) {
-        $quality = 75;
-    }
-
-    $filetype = substr($filename, strlen($filename) - 4, 4);
-    $filesize = filesize($img);
-    $md5 = capiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
-
-    /* Create the target file names for web and server */
-    if ($keepType) { // Should we keep the file type?
-        switch (strtolower($filetype)) { // Just using switch if someone likes to add other types
-            case ".png":
-                $cfileName = $md5 . ".png";
-                break;
-            default:
-                $cfileName = $md5 . ".jpg";
-        }
-    } else { // No... use .jpg
-        $cfileName = $md5 . ".jpg";
-    }
-
-    $cacheFile = $cfgClient[$client]["path"]["frontend"] . "cache/" . $cfileName;
-    $webFile = $cfgClient[$client]["path"]["htmlpath"] . "cache/" . $cfileName;
-
-    /* Check if the file exists. If it does, check if the file is valid. */
-    if (file_exists($cacheFile)) {
-        if ($cacheTime == 0) {
-            // Do not check expiration date
-            return $webFile;
-        } else if (!function_exists("md5_file")) { // TODO: Explain why this is still needed ... or remove it
-            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
-                /* Cache time expired, unlink the file */
-                unlink($cacheFile);
-            } else {
-                /* Return the web file name */
-                return $webFile;
-            }
-        } else {
-            return $webFile;
-        }
-    }
-
-    /* Get out which file we have */
-    switch (strtolower($filetype)) {
-        case ".gif": $function = "imagecreatefromgif";
-            break;
-        case ".png": $function = "imagecreatefrompng";
-            break;
-        case ".jpg": $function = "imagecreatefromjpeg";
-            break;
-        case "jpeg": $function = "imagecreatefromjpeg";
-            break;
-        default: return false;
-    }
-
-    if (function_exists($function)) {
-        $imageHandle = @$function($filename);
-    }
-
-    /* If we can't open the image, return false */
-    if (!$imageHandle) {
-        return false;
-    }
-
-    $x = imagesx($imageHandle);
-    $y = imagesy($imageHandle);
-
-    /* Calculate the aspect ratio */
-    $aspectXY = $x / $y;
-    $aspectYX = $y / $x;
-
-    if (($maxX / $x) < ($maxY / $y)) {
-        $targetY = $y * ($maxX / $x);
-        $targetX = round($maxX);
-
-        // force wished height
-        if ($targetY < $maxY) {
-            $targetY = ceil($targetY);
-        } else {
-            $targetY = floor($targetY);
-        }
-    } else {
-        $targetX = $x * ($maxY / $y);
-        $targetY = round($maxY);
-
-        // force wished width
-        if ($targetX < $maxX) {
-            $targetX = ceil($targetX);
-        } else {
-            $targetX = floor($targetX);
-        }
-    }
-
-    if ($expand == false && (($targetX > $x) || ($targetY > $y))) {
-        $targetX = $x;
-        $targetY = $y;
-    }
-
-    $targetX = ($targetX != 0) ? $targetX : 1;
-    $targetY = ($targetY != 0) ? $targetY : 1;
-
-    /* Create the target image with the target size, resize it afterwards. */
-    if ($crop) {
-        /* Create the target image with the max size, crop it afterwards. */
-        $targetImage = imagecreatetruecolor($maxX, $maxY);
-        imagecopy($targetImage, $imageHandle, 0, 0, 0, 0, $maxX, $maxY);
-    } else {
-        /* Create the target image with the target size, resize it afterwards. */
-        $targetImage = imagecreatetruecolor($targetX, $targetY);
-        imagecopyresampled($targetImage, $imageHandle, 0, 0, 0, 0, $targetX, $targetY, $x, $y);
-    }
-
-    // Output the file
-    if ($keepType) {
-        switch (strtolower($filetype)) {
-            case ".png":
-                imagepng($targetImage, $cacheFile); // no quality option available
-                break;
-            default:
-                imagejpeg($targetImage, $cacheFile, $quality);
-        }
-    } else {
-        imagejpeg($targetImage, $cacheFile, $quality);
-    }
-
-    return ($webFile);
-}
-
-/**
- * capiImgScaleImageMagick: Scales (or crops) an image using ImageMagick.
- * If scaling, the aspect ratio is maintained.
- *
- * Note: ImageMagick is required!
- *
- * Returns the path to the scaled temporary image.
- *
- * Note that this function does some very poor caching;
- * it calculates an md5 hash out of the image plus the
- * maximum X and Y sizes, and uses that as the file name.
- * If the file is older than the specified cache time, regenerate it.
- *
- * @param string 	$img		The path to the image (relative to the frontend)
- * @param int		$maxX 		The maximum size in x-direction
- * @param int		$maxY		The maximum size in y-direction
- * @param boolean 	$crop 		If true, the image is cropped and not scaled.
- * @param boolean 	$expand 	If true, the image is expanded (e.g. really scaled).
- * 								If false, the image will only be made smaller. 
- * @param int		$cacheTime	The number of minutes to cache the image, use 0 for unlimited
- * @param int		$quality	The quality of the output file
- * @param boolean	$keepType	If true and a png file is source, output file is also png
- *
- * @return string 	!!!URL!!! to the resulting image (http://...)
- */
-function capiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 75, $keepType = false) {
-    global $cfgClient, $lang, $client;
-
-    $filename = $img;
-    $cacheTime = (int) $cacheTime;
-    $quality = (int) $quality;
-
-    if ($quality <= 0 || $quality > 100) {
-        $quality = 75;
-    }
-
-    $filetype = substr($filename, strlen($filename) - 4, 4);
-    $filesize = filesize($img);
-    $md5 = capiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
-
-    /* Create the target file names for web and server */
-    if ($keepType) { // Should we keep the file type?
-        switch (strtolower($filetype)) { // Just using switch if someone likes to add other types
-            case ".png":
-                $cfileName = $md5 . ".png";
-                break;
-            default:
-                $cfileName = $md5 . ".jpg";
-        }
-    } else { // No... use .jpg
-        $cfileName = $md5 . ".jpg";
-    }
-
-    $cacheFile = $cfgClient[$client]["path"]["frontend"] . "cache/" . $cfileName;
-    $webFile = $cfgClient[$client]["path"]["htmlpath"] . "cache/" . $cfileName;
-
-    /* Check if the file exists. If it does, check if the file is valid. */
-    if (file_exists($cacheFile)) {
-        if ($cacheTime == 0) {
-            // Do not check expiration date
-            return $webFile;
-        } else if (!function_exists("md5_file")) { // TODO: Explain why this is still needed ... or remove it
-            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
-                /* Cache time expired, unlink the file */
-                unlink($cacheFile);
-            } else {
-                /* Return the web file name */
-                return $webFile;
-            }
-        } else {
-            return $webFile;
-        }
-    }
-
-    list($x, $y) = @getimagesize($filename);
-    if ($x == 0 || $y == 0) {
-        return false;
-    }
-
-    /* Calculate the aspect ratio */
-    $aspectXY = $x / $y;
-    $aspectYX = $y / $x;
-
-    if (($maxX / $x) < ($maxY / $y)) {
-        $targetY = $y * ($maxX / $x);
-        $targetX = round($maxX);
-
-        // force wished height
-        if ($targetY < $maxY) {
-            $targetY = ceil($targetY);
-        } else {
-            $targetY = floor($targetY);
-        }
-    } else {
-        $targetX = $x * ($maxY / $y);
-        $targetY = round($maxY);
-
-        // force wished width
-        if ($targetX < $maxX) {
-            $targetX = ceil($targetX);
-        } else {
-            $targetX = floor($targetX);
-        }
-    }
-
-    if ($expand == false && (($targetX > $x) || ($targetY > $y))) {
-        $targetX = $x;
-        $targetY = $y;
-    }
-
-    $targetX = ($targetX != 0) ? $targetX : 1;
-    $targetY = ($targetY != 0) ? $targetY : 1;
-
-    // if is animated gif resize first frame
-    if ($filetype == ".gif") {
-        if (isAnimGif($filename)) {
-            $filename .= "[0]";
-        }
-    }
-
-    /* Try to execute convert */
-    if (function_exists("exec")) {
-        $output = array();
-        $retVal = 0;
-        if ($crop) {
-            exec("convert -gravity center -quality " . $quality . " -crop {$maxX}x{$maxY}+1+1 \"$filename\" $cacheFile", $output, $retVal);
-        } else {
-            exec("convert -quality " . $quality . " -geometry {$targetX}x{$targetY} \"$filename\" $cacheFile", $output, $retVal);
-        }
-    }
-
-    if (!file_exists($cacheFile)) {
-        return false;
-    } else {
-        return ($webFile);
-    }
-}
-
-/**
- * check if gif is animated
- *
- * @param string file path
- *
- * @return boolean true (gif is animated)/ false (single frame gif)
- */
-function isAnimGif($sFile) {
-     if(!($fh = @fopen($sFile, 'rb')))
-        return false;
-    $count = 0;
-    //an animated gif contains multiple "frames", with each frame having a
-    //header made up of:
-    // * a static 4-byte sequence (\x00\x21\xF9\x04)
-    // * 4 variable bytes
-    // * a static 2-byte sequence (\x00\x2C)
-
-    // We read through the file til we reach the end of the file, or we've found
-    // at least 2 frame headers
-    while(!feof($fh) && $count < 2) {
-        $chunk = fread($fh, 1024 * 100); //read 100kb at a time
-        $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00\x2C#s', $chunk, $matches);
-    }
-    fclose($fh);
-    return $count > 1;
-    
-    /*
-    $output = array();
-    $retval = 0;
-
-    exec('identify ' . $sFile, $output, $retval);
-
-    if (count($output) == 1) {
-        return false;
-    }
-
-    return true;
-     * 
-     */
-}
-
-/**
- * capiImgScale: Scales (or crops) an image.
- * If scaling, the aspect ratio is maintained.
- *
- * This function chooses the best method to scale, depending on
- * the system environment and/or the parameters.
- *
- * Returns the path to the scaled temporary image.
- *
- * Note that this function does some very poor caching;
- * it calculates an md5 hash out of the image plus the
- * maximum X and Y sizes, and uses that as the file name.
- * If the file is older than 10 minutes, regenerate it.
- *
- * @param string 	$img		The path to the image (relative to the frontend)
- * @param int		$maxX 		The maximum size in x-direction
- * @param int		$maxY		The maximum size in y-direction
- * @param boolean 	$crop 		If true, the image is cropped and not scaled.
- * @param boolean 	$expand 	If true, the image is expanded (e.g. really scaled).
- * 								If false, the image will only be made smaller. 
- * @param int		$cacheTime	The number of minutes to cache the image, use 0 for unlimited
- * @param boolean 	$wantHQ 	If true, try to force high quality mode
- * @param int		$quality	The quality of the output file
- * @param boolean	$keepType	If true and a png file is source, output file is also png
- *
- * @return string 	!!!URL!!! to the resulting image (http://...)
- *
- * @return string Path to the resulting image
- */
-function capiImgScale($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $wantHQ = false, $quality = 75, $keepType = true) {
-    global $client, $cfgClient;
-
+    $clientConfig = cRegistry::getClientConfig(cRegistry::getClientId());
     $deleteAfter = false;
 
-    $sRelativeImg = str_replace($cfgClient[$client]["upl"]["path"], "", $img);
-    if (is_dbfs($sRelativeImg)) {
-        // This check should be faster than a file existance check
-        $dbfs = new DBFSCollection;
+    $relativeImg = str_replace($clientConfig["upl"]["path"], "", $img);
 
-        $file = basename($sRelativeImg);
+    if (is_dbfs($relativeImg)) {
+        $dbfs = new DBFSCollection();
+        $file = basename($relativeImg);
 
-        $dbfs->writeToFile($sRelativeImg, $cfgClient[$client]["path"]["frontend"] . "cache/" . $file);
-
-        $img = $cfgClient[$client]["path"]["frontend"] . "cache/" . $file;
+        $dbfs->writeToFile($relativeImg, $clientConfig["path"]["frontend"] . "cache/" . $file);
+        $img = $clientConfig["path"]["frontend"] . "cache/" . $file;
         $deleteAfter = true;
-    } else if (!file_exists($img)) {
-        /* Try with upload string */
-        if (file_exists($cfgClient[$client]["upl"]["path"] . $img) && !is_dir($cfgClient[$client]["upl"]["path"] . $img)) {
-            $img = $cfgClient[$client]["upl"]["path"] . $img;
+    } else if (!cFileHandler::exists($img)) {
+        if (cFileHandler::exists($clientConfig['upl']['path'] . $img)
+            && !cDirHandler::exists($clientConfig['upl']['path'] . $img)) {
+            $img = $clientConfig['upl']['path'] . $img;
         } else {
-            /* No, it's neither in the upload directory nor in the dbfs. return. */
             return false;
         }
     }
 
-    $filename = $img;
-    $filetype = substr($filename, strlen($filename) - 4, 4);
+    $fileType = cString::toLowerCase(cFileHandler::getExtension($img));
+    $quality = cApiImgGetCompressionRate($fileType, $quality);
+    $imgEditingPossibility = cApiImageCheckImageEditingPossibility();
 
-    $mxdAvImgEditingPosibility = checkImageEditingPosibility();
-    switch ($mxdAvImgEditingPosibility) {
+    if ($fileType == "svg") {
+        $imgEditingPossibility = "untouched";
+    }
+
+    switch ($imgEditingPossibility) {
         case '1': // gd1
             $method = 'gd1';
-            if (!function_exists('imagecreatefromgif') && $filetype == '.gif') {
+            if (!function_exists('imagecreatefromgif') && $fileType == 'gif') {
+                $method = 'failure';
+            }
+            if (!function_exists('imagecreatefromwebp') && $fileType == 'webp') {
                 $method = 'failure';
             }
             break;
-        case '2': //gd2
+        case '2': // gd2
             $method = 'gd2';
-            if (!function_exists('imagecreatefromgif') && $filetype == '.gif') {
+            if (!function_exists('imagecreatefromgif') && $fileType == 'gif') {
+                $method = 'failure';
+            }
+            if (!function_exists('imagecreatefromwebp') && $fileType == 'webp') {
                 $method = 'failure';
             }
             break;
-        case 'im': //imagemagick
+        case 'im': // ImageMagick
             $method = 'im';
             break;
-        case '0':
-            $method = 'failure';
+        case 'untouched': // special routine for svg only
+            $method = 'untouched';
             break;
+        case '0':
         default:
             $method = 'failure';
             break;
@@ -657,44 +96,226 @@ function capiImgScale($img, $maxX, $maxY, $crop = false, $expand = false, $cache
 
     switch ($method) {
         case 'gd1':
-            $return = capiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
+            $return = cApiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
             break;
-
         case 'gd2':
-            $return = capiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
+            $return = cApiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
             break;
-
         case 'im':
-            $return = capiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
+            $return = cApiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
             break;
-
         case 'failure':
-            $return = str_replace($cfgClient[$client]["path"]["frontend"], $cfgClient[$client]["path"]["htmlpath"], $img);
+        default:
+            $return = str_replace(cRegistry::getFrontendPath(), cRegistry::getFrontendUrl(), $img);
             break;
     }
 
-    if ($deleteAfter == true) {
+    if ($deleteAfter) {
         unlink($img);
     }
 
     return $return;
 }
 
-/**
- * check possible image editing functionality
- *
- * return mixed information about installed image editing extensions/tools
- */
-function checkImageEditingPosibility() {
+// ToDo
+function cApiImgScaleLQ(string $img, int $maxX, int $maxY, $crop = false, $expand = false, int $cacheTime = 10, int $quality = 0, bool $keepType = false): bool|string
+{
+    if (!cFileHandler::exists($img)) {
+        return false;
+    }
 
-    if (isImageMagickAvailable()) {
+    $clientConfig = cRegistry::getClientConfig(cRegistry::getClientId());
+
+    $fileType = cString::toLowerCase(cFileHandler::getExtension($img));
+    $md5 = cApiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
+    $cacheFileName = cApiImageGetCacheFileName($md5, $fileType, $keepType);
+    $cacheFile = $clientConfig['cache']['path'] . $cacheFileName;
+    $webFile = cRegistry::getFrontendUrl() . 'cache/' . $cacheFileName;
+
+    if (cApiImageCheckCachedImageValidity($cacheFile, $cacheTime)) {
+        return $webFile;
+    }
+
+    // If we can't open the image, return false
+    $imageHandle = cApiImgCreateImageResourceFromFile($img, $fileType);
+    if (!$imageHandle) {
+        return false;
+    }
+
+    $x = imagesx($imageHandle);
+    $y = imagesy($imageHandle);
+
+    list($targetX, $targetY) = cApiImageGetTargetDimensions($x, $y, $maxX, $maxY, $expand);
+
+    // Create the target image with the target size, resize it afterwards.
+    if ($crop) {
+        // Create the target image with the max size, crop it afterwards.
+        $targetImage = imagecreate($maxX, $maxY);
+        imagecopy($targetImage, $imageHandle, 0, 0, 0, 0, $maxX, $maxY);
+    } else {
+        // Create the target image with the target size, resize it afterwards.
+        $targetImage = imagecreate($targetX, $targetY);
+        imagecopyresized($targetImage, $imageHandle, 0, 0, 0, 0, $targetX, $targetY, $x, $y);
+    }
+
+    // Save the cache file
+    cApiImgSaveImageResourceToFile($targetImage, $cacheFile, $quality, $fileType, $keepType);
+
+    // Return the web file
+    return $webFile;
+}
+
+/**
+ * @param string $img
+ * @param int $maxX
+ * @param int $maxY
+ * @param bool $crop
+ * @param bool $expand
+ * @param int $cacheTime
+ * @param int $quality
+ * @param bool $keepType
+ * @return bool|string
+ */
+function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, bool $expand = false, int $cacheTime = 10, int $quality = 0, bool $keepType = true): bool|string
+{
+    if (!cFileHandler::exists($img)) {
+        return false;
+    }
+
+    $clientConfig = cRegistry::getClientConfig(cRegistry::getClientId());
+
+    $fileType = cString::toLowerCase(cFileHandler::getExtension($img));
+    $md5 = cApiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
+    $cacheFileName = cApiImageGetCacheFileName($md5, $fileType, $keepType);
+    $cacheFile = $clientConfig['cache']['path'] . $cacheFileName;
+    $webFile = cRegistry::getFrontendUrl() . 'cache' . DIRECTORY_SEPARATOR . $cacheFileName;
+
+    if (cApiImageCheckCachedImageValidity($cacheFile, $cacheTime)) {
+        return $webFile;
+    }
+
+    $imageHandle = cApiImgCreateImageResourceFromFile($img, $fileType);
+    if (!$imageHandle) {
+        return false;
+    }
+
+    $x = imagesx($imageHandle);
+    $y = imagesy($imageHandle);
+
+    if ($crop) {
+        $targetImage = imagecreatetruecolor($maxX, $maxY);
+    } else {
+        list($targetX, $targetY) = cApiImageGetTargetDimensions($x, $y, $maxX, $maxY, $expand);
+        $targetImage = imagecreatetruecolor($targetX, $targetY);
+    }
+
+    if ($fileType == 'gif' || $fileType == 'png' || $fileType == 'webp') {
+        // Turn off alpha blending
+        imagealphablending($imageHandle, false);
+        imagealphablending($targetImage, false);
+    }
+
+    if ($crop) {
+        // calculate canter of the image
+        $srcX = ($x - $maxX) / 2;
+        $srcY = ($y - $maxY) / 2;
+
+        // crop image from center
+        imagecopy($targetImage, $imageHandle, 0, 0, $srcX, $srcY, $maxX, $maxY);
+    } else {
+        imagecopyresampled($targetImage, $imageHandle, 0, 0, 0, 0, $targetX, $targetY, $x, $y);
+    }
+
+    if ($fileType == 'gif' || $fileType == 'png' || $fileType == 'webp') {
+        // Set alpha flag
+        imagesavealpha($png, true);
+        imagesavealpha($targetImage, true);
+    }
+
+    // Save the cache file
+    cApiImgSaveImageResourceToFile($targetImage, $cacheFile, $quality, $fileType, $keepType);
+
+    // Return the web file
+    return $webFile;
+}
+
+// ToDo
+function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false) {
+    if (!cFileHandler::exists($img)) {
+        return false;
+    } elseif (isFunctionDisabled('escapeshellarg') || isFunctionDisabled('exec')) {
+        return false;
+    }
+
+    $cfgClient = cRegistry::getClientConfig();
+    $client = cRegistry::getClientId();
+
+    $fileName = $img;
+    $maxX = cSecurity::toInteger($maxX);
+    $maxY = cSecurity::toInteger($maxY);
+    $cacheTime = cSecurity::toInteger($cacheTime);
+
+    $frontendURL = cRegistry::getFrontendUrl();
+    $fileType = cFileHandler::getExtension($fileName);
+    $md5 = cApiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
+    $cacheFileName = cApiImageGetCacheFileName($md5, $fileType, $keepType);
+    $cacheFile = $cfgClient[$client]['cache']['path'] . $cacheFileName;
+    $webFile = $frontendURL . 'cache/' . $cacheFileName;
+
+    if (cApiImageCheckCachedImageValidity($cacheFile, $cacheTime)) {
+        return $webFile;
+    }
+
+    list($x, $y) = @getimagesize($fileName);
+    if ($x == 0 || $y == 0) {
+        return false;
+    }
+
+    list($targetX, $targetY) = cApiImageGetTargetDimensions($x, $y, $maxX, $maxY, $expand);
+
+    // If is animated gif resize first frame
+    if ($fileType == 'gif') {
+        if (cApiImageIsAnimGif($fileName)) {
+            $fileName .= '[0]';
+        }
+    }
+
+    $cfg = cRegistry::getConfig();
+
+    // Try to execute convert
+    $output = [];
+    $retVal = 0;
+    $convertCommand = $cfg['images']['image_magick']['command'];
+    $program = escapeshellarg($cfg['images']['image_magick']['path'] . $convertCommand);
+    $source = escapeshellarg($fileName);
+    $destination = escapeshellarg($cacheFile);
+    $quality = cApiImgGetCompressionRate($fileType, $quality);
+    if ($crop) {
+        $cmd = "'{$program}' -gravity center -quality {$quality} -crop {$maxX}x{$maxY}+1+1 '{$source}' '{$destination}'";
+    } else {
+        $cmd = "'{$program}' -quality {$quality} -geometry {$targetX}x{$targetY} '{$source}' '{$destination}'";
+    }
+
+    exec($cmd, $output, $retVal);
+
+    if (!cFileHandler::exists($cacheFile)) {
+        return false;
+    } else {
+        return $webFile;
+    }
+}
+
+
+function cApiImageCheckImageEditingPossibility(): string
+{
+    if (class_exists("Imagick")) {
         return 'im';
     } else {
         if (extension_loaded('gd')) {
             if (function_exists('gd_info')) {
-                $arrGDInformations = gd_info();
+                $gdInfo = gd_info();
 
-                if (preg_match('#([0-9.])+#', $arrGDInformations['GD Version'], $strGDVersion)) {
+                if (preg_match('#([0-9.])+#', $gdInfo['GD Version'], $strGDVersion)) {
                     if ($strGDVersion[0] >= '2') {
                         return '2';
                     }
@@ -705,5 +326,188 @@ function checkImageEditingPosibility() {
             return '1';
         }
         return '0';
+    }
+}
+
+/**
+ * @param string $imgType
+ * @param int $quality
+ * @return int
+ */
+function cApiImgGetCompressionRate(string $imgType, int $quality = 0): int
+{
+    if ($quality <= 0 || $quality > 100) {
+        $quality = 75;
+    }
+
+    switch (cString::toLowerCase($imgType)) {
+        case 'png':
+            // Convert compression rate to PNG compression level
+            $quality = ($quality - 100) / 11.111111;
+            $quality = round(abs($quality));
+            break;
+        case 'svg':
+        case 'webp':
+        case 'jpg':
+        case 'jpeg':
+            // No action needed for jpg or jpeg
+            break;
+        default:
+            $quality = 0;
+    }
+
+    return $quality;
+}
+
+/**
+ * Returns the MD5 filename used for caching.
+ *
+ * @param string $img Path to image
+ * @param int $maxX Maximum image x size
+ * @param int $maxY Maximum image y size
+ * @param bool $crop Flag to crop image
+ * @param bool $expand Flag to expand image
+ * @return false|string Path to the resulting image or false if image file does not exists
+ */
+function cApiImgScaleGetMD5CacheFile(string $img, int $maxX, int $maxY, bool $crop, bool $expand): bool|string
+{
+    if (!cFileHandler::exists($img)) {
+        return false;
+    }
+
+    $fileSize = filesize($img);
+    $nameParts = [$img, $fileSize, $maxX, $maxY, $crop, $expand];
+
+    if (function_exists('md5_file')) {
+        array_shift($nameParts);
+        array_unshift($nameParts, $img, md5_file($img));
+    }
+
+    return md5(implode("", $nameParts));
+}
+
+/**
+ * Returns cache file name.
+ *
+ * @param string $md5
+ * @param string $fileType
+ * @param bool $keepType
+ * @return string
+ */
+function cApiImageGetCacheFileName(string $md5, string $fileType, bool $keepType): string
+{
+    if ($keepType) {
+        switch (cString::toLowerCase($fileType)) {
+            case 'png':
+                $fileName = $md5 . '.png';
+                break;
+            case 'gif':
+                $fileName = $md5 . '.gif';
+                break;
+            case 'webp':
+                $fileName = $md5 . '.webp';
+                break;
+            default:
+                $fileName = $md5 . '.jpg';
+        }
+    } else {
+        $fileName = $md5 . '.jpg';
+    }
+
+    return $fileName;
+}
+
+/**
+ * Validates cache version of a image.
+ *
+ * @param string $cacheFile
+ * @param int $cacheTime
+ * @return bool Returns true, if cache file exists and/or is still valid or false
+ */
+function cApiImageCheckCachedImageValidity(string $cacheFile, int $cacheTime): bool
+{
+    if (cFileHandler::exists($cacheFile)) {
+        if ($cacheTime == 0) {
+            return true;
+        } else {
+            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
+                unlink($cacheFile);
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+/**
+ * Returns image resource by file name.
+ *
+ * @param string $fileName Path to image
+ * @param string|null $fileType File type (extension)
+ * @return resource|null Created image resource or null
+ */
+function cApiImgCreateImageResourceFromFile(string $fileName, string $fileType = null)
+{
+    if (!cFileHandler::exists($fileName)) {
+        return null;
+    }
+
+    if (is_null($fileType)) {
+        $fileType = cFileHandler::getExtension($fileName);
+    }
+
+    // Find out which file we have
+    switch (cString::toLowerCase($fileType)) {
+        case 'gif':
+            $function = 'imagecreatefromgif';
+            break;
+        case 'png':
+            $function = 'imagecreatefrompng';
+            break;
+        case 'jpeg':
+        case 'jpg':
+            $function = 'imagecreatefromjpeg';
+            break;
+        case 'webp':
+            $function = 'imagecreatefromwebp';
+            break;
+        default:
+            return null;
+    }
+
+    return function_exists($function) ? @$function($fileName) : null;
+}
+
+/**
+ * Saves the given image resource to file
+ *
+ * @param GdImage $targetImage
+ * @param string $saveTo
+ * @param int $quality
+ * @param string $fileType
+ * @param bool $keepType
+ * @return bool
+ */
+function cApiImgSaveImageResourceToFile($targetImage, $saveTo, $quality, $fileType, $keepType): bool
+{
+    // save the file
+    if ($keepType) {
+        switch (cString::toLowerCase($fileType)) {
+            case 'png':
+                $quality = cApiImgGetCompressionRate($fileType, $quality);
+                return imagepng($targetImage, $saveTo, $quality);
+            case 'gif':
+                return imagegif($targetImage, $saveTo);
+            case 'webp':
+                $quality = cApiImgGetCompressionRate($fileType, $quality);
+                return imagewebp($targetImage, $saveTo, $quality);
+            default:
+                $quality = cApiImgGetCompressionRate($fileType, $quality);
+                return imagejpeg($targetImage, $saveTo, $quality);
+        }
+    } else {
+        $quality = cApiImgGetCompressionRate($fileType, $quality);
+        return imagejpeg($targetImage, $saveTo, $quality);
     }
 }
