@@ -7,12 +7,9 @@
  * adapted and recoded for ConLite by Ortwin Pinke
  *
  * @package    PluginManager
- * @version    $Rev: 41 $
  * @author     Ortwin Pinke <ortwin.pinke@conlite.org>
  * @author     Frederic Schneider
- * @copyright (c) 2008-2015, ConLite.org
- * 
- *   $Id: include.right_bottom.php 41 2018-05-20 21:55:49Z oldperl $
+ * @copyright  ConLite.org
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -21,8 +18,9 @@ if (!defined('CON_FRAMEWORK')) {
 /* @var $perm Contenido_Perm */
 /* @var $auth Contenido_Challenge_Crypt_Auth */
 
-$oNoti = new Contenido_Notification();
-$aMessages = array();
+$Notification = new Contenido_Notification();
+$aMessages = [];
+
 $oPage = new cPage();
 $oPage->sendNoCacheHeaders();
 $oPage->setHtml5();
@@ -34,15 +32,16 @@ $oPage->addJsFile("plugins/pluginmanager/scripts/pluginmanager.js");
 // give permission only to sysadmin
 /* @var $perm Contenido_Perm */
 if (!$perm->isSysadmin()) {
-    $oPage->setContent($oNoti->returnNotification(Contenido_Notification::LEVEL_ERROR, i18n("Permission denied!")));
+    $oPage->setContent($Notification->returnNotification(Contenido_Notification::LEVEL_ERROR, i18n("Permission denied!")));
     $oPage->render();
     die();
 }
 
 // check disable plugin var
 if ($cfg['debug']['disable_plugins'] === true) {
-    $oPage->setContent($oNoti->returnNotification(Contenido_Notification::LEVEL_WARNING, i18n('Currently the plugin system is disabled via configuration', "pluginmanager")));
+    $oPage->setContent($Notification->returnNotification(Contenido_Notification::LEVEL_WARNING, i18n('Currently the plugin system is disabled via configuration', "pluginmanager")));
     $oPage->render();
+    die();
 }
 
 $oPimPluginCollection = new pimPluginCollection();
@@ -156,14 +155,11 @@ if (is_dir($cfg['path']['plugins'])) {
                     $aMessages[] = "error:".sprintf(i18n('Invalid Xml document for %s. Please contact the plugin author.', 'pluginmanager'),$sPiCfg);
                     continue;
                 }
-                //echo "<pre>";
-                //print_r($oPluginHandler->getCfgXmlObject());
+
                 $aNeededTplVar['writeable'] = ($bPiPathWritable)?i18n("Everything looks fine.", "pluginmanager"):'<span style="color:red;">'
                     .i18n("Pluginfolder not writable!", "pluginmanager").'</span>';
                 $aInfoGeneral = array_merge($aNeededTplVar, $oPluginHandler->getPiGeneralArray());
-                //echo "<pre>";
-                //print_r($aInfoGeneral);
-                
+
                 // initalization new template class
                 $oView2 = new pimView();
                 $oView2->setVariable($iPiExCount, "PLUGIN_NUMBER");
@@ -204,7 +200,6 @@ $oView->setVariable($iNumInstalledPlugins, 'INSTALLED_PLUGINS');
 $oView->setVariable($sPlugins, 'PLUGINS');
 $oView->setVariable($pluginsExtracted, 'PLUGINS_EXTRACTED');
 
-//print_r($aMessages);
 // show overview page
 $oView->setTemplate('pi_manager_overview.html');
 $sMessages = "";
@@ -218,4 +213,3 @@ if(count($aMessages) > 0 ) {
 //$oView->getRendered();
 $oPage->setContent(array($oView->getRendered(1), $sMessages));
 $oPage->render();
-?>
