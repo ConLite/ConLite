@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Project: 
+ * Project:
  * Contenido Content Management System
- * 
- * Description: 
+ *
+ * Description:
  * Stringlist for module translation
- * 
- * Requirements: 
+ *
+ * Requirements:
  * @con_php_req 5.0
- * 
+ *
  *
  * @package    Contenido Backend includes
  * @version    1.0.1
@@ -19,14 +19,14 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
+ *
+ * {@internal
  *   created unknown
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *
  *   $Id$:
  * }}
- * 
+ *
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -41,7 +41,7 @@ $page->setHtml5();
 $page->setEncoding('UTF-8');
 $page->setMargin(0);
 
-$v = '<table cellspacing="0" cellpadding="0" width="600">';
+$v = '<table>';
 
 $link = new cHTMLLink;
 $link->setCLink("mod_translate", 4, "");
@@ -71,12 +71,12 @@ while ($translation = $translations->next()) {
     if ($idmodtranslation == $translation->get("idmodtranslation")) {
         $bgcol = $cfg["color"]["table_active"];
     }
-    $v .= '<tr bgcolor="' . $bgcol . '">'."\n"
-            . '<td style="padding-left: 2px; padding-top:2px; padding-bottom: 2px;" width="50%">'."\n"
-            . '<a name="' . $translation->get("idmodtranslation") . '"></a>'."\n"
-            . $mylink->render() . '</td>'."\n"
-            . '<td style="padding-left: 2px;">' . $tstring . '</td>'."\n"
-            . '</tr>'."\n";
+    $v .= '<tr bgcolor="' . $bgcol . '">' . "\n"
+        . '<td style="padding-left: 2px; padding-top:2px; padding-bottom: 2px;" width="50%">' . "\n"
+        . '<a name="' . $translation->get("idmodtranslation") . '"></a>' . "\n"
+        . $mylink->render() . '</td>' . "\n"
+        . '<td style="padding-left: 2px;">' . $tstring . '</td>' . "\n"
+        . '</tr>' . "\n";
 }
 
 $v .= '</table>';
@@ -87,4 +87,3 @@ $clang = new cApiLanguage($lang);
 $page->setEncoding($clang->get("encoding"));
 
 $page->render();
-?>

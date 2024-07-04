@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Project: 
+ * Project:
  * Contenido Content Management System
- * 
- * Description: 
+ *
+ * Description:
  * Module translation editor
- * 
- * Requirements: 
+ *
+ * Requirements:
  * @con_php_req 5.0
- * 
+ *
  *
  * @package    Contenido Backend includes
  * @version    1.1.3
@@ -19,15 +19,15 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
+ *
+ * {@internal
  *   created unknown
  *   modified 2008-06-27, Frederic Schneider, add security fix
  *   modified 2010-09-22, Murat Purc, Fixed setting of wrong initial translation id [#CON-347]
  *
  *   $Id$:
  * }}
- * 
+ *
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -38,11 +38,11 @@ $langobj = new cApiLanguage($lang);
 
 $langstring = $langobj->get("name") . ' (' . $lang . ')';
 
-$moduletranslations = new cApiModuleTranslationCollection;
+$moduletranslations = new cApiModuleTranslationCollection();
 $module = new cApiModule($idmod);
 
 if ($action == "mod_translation_save") {
-    $strans = new cApiModuleTranslation;
+    $strans = new cApiModuleTranslation();
     $strans->loadByPrimaryKey($idmodtranslation);
 
     if ($strans->get("idmod") == $idmod) {
@@ -97,7 +97,7 @@ if ($mtrans->get("idmod") != $idmod) {
     if (is_object($mtrans)) {
         $idmodtranslation = $mtrans->get("idmodtranslation");
     } else {
-        $mtrans = new cApiModuleTranslation;
+        $mtrans = new cApiModuleTranslation();
     }
 }
 
@@ -138,9 +138,9 @@ $ilink->setCustom("idmod", $idmod);
 $ilink->setCustom("idmodtranslation", $mtrans->get("idmodtranslation"));
 $ilink->setAnchor($mtrans->get("idmodtranslation"));
 
-$iframe = '<iframe frameborder="0" style="border: 1px;border-color: black; border-style: solid;" width="620" src="' . $ilink->getHREF() . '"></iframe>';
+$iframe = '<iframe style="border: 1px;border-color: black; border-style: solid;" width="620" src="' . $ilink->getHREF() . '"></iframe>';
 
-$table = '<table border="0" width="600" border="0"><tr><td width="50%">' . i18n("Original module string") . '</td><td width="50%">' . sprintf(i18n("Translation for %s"), $langstring) . '</td><td width="20">&nbsp;</td></tr><tr><td colspan="3">' . $iframe . '</td></tr>';
+$table = '<table><tr><td width="50%">' . i18n("Original module string") . '</td><td width="50%">' . sprintf(i18n("Translation for %s"), $langstring) . '</td><td width="20">&nbsp;</td></tr><tr><td colspan="3">' . $iframe . '</td></tr>';
 
 $original = new cHTMLTextarea("t_orig", clHtmlSpecialChars($mtrans->get("original")));
 $original->setStyle("width: 300px;");
@@ -166,7 +166,7 @@ $import->setChecked("checked");
 $form2 = new UI_Table_Form("export");
 $form2->setVar("action", "mod_importexport_translation");
 $form2->addHeader("Import/Export");
-$form2->add(i18n("Mode"), array($export, "<br>", $import));
+$form2->add(i18n("Mode"), [$export, "<br>", $import]);
 $form2->add(i18n("File"), $upload, "vupload");
 $form2->setVar("area", $area);
 $form2->setVar("frame", $frame);
