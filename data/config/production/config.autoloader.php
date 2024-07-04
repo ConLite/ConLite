@@ -328,7 +328,6 @@ return array(
     'Output_Compressor' => 'conlite/classes/class.output_compressor.php',
     'cArticleCollector' => 'conlite/classes/class.article.collector.php',
     'Cms_FileList' => 'conlite/classes/class.cms_filelist.php',
-    'ExcelWorksheet' => 'conlite/classes/class.excel.php',
     'Contenido_Category_Articles' => 'conlite/classes/Contenido_Category/Contenido_Category_Articles.class.php',
     'Contenido_Category' => 'conlite/classes/Contenido_Category/Contenido_Category.class.php',
     'Contenido_Categories' => 'conlite/classes/Contenido_Category/Contenido_Category.class.php',
