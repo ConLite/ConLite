@@ -8,12 +8,12 @@ if (file_exists($configEnv)) {
 
 if (!defined('CL_ENVIRONMENT')) {
     if (getenv('CONLITE_ENVIRONMENT')) {
-        define('CL_ENVIRONMENT', getenv('CONLITE_ENVIRONMENT'));
-    } if (getenv('CONTENIDO_ENVIRONMENT')) {
-        define('CL_ENVIRONMENT', getenv('CONTENIDO_ENVIRONMENT'));
-    }  else {
-        define('CL_ENVIRONMENT', 'production');
+        $sEnvironment = getenv('CONLITE_ENVIRONMENT');
+    } elseif (getenv('CL_ENVIRONMENT')) {
+        $sEnvironment = getenv('CL_ENVIRONMENT');
+    } else {
+        $sEnvironment =  'production';
     }
+    define('CL_ENVIRONMENT', $sEnvironment);
+    unset($sEnvironment);
 }
-
-//echo CL_ENVIRONMENT;
