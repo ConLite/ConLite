@@ -131,9 +131,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
     exit();
 }
 
-// Call hook after plugins are loaded, added by Murat Purc, 2008-09-07
-CEC_Hook::execute('Contenido.Frontend.AfterLoadPlugins');
-
 if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     // get encodings of all languages
     $encoding = array();
