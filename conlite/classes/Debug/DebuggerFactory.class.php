@@ -39,7 +39,7 @@ class DebuggerFactory {
     
     /**
      *
-     * @param type $sType
+     * @param string $sType
      * @return Debug_VisibleAdv 
      */
     public static function getDebugger($sType) {
