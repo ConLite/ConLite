@@ -15,6 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Setup PHP with tools
+  uses: https://github.com/shivammathur/setup-php@v2
+  with:
+    php-version: '8.3'
+    tools: php-cs-fixer, phpunit
+
     - uses: actions/checkout@v4
 
     - name: Validate composer.json and composer.lock
