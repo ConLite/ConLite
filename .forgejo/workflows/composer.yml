@@ -14,9 +14,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-      name: Setup PHP with composer v2
-      uses: https://github.com/shivammathur/setup-php@v2
-      with:
-        php-version: '8.3'
-        tools: composer:v2
+    - name: Setup PHP
+  id: setup-php
+  uses: shivammathur/setup-php@v2
+  with:
+    php-version: '8.3'
+
+- name: Print PHP version
+  run: echo ${{ steps.setup-php.outputs.php-version }}
