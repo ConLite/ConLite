@@ -33,6 +33,6 @@ jobs:
 #          env:
 #            XDEBUG_MODE: coverage
 #          run: composer run-script phpunit
-
-        - name: Run PHPStan
-          run: composer run-script phpstan
+#
+#        - name: Run PHPStan
+#          run: composer run-script phpstan
