@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - name: Setup PHP with tools
-  uses: https://github.com/marketplace/actions/setup-php-action
+  uses: https://github.com/marketplace/actions/setup-php-action@v2
   with:
     php-version: '8.3'
     tools: php-cs-fixer, phpunit
