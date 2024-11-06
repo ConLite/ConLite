@@ -10,10 +10,16 @@ jobs:
     build:
 
         runs-on: ubuntu-latest
+        env:
+            COMPOSER_NO_DEV: 1
 
         steps:
         - uses: actions/checkout@v3
-        - uses: php-actions/composer@v6
+
+        - name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: 8.3
 
         - name: Validate composer.json and composer.lock
           run: composer validate --strict
