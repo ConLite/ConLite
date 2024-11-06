@@ -1,24 +1,33 @@
-name: Caching Primes
+name: PHP Composer
 
-on: push
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Cache Primes
-      id: cache-primes
-      uses: actions/cache@v4
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
       with:
-        path: prime-numbers
-        key: ${{ runner.os }}-primes
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
 
-    - name: Generate Prime Numbers
-      if: steps.cache-primes.outputs.cache-hit != 'true'
-      run: /generate-primes.sh -d prime-numbers
-
-    - name: Use Prime Numbers
-      run: /primes.sh -d prime-numbers
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
