@@ -10,8 +10,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "phpmailer/phpmailer": "v6.9.1",
-        "twig/twig": "^3.14"
+        "phpmailer/phpmailer": "v6.9.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
