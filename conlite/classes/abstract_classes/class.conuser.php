@@ -22,9 +22,6 @@
 // include interface...
 cInclude('interfaces', 'interface.conuser.php');
 
-// include exception
-cInclude('exceptions', 'exception.conuser.php');
-
 /**
  * This abstract class implements interface iConUser and should
  * be user as base class for backend user classes.

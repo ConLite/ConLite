@@ -95,7 +95,6 @@ return array(
     'cRegistry' => 'conlite/classes/con2con/class.registry.php',
     'cDirHandler' => 'conlite/classes/con2con/class.dirhandler.php',
     'cAutoload' => 'conlite/classes/class.autoload.php',
-    'ConUserException' => 'conlite/classes/exceptions/exception.conuser.php',
     'VersionImport' => 'conlite/classes/class.versionImport.php',
     'UI_Left_Top' => 'conlite/classes/class.ui.php',
     'UI_Menu' => 'conlite/classes/class.ui.php',

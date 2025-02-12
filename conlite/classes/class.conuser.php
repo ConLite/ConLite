@@ -59,9 +59,6 @@ if (! defined ( 'CON_FRAMEWORK' )) {
     die ( 'Illegal call' );
 }
 
-// Exception classes
-cInclude ( "exceptions", "exception.conuser.php" );
-
 /**
  * Project:
  * Contenido Content Management System
