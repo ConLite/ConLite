@@ -2,6 +2,7 @@
 
 namespace ConLite\GenericDb;
 
+use ConLite\Exceptions\Exception;
 use ConLite\GenericDb\Driver\GenericDbDriver;
 use ConLite\GenericDb\Driver\MySql\GenericDbDriverMySql;
 use DB_ConLite;
@@ -879,11 +880,12 @@ abstract class ItemCollection extends ItemBaseAbstract
      * Advances to the next item in the database.
      *
      * @return Item|bool  The next object, or false if no more objects
+     * @throws Exception
      */
     public function next() {
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             if ($this->_bAllMode) {
-                $aRs = $this->db->toArray(DB_ConLite::FETCH_BOTH);
+                $aRs = $this->db->toArray();
                 return $this->loadItem($aRs);
             } else {
                 return $this->loadItem($this->db->f($this->primaryKey));
@@ -1051,13 +1053,13 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @param   mixed   $mItem  The primary key of the item to load or a recordset
      *                          with itemdata (array) to inject to the item object.
      * @return  Item  The newly created object
-     * @throws  Contenido_ItemException  If item class is not set
+     * @throws  Exception  If item class is not set
      */
     public function loadItem($mItem) {
         if (empty($this->_itemClass)) {
             $sMsg = "ItemClass has to be set in the constructor of class "
                 . get_class($this) . ")";
-            throw new Contenido_ItemException($sMsg);
+            throw new Exception($sMsg);
         }
 
         if (!is_object($this->_iteratorItem)) {
@@ -1091,6 +1093,7 @@ abstract class ItemCollection extends ItemBaseAbstract
 
         $sql = 'INSERT INTO `%s` (%s) VALUES (%d)';
         $oDb->query($sql, $this->table, $this->primaryKey, $iNextId);
+
         return $this->loadItem($iNextId);
     }
 
@@ -1195,7 +1198,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = "DELETE FROM `%s` WHERE %s = '%s'";
         $oDb->query($sql, $this->table, $this->primaryKey, $mId);
 
-        return (($oDb->affected_rows() > 0) ? true : false);
+        return (($oDb->affectedRows() > 0) ? true : false);
     }
 
     /**

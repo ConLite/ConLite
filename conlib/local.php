@@ -40,7 +40,7 @@ if (!defined('CON_FRAMEWORK')) {
 /**
  * DB-class for all DB handling
  */
-class DB_ConLite extends DB_Sql {
+class DB_ConLite extends \ConLite\Database\DbConLite {
     protected bool $NoRecord;
 
     /**
@@ -74,7 +74,7 @@ class DB_ConLite extends DB_Sql {
         //$this->query("SET NAMES 'utf8'");
         
         // modify mysql strict mode
-        $this->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
+        // $this->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
     }
 
     /**
@@ -87,7 +87,7 @@ class DB_ConLite extends DB_Sql {
         return $this->nextRecord();
     }
 
-    public function nextRecord(): bool|int
+   /* public function nextRecord(): bool|int
     {
         $currentModule = cRegistry::getCurrentModule();
 
@@ -101,7 +101,7 @@ class DB_ConLite extends DB_Sql {
         }
 
         return parent::next_record();
-    }
+    }*/
 
     /**
      * Returns the metada of passed table
@@ -111,7 +111,7 @@ class DB_ConLite extends DB_Sql {
      *                       or false in case of an error
      * @deprecated  Use db drivers toArray() method instead
      */
-    public function copyResultToArray($sTable = '') {
+ /*   public function copyResultToArray($sTable = '') {
 
         $aValues = [];
 
@@ -127,7 +127,7 @@ class DB_ConLite extends DB_Sql {
         }
 
         return $aValues;
-    }
+    }*/
 
 }
 

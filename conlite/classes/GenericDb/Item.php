@@ -290,11 +290,11 @@ abstract class Item extends ItemBaseAbstract
 
         $this->_lastSQL = $sql;
 
-        if ($this->db->affected_rows() > 0) {
+        if ($this->db->affectedRows() > 0) {
             self::$_oCache->addItem($this->table . "_" . $this->oldPrimaryKey, $this->values);
         }
 
-        return $this->db->affected_rows() >= 1;
+        return ($this->db->affectedRows() >= 1);
     }
 
     /**
