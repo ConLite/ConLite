@@ -517,7 +517,7 @@ function tplIsTemplateInUse($idtpl) {
                 b.idtplcfg  IN (SELECT idtplcfg FROM " . $cfg["tab"]["tpl_conf"] . " WHERE idtpl = '" . $idtpl . "')  
             ORDER BY b.idlang ASC, b.name ASC ";
     $db->query($sql);
-    if ($db->Errno == '' && $db->num_rows() > 0) {
+    if ($db->getErrno() == '' && $db->num_rows() > 0) {
         return true;
     }
 
@@ -535,7 +535,7 @@ function tplIsTemplateInUse($idtpl) {
 
     $db->query($sql);
 
-    if ($db->Errno == '' && $db->num_rows() > 0) {
+    if ($db->getErrno() == '' && $db->num_rows() > 0) {
         return true;
     }
 
@@ -572,7 +572,7 @@ function tplGetInUsedData($idtpl) {
                 b.idtplcfg  IN (SELECT idtplcfg FROM " . $cfg["tab"]["tpl_conf"] . " WHERE idtpl = '" . $idtpl . "')  
             ORDER BY b.idlang ASC, b.name ASC ";
     $db->query($sql);
-    if ($db->Errno == 0 && $db->num_rows() > 0) {
+    if ($db->getError() == 0 && $db->num_rows() > 0) {
         while ($db->next_record()) {
             $aUsedData['cat'][] = array(
                 'name' => $db->f('name'),
@@ -596,7 +596,7 @@ function tplGetInUsedData($idtpl) {
 
     $db->query($sql);
 
-    if ($db->Errno == '' && $db->num_rows() > 0) {
+    if ($db->getErrno() == '' && $db->num_rows() > 0) {
         while ($db->next_record()) {
             $aUsedData['art'][] = array(
                 'title' => $db->f('title'),
@@ -779,5 +779,3 @@ function tplAutoFillModules($idtpl) {
         }
     }
 }
-
-?>

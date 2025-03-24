@@ -80,6 +80,8 @@ class LogWriterFile extends LogWriter
     {
         $logfile = $this->getOption('destination');
 
+        //var_dump(file_exists($logfile));
+
         if(!file_exists($logfile)) {
             cWarning(__FILE__, __LINE__, 'Logfile ' . $logfile . ' not found.');
             return false;
@@ -116,6 +118,8 @@ class LogWriterFile extends LogWriter
                 }
                 rename($baseDirectory . DIRECTORY_SEPARATOR . $file2move, $baseDirectory . DIRECTORY_SEPARATOR .$baseName . '.' . $targetN);
             }
+
+            file_put_contents($baseDirectory . DIRECTORY_SEPARATOR . $baseName, '');
 
             return true;
         }

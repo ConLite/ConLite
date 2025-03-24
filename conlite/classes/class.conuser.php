@@ -87,6 +87,11 @@ if (! defined ( 'CON_FRAMEWORK' )) {
 class ConUser extends ConUser_Abstract {
 
     /**
+     * @var \ConLite\Database\DbConLite
+     */
+    protected $oDB;
+
+    /**
 	 * Realname
 	 * @var string
 	 */
@@ -275,7 +280,7 @@ class ConUser extends ConUser_Abstract {
             if (! $this->oDb->query ( $sSql )) {
                 throw new ConUserException ( "Could not create user in database" );
             } else {
-                if ($this->oDb->affected_rows () == 1) {
+                if ($this->oDb->affectedRows() () == 1) {
                     // set password, if available...
                     $sNewPass = $this->getPassword();
 
@@ -313,7 +318,7 @@ class ConUser extends ConUser_Abstract {
         WHERE
             user_id = '" . Contenido_Security::escapeDB ( strtolower ( $sUserId ), $this->oDb ) . "'";
 
-        if ($this->oDb->query ( $sSql) !== false && $this->oDb->next_record()) {
+        if ($this->oDb->query ( $sSql) !== false && $this->oDb->nextRecord()) {
             $iCount = (int) $this->oDb->f('user_cnt');
 
             $bResult = ($iCount != 0);
@@ -348,7 +353,7 @@ class ConUser extends ConUser_Abstract {
         WHERE
             LOWER(`username`) = '" . Contenido_Security::escapeDB ( strtolower ( $sUsername ), $this->oDb ) . "'";
 
-        if ($this->oDb->query ( $sSql) !== false && $this->oDb->next_record()) {
+        if ($this->oDb->query ( $sSql) !== false && $this->oDb->nextRecord()) {
             $iCount = (int) $this->oDb->f('user_cnt');
 
             $bResult = ($iCount != 0);
@@ -394,7 +399,7 @@ class ConUser extends ConUser_Abstract {
             }
 
             if ($bSaveAllowed && $this->aCfg ['password'] ['use_cracklib']) {
-                $iStrengthResult = iConUser::checkPasswordStrength ( $sNewPassword );
+                $iStrengthResult = $this->checkPasswordStrength($sNewPassword);
 
                 if ($iStrengthResult != iConUser::PASS_OK) {
                     $iResult = $iStrengthResult;
@@ -419,7 +424,7 @@ class ConUser extends ConUser_Abstract {
 
                 $bQueryResult = $this->oDb->query ( $sSql );
 
-                if (! $bQueryResult || $this->oDb->affected_rows () < 1) {
+                if (! $bQueryResult || $this->oDb->affectedRows() () < 1) {
                     throw new ConUserException ( "Could not set password! A DB error occured." );
                 } else {
                     $iResult = iConUser::PASS_OK;
@@ -466,7 +471,7 @@ class ConUser extends ConUser_Abstract {
 					  WHERE user_id = "' . Contenido_Security::escapeDB ( $this->sIdUser, $this->oDB ) . '"';
 
             try {
-                if (( int ) $this->oDB->query ( $sSql ) != 1 || $this->oDB->affected_rows () != 1) {
+                if (( int ) $this->oDB->query ( $sSql ) != 1 || $this->oDB->affectedRows() () != 1) {
                     throw new ConDbException ( "Update could not possible" );
                 }
             } catch ( ConDbException $e ) {

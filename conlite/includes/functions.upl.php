@@ -444,14 +444,13 @@ function uplRenameDirectory($oldpath, $newpath, $parent) {
     }
 }
 
-function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = '', $iRenameLevel = null) {
-    $dirhandle = @opendir($directory);
-
+function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = '', $iRenameLevel = null): array
+{
+    $dirhandle = opendir($directory);
+    $aInvalidDirectories = [];
     if (!$dirhandle) {
         
     } else {
-        $aInvalidDirectories = array();
-
         unset($files);
 
         //list the files in the dir
@@ -506,9 +505,8 @@ function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = ''
                 }
             }
         }
+        closedir($dirhandle);
     }
-
-    @closedir($dirhandle);
     return $aInvalidDirectories;
 }
 

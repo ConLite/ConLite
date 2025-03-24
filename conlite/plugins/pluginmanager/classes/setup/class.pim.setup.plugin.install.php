@@ -34,6 +34,7 @@ class pimSetupPluginInstall extends pimSetupBase {
         
         $oPiColl = new pimPluginCollection();
         $this->_oPlugin = $oPiColl->createNewItem();
+
         if ($this->_oPlugin->isLoaded()) {
             $this->_iPiId = $this->_oPlugin->get('idplugin');
             $this->_insertDbEntries();
@@ -94,7 +95,7 @@ class pimSetupPluginInstall extends pimSetupBase {
         if ($iCountAreas > 0) {
             $oAreaColl = new cApiAreaCollection();
             for ($i = 0; $i < $iCountAreas; $i++) {
-                $sName = Contenido_Security::escapeDB(self::$XmlArea->area[$i], $this->oDb);
+                $sName = cSecurity::escapeString(self::$XmlArea->area[$i]);
                 // build attributes
                 foreach (self::$XmlArea->area[$i]->attributes() as $sKey => $sValue) {
                     $aAttributes[$sKey] = (string) $sValue;
@@ -102,9 +103,9 @@ class pimSetupPluginInstall extends pimSetupBase {
                 $aAttributes = array_merge($aDefaultAttr, $aAttributes);
                 /* @var $oArea cApiArea */
                 $oArea = $oAreaColl->createNewItem($this->_getNextId("area"));
-                $oArea->set('parent_id', Contenido_Security::escapeDB($aAttributes['parent'], $this->oDb));
+                $oArea->set('parent_id', cSecurity::escapeString($aAttributes['parent'], $this->oDb));
                 $oArea->set('name', $sName);
-                $oArea->set('menuless', Contenido_Security::toInteger($aAttributes['menuless']));
+                $oArea->set('menuless', (int) $aAttributes['menuless']);
                 $oArea->set('relevant', 1, FALSE);
                 $oArea->set('online', 1, FALSE);
                 if ($oArea->store()) {
@@ -127,7 +128,7 @@ class pimSetupPluginInstall extends pimSetupBase {
         if ($iCountActions > 0) {
             $oActionColl = new cApiActionCollection();
             for ($i = 0; $i < $iCountActions; $i++) {
-                $sName = Contenido_Security::escapeDB(self::$XmlActions->action[$i], $this->_oDb);
+                $sName = cSecurity::escapeString(self::$XmlActions->action[$i]);
                 foreach (self::$XmlActions->action[$i]->attributes() as $sKey => $sValue) {
                     $aAttributes[$sKey] = cSecurity::escapeString($sValue);
                 }

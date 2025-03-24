@@ -85,7 +85,7 @@ class Groups {
                 " WHERE group_id = '" . Contenido_Security::escapeDB($groupid, $this->db) . "'";
 
         $this->db->query($sql);
-        return ($this->db->affected_rows() == 0) ? false : true;
+        return ($this->db->affectedRows() == 0) ? false : true;
     }
 
     /**
@@ -100,7 +100,7 @@ class Groups {
                 " WHERE groupname = '" . Contenido_Security::escapeDB($groupname, $this->db) . "'";
 
         $this->db->query($sql);
-        return ($this->db->affected_rows() == 0) ? false : true;
+        return ($this->db->affectedRows() == 0) ? false : true;
     }
 
     /**
@@ -146,7 +146,7 @@ class Groups {
 
         $groups = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $groups[$db->f('group_id')] = array(
                 'groupname' => substr($db->f('groupname'), 4),
                 'description' => $db->f('description'),
@@ -227,7 +227,7 @@ class Group {
         $this->db->query($sql);
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 
@@ -250,7 +250,7 @@ class Group {
         $this->db->query($sql);
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 
@@ -300,7 +300,7 @@ class Group {
 
         $this->db->query($sql);
 
-        return ($this->db->affected_rows() < 1) ? false : true;
+        return ($this->db->affectedRows() < 1) ? false : true;
     }
 
     /**
@@ -340,7 +340,7 @@ class Group {
                 AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
         $this->db->query($sql);
 
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             return $this->db->f('value');
         } else {
             return false;
@@ -368,7 +368,7 @@ class Group {
             return $aProps;
         }
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $aProps[$this->db->f('idgroupprop')] = array(
                 'name' => $this->db->f('name'),
                 'type' => $this->db->f('type'),

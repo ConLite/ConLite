@@ -273,12 +273,14 @@ class pimSetupBase {
         $oDb = new DB_ConLite();
         foreach ($this->_aRelations as $sType => $aIds) {
             $sSQL = 'DELETE FROM ' . cRegistry::getConfigValue('tab', $sType) . ' WHERE ' . $this->_aTables[$sType] . ' IN (' . implode(',', $aIds) . ')';
-            if ($oDb->query($sSQL) == FALSE) {
-                return FALSE;
+            if ($oDb->query($sSQL) === false) {
+                return false;
             }
         }
-        unset($oDb);
-        return TRUE;
+        if ($oDb->affectedRows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     protected function _updateSortOrder() {

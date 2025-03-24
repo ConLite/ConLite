@@ -176,7 +176,7 @@ if ($backup_action == 'backupnow') {
          *  Aufbau Backupflags (1 Zeichen pro Flag, 0 oder 1, 2=unbekannt)
          *  (complete inserts)(extended inserts)(ignore inserts)(delayed inserts)(downgrade)(lock tables)(optimize tables)
          */
-        $statusline = array();
+        $statusline = [];
         $statusline['tables'] = $dump['num_tables'];
         $statusline['records'] = $dump['num_rows'];
         $statusline['part'] = 'MP_0';
