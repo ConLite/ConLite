@@ -18,13 +18,13 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-define('CL_BACKUP_COUNT_LINES', 20000);
-define('CL_BACKUP_MAX_RELOADS', 600);
-define('CL_BACKUP_VERSION', 'CL DB-Backup 1.3.4');
-define('CL_BACKUP_PATH', $cfg['path']['conlite_backup']);
-define('CL_BACKUP_LOGFILE', $cfg['path']['conlite_logs'] . "db-backup-log.txt");
-define('CL_BACKUP_START_IMG', $cfg['path']['contenido_html'] . $cfg['path']['images'] . "db_backup_start.png");
-define('CL_BACKUP_START_IMG_OFF', $cfg['path']['contenido_html'] . $cfg['path']['images'] . "db_backup_start_off.png");
+const CL_BACKUP_COUNT_LINES = 20000;
+const CL_BACKUP_MAX_RELOADS = 600;
+const CL_BACKUP_VERSION = 'CL DB-Backup 1.3.4';
+define('CL_BACKUP_PATH', cRegistry::getConfigValue('path', 'conlite_backup'));
+define('CL_BACKUP_LOGFILE', cRegistry::getConfigValue('path', 'conlite_logs') . "db-backup-log.txt");
+define('CL_BACKUP_START_IMG', cRegistry::getConfigValue('path', 'contenido_html') . cRegistry::getConfigValue('path', 'images') . "db_backup_start.png");
+define('CL_BACKUP_START_IMG_OFF', cRegistry::getConfigValue('path', 'images') . "db_backup_start_off.png");
 
 $aMessage = array();
 $bNoBackup = false;
@@ -34,19 +34,7 @@ if (!is_dir(CL_BACKUP_PATH) || !is_writable(CL_BACKUP_PATH)) {
     $notification->displayNotification("error", i18n("Backupfolder missing or not writable!"));
     $bNoBackup = true;
 }
-$backup_action = (isset($_GET['cl_action']) ? $_GET['cl_action'] : '');
-
-// check dbuser rights
-/*
-echo "<pre>";
-$oDb = new DB_ConLite();
-//echo $sSql = "SHOW GRANTS FOR '".$cfg['db']['connection']['user']."'@'".$cfg['db']['connection']['host']."';";
-echo $sSql = "SHOW GRANTS FOR '" . $cfg['db']['connection']['user'] . "';";
-$oDb->query($sSql);
-while ($oDb->next_record()) {
-    print_r($oDb->toArray());
-}
-*/
+$backup_action = ($_GET['cl_action'] ?? '');
 
 $sTable = "";
 $bk_filename = str_replace(array("&cl_action=backupnow", "&"), array("", "&amp;"), $sess->self_url()); // web28 - 2011-07-02 - Security Fix - PHP_SELF
@@ -153,11 +141,11 @@ if ($backup_action == 'backupnow') {
     if ($dump['num_tables'] > 0) {
         $dump['num_rows'] = 0;
         for ($i = 0; $i < $dump['num_tables']; $i++) {
-            $oDB->next_record();
+            $oDB->nextRecord();
             $row = $oDB->toArray();
             $dump['tables'][$i] = $row['Name'];
             $oDB2->query("SELECT COUNT(*) FROM " . $row['Name']);
-            $oDB2->next_record();
+            $oDB2->nextRecord();
             //$result = mysql_query("SELECT COUNT(*) FROM ".$row['Name'], $oDB->Link_ID);
             $aTmp = $oDB2->toArray();
             $dump['num_rows'] += $aTmp[0];
@@ -193,7 +181,6 @@ if ($backup_action == 'backupnow') {
 
         $sStatLine = "-- Status:";
         $sStatLine .= implode(":", $statusline) . "\n\n";
-        ;
         $schema = $sStatLine . $schema;
         //die($schema);
         $oClBackup = new clDbBackup();
@@ -359,7 +346,7 @@ function clStatusLine2Array($sLine) {
     <head>
         <meta charset="utf-8">
         <title><?php echo CL_BACKUP_VERSION; ?></title>
-        <style type="text/css">
+        <style>
             body {position: relative; padding-bottom: 3em;}
             h2, p {margin: 0;}
             #wrapper {margin: 0 auto;}
