@@ -50,21 +50,23 @@ class cSetupMask {
     public mixed $_bNextstep;
 
     /**
-     * @param string $sStepTemplate
-     * @param int $iStep
+     * @param $_sStepTemplate
+     * @param bool $_iStep
      */
     public function __construct(protected $_sStepTemplate, protected $_iStep = false) {
         $this->_oTpl = new Template();
         $this->_oStepTemplate = new Template();
     }
 
-    public function setNavigation($sBackstep, $sNextstep) {
+    public function setNavigation($sBackstep, $sNextstep): void
+    {
         $this->_bNavigationEnabled = true;
         $this->_bBackstep = $sBackstep;
         $this->_bNextstep = $sNextstep;
     }
 
-    public function setHeader($sHeader) {
+    public function setHeader($sHeader): void
+    {
         if (array_key_exists("setuptype", $_SESSION)) {
             $sSetupType = $_SESSION["setuptype"];
         } else {
@@ -79,7 +81,8 @@ class cSetupMask {
         };
     }
 
-    public function _createNavigation() {
+    public function _createNavigation(): void
+    {
         $link = new cHTMLLink("#");
 
         $link->attachEventDefinition("pageAttach", "onclick", "document.setupform.step.value = '" . $this->_bNextstep . "';");
@@ -111,7 +114,8 @@ class cSetupMask {
         $this->_oStepTemplate->set("s", "BACK", $backlink->render());
     }
 
-    public function render() {
+    public function render(): void
+    {
         if ($this->_bNavigationEnabled) {
             $this->_createNavigation();
         }
@@ -130,4 +134,3 @@ class cSetupMask {
         $this->_oTpl->generate("templates/setup.tpl", false, false);
     }
 }
-?>

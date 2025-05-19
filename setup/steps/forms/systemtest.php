@@ -17,10 +17,10 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-define("C_SEVERITY_NONE", 1);
-define("C_SEVERITY_INFO", 2);
-define("C_SEVERITY_WARNING", 3);
-define("C_SEVERITY_ERROR", 4);
+const C_SEVERITY_NONE = 1;
+const C_SEVERITY_INFO = 2;
+const C_SEVERITY_WARNING = 3;
+const C_SEVERITY_ERROR = 4;
 
 class cSetupSystemtest extends cSetupMask {
 
@@ -28,13 +28,14 @@ class cSetupSystemtest extends cSetupMask {
 
     public function __construct($step, $previous, $next) {
         parent::__construct("templates/setup/forms/systemtest.tpl", $step);
+
         $bErrors = false;
 
         $this->setHeader(i18n_setup("System Test"));
         $this->_oStepTemplate->set("s", "TITLE", i18n_setup("System Test"));
         $this->_oStepTemplate->set("s", "DESCRIPTION", i18n_setup("Your system has been tested for compatibility with ConLite:"));
 
-        $cHTMLErrorMessageList = new cHTMLErrorMessageList;
+        $cHTMLErrorMessageList = new cHTMLErrorMessageList();
 
         $this->_aMessages = [];
 
@@ -46,13 +47,11 @@ class cSetupSystemtest extends cSetupMask {
             $this->doGDTests();
         }
 
-        if (hasMySQLExtension() || hasMySQLiExtension()) {
+        if (hasMySQLiExtension()) {
             $this->doMySQLTests();
         } else {
-            $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("PHP MySQL Extension missing"), i18n_setup("ConLite requires the MySQL or MySQLi extension to access MySQL databases. Please configure PHP to use either MySQL or MySQLi."));
+           $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("PHP MySQL Extension missing"), i18n_setup("ConLite Setup requires the MySQLi extension to access MySQL databases. Please configure PHP to use MySQLi."));
         }
-
-
         $this->doFileSystemTests();
 
         #Check if there is an old version of integrated plugins installed in upgrademode.
@@ -89,22 +88,22 @@ class cSetupSystemtest extends cSetupMask {
 
         $this->_oStepTemplate->set("s", "CONTROL_TESTRESULTS", $cHTMLErrorMessageList->render());
 
-        if ($bErrors == true) {
+        if ($bErrors) {
             $this->setNavigation($previous, "");
         } else {
             $this->setNavigation($previous, $next);
         }
     }
 
-    public function doExistingOldPluginTests() {
+    public function doExistingOldPluginTests(): void
+    {
         $db = getSetupMySQLDBConnection(false);
         $sMessage = '';
 
         //get all tables in database and list it into array
         $aAvariableTableNames = [];
-        $aTableNames = $db->table_names();
+        $aTableNames = $db->getTableNames();
 
-        //print_r($db);
         if (!is_array($aTableNames)) {
             return;
         }
@@ -136,13 +135,13 @@ class cSetupSystemtest extends cSetupMask {
         }
 
         // AMR-Test
-        $sDbPrefix = str_replace("_sequence", '', $db->Seq_Table);
+        $sDbPrefix = str_replace("_sequence", '', $db->getSeqTable());
         $sAMRVer = '';
         $bOldAMRPresent = false;
         $sql = "SELECT * FROM " . $sDbPrefix . "_plugins";
         $db->lock($sDbPrefix . "_plugins");
         $db->query($sql);
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             if ($db->f('name') == "Advanced Mod Rewrite") {
                 $sAMRVer = $db->f('version');
                 $bOldAMRPresent = true;
@@ -156,7 +155,8 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    public function runTest($mResult, $iSeverity, $sHeadline = "", $sErrorMessage = "") {
+    public function runTest($mResult, $iSeverity, $sHeadline = "", $sErrorMessage = ""): void
+    {
         /**
          * @todo: Store results into an external file
          */
@@ -165,17 +165,18 @@ class cSetupSystemtest extends cSetupMask {
         }
     }
 
-    public function doPHPTests() {
+    public function doPHPTests(): void
+    {
         #new demo client requires PHP5
-        if (!version_compare(phpversion(), "5.2.0", ">=") && $_SESSION["setuptype"] == 'setup') {
-            $this->runTest(false, C_SEVERITY_WARNING, i18n_setup('ConLite demo client requires PHP 5.2 or higher'), i18n_setup('The ConLite demo client requires PHP 5.2 or higher. If you want to install the demo client, please update your PHP version.')
+        if (!version_compare(phpversion(), C_SETUP_MIN_PHP_VERSION, ">=") && $_SESSION["setuptype"] == 'setup') {
+            $this->runTest(false, C_SEVERITY_WARNING, i18n_setup('ConLite demo client requires PHP 8.0 or higher'), i18n_setup('The ConLite demo client requires PHP 8.0 or higher. If you want to install the demo client, please update your PHP version.')
             );
         }
 
         $this->runTest(phpversion(), C_SEVERITY_NONE, "PHP Version");
         $this->runTest(php_uname(), C_SEVERITY_NONE, "php_uname()");
         $this->runTest($_SERVER["SERVER_SOFTWARE"], C_SEVERITY_NONE, "Server Software");
-        $this->runTest(isPHPCompatible(), C_SEVERITY_ERROR, i18n_setup("PHP Version lower than 5.2.0"), i18n_setup("ConLite requires PHP 5.2.0 or higher as it uses functions first introduced with PHP 5.2.0. Please update your PHP version."));
+        $this->runTest(isPHPCompatible(), C_SEVERITY_ERROR, i18n_setup("PHP Version lower than 8.0.0"), i18n_setup("ConLite requires PHP 8.0.0 or higher as it uses functions first introduced with PHP 8. Please update your PHP version."));
         $this->runTest(getSafeModeStatus(), C_SEVERITY_NONE, "getSafeModeStatus()");
         $this->runTest(getSafeModeGidStatus(), C_SEVERITY_NONE, "getSafeModeGidStatus()");
         $this->runTest(getSafeModeIncludeDir(), C_SEVERITY_NONE, "getSafeModeIncludeDir()");
@@ -259,27 +260,18 @@ class cSetupSystemtest extends cSetupMask {
     }
 
     public function doMySQLTests() {
-
+        /** @var $handle DB_ConLite */
         [$handle, $status] = doMySQLConnect($_SESSION["dbhost"], $_SESSION["dbuser"], $_SESSION["dbpass"]);
 
-        if (hasMySQLiExtension() && !hasMySQLExtension()) {
-            $sErrorMessage = mysqli_error($handle->Link_ID);
-        } else {
-            $sErrorMessage = mysql_error();
+        if (hasMySQLiExtension()) {
+            $sErrorMessage = $handle->getError();
         }
 
         $this->runTest($status, C_SEVERITY_ERROR, i18n_setup("MySQL database connect failed"), sprintf(i18n_setup("Setup was unable to connect to the MySQL Server (Server %s, Username %s). Please correct the MySQL data and try again.<br><br>The error message given was: %s"), $_SESSION["dbhost"], $_SESSION["dbuser"], $sErrorMessage));
 
-        $db = getSetupMySQLDBConnection(false);
-
-        $version = fetchMySQLVersion($db);
-
         if ($status == false) {
             return;
         }
-
-
-
 
 
         switch ($_SESSION["setuptype"]) {
@@ -291,7 +283,7 @@ class cSetupSystemtest extends cSetupMask {
                 $status = checkMySQLDatabaseExists($db, $_SESSION["dbname"]);
 
                 if ($status) {
-                    /* Yes, database exists */
+
                     $db = getSetupMySQLDBConnection();
                     $db->connect();
 
@@ -300,20 +292,20 @@ class cSetupSystemtest extends cSetupMask {
 
                     $db->query(sprintf($sql, $_SESSION["dbprefix"]));
 
-                    if ($db->next_record()) {
+                    if ($db->nextRecord()) {
                         $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("MySQL database already exists and seems to be filled"), sprintf(i18n_setup("Setup checked the database %s and found the table %s. It seems that you already have a ConLite installation in this database. If you want to install anyways, change the database prefix. If you want to upgrade from a previous version, choose 'upgrade' as setup type."), $_SESSION["dbname"], sprintf("%s_actions", $_SESSION["dbprefix"])));
                         return;
                     }
-
                     /* Check if data already exists */
                     $sql = 'SHOW TABLES LIKE "%s_test"';
 
                     $db->query(sprintf($sql, $_SESSION["dbprefix"]));
 
-                    if ($db->next_record()) {
+                    if ($db->nextRecord()) {
                         $this->runTest(false, C_SEVERITY_ERROR, i18n_setup("MySQL test table already exists in the database"), sprintf(i18n_setup("Setup checked the database %s and found the test table %s. Please remove it before continuing."), $_SESSION["dbname"], sprintf("%s_test", $_SESSION["dbprefix"])));
                         return;
                     }
+
                     /* Good, table doesn't exist. Check for database permisions */
                     $status = checkMySQLTableCreation($db, $_SESSION["dbname"], sprintf("%s_test", $_SESSION["dbprefix"]));
 

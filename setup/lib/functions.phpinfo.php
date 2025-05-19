@@ -32,10 +32,9 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-/** @todo move to enum */
-define("E_EXTENSION_AVAILABLE", 1);
-define("E_EXTENSION_UNAVAILABLE", 2);
-define("E_EXTENSION_CANTCHECK", 3);
+const E_EXTENSION_AVAILABLE = 1;
+const E_EXTENSION_UNAVAILABLE = 2;
+const E_EXTENSION_CANTCHECK = 3;
 
 /**
  * canPHPurlfopen: Checks if PHP is able to use
@@ -122,7 +121,7 @@ function isPHPExtensionLoaded($extension)
  *
  * @param string $sVersion phpversion to test
  */
-function isPHPCompatible($sVersion = "8.0.0"): bool
+function isPHPCompatible(string $sVersion = C_SETUP_MIN_PHP_VERSION): bool
 {
     return version_compare(phpversion(), $sVersion, ">=");
 }

@@ -60,7 +60,8 @@ class cSetupConfigMode extends cSetupMask {
         $this->setNavigation($previous, $next);
     }
 
-    public function _createNavigation() {
+    public function _createNavigation(): void
+    {
         $link = new cHTMLLink("#");
 
         if ($this->_bNextstep == "doinstall") {

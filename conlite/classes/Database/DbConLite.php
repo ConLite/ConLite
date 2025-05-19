@@ -11,6 +11,7 @@ class DbConLite
     const FETCH_ASSOC = 'assoc';
     const FETCH_BOTH = 'both';
     protected static array $defaultDbConfiguration = [];
+    protected static array $profileData = [];
 
     protected array $dataTypes = [
         0 => 'decimal',
@@ -44,6 +45,8 @@ class DbConLite
     protected int $numRows = 0;
     protected $Halt_On_Error;
     protected string $seqTable;
+    protected bool $enableProfiling = false;
+    protected bool $debug = false;
 
     public function __construct(array $options = [])
     {
@@ -61,6 +64,10 @@ class DbConLite
             $this->seqTable = $this->dbConfiguration['sequenceTable'];
         }
 
+        if (isset($this->dbConfiguration['enableProfiling']) && is_bool($this->dbConfiguration['enableProfiling'])) {
+            $this->enableProfiling = $this->dbConfiguration['enableProfiling'];
+        }
+
         $this->connect();
     }
 
@@ -68,8 +75,6 @@ class DbConLite
     {
 
         $this->db = newADOConnection($this->dbConfiguration['type']);
-
-        //$this->db->debug = true;
 
         $this->db->setConnectionParameter(MYSQLI_SET_CHARSET_NAME, 'utf8mb4');
 
@@ -79,8 +84,6 @@ class DbConLite
             $this->dbConfiguration['connection']['password'],
             $this->dbConfiguration['connection']['database']
         );
-
-        $this->db->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
     }
 
     public static function setDefaultConfiguration($configArray): void
@@ -90,7 +93,9 @@ class DbConLite
 
     public function query($query)
     {
+        $this->showDebug($query);
         if (!$this->db->IsConnected() || $query == '') {
+            $this->showDebug("Returned: ".$query);
             return false;
         }
 
@@ -100,9 +105,19 @@ class DbConLite
             $query = $this->prepareQueryf($query, $args);
         }
 
-        // echo $query . "<br>\n";
+        $this->showDebug('Debug: query = ' . $query);
+
+        if ($this->enableProfiling) {
+            $start = microtime(true);
+        }
 
         $this->result = $this->db->Execute($query);
+
+        if ($this->enableProfiling) {
+            $end = microtime(true);
+            $this->addProfileData($start, $end, $query);
+        }
+
         if ($this->result === false) {
             return false;
         }
@@ -117,8 +132,8 @@ class DbConLite
 
     public function nextRecord()
     {
-        if (!$this->db->IsConnected()) {
-            return null;
+        if (!$this->db->IsConnected() || $this->result === false) {
+            return false;
         }
 
         $this->record = $this->result->FetchRow();
@@ -134,14 +149,13 @@ class DbConLite
         return $this->numRows;
     }
 
-    public function nf() {
+    public function nf(): int
+    {
         return $this->num_rows();
     }
 
     public function f($field)
     {
-        //var_dump($this->record);
-
         return $this->record[$field];
     }
 
@@ -163,8 +177,6 @@ class DbConLite
         }
 
         $currentId = $this->db->getOne('SELECT nextid FROM '.$this->seqTable.' WHERE seq_name = \''.$seqName.'\'');
-
-        //var_dump($currentId);
 
         if (is_null($currentId)) {
             $currentId = 0;
@@ -264,6 +276,16 @@ class DbConLite
         }
     }
 
+    /**
+     * @deprecated since CL 3.0.0
+     * @uses disconnect()
+     * @return void
+     */
+    public function close(): void
+    {
+        $this->disconnect();
+    }
+
 
     /**
      * Error handling
@@ -359,4 +381,58 @@ class DbConLite
                 return '';
         }
     }
+
+    /**
+     * @return \ADOConnection|false
+     */
+    public function getDb(): bool|\ADOConnection
+    {
+        return $this->db;
+    }
+
+
+    public function getProfileData(): array
+    {
+        return self::$profileData;
+    }
+
+    protected function addProfileData($startTime, $endTime, $query): void
+    {
+        self::$profileData[] = array(
+            'time' => $endTime - $startTime,
+            'query' => $query
+            /*,
+        'ErrNo' => static::_getErrorNumber(),
+        'ErrMess' => static::_getErrorMessage()*/
+        );
+    }
+
+    protected function showDebug(string $string): void
+    {
+        if ($this->debug) {
+            printf("<pre>" . $string . "</pre>\n");
+        }
+    }
+
+    public function getTableNames(): \ADORecordSet_empty|\ADORecordSet|\ADORecordSet_array|bool
+    {
+        if(!$this->db->IsConnected()) {
+            return false;
+        }
+        print_r($this->db->Execute("Show Tables"));
+
+        return $this->db->Execute("Show Tables");
+
+    }
+
+    public function table_names(): \ADORecordSet_empty|\ADORecordSet|\ADORecordSet_array|bool
+    {
+        return $this->getTableNames();
+    }
+
+    public function getSeqTable(): string
+    {
+        return $this->seqTable;
+    }
+
 }

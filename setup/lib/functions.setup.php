@@ -58,7 +58,7 @@ function cGenerateSetupStepsDisplay($iCurrentStep)
     return $sStepsPath;
 }
 
-function i18n_setup($sText) {
+function i18n_setup($sText): string
+{
     return i18n($sText, "setup");
 }
-?>

@@ -103,7 +103,7 @@ abstract class Item extends ItemBaseAbstract
         }
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 

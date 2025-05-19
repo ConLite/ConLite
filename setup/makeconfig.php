@@ -98,5 +98,3 @@ if ($_SESSION['configmode'] == 'save') {
     header('Content-Disposition: attachment;filename=config.php');
     $tpl->generate('templates/config.php.tpl', false, false);
 }
-
-?>

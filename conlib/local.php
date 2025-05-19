@@ -67,14 +67,6 @@ class DB_ConLite extends \ConLite\Database\DbConLite {
         if (!is_array($cachemeta)) {
             $cachemeta = [];
         }
-
-        // TODO check this out
-        // HerrB: Checked and disabled. Kills umlauts, if tables are latin1_general.
-        // try to use the new connection and get the needed encryption
-        //$this->query("SET NAMES 'utf8'");
-        
-        // modify mysql strict mode
-        // $this->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
     }
 
     /**
@@ -86,49 +78,6 @@ class DB_ConLite extends \ConLite\Database\DbConLite {
     {
         return $this->nextRecord();
     }
-
-   /* public function nextRecord(): bool|int
-    {
-        $currentModule = cRegistry::getCurrentModule();
-
-        if (!$this->Query_ID) {
-            if ($currentModule > 0) {
-                $this->halt("next_record called with no query pending in Module ID $currentModule.");
-            } else {
-                $this->halt("next_record called with no query pending.");
-            }
-            return false;
-        }
-
-        return parent::next_record();
-    }*/
-
-    /**
-     * Returns the metada of passed table
-     *
-     * @param   string  $sTable  The tablename of empty string to retrieve metadata of all tables!
-     * @return  array|bool   Assoziative metadata array (result depends on used db driver)
-     *                       or false in case of an error
-     * @deprecated  Use db drivers toArray() method instead
-     */
- /*   public function copyResultToArray($sTable = '') {
-
-        $aValues = [];
-
-        
-        $aMetadata = $this->metadata($sTable);
-        
-        if (!is_array($aMetadata) || count($aMetadata) == 0) {
-            return false;
-        }
-
-        foreach ($aMetadata as $entry) {
-            $aValues[$entry['name']] = $this->f($entry['name']);
-        }
-
-        return $aValues;
-    }*/
-
 }
 
 /**

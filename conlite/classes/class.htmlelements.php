@@ -1574,10 +1574,11 @@ class cHTMLTable extends cHTML {
     /**
      * setContent: Sets the table's content
      *
-     * @param $content string/object String with the content or an object to render.
+     * @param $content array|string/object String with the content or an object to render.
      *
      */
-    function setContent($content) {
+    function setContent(array|string $content): void
+    {
         $this->_setContent($content);
     }
 

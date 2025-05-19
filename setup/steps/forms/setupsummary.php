@@ -106,5 +106,3 @@ class cSetupSetupSummary extends cSetupMask {
     }
 
 }
-
-?>

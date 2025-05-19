@@ -64,5 +64,3 @@ class cSetupInstaller extends cSetupMask {
     }
 
 }
-
-?>

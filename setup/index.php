@@ -34,39 +34,12 @@ define('CON_FRONTEND_PATH', str_replace('\\', '/', realpath(__DIR__ . '/../')));
 
 include_once('lib/startup.php');
 
-
 if (is_array($_REQUEST)) {
     foreach ($_REQUEST as $key => $value) {
         if (($value != '' && $key != 'dbpass') || ($key == 'dbpass' && $_REQUEST['dbpass_changed'] == 'true')) {
             $_SESSION[$key] = $value;
         }
     }
-/*
-################################################################################
-// FIXME  Following lines of code would enshure that previous selected optional 
-//        settings will be removed from session, if they are unselected afterwards.
-//        But, how should we handle not selected plugins, whose files will be included
-//        even if the are not installed?
-
-    // check for not selected options (radio button or checkbox)
-    $aSetupOptionalSettingsList = array(
-        'setup7' => array(
-            'plugin_newsletter',
-            'plugin_content_allocation',
-            'plugin_mod_rewrite',
-        )
-    );
-
-    if (isset($_REQUEST['step']) && isset($aSetupOptionalSettingsList[$_REQUEST['step']])) {
-        $aList = $aSetupOptionalSettingsList[$_REQUEST['step']];
-        foreach ($aList as $key) {
-            if (isset($_SESSION[$key]) && !isset($_REQUEST[$key])) {
-                unset($_SESSION[$key]);
-            }
-        }
-    }
-################################################################################
-*/
 }
 
 
@@ -75,12 +48,9 @@ if (ini_get('session.use_cookies') == 0) {
     checkAndInclude('steps/notinstallable.php');
 }
 
-if (hasMySQLiExtension() && !hasMySQLExtension()) {
+if (hasMySQLiExtension()) {
     // use MySQLi extension by default if available
     $cfg['database_extension'] = 'mysqli';
-} elseif (hasMySQLExtension()) {
-    // use MySQL extension if available
-    $cfg['database_extension'] = 'mysql';
 } else {
     $sNotInstallableReason = 'database_extension';
     checkAndInclude('steps/notinstallable.php');

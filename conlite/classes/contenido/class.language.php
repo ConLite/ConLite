@@ -118,5 +118,3 @@ class cApiLanguage extends Item {
     }
 
 }
-
-?>

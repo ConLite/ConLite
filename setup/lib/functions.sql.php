@@ -32,6 +32,14 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+/**
+ * @param $db DB_ConLite
+ * @param $prefix
+ * @param $file
+ * @param $failedChunks
+ * @param $replacements
+ * @return bool
+ */
 function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = []) {
     $file = trim($file);
 
@@ -55,8 +63,8 @@ function injectSQL(&$db, $prefix, $file, &$failedChunks, $replacements = []) {
 
         $db->query($sqlChunk);
 
-        if ($db->Errno != 0) {
-            $failedChunks[] = ["sql" => $sqlChunk, "errno" => $db->Errno, "error" => $db->Error];
+        if ($db->getErrno() != 0) {
+            $failedChunks[] = ["sql" => $sqlChunk, "errno" => $db->getErrno(), "error" => $db->getError()];
         }
     }
 

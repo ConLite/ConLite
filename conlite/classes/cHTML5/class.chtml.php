@@ -344,10 +344,10 @@ class cHTML extends cHTML5Common
     /**
      * _setContent: Sets the content of the object
      *
-     * @param $content string/object String with the content or an object to render.
+     * @param $content array|string/object String with the content or an object to render.
      *
      */
-    public function _setContent($content)
+    public function _setContent(array|string $content)
     {
         $this->setContentlessTag(false);
         /* Is it an array? */

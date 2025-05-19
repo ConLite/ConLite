@@ -22,24 +22,22 @@ if (!defined('CON_FRAMEWORK')) {
 if (array_key_exists('setuptype', $_SESSION)) {
     switch ($_SESSION['setuptype']) {
         case 'setup':
+            case 'migration':
             define('C_SETUP_STEPS', 8);
             break;
         case 'upgrade':
             define('C_SETUP_STEPS', 7);
             break;
-        case 'migration':
-            define('C_SETUP_STEPS', 8);
-            break;
     }
 }
 
-define('C_SETUP_STEPFILE', 'images/steps/s%d.png');
-define('C_SETUP_STEPFILE_ACTIVE', 'images/steps/s%da.png');
-define('C_SETUP_STEPWIDTH', 28);
-define('C_SETUP_STEPHEIGHT', 28);
-define('C_SETUP_MIN_PHP_VERSION', '7.4.0');
-define('C_SETUP_MAX_PHP_VERSION', '8.4.0');
-define('C_SETUP_VERSION', '3.0.0');
+const C_SETUP_STEPFILE = 'images/steps/s%d.png';
+const C_SETUP_STEPFILE_ACTIVE = 'images/steps/s%da.png';
+const C_SETUP_STEPWIDTH = 28;
+const C_SETUP_STEPHEIGHT = 28;
+const C_SETUP_MIN_PHP_VERSION = '8.0.0';
+const C_SETUP_MAX_PHP_VERSION = '8.5.0';
+const C_SETUP_VERSION = '3.1.0';
 
 $sDefLocalPath = __DIR__.DIRECTORY_SEPARATOR.'defines.local.php';
 if(file_exists($sDefLocalPath)) {
