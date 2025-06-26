@@ -8,7 +8,7 @@ namespace ConLite\Database;
 /**
  *
  */
-class DbConLite
+class DbConLite extends \DB_ConLite
 {
     const HALT_YES = 'yes';
     const HALT_NO = 'no';

@@ -113,7 +113,7 @@ class ActiveUsers {
         $bReturn = false;
         $sql = "SELECT user_id FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id`='" . Contenido_Security::escapeDB($userid, $this->oDb) . "'";
         $this->oDb->query($sql);
-        if ($this->oDb->next_record()) {
+        if ($this->oDb->nextRecord()) {
             $bReturn = true;
         }
         return $bReturn;
@@ -134,10 +134,10 @@ class ActiveUsers {
         // get all user_ids
         $sql = "SELECT `user_id` FROM `" . $this->oCfg["tab"]["online_user"] . "`";
 
-        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        if ($this->oDb->query($sql) && $this->oDb->getErrno() == 0) {
 
             if ($this->oDb->num_rows() > 0) {
-                while ($this->oDb->next_record()) { // Table Online User
+                while ($this->oDb->nextRecord()) { // Table Online User
                     $aUser[] = "'" . $this->oDb->f('user_id') . "'";
                 }
             }
@@ -150,10 +150,10 @@ class ActiveUsers {
                 "FROM " . $this->oCfg["tab"]["phplib_auth_user_md5"] . " " .
                 "WHERE user_id IN(" . $sSqlIn . ")";
 
-        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        if ($this->oDb->query($sql) && $this->oDb->getErrno() == 0) {
 
             if ($this->oDb->num_rows() > 0) {
-                while ($this->oDb->next_record()) { // Table Online User
+                while ($this->oDb->nextRecord()) { // Table Online User
                     $sWebsiteNames = '';
                     $sUserId = $this->oDb->f("user_id");
                     $aAllUser[$sUserId]['realname'] = $this->oDb->f("realname");
@@ -290,5 +290,3 @@ class ActiveUsers {
     }
 
 }
-
-?>
