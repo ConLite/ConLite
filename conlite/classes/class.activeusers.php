@@ -16,8 +16,11 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id$;
+ * @todo recode to PHP8
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -34,9 +37,7 @@ class ActiveUsers {
      * 
      * @param object $db - Contenido Database Object
      * @param object $cfg 
-     * @param object $auth 
-     * 
-     * @return  
+     * @param object $auth
      * */
     function __construct($oDb, $oCfg, $oAuth) {
 
@@ -45,12 +46,8 @@ class ActiveUsers {
         $this->oDb = $oDb;
 
         // init db object
-        if (!is_object($this->oDb) || (is_null($this->oDb))) {
-            $this->oDb = new DB_ConLite;
-        }
-
-        if (!is_resource($this->oDb->Link_ID)) {
-            $this->oDb->connect();
+        if (!is_object($this->oDb)) {
+            $this->oDb = new DbConLite();
         }
 
         // Load the userid
@@ -62,11 +59,9 @@ class ActiveUsers {
      * 1) First delete all inactive users with timelimit is off
      * 2) If find user in the table, do update
      * 3) Else there is no current user do insert new user
-     * 
-     * 
-     * @return  
      * */
-    function startUsersTracking() {
+    function startUsersTracking(): void
+    {
 
         // Delete all Contains in the table "online_user" that is older as timeout(current is 60 minutes)
         $this->deleteInactiveUser();

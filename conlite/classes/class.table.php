@@ -19,15 +19,8 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- * 
- * {@internal 
- *   created unknown
- *   modified 2008-06-30, Frederic Schneider, add security fix
- *   modified 2008-07-03, Timo.Trautmann, added linebreaks for readable source code
  *
- *   $Id$: 
- * }}
- * 
+ * @todo recode for PHP 8
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -93,19 +86,27 @@ class Table {
      * Internal first cell checker
      * @var bool
      */
-    var $first_cell = 0;
+    public bool $first_cell = false;
 
     /**
      * Internal full border checker
      * @var bool
      */
-    var $fullborder = false;
+    var bool $fullBorder = false;
 
     /**
      * Directly output table if true
      *
      */
     var $directoutput = true;
+    /**
+     * @var mixed|string
+     */
+    private mixed $cellspacing;
+    /**
+     * @var mixed|string
+     */
+    private mixed $cellpadding;
 
     /**
      * Constructor
@@ -118,7 +119,7 @@ class Table {
         $this->header_color = $m_header_color;
         $this->dark_color = $m_dark_color;
         $this->light_color = $m_light_color;
-        $this->fullborder = $m_fullborder;
+        $this->fullBorder = $m_fullborder;
         $this->directoutput = $m_directoutput;
     }
 
@@ -131,7 +132,7 @@ class Table {
      */
     function start_table() {
 
-        if (!$this->fullborder) {
+        if (!$this->fullBorder) {
             $starttable = '<table style="border: 0px; border-left:1px; border-bottom: 1px; border-color: ' . $this->border_color . '; border-style: ' . $this->border_style . '" cellspacing="' . $this->cellspacing . '" cellpadding="' . $this->cellpadding . '">';
         } else {
             $starttable = '<table style="border: 1px; border-color: ' . $this->border_color . '; border-style: ' . $this->border_style . '" cellspacing="' . $this->cellspacing . '" cellpadding="' . $this->cellpadding . '">';

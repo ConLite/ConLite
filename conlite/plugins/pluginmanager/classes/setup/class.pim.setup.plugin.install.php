@@ -91,7 +91,7 @@ class pimSetupPluginInstall extends pimSetupBase {
             'relevant' => 1
         );
         
-        $iCountAreas = count(self::$XmlArea->area);
+        $iCountAreas = (is_countable(self::$XmlArea->area))?count(self::$XmlArea->area):0;
         if ($iCountAreas > 0) {
             $oAreaColl = new cApiAreaCollection();
             for ($i = 0; $i < $iCountAreas; $i++) {
@@ -124,7 +124,7 @@ class pimSetupPluginInstall extends pimSetupBase {
             'relevant' => 1
         );
 
-        $iCountActions = count(self::$XmlActions->action);
+        $iCountActions = (is_countable(self::$XmlActions->action))?count(self::$XmlActions->action):0;
         if ($iCountActions > 0) {
             $oActionColl = new cApiActionCollection();
             for ($i = 0; $i < $iCountActions; $i++) {
@@ -160,7 +160,7 @@ class pimSetupPluginInstall extends pimSetupBase {
         $aAttributes = array();
         $aDefaultAttr = array();
 
-        $iCountFrames = count(self::$XmlFrames->frame);
+        $iCountFrames = (is_countable(self::$XmlFrames->frame))?count(self::$XmlFrames->frame):0;
         if ($iCountFrames > 0) {
             $oFrameFileColl = new cApiFrameFileCollection();
             $oFileColl = new cApiFileCollection();
@@ -247,7 +247,7 @@ class pimSetupPluginInstall extends pimSetupBase {
     private function _addNavSub() {
         $aAttributes = array();
         $this->_initInstalledNavMainArray();
-        $iCountNavSub = count(self::$XmlNavSub->nav);
+        $iCountNavSub = (is_countable(self::$XmlNavSub->nav))?count(self::$XmlNavSub->nav):0;
         
         if ($iCountNavSub > 0) {
             $oNavSubColl = new cApiNavSubCollection();

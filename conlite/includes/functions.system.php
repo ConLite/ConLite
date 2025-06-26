@@ -88,7 +88,8 @@ function phpInfoToHtml() {
  * @return boolean wether user has access or not	
  * @author Marco Jahn
  */
-function system_have_perm($client) {
+function system_have_perm($client): bool
+{
     global $auth;
 
     if (!isset($auth->perm['perm'])) {
