@@ -377,9 +377,10 @@ class cSession {
          */
         
 //return;
-        $r = $this->that->ac_store($this->id, $this->name, $str);
+        /** @var $storage Contenido_CT_Sql */
+        $storage = $this->that;
+        $r = $storage->ac_store($this->id, $this->name, $str);
         $this->release_lock();
-
         if (!$r)
             $this->that->ac_halt("Session: freeze() failed.");
     }

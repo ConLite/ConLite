@@ -69,6 +69,20 @@ class DbConLite
 
         $this->dbConfiguration = array_merge($this->dbConfiguration, ['type' => $type]);
 
+        if (isset($this->dbConfiguration['haltBehavior'])) {
+            switch ($this->dbConfiguration['haltBehavior']) {
+                case self::HALT_YES:
+                    $this->Halt_On_Error = self::HALT_YES;
+                    break;
+                case self::HALT_NO:
+                    $this->Halt_On_Error = self::HALT_NO;
+                    break;
+                case self::HALT_REPORT:
+                    $this->Halt_On_Error = self::HALT_REPORT;
+                    break;
+            }
+        }
+
         if (isset($this->dbConfiguration['sequenceTable']) && is_string($this->dbConfiguration['sequenceTable'])) {
             $this->seqTable = $this->dbConfiguration['sequenceTable'];
         }
@@ -142,6 +156,7 @@ class DbConLite
 
         $this->numRows = $this->result->NumRows();
         $this->row = 0;
+        return (bool) $this->result;
     }
 
     public function nextRecord()
@@ -447,6 +462,31 @@ class DbConLite
     public function getSeqTable(): string
     {
         return $this->seqTable;
+    }
+
+    /**
+     * Stores the session data in database table.
+     *
+     * Overwrites parents and uses MySQLs REPLACE statement, to prevent race
+     * conditions while executing INSERT statements by multiple frames in backend.
+     *
+     * - Existing entry will be overwritten
+     * - Non existing entry will be added
+     *
+     * @param   string  $id    The session id (hash)
+     * @param   string  $name  Name of the session
+     * @param   string  $str   The value to store
+     */
+    public function ac_store($id, $name, $str): bool {
+
+        $name = addslashes($name);
+        $now = date('YmdHis', time());
+
+        $iquery = sprintf(
+            "REPLACE INTO %s (sid, name, val, changed) VALUES ('%s', '%s', '%s', '%s')", $this->database_table, $id, $name, $str, $now
+        );
+
+        return (bool) $this->db->query($iquery);
     }
 
 }

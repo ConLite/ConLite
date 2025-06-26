@@ -29,6 +29,8 @@
  * 
  */
 
+use ConLite\Database\DbConLite;
+
  if(!defined('CON_FRAMEWORK')) {
                 die('Illegal call');
 }
@@ -50,7 +52,7 @@ class CT_Sql {
 
   function ac_start() {
     $name = $this->database_class;
-    $this->db = new $name;
+    $this->db = new DbConLite();
   }
 
   function ac_get_lock() {
@@ -136,7 +138,7 @@ class CT_Sql {
 
     if ( $this->db->affected_rows() == 0
       && $this->db->query($squery)
-      && $this->db->next_record() && $this->db->f(0) == 0
+      && $this->db->nextR() && $this->db->f(0) == 0
       && !$this->db->query($iquery)) {
 
       $ret = false;
@@ -163,7 +165,7 @@ class CT_Sql {
       $id,
       $name));
      
-    if ($this->db->next_record()) {
+    if ($this->db->NextRecord()) {
       $str  = $this->db->f("val");
       $str2 = base64_decode( $str );
 

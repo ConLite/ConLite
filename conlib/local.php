@@ -33,6 +33,9 @@
  * }}
  *
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -40,7 +43,7 @@ if (!defined('CON_FRAMEWORK')) {
 /**
  * DB-class for all DB handling
  */
-class DB_ConLite extends \ConLite\Database\DbConLite {
+class DB_ConLite extends DbConLite {
     protected bool $NoRecord;
 
     /**
@@ -95,7 +98,7 @@ class Contenido_CT_Sql extends CT_Sql {
      * Database class name
      * @var  string
      */
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
 
     /**
      * And find our session data in this table.
@@ -134,7 +137,7 @@ class Contenido_CT_Sql extends CT_Sql {
                 "REPLACE INTO %s (sid, name, val, changed) VALUES ('%s', '%s', '%s', '%s')", $this->database_table, $id, $name, $str, $now
         );
 
-        return (bool) $this->db->query($iquery);
+        return $this->db->query($iquery);
     }
 
 }
@@ -784,5 +787,3 @@ function register_auth_handler($aHandlers) {
         }
     }
 }
-
-?>
