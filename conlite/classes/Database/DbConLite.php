@@ -85,6 +85,8 @@ class DbConLite
 
         if (isset($this->dbConfiguration['sequenceTable']) && is_string($this->dbConfiguration['sequenceTable'])) {
             $this->seqTable = $this->dbConfiguration['sequenceTable'];
+        } else {
+            $this->seqTable = \cRegistry::getConfigValue('tab', 'sequence');
         }
 
         if (isset($this->dbConfiguration['enableProfiling']) && is_bool($this->dbConfiguration['enableProfiling'])) {

@@ -255,8 +255,7 @@ class cSession {
         }
     }
 
-    function add_query($qarray) {
-        global $PHP_SELF;
+    function add_query($qArray) {
         global $QUERY_STRING;
 
         if ((isset($QUERY_STRING) && ("" != $QUERY_STRING)) || ($this->mode == "get")) {
@@ -265,17 +264,17 @@ class cSession {
             $sep_char = "?";
         }
 
-        $qstring = "";
-        while (list($k, $v) = each($qarray)) {
-            $qstring .= $sep_char . urlencode($k) . "=" . urlencode($v);
+        $qString = "";
+        foreach($qArray as $k => $v) {
+            $qString .= $sep_char . urlencode($k) . "=" . urlencode($v);
             $sep_char = "&";
         }
 
-        return $qstring;
+        return $qString;
     }
 
-    function padd_query($qarray) {
-        print $this->add_query($qarray);
+    function padd_query($qArray) {
+        print $this->add_query($qArray);
     }
 
     ## serialize($var,&$str):
@@ -412,14 +411,14 @@ class cSession {
         $this->reimport_any_vars("HTTP_COOKIE_VARS");
     }
 
-    function reimport_any_vars($arrayname) {
-        global $$arrayname;
+    function reimport_any_vars($arrayName) {
+        global $$arrayName;
 
-        if (!is_array($$arrayname))
+        if (!is_array($$arrayName))
             return;
 
-        reset($$arrayname);
-        while (list($key, $val) = each($$arrayname)) {
+        reset($$arrayName);
+        foreach($arrayName as $key => $value) {
             $GLOBALS[$key] = $val;
         }
     }
