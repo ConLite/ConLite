@@ -1,7 +1,13 @@
 <?php
+/**
+ *
+ */
 
 namespace ConLite\Database;
 
+/**
+ *
+ */
 class DbConLite
 {
     const HALT_YES = 'yes';
@@ -43,11 +49,14 @@ class DbConLite
     protected string $Error = '';
     protected int $row = 0;
     protected int $numRows = 0;
-    protected $Halt_On_Error;
+    protected string $Halt_On_Error;
     protected string $seqTable;
     protected bool $enableProfiling = false;
     protected bool $debug = false;
 
+    /**
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         $this->dbConfiguration = array_merge(self::$defaultDbConfiguration, $options);
@@ -71,6 +80,9 @@ class DbConLite
         $this->connect();
     }
 
+    /**
+     * @return void
+     */
     public function connect(): void
     {
 
@@ -84,6 +96,8 @@ class DbConLite
             $this->dbConfiguration['connection']['password'],
             $this->dbConfiguration['connection']['database']
         );
+        // set sql mode hardcoded @Todo make this configurable
+        $this->db->_query("SET sql_mode = ''");
     }
 
     public static function setDefaultConfiguration($configArray): void
