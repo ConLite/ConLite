@@ -387,7 +387,7 @@ class pimSetupPluginInstall extends pimSetupBase {
     private function _initInstalledNavSubArray() {
         $this->_aInstalledNavSub = array();
         $oNavSubColl = new cApiNavSubCollection();
-        $oNavMainColl->select();
+        $oNavSubColl->select();
         //$oNavSubColl->query();
         /* @var $oArea cApiArea */
         while ($oNavSub = $oNavSubColl->next()) {
