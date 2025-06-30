@@ -39,7 +39,7 @@ if (!$perm->isSysadmin()) {
 }
 
 // check disable plugin var
-if ($cfg['debug']['disable_plugins'] === true) {
+if (cRegistry::getConfigValue('debug', 'disable_plugins') === true) {
     $oPage->setContent($Notification->returnNotification(Contenido_Notification::LEVEL_WARNING, i18n('Currently the plugin system is disabled via configuration', "pluginmanager")));
     $oPage->render();
     die();
