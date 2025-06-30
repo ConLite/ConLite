@@ -63,8 +63,8 @@ class pimPluginHandler {
      * @param string $sPluginFolderName
      * @return boolean
      */
-    public function installPlugin($sPluginFolderName) {
-        $iNewPluginId = 0;
+    public function installPlugin(string $sPluginFolderName): bool
+    {
         if (empty($sPluginFolderName)) {
             return FALSE;
         }

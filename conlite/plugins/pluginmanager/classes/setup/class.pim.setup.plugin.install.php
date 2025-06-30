@@ -31,7 +31,7 @@ class pimSetupPluginInstall extends pimSetupBase {
         }
         $this->_installCheckUuid();
         $this->_installCheckRequirements();
-        
+
         $oPiColl = new pimPluginCollection();
         $this->_oPlugin = $oPiColl->createNewItem();
 
@@ -55,7 +55,6 @@ class pimSetupPluginInstall extends pimSetupBase {
                 $this->_oPlugin->set('active', (int) self::$XmlGeneral['active'], FALSE);
 
                 if ($this->_oPlugin->store()) {
-                    //echo "stored: ".$this->_iPiId;
                     return $this->_iPiId;
                 }
             } else {
@@ -246,6 +245,10 @@ class pimSetupPluginInstall extends pimSetupBase {
 
     private function _addNavSub() {
         $aAttributes = array();
+        $aDefaultAttr = array(
+            'online' => 1
+        );
+
         $this->_initInstalledNavMainArray();
         $iCountNavSub = (is_countable(self::$XmlNavSub->nav))?count(self::$XmlNavSub->nav):0;
         
@@ -263,6 +266,9 @@ class pimSetupPluginInstall extends pimSetupBase {
                 foreach (self::$XmlNavSub->nav[$i]->attributes() as $sKey => $sValue) {
                     $aAttributes[$sKey] = cSecurity::escapeString($sValue);
                 }
+                $aAttributes = array_merge($aDefaultAttr, array_filter($aAttributes, function($x) { return !(is_null($x) || $x === false); }));
+                //print_r($aAttributes);
+
                 /* @var $oNavSub cApiNavSub */
                 $oNavSub = $oNavSubColl->createNewItem($this->_getNextId("nav_sub"));
                 if ($oNavSub->isLoaded()) {
@@ -272,7 +278,7 @@ class pimSetupPluginInstall extends pimSetupBase {
                     $oNavSub->set("idarea", $this->_getIdForArea($aAttributes['area']));
                     $oNavSub->set("level", (int) $aAttributes['level']);
                     $oNavSub->set("location", $sLocation, FALSE);
-                    $oNavSub->set("online", 1, FALSE);
+                    $oNavSub->set("online", (int) $aAttributes['online'], FALSE);
                     
                     $oNavSub->store();
                 }
@@ -424,5 +430,4 @@ class pimSetupPluginInstall extends pimSetupBase {
         //echo "<pre>";
         //print_r($this->_aAreas);
     }
-
 }

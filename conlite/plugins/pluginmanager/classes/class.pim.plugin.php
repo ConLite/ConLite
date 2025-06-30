@@ -15,6 +15,7 @@ class pimPluginCollection extends ItemCollection {
    
     public function __construct() {
         global $cfg;
+        //print_r($cfg['sql']);
         parent::__construct($cfg['tab']['plugins'], 'idplugin');
         $this->_setItemClass("pimPlugin");
     }

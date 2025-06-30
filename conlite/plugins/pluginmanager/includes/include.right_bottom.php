@@ -23,6 +23,7 @@ $aMessages = [];
 
 $oPage = new cPage();
 $oPage->sendNoCacheHeaders();
+$oPage->setEncoding('UTF-8');
 $oPage->setHtml5();
 $oPage->addCssFile("plugins/pluginmanager/css/pluginmanager.css");
 $oPage->addJsFile("plugins/pluginmanager/scripts/jquery.plainoverlay.js");
