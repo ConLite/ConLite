@@ -38,15 +38,15 @@
 modules.xml
 .idea/modules.xml
 
+# conlite config
+/data/config/*/config.php
+*.local.php
 
-/nbproject/private/
-/data/config/production/config.php
 /_dev/
 /conlite/plugins/pluginmanager/_src
 /.project
 /_api/
 /cl-releasetool
-/data/config/production/config.local.php
 /cms/data/modules/up-download/
 /cms/captcha/
 !/cms/data/modules/
@@ -54,13 +54,11 @@ modules.xml
 !/cms/data/layouts/
 /cms/data/layouts/*
 /conlite/includes/include.style_edit_form_1.php
-/cms/config.local.php
 /cms/dflip/
 /cms/js/firstlevel/
 /conlite/external/**/.git
 /conlite/logs/debug.log
 /cms/data/config/production/config.mod_rewrite.php
-/cms/data/config/production/config.local.php
 /cms/cache/*
 composer.phar
 /conlite/vendor/
