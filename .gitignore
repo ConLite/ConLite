@@ -1,5 +1,45 @@
+# Ignore all files in the .idea folder
+.idea/*
+
+# Except for the following:
+!.idea/codeStyles
+!.idea/fileTemplates
+!.idea/inspectionProfiles
+!.idea/keymaps
+!.idea/libraries
+!.idea/modules.xml
+!.idea/vcs.xml
+!.idea/workspace.xml
+!.idea/tasks.xml
+
+# Ignore workspace-related files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries
+.idea/shelf
+
+# Ignore OS-specific files
+.idea/**/Desktop.xml
+.idea/**/Find.xml
+.idea/**/Usage Statistics.xml
+.idea/**/Deployment.xml
+.idea/**/dataSources
+.idea/**/dataSources.local.xml
+.idea/**/databaseDrivers
+.idea/**/databaseServers.xml
+.idea/**/sqlDataSources.xml
+.idea/**/sqlDialects.xml
+.idea/**/webServers.xml
+.idea/**/jsLibraryMappings.xml
+
+# Ignore .iml files (module files) if you use Maven or Gradle
+*.iml
+modules.xml
+.idea/modules.xml
+
+
 /nbproject/private/
-/.idea/workspace.xml
 /data/config/production/config.php
 /_dev/
 /conlite/plugins/pluginmanager/_src
@@ -25,6 +65,3 @@
 composer.phar
 /conlite/vendor/
 *.old.php
-/conlite/plugins/smarty/.idea/modules.xml
-/conlite/plugins/smarty/.idea/smarty.iml
-/conlite/plugins/smarty/.idea/workspace.xml
