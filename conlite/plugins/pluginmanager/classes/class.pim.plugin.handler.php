@@ -12,31 +12,30 @@ if (!defined('CON_FRAMEWORK')) {
 
 class pimPluginHandler {
 
-    protected $_iPluginId = 0;
-    protected $_oPlugin = NULL;
+    protected int $_iPluginId = 0;
+    protected ?pimPlugin $_oPlugin = NULL;
     protected $_bIsLoaded = FALSE;
-    protected $_sPluginPath;
+    protected string $_sPluginPath;
 
     /**
      * holds the xml of plugin.xml
-     * @var SimpleXMLElement 
      */
-    protected $_oPiXml = NULL;
+    protected ?SimpleXMLElement $_oPiXml = NULL;
 
     /**
      *
      * @var DomDocument 
      */
-    protected $_oDomDocument;
-    protected $_xsd = 'plugins/pluginmanager/xml/plugin_info.xsd';
-    protected $_bValid = FALSE;
+    protected DOMDocument $_oDomDocument;
+    protected string $_xsd = 'plugins/pluginmanager/xml/plugin_info.xsd';
+    protected bool $_bValid = false;
 
     /**
      * Constructor
      */
     public function __construct() {
         $this->_oDomDocument = new DOMDocument();
-        $this->_oDomDocument->preserveWhiteSpace = FALSE;
+        $this->_oDomDocument->preserveWhiteSpace = false;
     }
 
     /**
@@ -44,7 +43,8 @@ class pimPluginHandler {
      * @param int $iPluginId
      * @return boolean
      */
-    public function loadPluginFromDb($iPluginId) {
+    public function loadPluginFromDb($iPluginId): bool
+    {
         $this->_oPlugin = new pimPlugin($iPluginId);
         if ($this->_oPlugin->isLoaded()) {
             $this->_iPluginId = $this->_oPlugin->get('idplugin');
@@ -98,7 +98,8 @@ class pimPluginHandler {
      * @param string $sHandleSql
      * @return boolean
      */
-    public function uninstallPlugin($sHandleSql) {
+    public function uninstallPlugin($sHandleSql): bool
+    {
         $oPluginUninstall = new pimSetupPluginUninstall();
         $oPluginUninstall->setPluginPath($this->_sPluginPath);
         return $oPluginUninstall->uninstallPlugin($this->_iPluginId, $sHandleSql);
@@ -108,40 +109,38 @@ class pimPluginHandler {
      * 
      * @return int
      */
-    public function getPluginId() {
+    public function getPluginId(): int
+    {
         return $this->_iPluginId;
     }
 
     /**
-     * 
+     *
      * @param string $sFile
      * @return boolean
+     * @throws pimXmlStructureException
      */
-    public function loadXmlFile($sFile) {
+    public function loadXmlFile(string $sFile): bool
+    {
         $this->_oDomDocument->load($sFile);
         if ($this->_validateXml()) {
             $this->_oPiXml = simplexml_load_string($this->_oDomDocument->C14N());
         }
-        return (is_a($this->_oPiXml, "SimpleXMLElement")) ? TRUE : FALSE;
+        return is_a($this->_oPiXml, "SimpleXMLElement");
     }
 
-    /**
-     * 
-     * @return object|null
-     */
-    public function getCfgXmlObject() {
+
+    public function getCfgXmlObject(): ?SimpleXMLElement
+    {
         if (is_object($this->_oPiXml)) {
             return $this->_oPiXml;
         }
         return NULL;
     }
 
-    /**
-     * 
-     * @return array
-     */
-    public function getPiGeneralArray() {
-        $aGeneral = array();
+    public function getPiGeneralArray(): array
+    {
+        $aGeneral = [];
         if (is_object($this->_oPiXml)) {
             $aGeneral = $this->_xml2Array($this->_oPiXml->general);
             $aDependencies = $this->_xml2Array($this->_oPiXml->dependencies);
@@ -157,7 +156,8 @@ class pimPluginHandler {
      * @param int $iPluginId
      * @return string
      */
-    public function getInfoInstalled($iPluginId) {
+    public function getInfoInstalled($iPluginId): string
+    {
         $oPlugin = new pimPlugin($iPluginId);
         if ($oPlugin->isLoaded()) {
             $oView = new pimView();
@@ -221,7 +221,8 @@ class pimPluginHandler {
         return '';
     }
 
-    protected function _getDepencyArray() {
+    protected function _getDepencyArray(): bool|array
+    {
         $aDependencies = array();
         $aAttributes = array();
         $iCountDependencies = count($this->_oPiXml->dependencies);
@@ -237,7 +238,7 @@ class pimPluginHandler {
             return $aDependencies;
         }
         
-        return FALSE;
+        return false;
     }
 
     /**
@@ -245,24 +246,28 @@ class pimPluginHandler {
      * @return boolean
      * @throws pimXmlStructureException
      */
-    private function _validateXml() {
+    private function _validateXml(): bool
+    {
         if ($this->_oDomDocument->schemaValidate($this->_xsd)) {
             $this->_bValid = true;
             return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
     /**
      * 
-     * @param xml $xml
+     * @param ?SimpleXMLElement $xml
      * @return array
      */
-    private function _xml2Array($xml) {
+    private function _xml2Array(?SimpleXMLElement $xml): array
+    {
+        if(empty($xml)) {
+            return [];
+        }
         $string = json_encode($xml);
-        $array = json_decode($string, true);
-        return $array;
+        return json_decode($string, true);
     }
 
 }

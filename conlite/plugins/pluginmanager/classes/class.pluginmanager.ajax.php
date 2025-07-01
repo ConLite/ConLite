@@ -15,10 +15,9 @@ class PluginmanagerAjax extends pimAjax {
      * @param string $Request
      * @return string
      */
-    public function handle($Request) {
-        $sString = '';
+    public function handle($Request): string
+    {
         switch ($Request) {
-            
             // toggle active/inactive of plugins
             case 'toggle_active':
                 if(!isset($_POST['plugin_id']) || empty($_POST['plugin_id'])) {
@@ -59,9 +58,7 @@ class PluginmanagerAjax extends pimAjax {
                 break;
                 
             // install plugin with existing source in plugin dir    
-            case 'pim_install': 
-                //sleep(3);
-                $iNewPluginId = 0;
+            case 'pim_install':
                 $sPluginPath = cRegistry::getBackendPath()
                     .cRegistry::getConfigValue('path', 'plugins')
                     .Contenido_Security::escapeDB($_POST['plugin_folder']).DIRECTORY_SEPARATOR;
@@ -100,5 +97,4 @@ class PluginmanagerAjax extends pimAjax {
         }
         return $sString;
     }
-
 }
