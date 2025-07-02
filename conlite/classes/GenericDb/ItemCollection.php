@@ -97,6 +97,7 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     protected $_bAllMode = false;
     protected $_order;
+    protected string $lastSQL;
 
     /**
      * Constructor Function
@@ -122,6 +123,16 @@ abstract class ItemCollection extends ItemBaseAbstract
         $this->_aOperators = array(
             '=', '!=', '<>', '<', '>', '<=', '>=', 'LIKE', 'DIACRITICS'
         );
+    }
+
+    public function getLastSQL(): string
+    {
+        return $this->lastSQL;
+    }
+
+    public function setLastSQL(string $lastSQL): void
+    {
+        $this->lastSQL = $lastSQL;
     }
 
     /**
@@ -656,7 +667,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = implode(' ', $aStatement);
 
         $result = $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         // @todo  disable all mode in this method for the moment. It has to be verified,
         //        if enabling will result in negative side effects.
         $this->_bAllMode = false;
@@ -796,7 +807,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = 'SELECT ' . $sFields . ' FROM `' . $this->table . '`' . $sWhere
             . $sGroupBy . $sOrderBy . $sLimit;
         $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         $this->_bAllMode = $this->_settings['select_all_mode'];
 
         if ($this->db->num_rows() == 0) {
@@ -852,7 +863,7 @@ abstract class ItemCollection extends ItemBaseAbstract
             . $sFrom . $sWhere . $sGroupBy . $sOrderBy . $sLimit;
 
         $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         // @todo  disable all mode in this method
         $this->_bAllMode = false;
 
