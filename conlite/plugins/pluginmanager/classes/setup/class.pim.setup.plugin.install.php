@@ -8,16 +8,11 @@ class pimSetupPluginInstall extends pimSetupBase {
 
     const SQL_FILE = "plugin_install.sql";
 
-    /**
-     *
-     * @var pimPlugin 
-     */
-    private $_oPlugin;
     //helper arrays
-    private $_aAreas = array();
-    private $_aInstalledAreas;
-    private $_aInstalledNavMain;
-    private $_aInstalledNavSub;
+    private array $_aAreas = [];
+    private array $_aInstalledAreas;
+    private array $_aInstalledNavMain;
+    private array $_aInstalledNavSub;
 
     public function __construct() {
         parent::__construct();
@@ -31,31 +26,30 @@ class pimSetupPluginInstall extends pimSetupBase {
         }
         $this->_installCheckUuid();
         $this->_installCheckRequirements();
-        
-        $oPiColl = new pimPluginCollection();
-        $this->_oPlugin = $oPiColl->createNewItem();
 
-        if ($this->_oPlugin->isLoaded()) {
-            $this->_iPiId = $this->_oPlugin->get('idplugin');
+        $oPiColl = new pimPluginCollection();
+        $_oPlugin = $oPiColl->createNewItem();
+
+        if ($_oPlugin->isLoaded()) {
+            $this->_iPiId = $_oPlugin->get('idplugin');
             $this->_insertDbEntries();
             $this->_getPluginSql();
             if ($this->doQueries()) {
-                $this->_oPlugin->set('idclient', $this->_iClient, FALSE);
-                $this->_oPlugin->set('name', Contenido_Security::escapeDB(self::$XmlGeneral->plugin_name));
-                $this->_oPlugin->set('description', Contenido_Security::escapeDB(self::$XmlGeneral->description));
-                $this->_oPlugin->set('author', Contenido_Security::escapeDB(self::$XmlGeneral->author));
-                $this->_oPlugin->set('copyright', Contenido_Security::escapeDB(self::$XmlGeneral->copyright));
-                $this->_oPlugin->set('mail', Contenido_Security::escapeDB(self::$XmlGeneral->mail));
-                $this->_oPlugin->set('website', Contenido_Security::escapeDB(self::$XmlGeneral->website));
-                $this->_oPlugin->set('version', Contenido_Security::escapeDB(self::$XmlGeneral->version));
-                $this->_oPlugin->set('folder', Contenido_Security::escapeDB(self::$XmlGeneral->plugin_foldername));
-                $this->_oPlugin->set('uuid', Contenido_Security::escapeDB(self::$XmlGeneral->uuid));
-                $this->_oPlugin->set('executionorder', $this->_updateSortOrder(), FALSE);
-                $this->_oPlugin->set('installed', date('Y-m-d H:i:s'), FALSE);
-                $this->_oPlugin->set('active', (int) self::$XmlGeneral['active'], FALSE);
+                $_oPlugin->set('idclient', $this->_iClient, FALSE);
+                $_oPlugin->set('name', Contenido_Security::escapeDB(self::$XmlGeneral->plugin_name));
+                $_oPlugin->set('description', Contenido_Security::escapeDB(self::$XmlGeneral->description));
+                $_oPlugin->set('author', Contenido_Security::escapeDB(self::$XmlGeneral->author));
+                $_oPlugin->set('copyright', Contenido_Security::escapeDB(self::$XmlGeneral->copyright));
+                $_oPlugin->set('mail', Contenido_Security::escapeDB(self::$XmlGeneral->mail));
+                $_oPlugin->set('website', Contenido_Security::escapeDB(self::$XmlGeneral->website));
+                $_oPlugin->set('version', Contenido_Security::escapeDB(self::$XmlGeneral->version));
+                $_oPlugin->set('folder', Contenido_Security::escapeDB(self::$XmlGeneral->plugin_foldername));
+                $_oPlugin->set('uuid', Contenido_Security::escapeDB(self::$XmlGeneral->uuid));
+                $_oPlugin->set('executionorder', $this->_updateSortOrder(), FALSE);
+                $_oPlugin->set('installed', date('Y-m-d H:i:s'), FALSE);
+                $_oPlugin->set('active', (int) self::$XmlGeneral['active'], FALSE);
 
-                if ($this->_oPlugin->store()) {
-                    //echo "stored: ".$this->_iPiId;
+                if ($_oPlugin->store()) {
                     return $this->_iPiId;
                 }
             } else {
@@ -245,7 +239,10 @@ class pimSetupPluginInstall extends pimSetupBase {
     }
 
     private function _addNavSub() {
-        $aAttributes = array();
+        $aDefaultAttr = array(
+            'online' => 1
+        );
+
         $this->_initInstalledNavMainArray();
         $iCountNavSub = (is_countable(self::$XmlNavSub->nav))?count(self::$XmlNavSub->nav):0;
         
@@ -253,16 +250,21 @@ class pimSetupPluginInstall extends pimSetupBase {
             $oNavSubColl = new cApiNavSubCollection();
             
             for ($i = 0; $i < $iCountNavSub; $i++) {
+                $aAttributes = [];
                 $sLocation = cSecurity::escapeString(self::$XmlNavSub->nav[$i]);
                 
                 if (empty($sLocation)) {
                     parent::error(i18n('There seem to be an empty sub navigation entry in plugin.xml. Please contact your plugin author.', 'pluginmanager'), $this->_iPiId);
                 }
+
                 
                 // Build attributes with security checks
                 foreach (self::$XmlNavSub->nav[$i]->attributes() as $sKey => $sValue) {
                     $aAttributes[$sKey] = cSecurity::escapeString($sValue);
                 }
+
+                $aAttributes = array_merge($aDefaultAttr, array_filter($aAttributes, function($x) { return !(is_null($x) || $x === false); }));
+
                 /* @var $oNavSub cApiNavSub */
                 $oNavSub = $oNavSubColl->createNewItem($this->_getNextId("nav_sub"));
                 if ($oNavSub->isLoaded()) {
@@ -272,7 +274,7 @@ class pimSetupPluginInstall extends pimSetupBase {
                     $oNavSub->set("idarea", $this->_getIdForArea($aAttributes['area']));
                     $oNavSub->set("level", (int) $aAttributes['level']);
                     $oNavSub->set("location", $sLocation, FALSE);
-                    $oNavSub->set("online", 1, FALSE);
+                    $oNavSub->set("online", (int) $aAttributes['online'], FALSE);
                     
                     $oNavSub->store();
                 }
@@ -361,7 +363,8 @@ class pimSetupPluginInstall extends pimSetupBase {
          */
     }
 
-    private function _initInstalledAreasArray() {
+    private function _initInstalledAreasArray(): void
+    {
         $this->_aInstalledAreas = array();
         $oAreaColl = new cApiAreaCollection();
         $oAreaColl->select();
@@ -370,26 +373,25 @@ class pimSetupPluginInstall extends pimSetupBase {
         while ($oArea = $oAreaColl->next()) {
             $this->_aInstalledAreas[] = $oArea->get('name');
         }
-        //print_r($this->_aInstalledAreas);
     }
 
-    private function _initInstalledNavMainArray() {
+    private function _initInstalledNavMainArray(): void
+    {
         $this->_aInstalledNavMain = array();
         $oNavMainColl = new cApiNavMainCollection();
         $oNavMainColl->select();
-        //$oNavMainColl->query();
-        /* @var $oArea cApiArea */
+        /* @var $oNavMain cApiNavMain */
         while ($oNavMain = $oNavMainColl->next()) {
             $this->_aInstalledNavMain[$oNavMain->get('name')] = $oNavMain->get('idnavm');
         }
     }
 
-    private function _initInstalledNavSubArray() {
+    private function _initInstalledNavSubArray(): void
+    {
         $this->_aInstalledNavSub = array();
         $oNavSubColl = new cApiNavSubCollection();
         $oNavSubColl->select();
-        //$oNavSubColl->query();
-        /* @var $oArea cApiArea */
+        /* @var $oNavSub cApiNavSub */
         while ($oNavSub = $oNavSubColl->next()) {
             $this->_aInstalledNavMain[$oNavSub->get('idnavsub')] = $oNavSub->get('name');
         }
@@ -424,5 +426,4 @@ class pimSetupPluginInstall extends pimSetupBase {
         //echo "<pre>";
         //print_r($this->_aAreas);
     }
-
 }

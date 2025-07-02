@@ -12,7 +12,10 @@
         "php": "^8.0",
         "phpmailer/phpmailer": "v6.9.1",
         "adodb/adodb-php": "^5.22",
-      "ext-zlib": "*"
+      "ext-zlib": "*",
+      "ext-mysqli": "*",
+      "ext-dom": "*",
+      "ext-simplexml": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",

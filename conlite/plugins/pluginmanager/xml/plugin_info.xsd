@@ -162,6 +162,7 @@
                         <xsd:extension base="xsd:string">
                             <xsd:attribute name="area" type="xsd:string" use="required" />
                             <xsd:attribute name="level" type="xsd:integer" use="required" />
+                            <xsd:attribute name="online" type="xsd:integer" default="1" />
                             <xsd:attribute name="navm" />
                         </xsd:extension>
                     </xsd:simpleContent>
