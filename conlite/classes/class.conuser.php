@@ -193,24 +193,24 @@ class ConUser extends ConUser_Abstract {
         if (! empty ( $sUserId )) {
             $sSql = "
 	        UPDATE
-	           `" . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . "`
+	           `" . $this->cfg ["tab"] ["phplib_auth_user_md5"] . "`
 	        SET
-	           realname = '" . Contenido_Security::escapeDB ( $this->sRealName, $this->oDb ) . "',
-	           email = '" . Contenido_Security::escapeDB ( $this->sMail, $this->oDb ) . "',
-	           telephone = '" . Contenido_Security::escapeDB ( $this->sTelNumber, $this->oDb ) . "',
-	           address_street = '" . Contenido_Security::escapeDB ( $this->aAddress ['street'], $this->oDb ) . "',
-	           address_city = '" . Contenido_Security::escapeDB ( $this->aAddress ['city'], $this->oDb ) . "',
-	           address_country = '" . Contenido_Security::escapeDB ( $this->aAddress ['country'], $this->oDb ) . "',
-	           address_zip = '" . Contenido_Security::escapeDB ( $this->aAddress ['zip'], $this->oDb ) . "',
+	           realname = '" . Contenido_Security::escapeDB ( $this->sRealName, $this->db ) . "',
+	           email = '" . Contenido_Security::escapeDB ( $this->sMail, $this->db ) . "',
+	           telephone = '" . Contenido_Security::escapeDB ( $this->sTelNumber, $this->db ) . "',
+	           address_street = '" . Contenido_Security::escapeDB ( $this->aAddress ['street'], $this->db ) . "',
+	           address_city = '" . Contenido_Security::escapeDB ( $this->aAddress ['city'], $this->db ) . "',
+	           address_country = '" . Contenido_Security::escapeDB ( $this->aAddress ['country'], $this->db ) . "',
+	           address_zip = '" . Contenido_Security::escapeDB ( $this->aAddress ['zip'], $this->db ) . "',
 	           wysi = '" . Contenido_Security::toInteger ( $this->iUseTiny ) . "',
-	           valid_from = '" . Contenido_Security::escapeDB ( $this->sValidDateFrom, $this->oDb ) . "',
-	           valid_to = '" . Contenido_Security::escapeDB ( $this->sValidDateTo, $this->oDb ) . "',
+	           valid_from = '" . Contenido_Security::escapeDB ( $this->sValidDateFrom, $this->db ) . "',
+	           valid_to = '" . Contenido_Security::escapeDB ( $this->sValidDateTo, $this->db ) . "',
 	           perms = '" . $this->sPermName . "'
 	        WHERE
-	           user_id = '" . Contenido_Security::escapeDB ( $sUserId, $this->oDb ) . "'";
+	           user_id = '" . Contenido_Security::escapeDB ( $sUserId, $this->db ) . "'";
 
             // try to update
-            if (! $this->oDb->query ( $sSql )) {
+            if (! $this->db->query ( $sSql )) {
                 throw new ConUserException ( "Could not update user informations" );
             } else {
                 // try to update password, if set
@@ -260,27 +260,27 @@ class ConUser extends ConUser_Abstract {
 
             $sSql = "
             INSERT INTO
-               `" . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . "`
+               `" . $this->cfg ["tab"] ["phplib_auth_user_md5"] . "`
             SET
-               username = '" . Contenido_Security::escapeDB( $sUserName, $this->oDb ) . "',
-               user_id = '" . Contenido_Security::escapeDB ( $sNewUserId, $this->oDb ) . "',
-               realname = '" . Contenido_Security::escapeDB ( $this->sRealName, $this->oDb ) . "',
-               email = '" . Contenido_Security::escapeDB ( $this->sMail, $this->oDb ) . "',
-               telephone = '" . Contenido_Security::escapeDB ( $this->sTelNumber, $this->oDb ) . "',
-               address_street = '" . Contenido_Security::escapeDB ( $this->aAddress ['street'], $this->oDb ) . "',
-               address_city = '" . Contenido_Security::escapeDB ( $this->aAddress ['city'], $this->oDb ) . "',
-               address_country = '" . Contenido_Security::escapeDB ( $this->aAddress ['country'], $this->oDb ) . "',
-               address_zip = '" . Contenido_Security::escapeDB ( $this->aAddress ['zip'], $this->oDb ) . "',
+               username = '" . Contenido_Security::escapeDB( $sUserName, $this->db ) . "',
+               user_id = '" . Contenido_Security::escapeDB ( $sNewUserId, $this->db ) . "',
+               realname = '" . Contenido_Security::escapeDB ( $this->sRealName, $this->db ) . "',
+               email = '" . Contenido_Security::escapeDB ( $this->sMail, $this->db ) . "',
+               telephone = '" . Contenido_Security::escapeDB ( $this->sTelNumber, $this->db ) . "',
+               address_street = '" . Contenido_Security::escapeDB ( $this->aAddress ['street'], $this->db ) . "',
+               address_city = '" . Contenido_Security::escapeDB ( $this->aAddress ['city'], $this->db ) . "',
+               address_country = '" . Contenido_Security::escapeDB ( $this->aAddress ['country'], $this->db ) . "',
+               address_zip = '" . Contenido_Security::escapeDB ( $this->aAddress ['zip'], $this->db ) . "',
                wysi = '" . Contenido_Security::toInteger ( $this->iUseTiny ) . "',
-               valid_from = '" . Contenido_Security::escapeDB ( $this->sValidDateFrom, $this->oDb ) . "',
-               valid_to = '" . Contenido_Security::escapeDB ( $this->sValidDateTo, $this->oDb ) . "',
-               perms = '" . Contenido_Security::escapeDB ( $this->sPermName, $this->oDb ) . "'";
+               valid_from = '" . Contenido_Security::escapeDB ( $this->sValidDateFrom, $this->db ) . "',
+               valid_to = '" . Contenido_Security::escapeDB ( $this->sValidDateTo, $this->db ) . "',
+               perms = '" . Contenido_Security::escapeDB ( $this->sPermName, $this->db ) . "'";
 
             // try to update
-            if (! $this->oDb->query ( $sSql )) {
+            if (! $this->db->query ( $sSql )) {
                 throw new ConUserException ( "Could not create user in database" );
             } else {
-                if ($this->oDb->affectedRows() () == 1) {
+                if ($this->db->affectedRows() () == 1) {
                     // set password, if available...
                     $sNewPass = $this->getPassword();
 
@@ -314,12 +314,12 @@ class ConUser extends ConUser_Abstract {
         SELECT
             count(*) as user_cnt
         FROM
-            `" . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . "`
+            `" . $this->cfg ["tab"] ["phplib_auth_user_md5"] . "`
         WHERE
-            user_id = '" . Contenido_Security::escapeDB ( strtolower ( $sUserId ), $this->oDb ) . "'";
+            user_id = '" . Contenido_Security::escapeDB ( strtolower ( $sUserId ), $this->db ) . "'";
 
-        if ($this->oDb->query ( $sSql) !== false && $this->oDb->nextRecord()) {
-            $iCount = (int) $this->oDb->f('user_cnt');
+        if ($this->db->query ( $sSql) !== false && $this->db->nextRecord()) {
+            $iCount = (int) $this->db->f('user_cnt');
 
             $bResult = ($iCount != 0);
         } else {
@@ -349,12 +349,12 @@ class ConUser extends ConUser_Abstract {
         SELECT
             count(*) as user_cnt
         FROM
-            `" . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . "`
+            `" . $this->cfg ["tab"] ["phplib_auth_user_md5"] . "`
         WHERE
-            LOWER(`username`) = '" . Contenido_Security::escapeDB ( strtolower ( $sUsername ), $this->oDb ) . "'";
+            LOWER(`username`) = '" . Contenido_Security::escapeDB ( strtolower ( $sUsername ), $this->db ) . "'";
 
-        if ($this->oDb->query ( $sSql) !== false && $this->oDb->nextRecord()) {
-            $iCount = (int) $this->oDb->f('user_cnt');
+        if ($this->db->query ( $sSql) !== false && $this->db->nextRecord()) {
+            $iCount = (int) $this->db->f('user_cnt');
 
             $bResult = ($iCount != 0);
         } else {
@@ -388,7 +388,7 @@ class ConUser extends ConUser_Abstract {
             $bSaveAllowed = true;
 
             // check password for strength and complexity
-            if ($this->aCfg ['password'] ['check_password_mask']) {
+            if ($this->cfg ['password'] ['check_password_mask']) {
                 $iMaskResult = self::checkPasswordMask( $sNewPassword );
 
                 if ($iMaskResult != iConUser::PASS_OK) {
@@ -398,7 +398,7 @@ class ConUser extends ConUser_Abstract {
                 }
             }
 
-            if ($bSaveAllowed && $this->aCfg ['password'] ['use_cracklib']) {
+            if ($bSaveAllowed && $this->cfg ['password'] ['use_cracklib']) {
                 $iStrengthResult = $this->checkPasswordStrength($sNewPassword);
 
                 if ($iStrengthResult != iConUser::PASS_OK) {
@@ -415,16 +415,16 @@ class ConUser extends ConUser_Abstract {
                 $sPass = self::encodePassword( $sNewPassword );
                 $sSql = "
                   UPDATE
-                      `" . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . "`
+                      `" . $this->cfg ["tab"] ["phplib_auth_user_md5"] . "`
                   SET
-                      password='" . Contenido_Security::escapeDB ( $sPass, $this->oDb ) . "',
+                      password='" . Contenido_Security::escapeDB ( $sPass, $this->db ) . "',
                       using_pw_request = '0'
                   WHERE
                       user_id = '" . Contenido_Security::escapeDB ( $sUserId, $this->oDB ) . "'";
 
-                $bQueryResult = $this->oDb->query ( $sSql );
+                $bQueryResult = $this->db->query ( $sSql );
 
-                if (! $bQueryResult || $this->oDb->affectedRows() () < 1) {
+                if (! $bQueryResult || $this->db->affectedRows() () < 1) {
                     throw new ConUserException ( "Could not set password! A DB error occured." );
                 } else {
                     $iResult = iConUser::PASS_OK;
@@ -456,7 +456,7 @@ class ConUser extends ConUser_Abstract {
 	 */
     public function saveUser() {
         if ($this->sIdUser != "") {
-            $sSql = ' UPDATE ' . $this->aCfg ["tab"] ["phplib_auth_user_md5"] . ' SET
+            $sSql = ' UPDATE ' . $this->cfg ["tab"] ["phplib_auth_user_md5"] . ' SET
 						  realname="' . Contenido_Security::escapeDB ( $this->sRealName, $this->oDB ) . '",
 						  email="' . Contenido_Security::escapeDB ( $this->sMail, $this->oDB ) . '",
 						  telephone="' . Contenido_Security::escapeDB ( $this->sTelNumber, $this->oDB ) . '",
@@ -684,12 +684,12 @@ class ConUser extends ConUser_Abstract {
     public function checkPasswordMask($sNewPassword) {
         $iResult = iConUser::PASS_OK;
 
-        if (isset($this->aCfg['password']['check_password_mask']) &&
-        $this->aCfg['password']['check_password_mask'] == true) {
+        if (isset($this->cfg['password']['check_password_mask']) &&
+        $this->cfg['password']['check_password_mask'] == true) {
             // any min length in config set?
             $iMinLength = iConUser::MIN_PASS_LENGTH_DEFAULT;
-            if (isset( $this->aCfg ['password'] ['min_length'] )) {
-                $iMinLength = ( int ) $this->aCfg ['password'] ['min_length'];
+            if (isset( $this->cfg ['password'] ['min_length'] )) {
+                $iMinLength = ( int ) $this->cfg ['password'] ['min_length'];
             }
 
             // check length...
@@ -700,37 +700,37 @@ class ConUser extends ConUser_Abstract {
             // check password elements
 
             // numbers.....
-            if ($iResult == iConUser::PASS_OK && isset($this->aCfg['password']['numbers_mandatory']) &&
-            (int) $this->aCfg['password']['numbers_mandatory'] > 0) {
+            if ($iResult == iConUser::PASS_OK && isset($this->cfg['password']['numbers_mandatory']) &&
+            (int) $this->cfg['password']['numbers_mandatory'] > 0) {
 
                 $aNumbersInPassword = array();
                 preg_match_all("/[0-9]/", $sNewPassword, $aNumbersInPassword) ;
 
-                if (count($aNumbersInPassword[0]) < (int) $this->aCfg['password']['numbers_mandatory']) {
+                if (count($aNumbersInPassword[0]) < (int) $this->cfg['password']['numbers_mandatory']) {
                     $iResult = iConUser::PASS_NOT_ENOUGH_NUMBERS;
                 }
             }
 
             // symbols....
-            if ($iResult == iConUser::PASS_OK && isset($this->aCfg['password']['symbols_mandatory']) &&
-            (int) $this->aCfg['password']['symbols_mandatory'] > 0) {
+            if ($iResult == iConUser::PASS_OK && isset($this->cfg['password']['symbols_mandatory']) &&
+            (int) $this->cfg['password']['symbols_mandatory'] > 0) {
 
                 $aSymbols = array();
                 $sSymbolsDefault = "/[|!@#$%&*\/=?,;.:\-_+~^�\\\]/";
-                if (isset($this->aCfg['password']['symbols_regex']) && !empty($this->aCfg['password']['symbols_regex'])) {
-                    $sSymbolsDefault = $this->aCfg['password']['symbols_regex'];
+                if (isset($this->cfg['password']['symbols_regex']) && !empty($this->cfg['password']['symbols_regex'])) {
+                    $sSymbolsDefault = $this->cfg['password']['symbols_regex'];
                 }
 
                 preg_match_all($sSymbolsDefault, $sNewPassword, $aSymbols);
 				
-                if (count($aSymbols[0]) < (int) $this->aCfg['password']['symbols_mandatory']) {
+                if (count($aSymbols[0]) < (int) $this->cfg['password']['symbols_mandatory']) {
                     $iResult = iConUser::PASS_NOT_ENOUGH_SYMBOLS;
                 }
             }
 
             // mixed case??
-            if ($iResult == iConUser::PASS_OK && isset($this->aCfg['password']['mixed_case_mandatory']) &&
-            (int) $this->aCfg['password']['mixed_case_mandatory'] > 0) {
+            if ($iResult == iConUser::PASS_OK && isset($this->cfg['password']['mixed_case_mandatory']) &&
+            (int) $this->cfg['password']['mixed_case_mandatory'] > 0) {
 
                 $aLowerCaseChars = array();
                 $aUpperCaseChars = array();
@@ -738,8 +738,8 @@ class ConUser extends ConUser_Abstract {
                 preg_match_all("/[a-z]/", $sNewPassword, $aLowerCaseChars);
                 preg_match_all("/[A-Z]/", $sNewPassword, $aUpperCaseChars);
 
-                if ((count($aLowerCaseChars[0]) < (int) $this->aCfg['password']['mixed_case_mandatory']) ||
-                (count($aUpperCaseChars[0]) < (int) $this->aCfg['password']['mixed_case_mandatory'])) {
+                if ((count($aLowerCaseChars[0]) < (int) $this->cfg['password']['mixed_case_mandatory']) ||
+                (count($aUpperCaseChars[0]) < (int) $this->cfg['password']['mixed_case_mandatory'])) {
                     $iResult = iConUser::PASS_NOT_ENOUGH_MIXED_CHARS;
                 }
             }
@@ -771,10 +771,10 @@ class ConUser extends ConUser_Abstract {
 
         // if cracklib functions available and cracklib checks are enabled, check password against cracklib...
         if (function_exists('crack_opendict')) {
-            if (isset($this->aCfg['password']['use_cracklib']) && $this->aCfg['password']['use_cracklib'] == true) {
+            if (isset($this->cfg['password']['use_cracklib']) && $this->cfg['password']['use_cracklib'] == true) {
                 //print "CHECK 1<br>\n";
-                if (isset($this->aCfg['password']['cracklib_dict']) && !empty($this->aCfg['password']['cracklib_dict'])) {
-                    $rCrackLib = crack_opendict ($this->aCfg['password']['cracklib_dict']);
+                if (isset($this->cfg['password']['cracklib_dict']) && !empty($this->cfg['password']['cracklib_dict'])) {
+                    $rCrackLib = crack_opendict ($this->cfg['password']['cracklib_dict']);
 
                     if ($rCrackLib !== false) {
                         $bCrackResult = crack_check ($rCrackLib, $sNewPassword);
