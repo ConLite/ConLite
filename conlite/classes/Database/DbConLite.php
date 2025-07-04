@@ -5,6 +5,8 @@
 
 namespace ConLite\Database;
 
+use ConLite\Exceptions\Exception;
+
 /**
  *
  */
@@ -98,6 +100,7 @@ class DbConLite
 
     /**
      * @return void
+     * @throws Exception
      */
     public function connect(): void
     {
@@ -106,14 +109,17 @@ class DbConLite
 
         $this->db->setConnectionParameter(MYSQLI_SET_CHARSET_NAME, 'utf8mb4');
 
-        $this->db->connect(
+        $isConnected = $this->db->connect(
             $this->dbConfiguration['connection']['host'],
             $this->dbConfiguration['connection']['user'],
             $this->dbConfiguration['connection']['password'],
             $this->dbConfiguration['connection']['database']
         );
+        if(!$isConnected) {
+            throw new Exception("cannot establish db connection");
+        }
         // set sql mode hardcoded @Todo make this configurable
-        $this->db->_query("SET sql_mode = ''");
+        $this->db->Execute("SET sql_mode = ''");
     }
 
     public static function setDefaultConfiguration($configArray): void
