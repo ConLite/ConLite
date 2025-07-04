@@ -411,7 +411,8 @@ abstract class ItemCollection extends ItemBaseAbstract
 
         // Fetch linked tables
         foreach ($this->_links as $link => $object) {
-            $matches = $this->_findReverseJoinPartner(strtolower(get_class($this)), $link);
+            //echo strtolower(get_class($this));
+            $matches = $this->_findReverseJoinPartner(get_class($this), $link);
 
             if ($matches !== false) {
                 if (isset($matches['desttable'])) {
@@ -732,8 +733,8 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     protected function _findReverseJoinPartner($sParentClass, $sClassName) {
         // Make the parameters lowercase, as get_class is buggy
-        $sClassName = strtolower($sClassName);
-        $sParentClass = strtolower($sParentClass);
+        //$sClassName = strtolower($sClassName);
+        //$sParentClass = strtolower($sParentClass);
 
         // Check if we found a direct link
         if (in_array($sClassName, $this->_JoinPartners)) {
