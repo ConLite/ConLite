@@ -60,7 +60,7 @@ abstract class ItemCollection extends ItemBaseAbstract
     /**
      * @var array Inner group conditions
      */
-    protected $_innerGroupConditions = array();
+    protected $_innerGroupConditions = [];
 
     /**
      * @var array Group conditions
@@ -70,13 +70,13 @@ abstract class ItemCollection extends ItemBaseAbstract
     /**
      * @var array Result fields for the query
      */
-    protected $_resultFields = array();
+    protected $_resultFields = [];
 
     /**
      *
      * @var array Column names of db table
      */
-    protected $_aTableColums = array();
+    protected $_aTableColums = [];
 
     /**
      * @var string Encoding
@@ -305,8 +305,8 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @return  array  With all where statements
      */
     protected function _buildGroupWhereStatements() {
-        $aWheres = array();
-        $aGroupWhere = array();
+        $aWheres =[];
+        $aGroupWhere = [];
 
         $mLastGroup = false;
         $sGroupWhereStatement = '';
@@ -315,7 +315,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         if (count($this->_where['groups']) > 0) {
             // Step trough all groups
             foreach ($this->_where['groups'] as $groupname => $group) {
-                $aWheres = array();
+                $aWheres = [];
 
                 // Fetch restriction, fields and operators and build single group
                 // where statements
@@ -403,15 +403,14 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @return  array  Array structure, see above
      */
     protected function _fetchJoinTables($ignoreRoot) {
-        $aParameters = array();
-        $aFields = array();
-        $aTables = array();
-        $aJoins = array();
-        $aWheres = array();
+        $aParameters = [];
+        $aFields = [];
+        $aTables = [];
+        $aJoins = [];
+        $aWheres = [];
 
         // Fetch linked tables
         foreach ($this->_links as $link => $object) {
-            //echo strtolower(get_class($this));
             $matches = $this->_findReverseJoinPartner(get_class($this), $link);
 
             if ($matches !== false) {
@@ -555,7 +554,9 @@ abstract class ItemCollection extends ItemBaseAbstract
         }
 
         // Add this class
-        $aFields[] = strtolower(strtolower(get_class($this))) . '.' . $this->primaryKey;
+        $array = explode("\\", get_class($this));
+        $sourceClass = end($array);
+        $aFields[] = strtolower($sourceClass) . '.' . $this->primaryKey;
 
         // Make the parameters unique
         foreach ($aParameters as $parameter) {
@@ -596,14 +597,14 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     public function resetQuery() {
         $this->setLimit(0, 0);
-        $this->_JoinPartners = array();
-        $this->_forwardJoinPartners = array();
-        $this->_links = array();
-        $this->_where['global'] = array();
-        $this->_where['groups'] = array();
-        $this->_groupConditions = array();
-        $this->_resultFields = array();
-        $this->_aTableColums = array();
+        $this->_JoinPartners = [];
+        $this->_forwardJoinPartners = [];
+        $this->_links = [];
+        $this->_where['global'] = [];
+        $this->_where['groups'] = [];
+        $this->_groupConditions = [];
+        $this->_resultFields = [];
+        $this->_aTableColums = [];
     }
 
     /**
@@ -621,12 +622,15 @@ abstract class ItemCollection extends ItemBaseAbstract
         $aGroupWhereStatements = $this->_buildGroupWhereStatements();
         $sWhereStatements = $this->_buildWhereStatements();
         $aParameters = $this->_fetchJoinTables(strtolower(get_class($this)));
+        $array = explode("\\", get_class($this));
+        $sourceClass = end($array);
+        $thisClass = strtolower($sourceClass);
 
         $aStatement = array(
             'SELECT',
             implode(', ', (array_merge($aParameters['fields'], $this->_resultFields))),
             'FROM',
-            '`' . $this->table . '` AS ' . strtolower(get_class($this))
+            '`' . $this->table . '` AS ' . $thisClass
         );
 
         if (count($aParameters['tables']) > 0) {
@@ -737,7 +741,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         //$sParentClass = strtolower($sParentClass);
 
         // Check if we found a direct link
-        if (in_array($sClassName, $this->_JoinPartners)) {
+        if (in_array(strtolower($sClassName), $this->_JoinPartners)) {
             $obj = new $sClassName;
             return array(
                 'desttable' => $obj->table, 'destclass' => $sClassName,
@@ -939,7 +943,7 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     public function fetchTable(array $aFields = array(), array $aObjects = array()) {
         $row = 1;
-        $aTable = array();
+        $aTable = [];
 
         if(!empty($this->_aTableColums)) {
             $aFields = $this->_aTableColums;
@@ -951,7 +955,8 @@ abstract class ItemCollection extends ItemBaseAbstract
 
         $this->db->seek(0);
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
+            //print_r($this->db->toArray());
             foreach ($aFields as $alias => $field) {
                 //if ($alias != '') {
                 if (is_string($alias)) {

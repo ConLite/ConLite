@@ -5,6 +5,8 @@
 
 namespace ConLite\Database;
 
+use ADORecordSet;
+use ADORecordSet_array;
 use ConLite\Exceptions\Exception;
 
 /**
@@ -390,6 +392,11 @@ class DbConLite
     public function free()
     {
         ;
+    }
+
+    public function seek(int $number)
+    {
+            $this->result->Move($number);
     }
 
     public function getClientInfo() {

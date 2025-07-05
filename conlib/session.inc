@@ -235,7 +235,6 @@ class cSession {
      * @return string
      */
     function self_url($aParam = array()) {
-        $sURI = $_SERVER["PHP_SELF"];
         parse_str($_SERVER["QUERY_STRING"], $aQuery);
         $aQuery = array_merge($aQuery, $aParam);
         $sQuery = http_build_query($aQuery,'','&');

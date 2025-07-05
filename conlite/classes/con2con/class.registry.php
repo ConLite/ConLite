@@ -147,13 +147,13 @@ class cRegistry {
         return $value;
     }
     
-    public static function getDb() {
+    public static function getDb(array $cfgSql = []) {
         try {
-            $oDb = new DB_ConLite();
+            $db = new DB_ConLite();
         } catch (Exception $e) {
             die($e->getMessage());
         }
-        return $oDb;
+        return $db;
     }
 
     /**
