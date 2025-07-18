@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'bf9f5270ae66ac6fa0290b4bf47867b7' => $vendorDir . '/adodb/adodb-php/adodb.inc.php',
+    'ecf814fde376cbc1bdffb165b90f3654' => $vendorDir . '/adodb/adodb-php/adodb.inc.php',
 );
