@@ -36,53 +36,51 @@ class Contenido_FrontendNavigation_Base {
      * @var int
      * @access protected
      */
-    protected $iLang;
-    protected $iClient;
+    protected int $iLang;
+    protected int $iClient;
     /**#@-*/
     
     /**
      * @var array
      * @access protected
      */
-    protected $aCategories;
+    protected array $aCategories;
     
     /**
-     * @var obj
+     * @var null|Contenido_Categories
      * @access protected
      */
-    protected $oCategories;
+    protected null|Contenido_Categories $oCategories;
     
     // needed properties for db queries
     /**
-     * @var obj
      * @access protected
      */
-    protected $oDb;
+    protected DB_ConLite $oDb;
     /**
      * @var array
      * @access protected
      */
-    protected $aCfg;
+    protected array $aCfg;
     /**
      * @var array
      * @access protected
      */
-    protected $aCfgClient;
+    protected array $aCfgClient;
     /**
      * @var boolean
      * @access protected
      */
-    protected $bDbg;
+    protected bool $bDbg;
     /**
      * @var string
      * @access protected
      */
-    protected $sDbgMode;
+    protected string $sDbgMode;
     /**
-     * @var obj
      * @access protected
      */
-    protected $oDbg;
+    protected Debug_File|Debug_Visible|Debug_Hidden|Debug_VisibleAdv|Debug_DevNull|null $oDbg;
     
     /**
      * Constructor.
@@ -94,14 +92,14 @@ class Contenido_FrontendNavigation_Base {
      * @return void
      * @author Rudi Bieller
      */
-    public function __construct(DB_ConLite $oDb, array $aCfg, $iClient, $iLang, array $aCfgClient) {
+    public function __construct(DB_ConLite $oDb, array $aCfg, int $iClient, int $iLang, array $aCfgClient) {
         $this->oDb = $oDb;
         $this->aCfg = $aCfg;
         $this->iClient = (int) $iClient;
         $this->iLang = (int) $iLang;
         $this->aCfgClient = $aCfgClient;
         $this->_iCurrentLoadDepth = 1;
-        $this->_aSubCategories = array();
+        $this->_aSubCategories = [];
         $this->bDbg = false;
         $this->oDbg = null;
     }
@@ -114,22 +112,18 @@ class Contenido_FrontendNavigation_Base {
      * @param string $sStyle Available styles are: front_content, custom, custom_path
      * @param array $aConfig As default this is Contenido_UrlBuilderConfig::getConfig(), can be overridden by setting this value
      * @param boolean $bUseAbsolutePath If true, will use absolute http://www.xy.com/ as "prefix"
-     * @return void
-     * @throws InvalidArgumentException
+     * @return string
      * @see appropriate Contenido_UrlBuilder for details on needed params
      * @todo Apply other styles as soon as they are available
      */
-    public function getUrl(array $aParams, $sStyle = 'custom_path', array $aConfig = array(), $bUseAbsolutePath = false) {
-        try {
-            $oUrlBuilder = Contenido_UrlBuilderFactory::getUrlBuilder($sStyle);
-            if ($bUseAbsolutePath === true) {
-                $oUrlBuilder->setHttpBasePath($this->aCfgClient[$this->iClient]['path']['htmlpath']);
-            }
-            $oUrlBuilder->buildUrl($aParams, $bUseAbsolutePath, $aConfig);
-            return $oUrlBuilder->getUrl();
-        } catch (InvalidArgumentException $e) {
-            throw $e;
+    public function getUrl(array $aParams, string $sStyle = 'custom_path', array $aConfig = array(), bool $bUseAbsolutePath = false): string
+    {
+        $oUrlBuilder = Contenido_UrlBuilderFactory::getUrlBuilder($sStyle);
+        if ($bUseAbsolutePath === true) {
+            $oUrlBuilder->setHttpBasePath($this->aCfgClient[$this->iClient]['path']['htmlpath']);
         }
+        $oUrlBuilder->buildUrl($aParams, $bUseAbsolutePath, $aConfig);
+        return $oUrlBuilder->getUrl();
     }
     
     /**
@@ -140,7 +134,8 @@ class Contenido_FrontendNavigation_Base {
      * @return void
      * @author Rudi Bieller
      */
-    public function setDebug($bDebug = true, $sDebugMode = 'visible') {
+    public function setDebug($bDebug = true, $sDebugMode = 'visible'): void
+    {
         if (!in_array($sDebugMode, array('visible', 'hidden'))) {
             $sDebugMode = 'hidden';
         }
@@ -154,4 +149,3 @@ class Contenido_FrontendNavigation_Base {
         }
     }
 }
-?>
