@@ -268,7 +268,7 @@ class Contenido_Session extends Session {
 
 }
 
-class Contenido_Frontend_Session extends Session {
+class Contenido_Frontend_Session extends cSession {
 
     public $classname = 'Contenido_Frontend_Session';
     public $cookiename = 'sid';              ## defaults to classname

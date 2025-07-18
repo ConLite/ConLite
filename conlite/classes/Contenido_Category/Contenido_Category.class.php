@@ -241,10 +241,10 @@ class Contenido_Category extends Contenido_Category_Base {
 	        $this->oDbg->show($sSql, 'Contenido_Category::load($iIdCat, $bIncludeLanguage = false, $iIdlang = -1): $sSql');
 	    }
 	    $this->oDb->query($sSql);
-	    if ($this->oDb->Errno != 0) {
+	    if ($this->oDb->getErrno() != 0) {
 	        return false;
 	    }
-	    $this->oDb->next_record();
+	    $this->oDb->nextRecord();
 	    $this->setIdCat($iIdCat);
 	    $this->setIdClient($this->oDb->f('idclient'));
 	    $this->setIdParent($this->oDb->f('parentid'));
@@ -342,10 +342,10 @@ class Contenido_Category extends Contenido_Category_Base {
 	        $this->oDbg->show($sSql, 'Contenido_Category::_getSubCategoriesAsArray($iIdcat): $sSql');
 	    }
 	    $this->oDb->query($sSql);
-	    if ($this->oDb->Errno != 0) {
+	    if ($this->oDb->getErrno() != 0) {
 	        return false;
 	    }
-	    while ($this->oDb->next_record()) {
+	    while ($this->oDb->nextRecord()) {
 	        $aSubCats[] = $this->oDb->f('idcat');
 	    }
 	    return $aSubCats;
@@ -777,10 +777,10 @@ class Contenido_Category_Language extends Contenido_Category_Base {
 						idcatlang = ' . Contenido_Security::toInteger($iIdCatLang);
         }
 	    $this->oDb->query($sSql);
-	    if ($this->oDb->Errno != 0) {
+	    if ($this->oDb->getErrno() != 0) {
 	        return false;
 	    }
-	    $this->oDb->next_record();
+	    $this->oDb->nextRecord();
 	    $this->setIdCatLang($this->oDb->f('idcatlang'));
 	    $this->setIdCat($this->getIdCat());
 	    $this->setIdLang($this->getIdLang());
