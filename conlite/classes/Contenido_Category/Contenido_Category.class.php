@@ -294,6 +294,7 @@ class Contenido_Category extends Contenido_Category_Base
             $oCategory->load($iIdcatCurrent, $bIncludeLanguage, $iIdlang);
             $this->oSubCategories->add($oCategory);
         }
+        return $this->oSubCategories;
     }
 
     /**
