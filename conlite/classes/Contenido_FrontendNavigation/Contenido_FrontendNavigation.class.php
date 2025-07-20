@@ -41,7 +41,7 @@ if(!defined('CON_FRAMEWORK')) {
 
 class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
     /**
-     * @var obj
+     * @var
      * @access protected
      */
     protected $oAuth; // for validating against fe-authentication
@@ -50,13 +50,13 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
      * @var array
      * @access protected
      */
-    protected $aLevel;
+    protected array $aLevel;
     
     /**
      * @var int
      * @access protected
      */
-    protected $iRootCat;
+    protected int $iRootCat;
 
     /**
      * Constructor.
@@ -68,7 +68,7 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
      * @return void
      * @author Rudi Bieller
      */
-    public function __construct(DB_ConLite $oDb, array $aCfg, $iClient, $iLang, array $aCfgClient) {
+    public function __construct(DB_ConLite $oDb, array $aCfg, int $iClient, int $iLang, array $aCfgClient) {
         parent::__construct($oDb, $aCfg, $iClient, $iLang, $aCfgClient);
         $this->iRootCat = -1;
     }
@@ -85,7 +85,8 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
      * @return boolean
      * @author Rudi Bieller
      */
-    protected function loadSubCategories($iIdcat, $bAsObjects = true, $bWithSubCategories = false, $iSubCategoriesLoadDepth = 3) {
+    protected function loadSubCategories(int $iIdcat, bool $bAsObjects = true, bool $bWithSubCategories = false, int $iSubCategoriesLoadDepth = 3): bool
+    {
         $iIdcat = (int) $iIdcat;
         $bUseAuth = (is_null($this->oAuth) 
                 || (get_class($this->oAuth) != 'Auth' 
@@ -159,12 +160,17 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
         }
         if($bAsObjects === true) {
             $oCategories = new Contenido_Categories(new DB_ConLite(), $this->aCfg);
-            $oCategories->setDebug($this->bDbg, $this->sDbgMode);
+            if(!empty($this->sDbgMode)) {
+                $oCategories->setDebug($this->bDbg, $this->sDbgMode);
+            } else {
+                $oCategories->setDebug($this->bDbg, 'hidden');
+            }
             $oCategories->setIdLang($this->iLang);
             $oCategories->setloadSubCategories($bWithSubCategories, $iSubCategoriesLoadDepth);
             $oCategories->load($this->aCategories, true, $this->iLang);
             $this->oCategories = $oCategories;
         }
+        return true;
     }
 
     /**
@@ -179,7 +185,8 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
      * @return mixed Contenido_Categories or Array, depending on value for $bAsObjects
      * @author Rudi Bieller
      */
-    public function getSubCategories($iIdcat, $bAsObjects = true, $bWithSubCategories = false, $iSubCategoriesLoadDepth = 3) {
+    public function getSubCategories(int $iIdcat, bool $bAsObjects = true, bool $bWithSubCategories = false, int $iSubCategoriesLoadDepth = 3): mixed
+    {
         $this->loadSubCategories($iIdcat, $bAsObjects, $bWithSubCategories, $iSubCategoriesLoadDepth);
         return $bAsObjects === true ? $this->oCategories : $this->aCategories;
     }
@@ -214,7 +221,8 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
 	 * @return boolean
      * @author Rudi Bieller
 	 */
-	public function isActiveParent(Contenido_Category $oCategory, $iCurrentIdcat) {
+	public function isActiveParent(Contenido_Category $oCategory, int $iCurrentIdcat): bool
+    {
 		if ($oCategory->getIdParent() > 0) {
 			$iCurrentIdcat = (int) $iCurrentIdcat;
 			if ($oCategory->getIdParent() == $iCurrentIdcat) {
@@ -234,7 +242,8 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
 	 * @return boolean
      * @author Rudi Bieller
 	 */
-	public function isActiveChild(Contenido_Category $oCategory, $iCurrentIdcat) {
+	public function isActiveChild(Contenido_Category $oCategory, int $iCurrentIdcat): bool
+    {
 		if ($oCategory->getSubCategories()->count() > 0) {
 			$iCurrentIdcat = (int) $iCurrentIdcat;
 			$oChildCategories = $oCategory->getSubCategories();
@@ -255,7 +264,8 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
 	 * @param int $iTreeHaystackCat
 	 * @return boolean
 	 */
-	public function isInPathToRoot($iNeedleCat, $iTreeHaystackCat) {
+	public function isInPathToRoot(int $iNeedleCat, int $iTreeHaystackCat): bool
+    {
 		$oBreadcrumb = new Contenido_FrontendNavigation_Breadcrumb($this->oDb, $this->aCfg, $this->iClient, $this->iLang, $this->aCfgClient);
 		$aBreadCats = $oBreadcrumb->getAsArray($iTreeHaystackCat, ($this->getLevel($this->getRootCat())+1));
 		return in_array($iNeedleCat, $aBreadCats);
@@ -269,16 +279,18 @@ class Contenido_FrontendNavigation extends Contenido_FrontendNavigation_Base {
      * @return void
      * @author Rudi Bieller
      */
-    public function setAuth(Auth $oAuth) {
+    public function setAuth(Auth $oAuth): void
+    {
         $this->oAuth = $oAuth;
     }
     
-    public function setRootCat($iIdcat) {
+    public function setRootCat($iIdcat): void
+    {
         $this->iRootCat = (int) $iIdcat;
     }
     
-    public function getRootCat() {
+    public function getRootCat(): int
+    {
         return (int) $this->iRootCat;
     }
 }
-?>

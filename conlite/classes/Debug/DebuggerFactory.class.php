@@ -36,13 +36,13 @@ if(!defined('CON_FRAMEWORK')) {
  * 
  */
 class DebuggerFactory {
-    
+
     /**
-     *
      * @param string $sType
-     * @return Debug_VisibleAdv 
+     * @return Debug_File|Debug_Visible|Debug_Hidden|Debug_VisibleAdv|Debug_DevNull
      */
-    public static function getDebugger($sType) {
+    public static function getDebugger(string $sType): Debug_File|Debug_Visible|Debug_Hidden|Debug_VisibleAdv|Debug_DevNull
+    {
         $oDebugger = null;
         switch ($sType) {
             case 'visible':
@@ -73,4 +73,3 @@ class DebuggerFactory {
         return $oDebugger;
     }
 }
-?>
