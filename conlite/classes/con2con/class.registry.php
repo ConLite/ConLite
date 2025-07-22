@@ -146,8 +146,13 @@ class cRegistry {
         }
         return $value;
     }
-    
-    public static function getDb(array $cfgSql = []) {
+
+    /**
+     * @param array $cfgSql
+     * @return DB_ConLite
+     */
+    public static function getDb(array $cfgSql = []): DB_ConLite
+    {
         try {
             $db = new DB_ConLite();
         } catch (Exception $e) {

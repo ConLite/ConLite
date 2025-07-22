@@ -57,9 +57,11 @@ class DbConLite
     protected string $seqTable;
     protected bool $enableProfiling = false;
     protected bool $debug = false;
+    protected string $_sHaltMsgPrefix = '';
 
     /**
      * @param array $options
+     * @throws Exception
      */
     public function __construct(array $options = [])
     {
@@ -237,11 +239,13 @@ class DbConLite
         return $nextId;
     }
 
-    public function lock($table, $mode = 'write') {
+    public function lock($table, $mode = 'write'): int
+    {
         return 1;
     }
 
-    public function unlock($table, $mode = 'write') {
+    public function unlock($table, $mode = 'write'): int
+    {
         return 1;
     }
 
@@ -303,6 +307,19 @@ class DbConLite
         return (count($metaData) > 0) ? $metaData : false;
     }
 
+    /**
+     * @uses \ADOConnection::ServerInfo()
+     * @return string[]
+     */
+    public function serverInfo()
+    {
+        return $this->db->ServerInfo();
+    }
+
+    /**
+     * @deprecated since CL 3.0.0 use serverInfo() instead
+     * @return string[]
+     */
     public function server_info()
     {
         return $this->db->ServerInfo();
@@ -337,7 +354,7 @@ class DbConLite
      * @param string $sMsg The message to use for error handling
      * @return  void
      */
-    public function halt($sMsg): void
+    public function halt(string $sMsg): void
     {
         if ($this->Halt_On_Error == self::HALT_REPORT) {
             $this->haltMsg($this->_sHaltMsgPrefix . $sMsg);

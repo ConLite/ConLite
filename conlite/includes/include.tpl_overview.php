@@ -34,7 +34,7 @@ if (!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
-global $db, $tpl, $sess, $perm, $area, $cfg;
+global $db, $tpl, $sess, $perm, $area, $cfg, $contenido;
 
 
 $sql = "SELECT

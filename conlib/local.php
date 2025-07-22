@@ -49,7 +49,7 @@ class DB_ConLite extends DbConLite {
     /**
      * Constructor of database class.
      *
-     * @param  array  $options  Optional assoziative options. The value depends
+     * @param array $options Optional assoziative options. The value depends
      *                          on used DBMS, but is generally as follows:
      *                          - $options['connection']['host']  (string) Hostname  or ip
      *                          - $options['connection']['database']  (string) Database name
@@ -61,6 +61,7 @@ class DB_ConLite extends DbConLite {
      *                          - $options['haltMsgPrefix']  (string)  Optional, Text to prepend to the halt message
      *                          - $options['enableProfiling']  (bool)  Optional, flag to enable profiling
      * @return  void
+     * @throws \ConLite\Exceptions\Exception
      */
     public function __construct(array $options = []) {
         global $cachemeta;
