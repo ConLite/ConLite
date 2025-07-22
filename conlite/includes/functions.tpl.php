@@ -491,33 +491,26 @@ function tplDuplicateTemplate($idtpl) {
 /**
  * Checks if a template is in use
  *
- * @param int $idtpl Template ID
- *
- * @return bool is template in use
- *
- * @author Jan Lengowski <Jan.Lengowski@4fb.de>
- * @copyright four for business AG <www.4fb.de>
- * 
- * modified Munkh-Ulzii Balidar, improved the sql query without while loop
+ * @param int $idTpl id of template
+ * @return bool
  */
-function tplIsTemplateInUse($idtpl) {
+function tplIsTemplateInUse(int $idTpl): bool
+{
 
-    global $cfg, $client, $lang;
-
-    $db = new DB_ConLite;
+    $db = cRegistry::getDb();
     // Check categorys 
     $sql = "SELECT
                	b.idcatlang, b.name, b.idlang, b.idcat   
             FROM
-                " . $cfg["tab"]["cat"] . " AS a,
-            	" . $cfg["tab"]["cat_lang"] . " AS b
+                " . cRegistry::getConfigValue('tab','cat') . " AS a,
+            	" . cRegistry::getConfigValue('tab','cat_lang') . " AS b
             WHERE
-                a.idclient  = '" . Contenido_Security::toInteger($client) . "' AND
+                a.idclient  = '" . cRegistry::getClientId() . "' AND
                 a.idcat     = b.idcat AND
-                b.idtplcfg  IN (SELECT idtplcfg FROM " . $cfg["tab"]["tpl_conf"] . " WHERE idtpl = '" . $idtpl . "')  
+                b.idtplcfg  IN (SELECT idtplcfg FROM " . cRegistry::getConfigValue('tab','tpl_conf') . " WHERE idtpl = '" . $idTpl . "')  
             ORDER BY b.idlang ASC, b.name ASC ";
     $db->query($sql);
-    if ($db->getErrno() == '' && $db->num_rows() > 0) {
+    if ($db->getErrno() == 0 && $db->num_rows() > 0) {
         return true;
     }
 
@@ -525,17 +518,17 @@ function tplIsTemplateInUse($idtpl) {
     $sql = "SELECT
            		b.idartlang, b.title, b.idlang, b.idart   
             FROM
-                " . $cfg["tab"]["art"] . " AS a,
-                " . $cfg["tab"]["art_lang"] . " AS b
+                " . cRegistry::getConfigValue('tab','art') . " AS a,
+                " . cRegistry::getConfigValue('tab','art_lang') . " AS b
             WHERE
-                a.idclient  = '" . Contenido_Security::toInteger($client) . "' AND
+                a.idclient  = '" . cRegistry::getClientId() . "' AND
                 a.idart     = b.idart AND
-                b.idtplcfg IN (SELECT idtplcfg FROM " . $cfg["tab"]["tpl_conf"] . " WHERE idtpl = '" . $idtpl . "')  
+                b.idtplcfg IN (SELECT idtplcfg FROM " . cRegistry::getConfigValue('tab','tpl_conf') . " WHERE idtpl = '" . $idTpl . "')  
             ORDER BY b.idlang ASC, b.title ASC ";
 
     $db->query($sql);
 
-    if ($db->getErrno() == '' && $db->num_rows() > 0) {
+    if ($db->getErrno() == 0 && $db->num_rows() > 0) {
         return true;
     }
 

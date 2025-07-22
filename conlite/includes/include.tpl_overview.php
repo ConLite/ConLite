@@ -34,13 +34,15 @@ if (!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }
 
+global $db, $tpl, $sess;
+
 
 $sql = "SELECT
             *
         FROM
-            ".$cfg["tab"]["tpl"]."
+            ".cRegistry::getConfigValue('tab','tpl')."
         WHERE
-            idclient = '".Contenido_Security::toInteger($client)."'
+            idclient = '".cRegistry::getClientId()."'
         ORDER BY
             name";
 
@@ -49,7 +51,7 @@ $tpl->reset();
 
 $tpl->set('s', 'SID', $sess->id);
 
-while ( $db->next_record() ) {
+while ( $db->nextRecord() ) {
 
     if ( $perm->have_perm_item($area, $db->f("idtpl")) ||
          $perm->have_perm_area_action("tpl" , "tpl_delete") ||
@@ -62,7 +64,7 @@ while ( $db->next_record() ) {
         $descr = $db->f('description');
         $idtpl = $db->f("idtpl");
 
-        $bgcolor = ( is_int($tpl->dyn_cnt / 2) ) ? $cfg["color"]["table_light"] : $cfg["color"]["table_dark"];
+        $bgcolor = ( is_int($tpl->dyn_cnt / 2) ) ? cRegistry::getConfigValue('color', 'table_light') : cRegistry::getConfigValue('color', 'table_dark');
         $tpl->set('d', 'BGCOLOR', $bgcolor);
 
         # create javascript multilink
