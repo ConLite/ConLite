@@ -182,6 +182,8 @@ class Template {
      */
     public function generate($template, $return = 0, $note = 0) {
         global $cCurrentModule;
+        // fix for older contenido versions, using template path in name
+        $template = str_replace('templates/', '', $template);
 
         $cfg = cRegistry::getConfig();
         $bModTplUsed = FALSE;
@@ -193,7 +195,7 @@ class Template {
             $sModName = strtolower(uplCreateFriendlyName($tmpModule->get('name')));
             $aModFileEditConf = $tmpModule->getModFileEditConf();
             unset($tmpModule);
-            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . str_replace('templates/', '', $template);
+            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . $template;
             if (is_readable($sTmpPath)) {
                 $template = $sTmpPath;
                 $bModTplUsed = TRUE;
