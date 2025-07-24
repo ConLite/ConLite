@@ -183,7 +183,7 @@ class Template {
     public function generate($template, $return = 0, $note = 0) {
         global $cCurrentModule;
         // fix for older contenido versions, using template path in name
-        $template = str_replace('templates/', '', $template);
+        //$template = str_replace('templates/', '', $template);
 
         $cfg = cRegistry::getConfig();
         $bModTplUsed = FALSE;
@@ -195,15 +195,20 @@ class Template {
             $sModName = strtolower(uplCreateFriendlyName($tmpModule->get('name')));
             $aModFileEditConf = $tmpModule->getModFileEditConf();
             unset($tmpModule);
-            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . $template;
+            $sTmpPath = $aModFileEditConf['modPath'] . $sModName . "/template/" . str_replace('templates/', '', $template);
             if (is_readable($sTmpPath)) {
                 $template = $sTmpPath;
                 $bModTplUsed = TRUE;
             }
         }
 
-        if (is_file(cRegistry::getFrontendPath() . "templates/" . $template) && !$bModTplUsed) {
-            $template = cRegistry::getFrontendPath() . "templates/" . $template;
+        if (
+            is_file(cRegistry::getFrontendPath() . "templates/" . $template)
+            || is_file(cRegistry::getFrontendPath() . "templates/" . str_replace('templates/', '', $template))
+            && !$bModTplUsed
+        )
+        {
+            $template = cRegistry::getFrontendPath() . "templates/" . str_replace('templates/', '', $template);
         }
 
         //check if the template is a file or a string
