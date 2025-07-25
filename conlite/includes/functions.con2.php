@@ -42,32 +42,32 @@ if (!defined('CON_FRAMEWORK')) {
  * @author Jan Lengowski <jan.lengowski@4fb.de>
  * @copyright four for business AG <www.4fb.de>
  */
-function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
-    global $frontend_debug, $_cecRegistry;
+function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout = false) {
+    global $frontend_debug, $_cecRegistry, $db, $db2, $cfg, $code, $client, $lang, $encoding;
 
-    $debug = 0;
+    $debug = false;
 
-    if ($debug)
+    if ($debug) {
         echo "conGenerateCode($idcat, $idart, $lang, $client, $layout);<br>";
+    }
 
-    global $db, $db2, $sess, $cfg, $code, $cfgClient, $client, $lang, $encoding;
-
-    if (!is_object($db2))
-        $db2 = new DB_ConLite;
+    if (!is_object($db2)) {
+        $db2 = new DB_ConLite();
+    }
 
     /* extract IDCATART */
     $sql = "SELECT
-	                    idcatart
+                idcatart
 	                FROM
-	                    " . $cfg["tab"]["cat_art"] . "
+	                    " . cRegistry::getConfigValue('tab', 'cat_art') . "
 	                WHERE
-	                    idcat = '" . Contenido_Security::toInteger($idcat) . "' AND
-	                    idart = '" . Contenido_Security::toInteger($idart) . "'";
+	                    idcat = " . $idcat . " AND
+	                    idart = " . $idart;
 
     $db->query($sql);
-    $db->next_record();
+    $db->nextRecord();
 
-    $idcatart = $db->f("idcatart");
+    $idCatArt = (int) $db->f("idcatart");
 
     /* If neither the
       article or the category is
@@ -76,16 +76,16 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
     $sql = "SELECT
 	                    a.idtplcfg AS idtplcfg
 	                FROM
-	                    " . $cfg["tab"]["art_lang"] . " AS a,
-	                    " . $cfg["tab"]["art"] . " AS b
+	                    " . cRegistry::getConfigValue('tab', 'art_lang') . " AS a,
+	                    " . cRegistry::getConfigValue('tab', 'art') . " AS b
 	                WHERE
-	                    a.idart     = '" . Contenido_Security::toInteger($idart) . "' AND
-	                    a.idlang    = '" . Contenido_Security::escapeDB($lang, $db) . "' AND
+	                    a.idart     = " . $idart . " AND
+	                    a.idlang    = " . $lang . " AND
 	                    b.idart     = a.idart AND
-	                    b.idclient  = '" . Contenido_Security::escapeDB($client, $db) . "'";
+	                    b.idclient  = " . $client ;
 
     $db->query($sql);
-    $db->next_record();
+    $db->nextRecord();
 
     if ($db->f("idtplcfg") != 0) {
 
@@ -166,16 +166,16 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
 
             $code = '<html><body>No code was created for this art in this category.</body><html>';
 
-            $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
+            $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart='" . Contenido_Security::toInteger($idCatArt) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
 
             $db->query($sql);
 
             if ($db->next_record()) {
                 $sql = "UPDATE " . $cfg["tab"]["code"] . " SET code='" . Contenido_Security::escapeDB($code, $db) . "', idlang='" . Contenido_Security::escapeDB($lang, $db) . "', idclient='" . Contenido_Security::escapeDB($client, $db) . "'
-                        WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
+                        WHERE idcatart='" . Contenido_Security::toInteger($idCatArt) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
                 $db->query($sql);
             } else {
-                $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idcatart) . "',
+                $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idCatArt) . "',
                         '" . Contenido_Security::escapeDB($code, $db) . "', '" . Contenido_Security::escapeDB($lang, $db) . "', '" . Contenido_Security::escapeDB($client, $db) . "')";
                 $db->query($sql);
             }
@@ -499,25 +499,25 @@ function conGenerateCode($idcat, $idart, $lang, $client, $layout = false) {
     $date = date("Y-m-d H:i:s");
 
     if ($layout == false) {
-        $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart = '" . Contenido_Security::toInteger($idcatart) . "' AND idlang = '" . Contenido_Security::escapeDB($lang, $db) . "'";
+        $sql = "SELECT * FROM " . $cfg["tab"]["code"] . " WHERE idcatart = '" . Contenido_Security::toInteger($idCatArt) . "' AND idlang = '" . Contenido_Security::escapeDB($lang, $db) . "'";
 
         $db->query($sql);
 
         if ($db->next_record()) {
             if ($debug)
-                echo "UPDATED code for lang:$lang, client:$client, idcatart:$idcatart";
+                echo "UPDATED code for lang:$lang, client:$client, idcatart:$idCatArt";
             $sql = "UPDATE " . $cfg["tab"]["code"] . " SET code='" . Contenido_Security::escapeDB($code, $db, false) . "', idlang='" . Contenido_Security::escapeDB($lang, $db) . "', idclient='" . Contenido_Security::escapeDB($client, $db) . "'
-					WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
+					WHERE idcatart='" . Contenido_Security::toInteger($idCatArt) . "' AND idlang='" . Contenido_Security::escapeDB($lang, $db) . "'";
             $db->query($sql);
         } else {
             if ($debug)
-                echo "INSERTED code for lang:$lang, client:$client, idcatart:$idcatart";
-            $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idcatart) . "',
+                echo "INSERTED code for lang:$lang, client:$client, idcatart:$idCatArt";
+            $sql = "INSERT INTO " . $cfg["tab"]["code"] . " (idcode, idcatart, code, idlang, idclient) VALUES ('" . Contenido_Security::toInteger($db->nextid($cfg["tab"]["code"])) . "', '" . Contenido_Security::toInteger($idCatArt) . "',
 					'" . Contenido_Security::escapeDB($code, $db, false) . "', '" . Contenido_Security::escapeDB($lang, $db) . "', '" . Contenido_Security::escapeDB($client, $db) . "')";
             $db->query($sql);
         }
 
-        $sql = "UPDATE " . $cfg["tab"]["cat_art"] . " SET createcode = '0' WHERE idcatart='" . Contenido_Security::toInteger($idcatart) . "'";
+        $sql = "UPDATE " . $cfg["tab"]["cat_art"] . " SET createcode = '0' WHERE idcatart='" . Contenido_Security::toInteger($idCatArt) . "'";
         $db->query($sql);
     }
 
