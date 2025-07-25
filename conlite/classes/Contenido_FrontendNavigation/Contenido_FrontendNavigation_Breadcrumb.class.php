@@ -79,7 +79,7 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @author Rudi Bieller
      * @todo Add possibility to return an array
      */
-    public function get(int $iBaseCategoryId, int $iRootLevel = 0, bool $bReset = false): ?array
+    public function get(int $iBaseCategoryId, int $iRootLevel = 0, bool $bReset = false): ?Contenido_Categories
     {
         $this->getBreadcrumb($iBaseCategoryId, $iRootLevel, $bReset);
         $this->oCategories->reverse(); // For a breadcrumb, we start at the main category, not the current one.

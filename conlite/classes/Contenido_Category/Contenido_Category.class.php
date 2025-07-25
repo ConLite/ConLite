@@ -65,7 +65,7 @@ class Contenido_Category_Base
      * @var string
      * @access protected
      */
-    protected string $sDbgMode;
+    protected string $sDbgMode = 'hidden';
     /**
      * @var Debug_File|Debug_Visible|Debug_Hidden|Debug_VisibleAdv|Debug_DevNull|null
      * @access protected
@@ -253,7 +253,7 @@ class Contenido_Category extends Contenido_Category_Base
             $oCategoryLanguage->load();
             $this->setCategoryLanguage($oCategoryLanguage);
         }
-        if ($this->bLoadSubCategories === true) {
+        if (isset($this->bLoadSubCategories) && $this->bLoadSubCategories === true) {
             $this->_getSubCategories($iIdCat, $bIncludeLanguage, $iIdlang);
         }
         return true;
