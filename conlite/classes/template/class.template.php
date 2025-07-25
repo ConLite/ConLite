@@ -182,6 +182,8 @@ class Template {
      */
     public function generate($template, $return = 0, $note = 0) {
         global $cCurrentModule;
+        // fix for older contenido versions, using template path in name
+        //$template = str_replace('templates/', '', $template);
 
         $cfg = cRegistry::getConfig();
         $bModTplUsed = FALSE;
@@ -200,8 +202,13 @@ class Template {
             }
         }
 
-        if (is_file(cRegistry::getFrontendPath() . "templates/" . $template) && !$bModTplUsed) {
-            $template = cRegistry::getFrontendPath() . "templates/" . $template;
+        if (
+            is_file(cRegistry::getFrontendPath() . "templates/" . $template)
+            || is_file(cRegistry::getFrontendPath() . "templates/" . str_replace('templates/', '', $template))
+            && !$bModTplUsed
+        )
+        {
+            $template = cRegistry::getFrontendPath() . "templates/" . str_replace('templates/', '', $template);
         }
 
         //check if the template is a file or a string

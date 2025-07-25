@@ -46,8 +46,13 @@ class DbConLite
      * @var array|array[]|null[]|string[]
      */
     protected array $dbConfiguration;
+
     protected \ADOConnection|false $db;
-    protected mixed $record;
+    /**
+     * @todo switch to protected an use setter and getter
+     * @var array|bool
+     */
+    public array|bool $Record;
     protected \ADOrecordset|\ADORecordSet_empty|false $result;
     protected int $Errno = 0;
     protected string $Error = '';
@@ -56,10 +61,13 @@ class DbConLite
     protected string $Halt_On_Error;
     protected string $seqTable;
     protected bool $enableProfiling = false;
+
     protected bool $debug = false;
+    protected string $_sHaltMsgPrefix = '';
 
     /**
      * @param array $options
+     * @throws Exception
      */
     public function __construct(array $options = [])
     {
@@ -169,18 +177,18 @@ class DbConLite
         return (bool) $this->result;
     }
 
-    public function nextRecord()
+    public function nextRecord(): bool
     {
         if (!$this->db->IsConnected() || $this->result === false) {
             return false;
         }
 
-        $this->record = $this->result->FetchRow();
+        $this->Record = $this->result->FetchRow();
         $this->row += 1;
         $this->Errno = $this->db->ErrorNo();
         $this->Error = $this->db->ErrorMsg();
 
-        return is_array($this->record);
+        return is_array($this->Record);
     }
 
     public function num_rows(): int
@@ -195,12 +203,12 @@ class DbConLite
 
     public function f($field)
     {
-        return $this->record[$field];
+        return $this->Record[$field];
     }
 
     public function toArray(): bool|array
     {
-        return ($this->num_rows() > 0) ? $this->record : [];
+        return ($this->num_rows() > 0) ? $this->Record : [];
     }
 
     public function escape($string): string
@@ -237,11 +245,13 @@ class DbConLite
         return $nextId;
     }
 
-    public function lock($table, $mode = 'write') {
+    public function lock($table, $mode = 'write'): int
+    {
         return 1;
     }
 
-    public function unlock($table, $mode = 'write') {
+    public function unlock($table, $mode = 'write'): int
+    {
         return 1;
     }
 
@@ -303,6 +313,19 @@ class DbConLite
         return (count($metaData) > 0) ? $metaData : false;
     }
 
+    /**
+     * @uses \ADOConnection::ServerInfo()
+     * @return string[]
+     */
+    public function serverInfo()
+    {
+        return $this->db->ServerInfo();
+    }
+
+    /**
+     * @deprecated since CL 3.0.0 use serverInfo() instead
+     * @return string[]
+     */
     public function server_info()
     {
         return $this->db->ServerInfo();
@@ -337,7 +360,7 @@ class DbConLite
      * @param string $sMsg The message to use for error handling
      * @return  void
      */
-    public function halt($sMsg): void
+    public function halt(string $sMsg): void
     {
         if ($this->Halt_On_Error == self::HALT_REPORT) {
             $this->haltMsg($this->_sHaltMsgPrefix . $sMsg);
