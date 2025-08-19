@@ -5,18 +5,18 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '316a8e26e01466e3d7ee57360970293a89406b0e',
+        'reference' => '95f48ce35b94142944e30981b7688693bc004cb6',
         'name' => 'org.conlite/conlite',
         'dev' => false,
     ),
     'versions' => array(
         'adodb/adodb-php' => array(
-            'pretty_version' => 'v5.22.8',
-            'version' => '5.22.8.0',
+            'pretty_version' => 'v5.22.10',
+            'version' => '5.22.10.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../adodb/adodb-php',
             'aliases' => array(),
-            'reference' => 'bc0d3e05ce89f3c73c24d1cb78de57793d1afe3a',
+            'reference' => '38ce257600e67b1e854f2e9054166569cff4bf6b',
             'dev_requirement' => false,
         ),
         'org.conlite/conlite' => array(
@@ -25,7 +25,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '316a8e26e01466e3d7ee57360970293a89406b0e',
+            'reference' => '95f48ce35b94142944e30981b7688693bc004cb6',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
