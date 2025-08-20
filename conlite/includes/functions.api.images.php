@@ -27,6 +27,7 @@ defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization 
  * @param int $quality
  * @param bool $keepType
  * @return bool|string
+ * @throws ImagickException
  */
 function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, bool $expand = false, int $cacheTime = 10, bool $wantHQ = false, int $quality = 75, bool $keepType = true): bool|string
 {
@@ -94,21 +95,12 @@ function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, boo
             break;
     }
 
-    switch ($method) {
-        case 'gd1':
-            $return = cApiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'gd2':
-            $return = cApiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'im':
-            $return = cApiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'failure':
-        default:
-            $return = str_replace(cRegistry::getFrontendPath(), cRegistry::getFrontendUrl(), $img);
-            break;
-    }
+    $return = match ($method) {
+        'gd1' => cApiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        'gd2' => cApiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        'im' => cApiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        default => str_replace(cRegistry::getFrontendPath(), cRegistry::getFrontendUrl(), $img),
+    };
 
     if ($deleteAfter) {
         unlink($img);
@@ -117,7 +109,7 @@ function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, boo
     return $return;
 }
 
-// ToDo
+
 function cApiImgScaleLQ(string $img, int $maxX, int $maxY, $crop = false, $expand = false, int $cacheTime = 10, int $quality = 0, bool $keepType = false): bool|string
 {
     if (!cFileHandler::exists($img)) {
@@ -239,8 +231,10 @@ function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, b
     return $webFile;
 }
 
-// ToDo
-function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false)
+/**
+ * @throws ImagickException
+ */
+function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false): bool|string
 {
     if (!cFileHandler::exists($img)) {
         return false;
@@ -252,9 +246,9 @@ function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
     $client = cRegistry::getClientId();
 
     $fileName = $img;
-    $maxX = cSecurity::toInteger($maxX);
-    $maxY = cSecurity::toInteger($maxY);
-    $cacheTime = cSecurity::toInteger($cacheTime);
+    $maxX = (int) $maxX;
+    $maxY = (int) $maxY;
+    $cacheTime = (int) $cacheTime;
 
     $frontendURL = cRegistry::getFrontendUrl();
     $fileType = cFileHandler::getExtension($fileName);
@@ -284,20 +278,18 @@ function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
     $cfg = cRegistry::getConfig();
 
     // Try to execute convert
-    $output = [];
-    $retVal = 0;
     $convertCommand = $cfg['images']['image_magick']['command'];
     $program = escapeshellarg($cfg['images']['image_magick']['path'] . $convertCommand);
     $source = escapeshellarg($fileName);
     $destination = escapeshellarg($cacheFile);
     $quality = cApiImgGetCompressionRate($fileType, $quality);
     if ($crop) {
-        $cmd = "'{$program}' -gravity center -quality {$quality} -crop {$maxX}x{$maxY}+1+1 '{$source}' '{$destination}'";
+        $cmd = "'$program' -gravity center -quality $quality -crop {$maxX}x$maxY+1+1 '$source' '$destination'";
     } else {
-        $cmd = "'{$program}' -quality {$quality} -geometry {$targetX}x{$targetY} '{$source}' '{$destination}'";
+        $cmd = "'$program' -quality $quality -geometry {$targetX}x$targetY '$source' '$destination'";
     }
 
-    exec($cmd, $output, $retVal);
+    exec($cmd);
 
     if (!cFileHandler::exists($cacheFile)) {
         return false;
@@ -398,19 +390,12 @@ function cApiImgScaleGetMD5CacheFile(string $img, int $maxX, int $maxY, bool $cr
 function cApiImageGetCacheFileName(string $md5, string $fileType, bool $keepType): string
 {
     if ($keepType) {
-        switch (cString::toLowerCase($fileType)) {
-            case 'png':
-                $fileName = $md5 . '.png';
-                break;
-            case 'gif':
-                $fileName = $md5 . '.gif';
-                break;
-            case 'webp':
-                $fileName = $md5 . '.webp';
-                break;
-            default:
-                $fileName = $md5 . '.jpg';
-        }
+        $fileName = match (cString::toLowerCase($fileType)) {
+            'png' => $md5 . '.png',
+            'gif' => $md5 . '.gif',
+            'webp' => $md5 . '.webp',
+            default => $md5 . '.jpg',
+        };
     } else {
         $fileName = $md5 . '.jpg';
     }
@@ -559,4 +544,32 @@ function cApiImageGetTargetDimensions(int $x, int $y, int $maxX, int $maxY, bool
         $targetX,
         $targetY
     ];
+}
+
+/**
+ * Check if gif is animated using ImageMagick
+ *
+ * If ImageMagick is not available false will be returned.
+ *
+ * @param string $sFile
+ *         file path
+ * @return bool
+ *         True (gif is animated)/ false (single frame gif)
+ * @throws ImagickException
+ */
+function cApiImageIsAnimGif(string $sFile): bool
+{
+    // use imagick if exists
+    if(class_exists('Imagick')) {
+        $imagick = new Imagick();
+        $handle = fopen($sFile, 'a+');
+
+        $imagick->readImageFile($handle);
+        if($imagick->getImageIterations()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
 }
