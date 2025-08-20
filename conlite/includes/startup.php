@@ -30,6 +30,7 @@
  */
 
 
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -54,11 +55,11 @@ if (!defined('CL_ENVIRONMENT')) {
     } elseif (getenv('CL_ENVIRONMENT')) {
         $sEnvironment = getenv('CL_ENVIRONMENT');
     } else {
-        if(file_exists(dirname(dirname(__FILE__))."/environment.php")) {
-            include_once dirname(dirname(__FILE__))."/environment.php";
+        if (file_exists(dirname(dirname(__FILE__)) . "/environment.php")) {
+            include_once dirname(dirname(__FILE__)) . "/environment.php";
         }
-        
-        if(!isset($sEnvironment) || empty($sEnvironment)) {
+
+        if (!isset($sEnvironment) || empty($sEnvironment)) {
             $sEnvironment = 'production';
         }
     }
@@ -71,7 +72,7 @@ if (!defined('CL_ENVIRONMENT')) {
  */
 if (!defined('CL_VERSION')) {
 
-define('CL_VERSION', '3.1.0');
+    define('CL_VERSION', '3.1.0');
 
 }
 
@@ -86,11 +87,11 @@ try {
 
 // "Workaround" for register_globals=off settings.
 require_once(dirname(__FILE__) . '/globals_off.inc.php');
-$sPathCfgDir = dirname(dirname(dirname(__FILE__))).'/data/config/'.CL_ENVIRONMENT.'/';
-$sClConfigFile = $sPathCfgDir.'config.php';
+$sPathCfgDir = dirname(dirname(dirname(__FILE__))) . '/data/config/' . CL_ENVIRONMENT . '/';
+$sClConfigFile = $sPathCfgDir . 'config.php';
 // Check if configuration file exists, this is a basic indicator to find out, if Contenido is installed
 if (!file_exists(dirname(__FILE__) . '/config.php') && !file_exists($sClConfigFile)) {
-    $msg  = "<h1>Fatal Error</h1><br>";
+    $msg = "<h1>Fatal Error</h1><br>";
     $msg .= "Could not open the configuration file <b>config.php</b>.<br><br>";
     $msg .= "Please make sure that you saved the file in the setup program. If you had to place the file manually on your webserver, make sure that it is placed in your data/config/ENVIROMENT directory.";
     die($msg);
@@ -98,13 +99,13 @@ if (!file_exists(dirname(__FILE__) . '/config.php') && !file_exists($sClConfigFi
 
 
 // Include some basic configuration files
-if(file_exists($sClConfigFile)) {
+if (file_exists($sClConfigFile)) {
     include_once($sClConfigFile);
 } else {
     include_once(dirname(__FILE__) . '/config.php');
 }
-include_once($sPathCfgDir.'config.path.php');
-include_once($sPathCfgDir. 'config.misc.php');
+include_once($sPathCfgDir . 'config.path.php');
+include_once($sPathCfgDir . 'config.misc.php');
 include_once($sPathCfgDir . 'config.colors.php');
 include_once($sPathCfgDir . 'config.path.php');
 include_once($sPathCfgDir . 'config.templates.php');
@@ -114,14 +115,14 @@ $cfg['path']['config'] = $sPathCfgDir;
 
 // Include userdefined configuration (if available), where you are able to
 // extend/overwrite core settings from included configuration files above
-if(file_exists($sPathCfgDir.'config.local.php')) {
-    include_once($sPathCfgDir.'config.local.php');
-} else if(file_exists($cfg['path']['contenido'].$cfg['path']['includes'] . '/config.local.php')) {
+if (file_exists($sPathCfgDir . 'config.local.php')) {
+    include_once($sPathCfgDir . 'config.local.php');
+} else if (file_exists($cfg['path']['contenido'] . $cfg['path']['includes'] . '/config.local.php')) {
     include_once($cfg['path']['contenido'] . $cfg['path']['includes'] . '/config.local.php');
 }
 
 // check $belang and set default
-if(!isset($belang) || empty($belang)) {
+if (!isset($belang) || empty($belang)) {
     $belang = "de_DE";
 }
 
@@ -154,15 +155,15 @@ global $cfg;
 $handle = opendir($cfg['path']['contenido'] . $cfg['path']['locale']);
 
 while ($locale = readdir($handle)) {
-   if (is_dir($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale) && $locale != '..' && $locale != '.') {
-      if (file_exists($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale . '/LC_MESSAGES/conlite.po') &&
-         file_exists($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale . '/LC_MESSAGES/conlite.mo') &&
-         file_exists($cfg['path']['contenido'] . $cfg['path']['xml'] . 'lang_'.$locale.'.xml') ) {
+    if (is_dir($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale) && $locale != '..' && $locale != '.') {
+        if (file_exists($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale . '/LC_MESSAGES/conlite.po') &&
+            file_exists($cfg['path']['contenido'] . $cfg['path']['locale'] . $locale . '/LC_MESSAGES/conlite.mo') &&
+            file_exists($cfg['path']['contenido'] . $cfg['path']['xml'] . 'lang_' . $locale . '.xml')) {
 
-         $cfg['login_languages'][] = $locale;
-         $cfg['lang'][$locale] = 'lang_'.$locale.'.xml';
-      }
-   }
+            $cfg['login_languages'][] = $locale;
+            $cfg['lang'][$locale] = 'lang_' . $locale . '.xml';
+        }
+    }
 }
 
 
@@ -178,27 +179,48 @@ $_cecRegistry = cApiCECRegistry::getInstance();
 cInclude('config', 'config.chains.php');
 
 // fallback to old db-connection settings
-if(!isset($cfg['db']) || !is_array($cfg['db'])) {
+if (!isset($cfg['db']) || !is_array($cfg['db'])) {
     $cfg['db'] = array(
-    'connection' => array(
-        'host'     => $contenido_host,
-        'database' => $contenido_database,
-        'user'     => $contenido_user,
-        'password' => $contenido_password,
-    ),
-    'nolock'          => false, // (bool) Flag to not lock tables
-    'sequenceTable'   => '',       // (string) will be set later in startup!
-    'haltBehavior'    => 'report', // (string) Feasible values are 'yes', 'no' or 'report'
-    'haltMsgPrefix'   => (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] . ' ' : '',
-    'enableProfiling' => false,    // (bool) Flag to enable profiling
-);
+        'connection' => array(
+            'host' => $contenido_host,
+            'database' => $contenido_database,
+            'user' => $contenido_user,
+            'password' => $contenido_password,
+        ),
+        'nolock' => false, // (bool) Flag to not lock tables
+        'sequenceTable' => '',       // (string) will be set later in startup!
+        'haltBehavior' => 'report', // (string) Feasible values are 'yes', 'no' or 'report'
+        'haltMsgPrefix' => (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] . ' ' : '',
+        'enableProfiling' => false,    // (bool) Flag to enable profiling
+    );
 }
 // Set default database connection parameter
 $cfg['db']['sequenceTable'] = $cfg['tab']['sequence'];
+
+$ADODB_OUTP = 'clDbLogger';
+
 DB_ConLite::setDefaultConfiguration($cfg['db']);
 
 // @TODO: This should be done by instantiating a DB_ConLite class, creation of DB_ConLite object
 checkMySQLConnectivity();
+
+/**
+ * callback function for AdoDb-logging
+ *
+ * trigger warning in error log file
+ *
+ * @todo if ok, integrate in database class
+ * @param string $message
+ * @param bool $newline
+ * @return void
+ */
+function clDbLogger($message, $newline)
+{
+    $message = strip_tags($message);
+    $message = str_replace('&nbsp;',' ',$message);
+    $message = htmlspecialchars_decode($message);
+    cWarning(__FILE__, __LINE__,$message);
+}
 
 
 // Initialize UrlBuilder, configuration is set in /contenido/includes/config.misc.php
@@ -216,7 +238,7 @@ if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     }
 }
 
-if($cfg['debug']['sendnocacheheader']) {
+if ($cfg['debug']['sendnocacheheader']) {
     header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
     header("Pragma: no-cache"); // HTTP 1.0.
     header("Expires: 0"); // Proxies.
