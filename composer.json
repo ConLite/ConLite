@@ -15,7 +15,9 @@
       "ext-zlib": "*",
       "ext-mysqli": "*",
       "ext-dom": "*",
-      "ext-simplexml": "*"
+      "ext-simplexml": "*",
+      "ext-gd": "*",
+      "ext-imagick": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
