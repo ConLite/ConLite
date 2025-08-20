@@ -52,6 +52,7 @@ abstract class Item extends ItemBaseAbstract
      * @param string $sTable The table to use as information source
      * @param string $sPrimaryKey The primary key to use
      * @param int $iLifetime
+     * @throws ItemException
      */
     public function __construct($sTable = '', $sPrimaryKey = '', $iLifetime = 10)
     {
