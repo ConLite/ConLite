@@ -201,7 +201,6 @@ $ADODB_OUTP = 'clDbLogger';
 
 DB_ConLite::setDefaultConfiguration($cfg['db']);
 
-// @TODO: This should be done by instantiating a DB_ConLite class, creation of DB_ConLite object
 checkMySQLConnectivity();
 
 /**
