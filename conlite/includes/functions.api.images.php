@@ -233,7 +233,7 @@ function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, b
 
 /**
  * @throws ImagickException
- */
+ *//*
 function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false): bool|string
 {
     if (!cFileHandler::exists($img)) {
@@ -295,6 +295,119 @@ function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
         return false;
     } else {
         return $webFile;
+    }
+}*/
+
+function capiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 75, $keepType = false) {
+    global $cfgClient, $lang, $client;
+
+    $filename = $img;
+    $cacheTime = (int) $cacheTime;
+    $quality = (int) $quality;
+
+    if ($quality <= 0 || $quality > 100) {
+        $quality = 75;
+    }
+
+    $filetype = substr($filename, strlen($filename) - 4, 4);
+    $filesize = filesize($img);
+    $md5 = capiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
+
+    /* Create the target file names for web and server */
+    if ($keepType) { // Should we keep the file type?
+        switch (strtolower($filetype)) { // Just using switch if someone likes to add other types
+            case ".png":
+                $cfileName = $md5 . ".png";
+                break;
+            default:
+                $cfileName = $md5 . ".jpg";
+        }
+    } else { // No... use .jpg
+        $cfileName = $md5 . ".jpg";
+    }
+
+    $cacheFile = $cfgClient[$client]["path"]["frontend"] . "cache/" . $cfileName;
+    $webFile = $cfgClient[$client]["path"]["htmlpath"] . "cache/" . $cfileName;
+
+    /* Check if the file exists. If it does, check if the file is valid. */
+    if (file_exists($cacheFile)) {
+        if ($cacheTime == 0) {
+            // Do not check expiration date
+            return $webFile;
+        } else if (!function_exists("md5_file")) { // TODO: Explain why this is still needed ... or remove it
+            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
+                /* Cache time expired, unlink the file */
+                unlink($cacheFile);
+            } else {
+                /* Return the web file name */
+                return $webFile;
+            }
+        } else {
+            return $webFile;
+        }
+    }
+
+    list($x, $y) = @getimagesize($filename);
+    if ($x == 0 || $y == 0) {
+        return false;
+    }
+
+    /* Calculate the aspect ratio */
+    $aspectXY = $x / $y;
+    $aspectYX = $y / $x;
+
+    if (($maxX / $x) < ($maxY / $y)) {
+        $targetY = $y * ($maxX / $x);
+        $targetX = round($maxX);
+
+        // force wished height
+        if ($targetY < $maxY) {
+            $targetY = ceil($targetY);
+        } else {
+            $targetY = floor($targetY);
+        }
+    } else {
+        $targetX = $x * ($maxY / $y);
+        $targetY = round($maxY);
+
+        // force wished width
+        if ($targetX < $maxX) {
+            $targetX = ceil($targetX);
+        } else {
+            $targetX = floor($targetX);
+        }
+    }
+
+    if ($expand == false && (($targetX > $x) || ($targetY > $y))) {
+        $targetX = $x;
+        $targetY = $y;
+    }
+
+    $targetX = ($targetX != 0) ? $targetX : 1;
+    $targetY = ($targetY != 0) ? $targetY : 1;
+
+    // if is animated gif resize first frame
+    if ($filetype == ".gif") {
+        if (isAnimGif($filename)) {
+            $filename .= "[0]";
+        }
+    }
+
+    /* Try to execute convert */
+    if (function_exists("exec")) {
+        $output = array();
+        $retVal = 0;
+        if ($crop) {
+            exec("convert -gravity center -quality " . $quality . " -crop {$maxX}x{$maxY}+1+1 \"$filename\" $cacheFile", $output, $retVal);
+        } else {
+            exec("convert -quality " . $quality . " -geometry {$targetX}x{$targetY} \"$filename\" $cacheFile", $output, $retVal);
+        }
+    }
+
+    if (!file_exists($cacheFile)) {
+        return false;
+    } else {
+        return ($webFile);
     }
 }
 
@@ -572,4 +685,45 @@ function cApiImageIsAnimGif(string $sFile): bool
         }
     }
     return false;
+}
+
+/**
+ * check if gif is animated
+ *
+ * @param string file path
+ *
+ * @return boolean true (gif is animated)/ false (single frame gif)
+ */
+function isAnimGif($sFile) {
+    if(!($fh = @fopen($sFile, 'rb')))
+        return false;
+    $count = 0;
+    //an animated gif contains multiple "frames", with each frame having a
+    //header made up of:
+    // * a static 4-byte sequence (\x00\x21\xF9\x04)
+    // * 4 variable bytes
+    // * a static 2-byte sequence (\x00\x2C)
+
+    // We read through the file til we reach the end of the file, or we've found
+    // at least 2 frame headers
+    while(!feof($fh) && $count < 2) {
+        $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+        $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00\x2C#s', $chunk, $matches);
+    }
+    fclose($fh);
+    return $count > 1;
+
+    /*
+    $output = array();
+    $retval = 0;
+
+    exec('identify ' . $sFile, $output, $retval);
+
+    if (count($output) == 1) {
+        return false;
+    }
+
+    return true;
+     *
+     */
 }
