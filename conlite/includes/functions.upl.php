@@ -573,8 +573,9 @@ function uplGetThumbnail($file, $maxsize) {
         case "iff":
         case "xbm":
         case "wbmp":
+            //echo $cfgClient[$client]["upl"]["path"] . $file;
             $img = capiImgScale($cfgClient[$client]["upl"]["path"] . $file, $maxsize, $maxsize, false, false, 50);
-
+            //print_r($img);
             if ($img !== false) {
                 return $img;
             } else {

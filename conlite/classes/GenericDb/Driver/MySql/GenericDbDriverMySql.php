@@ -164,6 +164,9 @@ class GenericDbDriverMySql extends GenericDbDriver
 
                 $sWhereStatement = implode(" ", [$sField, "NOT IN (", $sRestriction, ")"]);
                 break;
+            case "eq":
+                $sWhereStatement = implode(" ", [$sField, '=',  $this->_oItemClassInstance->_inFilter($sRestriction)]);
+                break;
             default :
                 $sRestriction = "'" . $this->_oItemClassInstance->_inFilter($sRestriction) . "'";
 

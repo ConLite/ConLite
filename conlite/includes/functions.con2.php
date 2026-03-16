@@ -43,6 +43,9 @@ if (!defined('CON_FRAMEWORK')) {
  * @copyright four for business AG <www.4fb.de>
  */
 function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout = false) {
+    $a_d = [];
+    $a_content = [];
+    $a_ = [];
     global $frontend_debug, $_cecRegistry, $db, $db2, $cfg, $code, $client, $lang, $encoding;
 
     $debug = false;
@@ -95,7 +98,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
         if ($debug)
             echo "configuration for article found: $idtplcfg<br><br>";
 
-        $a_c = array();
+        $a_c = [];
 
         $sql2 = "SELECT
 		                        *
@@ -138,7 +141,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
             if ($debug)
                 echo "configuration for category found: $idtplcfg<br><br>";
 
-            $a_c = array();
+            $a_c = [];
 
             $sql2 = "SELECT
 			                            *
@@ -236,7 +239,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
         $tmp_returnstring = tplBrowseLayoutForContainers($idlay, $raw_code);
         $a_container = explode("&", $tmp_returnstring);
 
-        foreach ($a_container as $key => $value) {
+        foreach ($a_container as $value) {
 
             if (is_numeric($a_d[$value])) {
                 $thisModule = '<?php $cCurrentModule = ' . ((int) $a_d[$value]) . '; ?>';
@@ -249,15 +252,15 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
 
             $output = AddSlashes($output) . "\n";
 
-            $varstring = array();
+            $varstring = [];
             if (!empty($a_c[$value])) {
                 $a_c[$value] = preg_replace("/(&\$)/", "", $a_c[$value]);
                 $tmp1 = preg_split("/&/", $a_c[$value]);
 
-                foreach ($tmp1 as $key1 => $value1) {
+                foreach ($tmp1 as $value1) {
 
                     $tmp2 = explode("=", $value1);
-                    foreach ($tmp2 as $key2 => $value2) {
+                    foreach (array_keys($tmp2) as $key2) {
                         $varstring["$tmp2[0]"] = $tmp2[1];
                     }
                 }
@@ -276,7 +279,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
             $output = str_replace("CMS_VALUE", $CiCMS_Var, $output);
             $output = str_replace("\$" . $CiCMS_Var, $CiCMS_Var, $output);
 
-            $output = preg_replace("/(CMS_VALUE\[)([0-9]*)(\])/i", "", $output);
+            $output = preg_replace("/(CMS_VALUE\\[)(\\d*)(\\])/i", "", $output);
 
             if ($frontend_debug["container_display"] == true) {
                 $fedebug .= "Container: CMS_CONTAINER[$value]" . '\\\\n';
@@ -291,7 +294,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
 
             if (!empty($fedebug)) {
                 $output = addslashes('<?php echo \'<img onclick="javascript:showmod' . $value . '();" src="' . $cfg['path']['contenido_fullhtml'] . 'images/but_preview.gif">\'; ?' . '>' . "<br>") . $output;
-                $output = $output . addslashes('<?php echo \'<script language="javascript">function showmod' . $value . ' () { window.alert(\\\'\'. "' . addslashes($fedebug) . '".\'\\\');} </script>\'; ?' . '>');
+                $output .= addslashes('<?php echo \'<script language="javascript">function showmod' . $value . ' () { window.alert(\\\'\'. "' . addslashes($fedebug) . '".\'\\\');} </script>\'; ?' . '>');
             }
 
             if ($frontend_debug["module_timing_summary"] == true) {
@@ -347,16 +350,16 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
 
     $db->query($sql);
 
-    $match = array();
+    $match = [];
     while ($db->next_record()) {
 
         $tmp = preg_match_all("/(" . $db->f("type") . "\[+\d+\])/i", $code, $match);
         $a_[strtolower($db->f("type"))] = $match[0];
 
-        $success = array_walk($a_[strtolower($db->f("type"))], 'extractNumber');
+        $success = array_walk($a_[strtolower($db->f("type"))], "extractNumber");
 
-        $search = array();
-        $replacements = array();
+        $search = [];
+        $replacements = [];
 
         foreach ($a_[strtolower($db->f("type"))] as $val) {
             eval($db->f("code"));
@@ -384,27 +387,27 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
 
     // metatags
     $availableTags = conGetAvailableMetaTagTypes();
-    $metatags = array();
+    $metatags = [];
     foreach ($availableTags as $key => $value) {
         $metavalue = conGetMetaValue($idartlang, $key);
         if (strlen($metavalue) > 0) {
             //$metatags[$value["name"]] = array(array("attribute" => $value["fieldname"], "value" => $metavalue), ...);
-            $metatags[] = array($value["fieldname"] => $value["name"], 'content' => $metavalue);
+            $metatags[] = [$value["fieldname"] => $value["name"], 'content' => $metavalue];
         }
     }
 
     // generator tag
     $aVersion = explode('.', $cfg['version']);
     $sCLVersion = $aVersion[0] . '.' . $aVersion[1];
-    $metatags[] = array('name' => 'generator', 'content' => 'CMS ConLite ' . $sCLVersion);
+    $metatags[] = ['name' => 'generator', 'content' => 'CMS ConLite ' . $sCLVersion];
 
     // charset/encoding tag
     if (getEffectiveSetting('generator', 'html5', "false") == "true") {
-        $metatags[] = array('charset' => $encoding[$lang]);
-    } else if (getEffectiveSetting('generator', 'xhtml', "false") == "true") {
-        $metatags[] = array('http-equiv' => 'Content-Type', 'content' => 'application/xhtml+xml; charset=' . $encoding[$lang]);
+        $metatags[] = ['charset' => $encoding[$lang]];
+    } elseif (getEffectiveSetting('generator', 'xhtml', "false") == "true") {
+        $metatags[] = ['http-equiv' => 'Content-Type', 'content' => 'application/xhtml+xml; charset=' . $encoding[$lang]];
     } else {
-        $metatags[] = array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=' . $encoding[$lang]);
+        $metatags[] = ['http-equiv' => 'Content-Type', 'content' => 'text/html; charset=' . $encoding[$lang]];
     }
 
     // check chains
@@ -413,7 +416,7 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
     if ($_cecIterator->count() > 0) {
         $tmpMetatags = $metatags;
         if (!is_array($tmpMetatags)) {
-            $tmpMetatags = array();
+            $tmpMetatags = [];
         }
 
         while ($chainEntry = $_cecIterator->next()) {
@@ -426,27 +429,27 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
         /** @todo recode whole meta tag handling */
         if (is_array($tmpMetatags)) {
             //check for all system meta tags if there is already a user meta tag
-            foreach ($tmpMetatags as $aAutValue) {
+            foreach ($tmpMetatags as $tmpMetatag) {
                 $bExists = false;
 
                 //get name of meta tag for search
                 $sSearch = '';
-                if (array_key_exists('name', $aAutValue)) {
-                    $sSearch = $aAutValue['name'];
-                } else if (array_key_exists('http-equiv', $aAutValue)) {
-                    $sSearch = $aAutValue['http-equiv'];
+                if (array_key_exists('name', $tmpMetatag)) {
+                    $sSearch = $tmpMetatag['name'];
+                } elseif (array_key_exists('http-equiv', $tmpMetatag)) {
+                    $sSearch = $tmpMetatag['http-equiv'];
                 }
 
                 //check if meta tag is already in list of user meta tags
                 if (strlen($sSearch) > 0) {
-                    foreach ($metatags as $aValue) {
-                        if (array_key_exists('name', $aValue)) {
-                            if ($sSearch == $aValue['name']) {
+                    foreach ($metatags as $metatag) {
+                        if (array_key_exists('name', $metatag)) {
+                            if ($sSearch == $metatag['name']) {
                                 $bExists = true;
                                 break;
                             }
-                        } else if (array_key_exists('http-equiv', $aAutValue)) {
-                            if ($sSearch == $aValue['http-equiv']) {
+                        } elseif (array_key_exists('http-equiv', $tmpMetatag)) {
+                            if ($sSearch == $metatag['http-equiv']) {
                                 $bExists = true;
                                 break;
                             }
@@ -455,35 +458,34 @@ function conGenerateCode(int $idcat, int $idart, int $lang, int $client, $layout
                 }
 
                 //add system meta tag if there is no user meta tag
-                if ($bExists == false && isset($aAutValue['content']) && strlen($aAutValue['content']) > 0) {
-                    array_push($metatags, $aAutValue);
+                if ($bExists == false && isset($tmpMetatag['content']) && strlen($tmpMetatag['content']) > 0) {
+                    $metatags[] = $tmpMetatag;
                 }
             }
         }
     }
     $sMetatags = '';
 
-    foreach ($metatags as $value) {
-        if (getEffectiveSetting('generator', 'html5', "false") == "true") {
-            if (isset($value['name']) && $value['name'] == 'date')
-                continue;
+    foreach ($metatags as $metatag) {
+        if (getEffectiveSetting('generator', 'html5', "false") == "true" && (isset($metatag['name']) && $metatag['name'] == 'date')) {
+            continue;
         }
-        if (!empty($value['content'])) {
-            $value['content'] = clHtmlEntityDecode($value['content'], ENT_QUOTES, strtoupper($encoding[$lang]));
-            $value['content'] = htmlspecialchars_decode($value['content'], ENT_QUOTES);
+        if (!empty($metatag['content'])) {
+            $metatag['content'] = clHtmlEntityDecode($metatag['content'], ENT_QUOTES, strtoupper($encoding[$lang]));
+            $metatag['content'] = htmlspecialchars_decode($metatag['content'], ENT_QUOTES);
         }
 
         // build up metatag string
         $oMetaTagGen = new cHTML5Meta();
-        $oMetaTagGen->updateAttributes($value);
+        $oMetaTagGen->updateAttributes($metatag);
 
         /* HTML does not allow ID for meta tags */
         $oMetaTagGen->removeAttribute("id");
 
         /* Check if metatag already exists */
-        if (isset($value["name"]) && preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $value["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
+        if (isset($metatag["name"]) && preg_match('/(<meta(?:\s+)name(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)' . $metatag["name"] . '(?:\s*)(?:\\\\"|\\\\\')(?:[^>]+)>\r?\n?)/i', $code, $aTmetatagfound)) {
             $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
-        } else if (array_key_exists("charset", $value)
+        } elseif (array_key_exists("charset", $metatag)
                 && preg_match('/(<meta(?:\s+)charset(?:\s*)=(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(.*)(?:\s*)(?:\\\\"|\\\\\')(?:\s*)(?:\s*|\/)(?:[\^\>]+)\r?\n?)/i', $code, $aTmetatagfound)) {
             $code = str_replace($aTmetatagfound[1], $oMetaTagGen->render() . "\n", $code);
         } else {
@@ -618,11 +620,6 @@ function conSetMetaValue($idartlang, $idmetatype, $value) {
     $db->query($sql);
 }
 
-/**
- * 
- * @param int $client
- * @param int $lang
- */
 function conGenerateKeywords(int $client = null, int $lang = null) {
     $aOptions = [];
     $aOptions['start'] = true;
@@ -636,13 +633,12 @@ function conGenerateKeywords(int $client = null, int $lang = null) {
    /* @var $oArticle cApiArticleLanguage */
     if ($oArticleCollector->count() > 0) {
         foreach ($oArticleCollector as $oArticle) {
-            $aArticleContent = [];
             $aArticleContent = $oArticle->getContent();
             if(!empty($aArticleContent)) {
                 /* @var $oIndex Index */
                 $oIndex = new Index();
                 //$oIndex->setDebug(true);
-                $oIndex->start($oArticle->get('idart'), $aArticleContent, 'auto', array("img", "link", "linktarget", "swf"));
+                $oIndex->start($oArticle->get('idart'), $aArticleContent, 'auto', ["img", "link", "linktarget", "swf"]);
             }
         }
     }
@@ -660,6 +656,7 @@ function conGenerateKeywords(int $client = null, int $lang = null) {
  */
 function conGetContentFromArticle($article_lang) {
 
+    $a_content = [];
     global $cfg;
     $db_con = new DB_ConLite;
 

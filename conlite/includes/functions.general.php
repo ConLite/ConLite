@@ -18,6 +18,9 @@
  *
  *   $Id$:
  */
+
+use ConLite\Exceptions\Exception;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -657,6 +660,12 @@ function getPhpModuleInfo($moduleName)
     phpinfo(INFO_MODULES); // get information vor modules
     $string = ob_get_contents();
     ob_end_clean();
+
+    $result = \ConLite\System\phpInfo::getInfoModule($moduleName);
+
+    if (!empty($result)) {
+        return $result;
+    }
 
     $pieces = explode("<h2", $string); // get several modules
 
@@ -1311,21 +1320,48 @@ function getFileExtension($filename)
     }
 }
 
-function human_readable_size($number)
+/**
+ *
+ * @param int $number
+ * @return string
+ *@deprecated since V3.0
+ * @uses humanReadableSize()
+ *
+ */
+function human_readable_size(int $number): string
+{
+    return humanReadableSize($number);
+}
+
+/**
+ * returns number of bytes as human readable
+ *
+ * @param $number
+ * @return string number with suffix string
+ */
+function humanReadableSize($number)
 {
     $base = 1024;
-    $suffixes = array(" B", " KB", " MB", " GB", " TB", " PB", " EB");
+    $suffixes = [
+        'Bytes',
+        'KiB',
+        'MiB',
+        'GiB',
+        'TiB',
+        'PiB',
+        'EiB'
+    ];
 
     $usesuf = 0;
-    $n = (float)$number; //Appears to be necessary to avoid rounding
+    $n = (float)$number; // Appears to be necessary to avoid rounding
     while ($n >= $base) {
         $n /= (float)$base;
         $usesuf++;
     }
 
     $places = 2 - floor(log10($n));
-    $places = max($places, 0);
-    $retval = number_format($n, $places, ".", "") . $suffixes[$usesuf];
+    $places = (int) max($places, 0);
+    $retval = number_format($n, $places, '.', '') . ' ' . $suffixes[$usesuf];
     return $retval;
 }
 
@@ -2026,64 +2062,32 @@ function endAndLogTiming($uuid)
     trigger_error("calling function " . $_timings[$uuid]["function"] . "(" . $parameterString . ") took " . $timeSpent . " seconds", E_USER_NOTICE);
 }
 
-// @TODO: it's better to create a instance of DB_ConLite class, the class constructor connects also to the database. 
 function checkMySQLConnectivity()
 {
     global $contenido_host, $contenido_database, $contenido_user, $contenido_password, $cfg;
 
-    if ($cfg["database_extension"] == "mysqli") {
-        if (function_exists("mysqli_connect")) {
-            if (($iPos = strpos($contenido_host, ":")) !== false) {
-                list($sHost, $sPort) = explode(":", $contenido_host);
+    /** @var Exception $exception */
+    try {
 
-                $res = mysqli_connect($sHost, $contenido_user, $contenido_password, "", $sPort);
-            } else {
-
-                $res = mysqli_connect($contenido_host, $contenido_user, $contenido_password);
-            }
-        } else {
-            $res = NULL;
-        }
-    } else {
-        if (function_exists("mysql_connect")) {
-            $res = mysql_connect($contenido_host, $contenido_user, $contenido_password);
-        } else {
-            $res = NULL;
-        }
+        $db = new DB_ConLite(['connection' => [
+            'host' => $contenido_host,
+            'user' => $contenido_user,
+            'password' => $contenido_password,
+            'database' => $contenido_database,
+        ]]);
+    } catch (Exception $exception) {
+        echo $exception->getMessage();
+        return false;
     }
 
-    $selectDb = false;
-    if ($res) {
-        if ($cfg["database_extension"] == "mysqli") {
-            $selectDb = mysqli_select_db($res, $contenido_database);
-        } else {
-            $selectDb = mysql_select_db($contenido_database, $res);
-        }
+    if($db->getErrno() == 0) {
+        $db->disconnect();
+        return true;
     }
 
-    if (!$res || !$selectDb) {
-        $errortitle = i18n("MySQL Database not reachable for installation %s");
-        $errortitle = sprintf($errortitle, $cfg["path"]["contenido_fullhtml"]);
-
-        $errormessage = i18n("The MySQL Database for the installation %s is not reachable. Please check if this is a temporary problem or if it is a real fault.");
-        $errormessage = sprintf($errormessage, $cfg["path"]["contenido_fullhtml"]);
-
-        notifyOnError($errortitle, $errormessage);
-
-        if ($cfg["contenido"]["errorpage"] != "") {
-            header("Location: " . $cfg["contenido"]["errorpage"]);
-        } else {
-            die("Could not connect to the database server with this configuration!");
-        }
-
-        exit;
-    } else {
-        if ($cfg["database_extension"] == "mysqli") {
-            mysqli_close($res);
-        } else {
-            mysql_close($res);
-        }
-    }
+    echo $db->getError();
+    $db->disconnect();
+    return false;
 }
 
 function notifyOnError($errortitle, $errormessage)
@@ -2309,4 +2313,24 @@ function clHtmlEntities(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE
 function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = "UTF-8")
 {
     return get_html_translation_table($table, $flags, $encoding);
+}
+
+/**
+ * Checks, if a function is disabled or not ('disable_functions' setting in php.ini)
+ * @param string $functionName Name of the function to check
+ * @return bool
+ */
+function isFunctionDisabled(string $functionName)
+{
+    static $disabledFunctions;
+
+    if (empty($functionName)) {
+        return true;
+    }
+
+    if (!isset($disabledFunctions)) {
+        $disabledFunctions = array_map('trim', explode(',', ini_get('disable_functions')));
+    }
+
+    return (in_array($functionName, $disabledFunctions));
 }

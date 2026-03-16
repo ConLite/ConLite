@@ -922,7 +922,7 @@ function conDeleteart($idart)
  *
  * @copyright four for business AG <www.4fb.de>
  */
-function extractNumber(&$string)
+function extractNumber(&$string, $key)
 {
     $string = preg_replace("/[^0-9]/","",$string);
 }

@@ -229,13 +229,12 @@ function unparse_url($parsed_url) {
  * writeSystemValuesOutput - get several server and Contenido settings
  *
  * parse system and Contenido output into a string
- * 
- * @return string returns a string containing several server and Contenido settings		
  * @author Marco Jahn
  */
-function writeSystemValuesOutput($usage) {
+function writeSystemValuesOutput($usage)
+{
 
-    global $db, $_SERVER, $cfg, $i18n, $tpl;
+    global $db, $_SERVER, $cfg, $tpl;
 
     /* variables to proof against each other */
 
@@ -309,7 +308,7 @@ function writeSystemValuesOutput($usage) {
 	        </tr>";
 
     $clientPermCount = 0;
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         if (system_have_perm($db->f("idclient"))) {
             $clientlang = "";
 
@@ -326,7 +325,7 @@ function writeSystemValuesOutput($usage) {
 			        	LEFT JOIN " . $cfg["tab"]["lang"] . " c ON b.idlang = c.idlang
 			        	WHERE a.idclient=" . Contenido_Security::toInteger($db->f("idclient")) . " AND c.name IS NOT NULL";
             $db2->query($sql);
-            while ($db2->next_record()) {
+            while ($db2->nextRecord()) {
                 $clientlang .= $db2->f("clientlang") . ", ";
             }
             // cut off last ","
@@ -339,7 +338,7 @@ function writeSystemValuesOutput($usage) {
 
             $sql = "SELECT frontendpath, htmlpath FROM " . $cfg["tab"]["clients"] . " WHERE idclient='" . Contenido_Security::toInteger($db->f("idclient")) . "'";
             $db2->query($sql);
-            while ($db2->next_record()) {
+            while ($db2->nextRecord()) {
                 $clientInformation .= "<tr class=\"text_medium\" style=\"background-color: {BGCOLOR};\" >
 				                	<td class=\"text_medium\" style=\"border:1px; border-top:0px; border-color: #B3B3B3; border-style: solid\" nowrap=\"nowrap\" align=\"left\" valign=\"top\">" . i18n("htmlpath") . "</td>
 				                	<td class=\"text_medium\" width=\"60%\" style=\"border:1px; border-left:0px; border-top:0px; border-color: #B3B3B3; border-style: solid;\" nowrap=\"nowrap\">" . $db2->f("htmlpath") . "&nbsp;</td>
@@ -369,14 +368,14 @@ function writeSystemValuesOutput($usage) {
     // get number of users installed
     $sql = "SELECT count(user_id) usercount FROM " . $cfg["tab"]["phplib_auth_user_md5"];
     $db->query($sql);
-    $db->next_record();
+    $db->nextRecord();
     // number of users
     $sysvalues[$i]['variable'] = i18n('Number of users');
     $sysvalues[$i++]['value'] = $db->f("usercount");
     //get number of articles
     $sql = "SELECT count(idart) articlecount FROM " . $cfg["tab"]["art"];
     $db->query($sql);
-    $db->next_record();
+    $db->nextRecord();
     // number of articles
     $sysvalues[$i]['variable'] = i18n('Number of articles');
     $sysvalues[$i++]['value'] = $db->f("articlecount");
@@ -384,7 +383,7 @@ function writeSystemValuesOutput($usage) {
     $sysvalues[$i]['variable'] = i18n('Server operating system');
     $sysvalues[$i++]['value'] = $_SERVER['SERVER_SOFTWARE'];
     // SQL version
-    $sql_server_info = $db->server_info();
+    $sql_server_info = $db->serverInfo();
     $sysvalues[$i]['variable'] = i18n('PHP database extension');
     $sysvalues[$i++]['value'] = $cfg["database_extension"];
     $sysvalues[$i]['variable'] = i18n('Database server version');
@@ -428,8 +427,8 @@ function writeSystemValuesOutput($usage) {
     $sysvalues[$i]['variable'] = "sql.safe_mode";
     $sysvalues[$i++]['value'] = $sql_safe_mode;
     // gdlib with installed features
-    $gdLib = array();
-    $gdLib = getPhpModuleInfo($moduleName = 'gd');
+   // print_r(get_loaded_extensions());
+    $gdLib = getPhpModuleInfo( 'gd');
     $gdLibFeatures = "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">
 	        <tr class=\"textg_medium\" style=\"background-color: #E2E2E2\">
 	            <td width=\"20%\" class=\"textg_medium\" style=\"border:1px; border-color:#B3B3B3; border-style:solid;border-bottom:none\" nowrap=\"nowrap\">" . i18n("Settings") . "</td>
@@ -445,7 +444,7 @@ function writeSystemValuesOutput($usage) {
     foreach ($gdLib as $setting => $value) {
         $gdLibFeatures .= "<tr class=\"text_medium\" style=\"background-color: {BGCOLOR};\" >
 		            <td class=\"text_medium\" style=\"border:1px; border-top:0px; border-color: #B3B3B3; border-style: solid;\" nowrap=\"nowrap\" align=\"left\" valign=\"top\">" . $setting . "</td>
-		            <td class=\"text_medium\" width=\"60%\" style=\"border:1px; border-left:0px; border-top:0px; border-color: #B3B3B3; border-style: solid;\" nowrap=\"nowrap\">" . $value[0] . "</td>
+		            <td class=\"text_medium\" width=\"60%\" style=\"border:1px; border-left:0px; border-top:0px; border-color: #B3B3B3; border-style: solid;\" nowrap=\"nowrap\">" . $value . "</td>
 		        </tr>";
     }
     $gdLibFeatures .= '</table>';
@@ -475,8 +474,6 @@ function writeSystemValuesOutput($usage) {
     /* irgendwas sinnvolles :) */
     if ($usage == 'mail') {
         return $tpl->generate($cfg['path']['templates'] . $cfg['templates']['systam_variables_mailattach'], true);
-    } elseif ($usage == 'output') {
-        // do nothing
     }
 }
 

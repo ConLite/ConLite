@@ -119,6 +119,10 @@ class DbConLite
 
         $this->db->setConnectionParameter(MYSQLI_SET_CHARSET_NAME, 'utf8mb4');
 
+        if (isset($this->dbConfiguration['debug'])) {
+            $this->db->debug = $this->dbConfiguration['debug'];
+        }
+
         $isConnected = $this->db->connect(
             $this->dbConfiguration['connection']['host'],
             $this->dbConfiguration['connection']['user'],
@@ -137,7 +141,7 @@ class DbConLite
         self::$defaultDbConfiguration = $configArray;
     }
 
-    public function query($query)
+    public function query($query): bool
     {
         $this->showDebug($query);
         if (!$this->db->IsConnected() || $query == '') {
