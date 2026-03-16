@@ -493,7 +493,7 @@ if ($contenido) {
 
         $edit_preview .= '<tr><td colspan="2"><table cellspacing="0" cellpadding="2" border="0"></tr><td style="font-family: verdana; font-size:10; color:#000000; text-decoration:none">Articles in category:<br>';
 
-        while ($db->next_record() && ($db->affected_rows() != 1)) {
+        while ($db->nextRecord() && ($db->num_rows() != 1)) {
 
             $class = "font-family:'Verdana'; font-size:10; color:#000000; text-decoration: underline; font-weight:normal";
             if (!isset($idart)) {

@@ -226,5 +226,3 @@ $oActiveUser->startUsersTracking();
  */
 
 page_close();
-
-?>

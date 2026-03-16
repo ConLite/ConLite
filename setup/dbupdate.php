@@ -34,22 +34,20 @@ checkAndInclude(CON_BE_PATH . 'classes/class.version.php');
 checkAndInclude(CON_BE_PATH . 'classes/class.versionImport.php');
 
 
-if (hasMySQLiExtension() && !hasMySQLExtension()) {
-    // use MySQLi extension by default if available
+if (hasMySQLiExtension()) {
     $cfg['database_extension'] = 'mysqli';
-} elseif (hasMySQLExtension()) {
-    // use MySQL extension if available
-    $cfg['database_extension'] = 'mysql';
 } else {
-    die("Can't detect MySQLi or MySQL extension");
+    die("Can't detect MySQL extension");
 }
 
 checkAndInclude('../conlib/prepend.php');
 
 $db = getSetupMySQLDBConnection(false);
 
-if (checkMySQLDatabaseCreation($db, $_SESSION['dbname'])) {
+if ($db->getDb()->IsConnected() && checkMySQLDatabaseCreation($db, $_SESSION['dbname'])) {
     $db = getSetupMySQLDBConnection();
+} else {
+    die("Can't connect to database " . $_SESSION['dbname']);
 }
 
 $currentstep = (empty($_GET['step'])) ? 1 : filter_input(INPUT_GET, "step", FILTER_SANITIZE_NUMBER_INT);
@@ -74,7 +72,7 @@ while (($data = fgetcsv($file, 4000, ';')) !== false) {
         }
         dbUpgradeTable($db, $_SESSION['dbprefix'] . '_' . $data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6], '', $drop);
 
-        if ($db->getErrorNumber() != 0) {
+        if ($db->getErrno() != 0) {
             $_SESSION['install_failedupgradetable'] = true;
         }
     }
@@ -187,7 +185,7 @@ if ($currentstep < $totalsteps) {
 
     $tables = [];
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $tables[] = $db->f(0);
     }
 
@@ -223,7 +221,7 @@ if ($currentstep < $totalsteps) {
         $sql = "SELECT is_start FROM %s WHERE is_start = 1";
         $db->query(sprintf($sql, $_SESSION['dbprefix'] . '_cat_art'));
 
-        if ($db->next_record()) {
+        if ($db->nextRecord()) {
             $_SESSION['start_compatible'] = true;
         }
     }
@@ -235,8 +233,8 @@ if ($currentstep < $totalsteps) {
 
     // logging query stuff
     $aSqlArray = $db->getProfileData();
-    if (is_array($aSqlArray) && count($aSqlArray) > 0) {
-        $fp = fopen('../data/logs/setup_queries.txt', 'w');
+    if (count($aSqlArray) > 0) {
+        $fp = fopen('../data/logs/setup_queries.log', 'w');
         foreach ($aSqlArray as $failedChunk) {
             fwrite($fp, print_r($aSqlArray, TRUE));
         }
@@ -247,7 +245,8 @@ if ($currentstep < $totalsteps) {
     printf('<script type="text/javascript">parent.document.getElementById("next").style.visibility="visible"; window.setTimeout("nextStep()", 10); function nextStep () { window.location.href=\'makeconfig.php\'; }</script>');
 }
 
-function txtFileToArray($sFile) {
+function txtFileToArray($sFile): array
+{
     $aFileArray = [];
     if (file_exists($sFile) && is_readable($sFile)) {
         $aFileArray = explode("\n", file_get_contents($sFile));

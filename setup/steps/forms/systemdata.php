@@ -134,7 +134,8 @@ class cSetupSystemData extends cSetupMask {
         $this->setNavigation($previous, $next);
     }
 
-    public function _createNavigation() {
+    public function _createNavigation(): void
+    {
         $link = new cHTMLLink("#");
 
         if ($_SESSION["setuptype"] == "setup") {
@@ -168,5 +169,3 @@ class cSetupSystemData extends cSetupMask {
     }
 
 }
-
-?>

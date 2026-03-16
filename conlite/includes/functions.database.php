@@ -99,7 +99,7 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
     global $columnCache;
     global $tableCache;
 
-    if (!is_object($db)) {
+    if (!$db->getDb()->IsConnected()) {
         return false;
     }
 
@@ -234,7 +234,7 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
             $createField = "  ALTER TABLE " . Contenido_Security::escapeDB($table, $db) . " ADD COLUMN " . Contenido_Security::escapeDB($field, $db) . " " . Contenido_Security::escapeDB($type, $db) . "
             " . $parameter['NULL'] . " " . $parameter['DEFAULT'] . " " . $parameter['KEY'];
             $db->query($createField);
-            $sDebugData = sprintf("%s:%s:ErrorNo. %s:%s\n", $createField, $parameter['DEFAULT'], $db->getErrorNumber(), $db->getErrorMessage());
+            $sDebugData = sprintf("%s:%s:ErrorNo. %s:%s\n", $createField, $parameter['DEFAULT'], $db->getErrno(), $db->getError());
 
             if ($bDebug) {
                 file_put_contents('../data/logs/setup_queries.txt', $sDebugData, FILE_APPEND);
@@ -273,14 +273,15 @@ function dbUpgradeTable($db, $table, $field, $type, $null, $key, $default, $extr
 
 /**
  * Checks, if passed table exists in the database
- * @param   DB_ConLite  $db
- * @param   string  $table
+ * @param DB_ConLite $db
+ * @param string $table
  * @return  bool
  */
-function dbTableExists($db, $table) {
+function dbTableExists(DB_ConLite $db, string $table): bool
+{
     global $tableCache;
 
-    if (!is_object($db)) {
+    if (!$db->getDb()->IsConnected()) {
         return false;
     }
 
@@ -290,7 +291,7 @@ function dbTableExists($db, $table) {
 
         $tableCache = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $tableCache[] = $db->f(0);
         }
     }
@@ -311,7 +312,7 @@ function dbTableExists($db, $table) {
 function dbGetColumns($db, $table) {
     global $columnCache;
 
-    if (!is_object($db)) {
+    if (!$db->getDb()->IsConnected()) {
         return false;
     }
 
@@ -324,7 +325,7 @@ function dbGetColumns($db, $table) {
 
     $structure = array();
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $structure[$db->f("Field")] = $db->toArray();
     }
 
@@ -363,10 +364,11 @@ function dbGetPrimaryKeyName($db, $table) {
  * @param   string  $table  Name of table
  * @param   DB_ConLite|bool  $db  Database instance or false
  */
-function dbUpdateSequence($sequencetable, $table, $db = false) {
+function dbUpdateSequence($sequencetable, $table, $db = false): void
+{
     if ($db === false) {
         $bClose = true;
-        $db = new DB_Upgrade;
+        $db = new DB_ConLite();
     } else {
         $bClose = false;
     }
@@ -377,85 +379,20 @@ function dbUpdateSequence($sequencetable, $table, $db = false) {
         $sql = "SELECT " . Contenido_Security::escapeDB($key, $db) . " FROM " . Contenido_Security::escapeDB($table, $db) . " ORDER BY " . Contenido_Security::escapeDB($key, $db) . " DESC";
         $db->query($sql);
 
-        if ($db->next_record()) {
-            $highestval = $db->f($key);
+        if ($db->nextRecord()) {
+            $highestVal = $db->f($key);
         } else {
-            $highestval = 0;
+            $highestVal = 0;
         }
 
         $sql = "DELETE FROM " . Contenido_Security::escapeDB($sequencetable, $db) . " WHERE seq_name = '" . Contenido_Security::escapeDB($table, $db) . "'";
         $db->query($sql);
 
-        $sql = "INSERT INTO " . Contenido_Security::escapeDB($sequencetable, $db) . " SET seq_name = '" . Contenido_Security::escapeDB($table, $db) . "', nextid = '" . Contenido_Security::toInteger($highestval) . "'";
+        $sql = "INSERT INTO " . Contenido_Security::escapeDB($sequencetable, $db) . " SET seq_name = '" . Contenido_Security::escapeDB($table, $db) . "', nextid = '" . Contenido_Security::toInteger($highestVal) . "'";
         $db->query($sql);
     }
 
     if ($bClose == true) {
-        $db->close();
+        $db->disconnect();
     }
 }
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbDumpStructure($db, $table, $return = false) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbDumpArea($db, $id) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbDumpAreasAsArray($arrayname, $db) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbDumpNavSub($arrayname, $db, $nextidarea) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbInsertData($table, $data) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbDumpData($table) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-/**
- * @deprecated
- * @since 2008-07-11
- */
-function dbUpgradeData($table, $valuesArray) {
-    /* this function is deprecated since Contenido 4.8.7 - 2008-07-11 */
-    return;
-}
-
-?>

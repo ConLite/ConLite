@@ -100,7 +100,7 @@ class Purge {
 		
 		$this->oDb->query($sSql);
 		
-		return ($this->oDb->Error == '') ? true : false;
+		return ($this->oDb->getError() == '') ? true : false;
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class Purge {
 			   " AND ca.idclient =" . $iClientId; 
 		$this->oDb->query($sSql);
 		
-		return ($this->oDb->Error == '') ? true : false;
+		return ($this->oDb->getError() == '') ? true : false;
 	}
 	
 	/**
@@ -132,7 +132,7 @@ class Purge {
 		$sSql = "DELETE FROM " . $this->cfg['tab']['inuse'];
 		$this->oDb->query($sSql);
 		
-		return ($this->oDb->Error == '') ? true : false;
+		return ($this->oDb->getError() == '') ? true : false;
 	}
 	
 	/**
@@ -143,7 +143,7 @@ class Purge {
 	public function resetPHPLibActiveSession () {
 		$sSql = "DELETE FROM " . $this->cfg['tab']['phplib_active_sessions'];
 		$this->oDb->query($sSql);
-		return ($this->oDb->Error == '') ? true : false;
+		return ($this->oDb->getError() == '') ? true : false;
 	}
 	
 	/**
@@ -155,7 +155,7 @@ class Purge {
 		$sSql = "DELETE FROM " . $this->cfg['tab']['inuse'];
 		$this->oDb->query($sSql);
 		
-		return ($this->oDb->Error == '') ? true : false;
+		return ($this->oDb->getError() == '') ? true : false;
 	}
 	
 	/**
@@ -332,7 +332,7 @@ class Purge {
 		$iCountCleared = 0;
 		if (is_dir($sDirPath) && ($handle = opendir($sDirPath))) {
 		    while (false !== ($file = readdir($handle))) {
-		    	$sFileExt = trim(end(explode('.', $file)));
+		    	$sFileExt = pathinfo($file, PATHINFO_EXTENSION);
 
 		    	if ($file != "." && $file != ".." &&  in_array($sFileExt, $aTypes)) {
 					$sFilePath = $sDirPath . '/' . $file;	
@@ -417,7 +417,7 @@ class Purge {
         foreach ($this->cfg['tab'] as $sTable) {
             if(in_array($sTable, $aDbTables)) {
                 dbUpdateSequence($this->cfg['tab']['sequence'], $sTable, $this->oDb);
-                if($this->oDb->Errno > 0) {
+                if($this->oDb->getErrno() > 0) {
                     return false;
                 }
                 

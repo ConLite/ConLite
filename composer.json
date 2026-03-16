@@ -10,7 +10,14 @@
     ],
     "require": {
         "php": "^8.0",
-        "phpmailer/phpmailer": "v6.9.1"
+        "phpmailer/phpmailer": "v6.9.1",
+        "adodb/adodb-php": "^5.22",
+      "ext-zlib": "*",
+      "ext-mysqli": "*",
+      "ext-dom": "*",
+      "ext-simplexml": "*",
+      "ext-gd": "*",
+      "ext-imagick": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
@@ -20,6 +27,9 @@
     "autoload": {
         "psr-4": {
             "ConLite\\": "conlite/classes"
-        }
+        },
+        "files": [
+            "vendor/adodb/adodb-php/adodb.inc.php"
+        ]
     }
 }

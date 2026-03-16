@@ -33,7 +33,7 @@ if (!defined('CL_VERSION')) {
 }
 
 // uncomment this lines during development if needed
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(E_ALL);
 ini_set("display_errors", true);
 ini_set("log_errors", true);
 ini_set("error_log", "../data/logs/setup_errorlog.txt");
@@ -65,7 +65,6 @@ if (!defined('CL_ENVIRONMENT')) {
         // @TODO: provide a possibility to set the environment value via file
         $sEnvironment = 'production';
     }
-
     define('CL_ENVIRONMENT', $sEnvironment);
 }
 
@@ -79,7 +78,8 @@ Contenido_Security::checkRequests();
  * @param  string  $filename
  * @return void
  */
-function checkAndInclude($filename) {
+function checkAndInclude($filename): void
+{
     if (file_exists($filename) && is_readable($filename)) {
         require_once($filename);
     } else {

@@ -33,6 +33,9 @@
  * }}
  *
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -40,13 +43,13 @@ if (!defined('CON_FRAMEWORK')) {
 /**
  * DB-class for all DB handling
  */
-class DB_ConLite extends DB_Sql {
+class DB_ConLite extends DbConLite {
     protected bool $NoRecord;
 
     /**
      * Constructor of database class.
      *
-     * @param  array  $options  Optional assoziative options. The value depends
+     * @param array $options Optional assoziative options. The value depends
      *                          on used DBMS, but is generally as follows:
      *                          - $options['connection']['host']  (string) Hostname  or ip
      *                          - $options['connection']['database']  (string) Database name
@@ -58,6 +61,7 @@ class DB_ConLite extends DB_Sql {
      *                          - $options['haltMsgPrefix']  (string)  Optional, Text to prepend to the halt message
      *                          - $options['enableProfiling']  (bool)  Optional, flag to enable profiling
      * @return  void
+     * @throws \ConLite\Exceptions\Exception
      */
     public function __construct(array $options = []) {
         global $cachemeta;
@@ -67,14 +71,6 @@ class DB_ConLite extends DB_Sql {
         if (!is_array($cachemeta)) {
             $cachemeta = [];
         }
-
-        // TODO check this out
-        // HerrB: Checked and disabled. Kills umlauts, if tables are latin1_general.
-        // try to use the new connection and get the needed encryption
-        //$this->query("SET NAMES 'utf8'");
-        
-        // modify mysql strict mode
-        $this->query('SET SESSION sql_mode = "NO_ENGINE_SUBSTITUTION"');
     }
 
     /**
@@ -86,49 +82,6 @@ class DB_ConLite extends DB_Sql {
     {
         return $this->nextRecord();
     }
-
-    public function nextRecord(): bool|int
-    {
-        $currentModule = cRegistry::getCurrentModule();
-
-        if (!$this->Query_ID) {
-            if ($currentModule > 0) {
-                $this->halt("next_record called with no query pending in Module ID $currentModule.");
-            } else {
-                $this->halt("next_record called with no query pending.");
-            }
-            return false;
-        }
-
-        return parent::next_record();
-    }
-
-    /**
-     * Returns the metada of passed table
-     *
-     * @param   string  $sTable  The tablename of empty string to retrieve metadata of all tables!
-     * @return  array|bool   Assoziative metadata array (result depends on used db driver)
-     *                       or false in case of an error
-     * @deprecated  Use db drivers toArray() method instead
-     */
-    public function copyResultToArray($sTable = '') {
-
-        $aValues = [];
-
-        
-        $aMetadata = $this->metadata($sTable);
-        
-        if (!is_array($aMetadata) || count($aMetadata) == 0) {
-            return false;
-        }
-
-        foreach ($aMetadata as $entry) {
-            $aValues[$entry['name']] = $this->f($entry['name']);
-        }
-
-        return $aValues;
-    }
-
 }
 
 /**
@@ -146,7 +99,7 @@ class Contenido_CT_Sql extends CT_Sql {
      * Database class name
      * @var  string
      */
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
 
     /**
      * And find our session data in this table.
@@ -185,7 +138,7 @@ class Contenido_CT_Sql extends CT_Sql {
                 "REPLACE INTO %s (sid, name, val, changed) VALUES ('%s', '%s', '%s', '%s')", $this->database_table, $id, $name, $str, $now
         );
 
-        return (bool) $this->db->query($iquery);
+        return $this->db->query($iquery);
     }
 
 }
@@ -316,7 +269,7 @@ class Contenido_Session extends Session {
 
 }
 
-class Contenido_Frontend_Session extends Session {
+class Contenido_Frontend_Session extends cSession {
 
     public $classname = 'Contenido_Frontend_Session';
     public $cookiename = 'sid';              ## defaults to classname
@@ -835,5 +788,3 @@ function register_auth_handler($aHandlers) {
         }
     }
 }
-
-?>

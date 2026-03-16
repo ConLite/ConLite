@@ -27,6 +27,7 @@ defined('CON_FRAMEWORK') || die('Illegal call: Missing framework initialization 
  * @param int $quality
  * @param bool $keepType
  * @return bool|string
+ * @throws ImagickException
  */
 function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, bool $expand = false, int $cacheTime = 10, bool $wantHQ = false, int $quality = 75, bool $keepType = true): bool|string
 {
@@ -94,21 +95,12 @@ function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, boo
             break;
     }
 
-    switch ($method) {
-        case 'gd1':
-            $return = cApiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'gd2':
-            $return = cApiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'im':
-            $return = cApiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType);
-            break;
-        case 'failure':
-        default:
-            $return = str_replace(cRegistry::getFrontendPath(), cRegistry::getFrontendUrl(), $img);
-            break;
-    }
+    $return = match ($method) {
+        'gd1' => cApiImgScaleLQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        'gd2' => cApiImgScaleHQ($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        'im' => cApiImgScaleImageMagick($img, $maxX, $maxY, $crop, $expand, $cacheTime, $quality, $keepType),
+        default => str_replace(cRegistry::getFrontendPath(), cRegistry::getFrontendUrl(), $img),
+    };
 
     if ($deleteAfter) {
         unlink($img);
@@ -117,7 +109,7 @@ function cApiImgScale(string $img, int $maxX, int $maxY, bool $crop = false, boo
     return $return;
 }
 
-// ToDo
+
 function cApiImgScaleLQ(string $img, int $maxX, int $maxY, $crop = false, $expand = false, int $cacheTime = 10, int $quality = 0, bool $keepType = false): bool|string
 {
     if (!cFileHandler::exists($img)) {
@@ -239,8 +231,10 @@ function cApiImgScaleHQ(string $img, int $maxX, int $maxY, bool $crop = false, b
     return $webFile;
 }
 
-// ToDo
-function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false)
+/**
+ * @throws ImagickException
+ *//*
+function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 0, $keepType = false): bool|string
 {
     if (!cFileHandler::exists($img)) {
         return false;
@@ -252,9 +246,9 @@ function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
     $client = cRegistry::getClientId();
 
     $fileName = $img;
-    $maxX = cSecurity::toInteger($maxX);
-    $maxY = cSecurity::toInteger($maxY);
-    $cacheTime = cSecurity::toInteger($cacheTime);
+    $maxX = (int) $maxX;
+    $maxY = (int) $maxY;
+    $cacheTime = (int) $cacheTime;
 
     $frontendURL = cRegistry::getFrontendUrl();
     $fileType = cFileHandler::getExtension($fileName);
@@ -284,25 +278,136 @@ function cApiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = fa
     $cfg = cRegistry::getConfig();
 
     // Try to execute convert
-    $output = [];
-    $retVal = 0;
     $convertCommand = $cfg['images']['image_magick']['command'];
     $program = escapeshellarg($cfg['images']['image_magick']['path'] . $convertCommand);
     $source = escapeshellarg($fileName);
     $destination = escapeshellarg($cacheFile);
     $quality = cApiImgGetCompressionRate($fileType, $quality);
     if ($crop) {
-        $cmd = "'{$program}' -gravity center -quality {$quality} -crop {$maxX}x{$maxY}+1+1 '{$source}' '{$destination}'";
+        $cmd = "'$program' -gravity center -quality $quality -crop {$maxX}x$maxY+1+1 '$source' '$destination'";
     } else {
-        $cmd = "'{$program}' -quality {$quality} -geometry {$targetX}x{$targetY} '{$source}' '{$destination}'";
+        $cmd = "'$program' -quality $quality -geometry {$targetX}x$targetY '$source' '$destination'";
     }
 
-    exec($cmd, $output, $retVal);
+    exec($cmd);
 
     if (!cFileHandler::exists($cacheFile)) {
         return false;
     } else {
         return $webFile;
+    }
+}*/
+
+function capiImgScaleImageMagick($img, $maxX, $maxY, $crop = false, $expand = false, $cacheTime = 10, $quality = 75, $keepType = false) {
+    global $cfgClient, $lang, $client;
+
+    $filename = $img;
+    $cacheTime = (int) $cacheTime;
+    $quality = (int) $quality;
+
+    if ($quality <= 0 || $quality > 100) {
+        $quality = 75;
+    }
+
+    $filetype = substr($filename, strlen($filename) - 4, 4);
+    $filesize = filesize($img);
+    $md5 = capiImgScaleGetMD5CacheFile($img, $maxX, $maxY, $crop, $expand);
+
+    /* Create the target file names for web and server */
+    if ($keepType) { // Should we keep the file type?
+        switch (strtolower($filetype)) { // Just using switch if someone likes to add other types
+            case ".png":
+                $cfileName = $md5 . ".png";
+                break;
+            default:
+                $cfileName = $md5 . ".jpg";
+        }
+    } else { // No... use .jpg
+        $cfileName = $md5 . ".jpg";
+    }
+
+    $cacheFile = $cfgClient[$client]["path"]["frontend"] . "cache/" . $cfileName;
+    $webFile = $cfgClient[$client]["path"]["htmlpath"] . "cache/" . $cfileName;
+
+    /* Check if the file exists. If it does, check if the file is valid. */
+    if (file_exists($cacheFile)) {
+        if ($cacheTime == 0) {
+            // Do not check expiration date
+            return $webFile;
+        } else if (!function_exists("md5_file")) { // TODO: Explain why this is still needed ... or remove it
+            if ((filemtime($cacheFile) + (60 * $cacheTime)) < time()) {
+                /* Cache time expired, unlink the file */
+                unlink($cacheFile);
+            } else {
+                /* Return the web file name */
+                return $webFile;
+            }
+        } else {
+            return $webFile;
+        }
+    }
+
+    list($x, $y) = @getimagesize($filename);
+    if ($x == 0 || $y == 0) {
+        return false;
+    }
+
+    /* Calculate the aspect ratio */
+    $aspectXY = $x / $y;
+    $aspectYX = $y / $x;
+
+    if (($maxX / $x) < ($maxY / $y)) {
+        $targetY = $y * ($maxX / $x);
+        $targetX = round($maxX);
+
+        // force wished height
+        if ($targetY < $maxY) {
+            $targetY = ceil($targetY);
+        } else {
+            $targetY = floor($targetY);
+        }
+    } else {
+        $targetX = $x * ($maxY / $y);
+        $targetY = round($maxY);
+
+        // force wished width
+        if ($targetX < $maxX) {
+            $targetX = ceil($targetX);
+        } else {
+            $targetX = floor($targetX);
+        }
+    }
+
+    if ($expand == false && (($targetX > $x) || ($targetY > $y))) {
+        $targetX = $x;
+        $targetY = $y;
+    }
+
+    $targetX = ($targetX != 0) ? $targetX : 1;
+    $targetY = ($targetY != 0) ? $targetY : 1;
+
+    // if is animated gif resize first frame
+    if ($filetype == ".gif") {
+        if (isAnimGif($filename)) {
+            $filename .= "[0]";
+        }
+    }
+
+    /* Try to execute convert */
+    if (function_exists("exec")) {
+        $output = array();
+        $retVal = 0;
+        if ($crop) {
+            exec("convert -gravity center -quality " . $quality . " -crop {$maxX}x{$maxY}+1+1 \"$filename\" $cacheFile", $output, $retVal);
+        } else {
+            exec("convert -quality " . $quality . " -geometry {$targetX}x{$targetY} \"$filename\" $cacheFile", $output, $retVal);
+        }
+    }
+
+    if (!file_exists($cacheFile)) {
+        return false;
+    } else {
+        return ($webFile);
     }
 }
 
@@ -398,19 +503,12 @@ function cApiImgScaleGetMD5CacheFile(string $img, int $maxX, int $maxY, bool $cr
 function cApiImageGetCacheFileName(string $md5, string $fileType, bool $keepType): string
 {
     if ($keepType) {
-        switch (cString::toLowerCase($fileType)) {
-            case 'png':
-                $fileName = $md5 . '.png';
-                break;
-            case 'gif':
-                $fileName = $md5 . '.gif';
-                break;
-            case 'webp':
-                $fileName = $md5 . '.webp';
-                break;
-            default:
-                $fileName = $md5 . '.jpg';
-        }
+        $fileName = match (cString::toLowerCase($fileType)) {
+            'png' => $md5 . '.png',
+            'gif' => $md5 . '.gif',
+            'webp' => $md5 . '.webp',
+            default => $md5 . '.jpg',
+        };
     } else {
         $fileName = $md5 . '.jpg';
     }
@@ -559,4 +657,73 @@ function cApiImageGetTargetDimensions(int $x, int $y, int $maxX, int $maxY, bool
         $targetX,
         $targetY
     ];
+}
+
+/**
+ * Check if gif is animated using ImageMagick
+ *
+ * If ImageMagick is not available false will be returned.
+ *
+ * @param string $sFile
+ *         file path
+ * @return bool
+ *         True (gif is animated)/ false (single frame gif)
+ * @throws ImagickException
+ */
+function cApiImageIsAnimGif(string $sFile): bool
+{
+    // use imagick if exists
+    if(class_exists('Imagick')) {
+        $imagick = new Imagick();
+        $handle = fopen($sFile, 'a+');
+
+        $imagick->readImageFile($handle);
+        if($imagick->getImageIterations()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    return false;
+}
+
+/**
+ * check if gif is animated
+ *
+ * @param string file path
+ *
+ * @return boolean true (gif is animated)/ false (single frame gif)
+ */
+function isAnimGif($sFile) {
+    if(!($fh = @fopen($sFile, 'rb')))
+        return false;
+    $count = 0;
+    //an animated gif contains multiple "frames", with each frame having a
+    //header made up of:
+    // * a static 4-byte sequence (\x00\x21\xF9\x04)
+    // * 4 variable bytes
+    // * a static 2-byte sequence (\x00\x2C)
+
+    // We read through the file til we reach the end of the file, or we've found
+    // at least 2 frame headers
+    while(!feof($fh) && $count < 2) {
+        $chunk = fread($fh, 1024 * 100); //read 100kb at a time
+        $count += preg_match_all('#\x00\x21\xF9\x04.{4}\x00\x2C#s', $chunk, $matches);
+    }
+    fclose($fh);
+    return $count > 1;
+
+    /*
+    $output = array();
+    $retval = 0;
+
+    exec('identify ' . $sFile, $output, $retval);
+
+    if (count($output) == 1) {
+        return false;
+    }
+
+    return true;
+     *
+     */
 }

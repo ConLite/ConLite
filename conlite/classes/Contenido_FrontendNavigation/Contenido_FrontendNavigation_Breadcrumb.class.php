@@ -38,19 +38,19 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @access private
      * @desc Used for breadcrumb loop over tree
      */
-    private $_iCurrentLevel;
+    private int $_iCurrentLevel;
     
     /**
      * @var boolean
      * @access private
      */
-    private $_bAsArray;
+    private bool $_bAsArray;
     
     /**
      * @var array
      * @access private
      */
-    private $_aCategories;
+    private array $_aCategories;
     
     /**
      * Constructor.
@@ -62,7 +62,7 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @return void
      * @author Rudi Bieller
      */
-    public function __construct(DB_ConLite $oDb, array $aCfg, $iClient, $iLang, array $aCfgClient) {
+    public function __construct(DB_ConLite $oDb, array $aCfg, int $iClient, $iLang, array $aCfgClient) {
         parent::__construct($oDb, $aCfg, $iClient, $iLang, $aCfgClient);
         $this->oCategories = null;
         $this->_bAsArray = false;
@@ -79,7 +79,8 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @author Rudi Bieller
      * @todo Add possibility to return an array
      */
-    public function get($iBaseCategoryId, $iRootLevel = 0, $bReset = false) {
+    public function get(int $iBaseCategoryId, int $iRootLevel = 0, bool $bReset = false): ?Contenido_Categories
+    {
         $this->getBreadcrumb($iBaseCategoryId, $iRootLevel, $bReset);
         $this->oCategories->reverse(); // For a breadcrumb, we start at the main category, not the current one.
         return $this->oCategories;
@@ -96,7 +97,8 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @author Rudi Bieller
      * @todo Add possibility to return an array
      */
-    public function getAsArray($iBaseCategoryId, $iRootLevel = 0, $bReset = false) {
+    public function getAsArray(int $iBaseCategoryId, int $iRootLevel = 0, bool $bReset = false): array
+    {
         $this->_bAsArray = true;
         $this->getBreadcrumb($iBaseCategoryId, $iRootLevel, $bReset);
         $this->_aCategories = array_reverse($this->_aCategories); // For a breadcrumb, we start at the main category, not the current one.
@@ -113,7 +115,8 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
      * @return array
      * @author Rudi Bieller
      */
-    protected function getBreadcrumb($iBaseCategoryId, $iRootLevel = 0, $bReset = false) {
+    protected function getBreadcrumb(int $iBaseCategoryId, int $iRootLevel = 0, bool $bReset = false): Contenido_Categories|bool|array|null
+    {
         // this method calls itself, so check if this happened already
         if ($bReset === true || is_null($this->oCategories) || $this->oCategories->count() == 0) {
             $this->oCategories = new Contenido_Categories($this->oDb, $this->aCfg);
@@ -138,10 +141,10 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
 	        $this->oDbg->show($sSql, 'Contenido_FrontendNavigation_Breadcrumb::getBreadcrumb($iBaseCategoryId, $iRootLevel = 0, $bReset = false): $sSql');
 	    }
 	    $this->oDb->query($sSql);
-	    if ($this->oDb->Errno != 0) {
+	    if ($this->oDb->getErrno() != 0) {
 	        return false;
 	    }
-	    $this->oDb->next_record();
+	    $this->oDb->nextRecord();
 	    if ($this->_bAsArray === false) {
 		    $oContenidoCategory = new Contenido_Category(new DB_ConLite(), $this->aCfg);
 		    $oContenidoCategory->load(intval($this->oDb->f('idcat')), true, $this->iLang);
@@ -163,4 +166,3 @@ class Contenido_FrontendNavigation_Breadcrumb extends Contenido_FrontendNavigati
 	    }
     }
 }
-?>

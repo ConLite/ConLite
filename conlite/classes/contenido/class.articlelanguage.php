@@ -37,9 +37,10 @@ class cApiArticleLanguageCollection extends ItemCollection {
     }
 
     public function getIdArtLang($iIdart, $iIdlang) {
-        $this->setWhere('idart', Contenido_Security::toInteger($iIdart));
-        $this->setWhere('idlang', Contenido_Security::toInteger($iIdlang));
-        if ($this->query() && $this->count() > 0) {
+        $this->setWhere('idart', (int) $iIdart);
+        $this->setWhere('idlang', (int) $iIdlang);
+        $this->query();
+        if ($this->count() > 0) {
             return $this->next()->get('idartlang');
         }
         return false;

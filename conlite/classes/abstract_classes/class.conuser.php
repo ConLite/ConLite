@@ -11,15 +11,11 @@
  * @version 1.0.0
  * @author Holger Librenz
  * @copyright four for business AG
- *
- * {@internal
- *  created 2008-11-16
- *
- * $Id$
- * }}
  */
 
 // include interface...
+use ConLite\Exceptions\ConUserException;
+
 cInclude('interfaces', 'interface.conuser.php');
 
 /**
@@ -36,39 +32,30 @@ cInclude('interfaces', 'interface.conuser.php');
 abstract class ConUser_Abstract implements iConUser {
 
 	/**
-	 * Referemces database abstraction instance
-	 *
-	 * @var DB_ConLite
+	 * Reference database abstraction instance
 	 */
-	protected $oDb = null;
+	protected DB_ConLite $db;
 
 	/**
-	 * Contenido configuration array
+	 * ConLite configuration array
 	 *
-	 * @var array
 	 */
-	protected $aCfg = null;
+	protected array $cfg;
 
 	/**
 	 * current User ID
-	 *
-	 * @var string
 	 */
-	private $sUserId = null;
+	private string $userId;
 
 	/**
 	 * Login name of current user.
-	 *
-	 * @var string
 	 */
-	private $sUserName = null;
+	private string $userName;
 
 	/**
 	 * Holds the password which should be set.
-	 *
-	 * @var unknown_type
 	 */
-	private $sPassword = null;
+	private string $password;
 
 	/**
 	 * Constructor
@@ -81,25 +68,23 @@ abstract class ConUser_Abstract implements iConUser {
         if (!is_array($aCfg) || count($aCfg) <= 0) {
         	throw new ConUserException ("Illegal configuration array \$aCfg.");
         } else {
-        	$this->aCfg = $aCfg;
+        	$this->cfg = $aCfg;
         }
 
         if (is_null($oDb)) {
-        	$this->oDb = new DB_ConLite();
+            $this->db = new DB_ConLite();
+        } elseif ($oDb instanceof DB_ConLite) {
+            // is it a contenido DB instance?
+            $this->db = $oDb;
         } else {
-        	// is it a contenido DB instance?
-        	if ($oDb instanceof DB_ConLite) {
-        	   $this->oDb = $oDb;
-        	} else {
-        		throw new ConUserException("Given value for \$oDb is not a valid DB_ConLite instance!");
-        	}
-        }
+       		throw new ConUserException("Given value for \$oDb is not a valid DB_ConLite instance!");
+       	}
 
         if (!is_null($sUserId)) {
         	$bLoaded = $this->load($sUserId);
 
         	if ($bLoaded == true) {
-        		$this->sUserId = $sUserId;
+        		$this->userId = $sUserId;
         	} else {
         		throw new ConUserException("No user with given user ID found!");
         	}
@@ -141,27 +126,28 @@ abstract class ConUser_Abstract implements iConUser {
 	 *
 	 * @return string
 	 */
-	public function getUserId () {
-		return $this->sUserId;
+	public function getUserId (): string
+    {
+		return $this->userId;
 	}
 
 	/**
 	 * Sets user ID.
 	 *
-	 * @param unknown_type $sUserId
-	 *
-	 * TODO check this
+	 * @param string $userId
 	 */
-	public function setUserId ($sUserId) {
-		$this->sUserId = $sUserId;
+	public function setUserId (string $userId): void
+    {
+		$this->userId = $userId;
 	}
 
 	/**
-	 * Generates new user id based on current user name.
+	 * Generates new user id based on current username.
 	 *
 	 * @return string
 	 */
-	public function generateUserId () {
+	public function generateUserId (): string
+    {
 		$sResult = "";
 
 		$sCurUserName = $this->getUserName();
@@ -169,52 +155,55 @@ abstract class ConUser_Abstract implements iConUser {
 		if (!empty($sCurUserName)) {
 			$sResult = md5($sCurUserName);
 		} else {
-			throw new ConUserException("No user name set yet");
+			throw new ConUserException("No username set");
 		}
 
-		$this->sUserId = $sResult;
+		$this->userId = $sResult;
 
 		return $sResult;
 	}
 
     /**
-     * Returns user name, currently set
+     * Returns username, currently set
      *
      * @return string
      */
-	public function getUserName () {
-		return $this->sUserName;
+	public function getUserName (): string
+    {
+		return $this->userName;
 	}
 
 	/**
-	 * Sets up new user name.
+	 * Sets up new username.
 	 *
-	 * @param string $sUserName
+	 * @param string $userName
 	 */
-	public function setUserName ($sUserName) {
-		$this->sUserName = $sUserName;
+	public function setUserName (string $userName): void
+    {
+		$this->userName = $userName;
 	}
 
 	/**
 	 * Checks password which has to be set and return PASS_* values (i.e.
 	 * on success PASS_OK).
 	 *
-	 * @param string $sPassword
+	 * @param string $password
 	 * @return int
 	 */
-	public function setPassword ($sPassword) {
+	public function setPassword (string $password): int
+    {
 	   $iResult = iConUser::PASS_OK;
 
-	   $iMaskResult = $this->checkPasswordMask($sPassword);
+	   $iMaskResult = $this->checkPasswordMask($password);
 	   if ($iMaskResult != iConUser::PASS_OK) {
 	       $iResult = $iMaskResult;
 	   } else {
-	       $iStrengthResult = $this->checkPasswordStrength($sPassword);
+	       $iStrengthResult = $this->checkPasswordStrength($password);
 
 	       if ($iStrengthResult != iConUser::PASS_OK) {
 	           $iResult = $iStrengthResult;
 	       } else {
-	           $this->sPassword = $sPassword;
+	           $this->password = $password;
 	       }
 	   }
 
@@ -227,9 +216,8 @@ abstract class ConUser_Abstract implements iConUser {
 	 *
 	 * @return string
 	 */
-	protected function getPassword () {
-	    return $this->sPassword;
+	protected function getPassword (): string
+    {
+	    return $this->password;
 	}
 }
-
-?>

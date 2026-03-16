@@ -444,14 +444,13 @@ function uplRenameDirectory($oldpath, $newpath, $parent) {
     }
 }
 
-function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = '', $iRenameLevel = null) {
-    $dirhandle = @opendir($directory);
-
+function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = '', $iRenameLevel = null): array
+{
+    $dirhandle = opendir($directory);
+    $aInvalidDirectories = [];
     if (!$dirhandle) {
         
     } else {
-        $aInvalidDirectories = array();
-
         unset($files);
 
         //list the files in the dir
@@ -506,9 +505,8 @@ function uplRecursiveDirectoryList($directory, &$rootitem, $level, $sParent = ''
                 }
             }
         }
+        closedir($dirhandle);
     }
-
-    @closedir($dirhandle);
     return $aInvalidDirectories;
 }
 
@@ -575,8 +573,9 @@ function uplGetThumbnail($file, $maxsize) {
         case "iff":
         case "xbm":
         case "wbmp":
+            //echo $cfgClient[$client]["upl"]["path"] . $file;
             $img = capiImgScale($cfgClient[$client]["upl"]["path"] . $file, $maxsize, $maxsize, false, false, 50);
-
+            //print_r($img);
             if ($img !== false) {
                 return $img;
             } else {

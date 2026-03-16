@@ -67,13 +67,13 @@ class pimSetupBase {
      * nav sub entries
      * @var SimpleXMLElement
      */
-    public static $XmlNavSub;
+    public static SimpleXMLElement $XmlNavSub;
 
     /**
      * content type(s) for plugin
      * @var SimpleXMLElement
      */
-    public static $XmlContentType;
+    public static SimpleXMLElement $XmlContentType;
 
     /**
      * whole xml object from info xml
@@ -135,11 +135,10 @@ class pimSetupBase {
 
         $this->_PimPluginCollection = new pimPluginCollection();
         $this->_PimPluginRelationCollection = new pimPluginRelationCollection();
-
-        //print_r($this->_getAttrForTag("area"));
     }
 
-    public function setPluginPath($sPath) {
+    public function setPluginPath($sPath): void
+    {
         $this->_sPluginPath = $sPath;
     }
 
@@ -151,7 +150,8 @@ class pimSetupBase {
      * 
      * @return boolean
      */
-    public function doQueries() {
+    public function doQueries(): bool
+    {
         if (!is_array($this->_aSql) || count($this->_aSql) <= 0) {
             return TRUE;
         }
@@ -177,7 +177,8 @@ class pimSetupBase {
         
     }
 
-    public function setXmlObject($oXml, $bSplit = TRUE) {
+    public function setXmlObject($oXml, $bSplit = TRUE): void
+    {
         if (is_object($oXml)) {
             $this->_oXml = & $oXml;
         }
@@ -187,7 +188,8 @@ class pimSetupBase {
         }
     }
 
-    public function setXsdFile($sFile) {
+    public function setXsdFile($sFile): void
+    {
         $this->_sXsdPath = $sFile;
     }
 
@@ -197,7 +199,8 @@ class pimSetupBase {
      * @param string $sTable
      * @return int the next usable table id
      */
-    protected function _getNextId($sTable) {
+    protected function _getNextId($sTable): int
+    {
         cInclude("includes", "functions.database.php");
         dbUpdateSequence(cRegistry::getConfigValue("tab", "sequence"), cRegistry::getConfigValue('tab', $sTable), cRegistry::getDb());
 
@@ -219,7 +222,8 @@ class pimSetupBase {
         return Contenido_Security::toInteger($iNextId . 0); // last number is always a zero
     }
 
-    protected function _getAttrForTag($sTag) {
+    protected function _getAttrForTag($sTag): bool|array
+    {
         foreach ($this->_aXmlDefaultValues as $Key => $aValue) {
             if ($aValue['tag'] === strtoupper($sTag) && $aValue['type'] === "complete") {
                 if (isset($aValue['attributes']) && is_array($aValue['attributes'])) {
@@ -273,12 +277,14 @@ class pimSetupBase {
         $oDb = new DB_ConLite();
         foreach ($this->_aRelations as $sType => $aIds) {
             $sSQL = 'DELETE FROM ' . cRegistry::getConfigValue('tab', $sType) . ' WHERE ' . $this->_aTables[$sType] . ' IN (' . implode(',', $aIds) . ')';
-            if ($oDb->query($sSQL) == FALSE) {
-                return FALSE;
+            if ($oDb->query($sSQL) === false) {
+                return false;
             }
         }
-        unset($oDb);
-        return TRUE;
+        if ($oDb->affectedRows() > 0) {
+            return true;
+        }
+        return false;
     }
 
     protected function _updateSortOrder() {
@@ -290,7 +296,7 @@ class pimSetupBase {
         $oPluginColl->setWhere("executionorder", (int) $_REQUEST['new_position'], ">=");
         $oPluginColl->query();
         if($oPluginColl->count() > 0) {
-            /* @var $oPlugin cApiPlugin */
+            /* @var $oPlugin pimPlugin */
             while ($oPlugin = $oPluginColl->next()) {
                 $iOrder = $oPlugin->get("executionorder");
                 $oPlugin->set("executionorder", $iOrder++);

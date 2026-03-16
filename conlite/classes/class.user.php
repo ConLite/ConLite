@@ -101,7 +101,7 @@ class Users {
         $sql = "DELETE FROM " . $this->table
                 . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $this->db) . "'";
         $this->db->query($sql);
-        return ($this->db->affected_rows() == 0) ? false : true;
+        return ($this->db->affectedRows() == 0) ? false : true;
     }
 
     /**
@@ -114,7 +114,7 @@ class Users {
         $sql = "DELETE FROM " . $this->table
                 . " WHERE username = '" . Contenido_Security::escapeDB($username, $this->db) . "'";
         $this->db->query($sql);
-        return ($this->db->affected_rows() == 0) ? false : true;
+        return ($this->db->affectedRows() == 0) ? false : true;
     }
 
     /**
@@ -168,7 +168,7 @@ class Users {
 
         $users = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
@@ -248,7 +248,7 @@ class User {
         $this->db->query($sql);
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 
@@ -272,7 +272,7 @@ class User {
         $this->db->query($sql);
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 
@@ -361,7 +361,7 @@ class User {
 
         $this->db->query($sql);
 
-        if ($this->db->affected_rows() < 1) {
+        if ($this->db->affectedRows() < 1) {
             return false;
         } else {
             return true;
@@ -399,7 +399,7 @@ class User {
                       AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
                     $this->db->query($sql);
 
-                    if ($this->db->next_record()) {
+                    if ($this->db->nextRecord()) {
                         $result = $this->db->f('value');
                     }
                 }
@@ -412,7 +412,7 @@ class User {
                   AND name = '" . Contenido_Security::escapeDB($name, $this->db) . "'";
         $this->db->query($sql);
 
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             $result = $this->db->f('value');
         }
 
@@ -449,7 +449,7 @@ class User {
                                 AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
                     $this->db->query($sSQL);
 
-                    while ($this->db->next_record()) {
+                    while ($this->db->nextRecord()) {
                         $aResult[$this->db->f('name')] = urldecode($this->db->f('value'));
                     }
                 }
@@ -461,7 +461,7 @@ class User {
                  AND type = '" . Contenido_Security::escapeDB($sType, $this->db) . "'";
         $this->db->query($sSQL);
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $aResult[$this->db->f('name')] = urldecode($this->db->f('value'));
         }
 
@@ -488,7 +488,7 @@ class User {
             return $aProps;
         }
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $aProps[$this->db->f('iduserprop')] = array(
                 'name' => $this->db->f('name'),
                 'type' => $this->db->f('type'),
@@ -564,7 +564,7 @@ class User {
 
         $users = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
@@ -600,7 +600,7 @@ class User {
 
         $users = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
@@ -632,9 +632,9 @@ class User {
 
         $db->query($sql);
 
-        $users = array();
+        $users = [];
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $users[$db->f('user_id')] = array(
                 'username' => $db->f('username'),
                 'realname' => $db->f('realname'),
@@ -663,7 +663,7 @@ class User {
                     user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
 
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
         return ($db->f('username'));
     }
 
@@ -686,7 +686,7 @@ class User {
                     user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
 
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
 
         if ($db->f('realname') == '' && $bAllowFallbackOnUsername == true) {
             return ($this->getUsername($userid));
@@ -713,7 +713,7 @@ class User {
                     username = '" . Contenido_Security::escapeDB($username, $db) . "'";
 
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
         return ($db->f('realname'));
     }
 
@@ -744,7 +744,7 @@ class User {
 
         $oGroup = new Group();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $oGroup->loadGroupByGroupID($db->f('group_id'));
             $sTemp = $oGroup->getField('groupname');
             $sTemp = substr($sTemp, 4, strlen($sTemp) - 4);
@@ -785,7 +785,7 @@ class User {
 
         $arrGroups = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $arrGroups[] = $db->f('group_id');
         }
         return $arrGroups;

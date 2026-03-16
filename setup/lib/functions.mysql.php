@@ -30,19 +30,23 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-function hasMySQLExtension() {
-    if (isPHPExtensionLoaded("mysql") == E_EXTENSION_AVAILABLE) {
-        return true;
-    } else {
+/**
+ * @return false always returns falls since PHP 8 mysql is removed
+ */
+function hasMySQLExtension(): bool
+{
         return false;
-    }
 }
 
-function hasMySQLiExtension() {
+function hasMySQLiExtension(): bool
+{
     if (isPHPExtensionLoaded("mysqli") == E_EXTENSION_AVAILABLE) {
         return true;
     } else {
@@ -50,20 +54,19 @@ function hasMySQLiExtension() {
     }
 }
 
-function doMySQLConnect($host, $username, $password) {
+function doMySQLConnect($host, $username, $password): array
+{
     $aOptions = ['connection' => ['host' => $host, 'user' => $username, 'password' => $password]];
-    $db = new DB_Contenido($aOptions);
-    //$sFile = '../data/logs/setup_queries.txt';
-    //file_put_contents($sFile, $db->getServerInfo(), FILE_APPEND);
-    //chmod($sFile, 0666);
-    if (empty($db->connect())) {
-        return [$db, false];
-    } else {
+    $db = new DB_ConLite($aOptions);
+    if($db->getDb()->IsConnected()) {
         return [$db, true];
+    } else {
+        return [$db, false];
     }
 }
 
-function getSetupMySQLDBConnection($full = true) {
+function getSetupMySQLDBConnection($full = true): DB_ConLite
+{
     if ($full === false) {
         // host, user and password
         $aOptions = ['connection' => ['host' => $_SESSION["dbhost"], 'user' => $_SESSION["dbuser"], 'password' => $_SESSION["dbpass"]], 'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'];
@@ -72,41 +75,48 @@ function getSetupMySQLDBConnection($full = true) {
         $aOptions = ['connection' => ['host' => $_SESSION["dbhost"], 'database' => $_SESSION["dbname"], 'user' => $_SESSION["dbuser"], 'password' => $_SESSION["dbpass"]], 'sequenceTable' => $_SESSION['dbprefix'] . '_sequence'];
     }
 
-    //$aOptions['enableProfiling'] = TRUE;
-    $db = new DB_Contenido($aOptions);
-    return $db;
+    return new DB_ConLite($aOptions);
 }
 
-function fetchMySQLVersion($db) {
+/**
+ * @param DbConLite $db
+ * @return false|mixed
+ */
+function fetchMySQLVersion(DbConLite $db): mixed
+{
     $db->query("SELECT VERSION()");
 
-    if ($db->next_record()) {
+    if ($db->nextRecord()) {
         return $db->f(0);
     } else {
         return false;
     }
 }
 
-function fetchMySQLUser($db) {
+/**
+ * @param DbConLite $db
+ * @return false|mixed
+ */
+function fetchMySQLUser(DbConLite $db): mixed
+{
     $db->query("SELECT USER()");
 
-    if ($db->next_record()) {
+    if ($db->nextRecord()) {
         return ($db->f(0));
     } else {
         return false;
     }
 }
 
-function checkMySQLDatabaseCreation($db, $database) {
-
-
+function checkMySQLDatabaseCreation(DbConLite $db, string $database): bool
+{
     if (checkMySQLDatabaseExists($db, $database)) {
         return true;
     } else {
 
         $db->query("CREATE DATABASE $database");
 
-        if ($db->Errno != 0) {
+        if ($db->getErrno() != 0) {
             return false;
         } else {
             return true;
@@ -114,132 +124,141 @@ function checkMySQLDatabaseCreation($db, $database) {
     }
 }
 
-function checkMySQLDatabaseExists($db, $database): bool
+/**
+ * @param $db DB_ConLite
+ * @param $database string
+ * @return bool
+ */
+function checkMySQLDatabaseExists(DB_ConLite $db, string $database): bool
 {
-    $db->connect();
-
-    if (hasMySQLiExtension() && !hasMySQLExtension()) {
-        if (mysqli_select_db($db->Link_ID,$database)) {
+    if (hasMySQLiExtension()) {
+        if ($db->getDb()->SelectDB($database)) {
             return true;
         } else {
             $db->query("SHOW DATABASES LIKE '$database'");
 
-            if ($db->next_record()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    } else {
-        if (mysqli_select_db($db->Link_ID, $database)) {
-            return true;
-        } else {
-            $db->query("SHOW DATABASES LIKE '$database'");
-
-            if ($db->next_record()) {
+            if ($db->nextRecord()) {
                 return true;
             } else {
                 return false;
             }
         }
     }
+    return false;
 }
 
-function checkMySQLDatabaseUse($db, $database) {
-    $db->connect();
-
-    if (hasMySQLiExtension() && !hasMySQLExtension()) {
-        if (@mysqli_select_db($db->Link_ID, $database)) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        if (@mysqli_select_db($db->Link_ID, $database)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+/**
+ * @deprecated remove if no usage left
+ * @param $db
+ * @param $database
+ * @return bool
+ */
+function checkMySQLDatabaseUse($db, $database): bool
+{
+    return checkMySQLDatabaseExists($db, $database);
 }
 
-function checkMySQLTableCreation($db, $database, $table) {
-    if (checkMySQLDatabaseUse($db, $database) == false) {
+/**
+ * @param $db DB_ConLite
+ * @param $database string
+ * @param $table string
+ * @return bool
+ */
+function checkMySQLTableCreation($db, $database, $table): bool
+{
+
+    if (!checkMySQLDatabaseUse($db, $database)) {
         return false;
     }
 
     $db->query("CREATE TABLE $table (test INT( 1 ) NOT NULL) ENGINE = MYISAM ;");
 
-    if ($db->Errno == 0) {
+    if ($db->getErrno() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
+/**
+ * @param $db DB_ConLite
+ * @param $database string
+ * @param $table string
+ * @return bool
+ */
 function checkMySQLLockTable($db, $database, $table) {
-    if (checkMySQLDatabaseUse($db, $database) == false) {
+    if (!checkMySQLDatabaseUse($db, $database)) {
         return false;
     }
 
     $db->query("LOCK TABLES $table WRITE");
 
-    if ($db->Errno == 0) {
-
+    if ($db->getErrno() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
+/**
+ * @param $db DB_ConLite
+ * @param $database string
+ * @return bool
+ */
 function checkMySQLUnlockTables($db, $database) {
-    if (checkMySQLDatabaseUse($db, $database) == false) {
+    if (!checkMySQLDatabaseUse($db, $database)) {
         return false;
     }
 
     $db->query("UNLOCK TABLES");
 
-    if ($db->Errno == 0) {
+    if ($db->getErrno() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
+/**
+ * @param $db DB_ConLite
+ * @param $database string
+ * @param $table string
+ * @return bool
+ */
 function checkMySQLDropTable($db, $database, $table) {
-    if (checkMySQLDatabaseUse($db, $database) == false) {
+    if (!checkMySQLDatabaseUse($db, $database)) {
         return false;
     }
 
     $db->query("DROP TABLE $table");
 
-    if ($db->Errno == 0) {
+    if ($db->getErrno() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
-function checkMySQLDropDatabase($db, $database) {
+function checkMySQLDropDatabase(DbConLite $db, string $database): bool
+{
     $db->query("DROP DATABASE $database");
 
-    if ($db->Errno == 0) {
+    if ($db->getErrno() == 0) {
         return true;
     } else {
         return false;
     }
 }
 
-function fetchMySQLStorageEngines($db) {
+function fetchMySQLStorageEngines(DbConLite $db): array
+{
     $db->query("SHOW ENGINES");
 
     $engines = [];
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $engines[] = $db->f(0);
     }
 
     return ($engines);
 }
-
-?>

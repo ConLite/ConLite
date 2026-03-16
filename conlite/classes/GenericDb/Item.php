@@ -52,6 +52,7 @@ abstract class Item extends ItemBaseAbstract
      * @param string $sTable The table to use as information source
      * @param string $sPrimaryKey The primary key to use
      * @param int $iLifetime
+     * @throws ItemException
      */
     public function __construct($sTable = '', $sPrimaryKey = '', $iLifetime = 10)
     {
@@ -103,7 +104,7 @@ abstract class Item extends ItemBaseAbstract
         }
 
         // Advance to the next record, return false if nothing found
-        if (!$this->db->next_record()) {
+        if (!$this->db->nextRecord()) {
             return false;
         }
 
@@ -290,11 +291,11 @@ abstract class Item extends ItemBaseAbstract
 
         $this->_lastSQL = $sql;
 
-        if ($this->db->affected_rows() > 0) {
+        if ($this->db->affectedRows() > 0) {
             self::$_oCache->addItem($this->table . "_" . $this->oldPrimaryKey, $this->values);
         }
 
-        return $this->db->affected_rows() >= 1;
+        return ($this->db->affectedRows() >= 1);
     }
 
     /**

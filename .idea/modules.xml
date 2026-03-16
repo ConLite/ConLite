@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/clphp8.iml" filepath="$PROJECT_DIR$/.idea/clphp8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/conlite/plugins/smarty/.idea/smarty.iml" filepath="$PROJECT_DIR$/conlite/plugins/smarty/.idea/smarty.iml" />
     </modules>
   </component>
 </project>

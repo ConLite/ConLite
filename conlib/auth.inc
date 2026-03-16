@@ -64,6 +64,8 @@ class Auth {
   var $in   = false;
   var $db;
 
+  public array $perm;
+
   ##
   ## Initialization
   ##

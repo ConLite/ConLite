@@ -16,8 +16,11 @@
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
  *
- *   $Id$;
+ * @todo recode to PHP8
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -34,9 +37,7 @@ class ActiveUsers {
      * 
      * @param object $db - Contenido Database Object
      * @param object $cfg 
-     * @param object $auth 
-     * 
-     * @return  
+     * @param object $auth
      * */
     function __construct($oDb, $oCfg, $oAuth) {
 
@@ -45,12 +46,8 @@ class ActiveUsers {
         $this->oDb = $oDb;
 
         // init db object
-        if (!is_object($this->oDb) || (is_null($this->oDb))) {
-            $this->oDb = new DB_ConLite;
-        }
-
-        if (!is_resource($this->oDb->Link_ID)) {
-            $this->oDb->connect();
+        if (!is_object($this->oDb)) {
+            $this->oDb = new DbConLite();
         }
 
         // Load the userid
@@ -62,11 +59,9 @@ class ActiveUsers {
      * 1) First delete all inactive users with timelimit is off
      * 2) If find user in the table, do update
      * 3) Else there is no current user do insert new user
-     * 
-     * 
-     * @return  
      * */
-    function startUsersTracking() {
+    function startUsersTracking(): void
+    {
 
         // Delete all Contains in the table "online_user" that is older as timeout(current is 60 minutes)
         $this->deleteInactiveUser();
@@ -113,7 +108,7 @@ class ActiveUsers {
         $bReturn = false;
         $sql = "SELECT user_id FROM `" . $this->oCfg["tab"]["online_user"] . "` WHERE `user_id`='" . Contenido_Security::escapeDB($userid, $this->oDb) . "'";
         $this->oDb->query($sql);
-        if ($this->oDb->next_record()) {
+        if ($this->oDb->nextRecord()) {
             $bReturn = true;
         }
         return $bReturn;
@@ -134,10 +129,10 @@ class ActiveUsers {
         // get all user_ids
         $sql = "SELECT `user_id` FROM `" . $this->oCfg["tab"]["online_user"] . "`";
 
-        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        if ($this->oDb->query($sql) && $this->oDb->getErrno() == 0) {
 
             if ($this->oDb->num_rows() > 0) {
-                while ($this->oDb->next_record()) { // Table Online User
+                while ($this->oDb->nextRecord()) { // Table Online User
                     $aUser[] = "'" . $this->oDb->f('user_id') . "'";
                 }
             }
@@ -150,10 +145,10 @@ class ActiveUsers {
                 "FROM " . $this->oCfg["tab"]["phplib_auth_user_md5"] . " " .
                 "WHERE user_id IN(" . $sSqlIn . ")";
 
-        if ($this->oDb->query($sql) && $this->oDb->Errno == 0) {
+        if ($this->oDb->query($sql) && $this->oDb->getErrno() == 0) {
 
             if ($this->oDb->num_rows() > 0) {
-                while ($this->oDb->next_record()) { // Table Online User
+                while ($this->oDb->nextRecord()) { // Table Online User
                     $sWebsiteNames = '';
                     $sUserId = $this->oDb->f("user_id");
                     $aAllUser[$sUserId]['realname'] = $this->oDb->f("realname");
@@ -290,5 +285,3 @@ class ActiveUsers {
     }
 
 }
-
-?>

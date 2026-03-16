@@ -14,6 +14,14 @@ class GenericDbDriverMySql extends GenericDbDriver
     public $_sEncoding;
     function buildJoinQuery($destinationTable, $destinationClass, $destinationPrimaryKey, $sourceClass, $primaryKey)
     {
+        // remove Namespaces in query
+        $array = explode("\\", $destinationClass);
+        $destinationClass = end($array);
+
+        $array = explode("\\", $sourceClass);
+        $sourceClass = end($array);
+
+
         // Build a regular LEFT JOIN
         $field = "$destinationClass.$destinationPrimaryKey";
         $tables = "";
@@ -155,6 +163,9 @@ class GenericDbDriverMySql extends GenericDbDriver
                 }
 
                 $sWhereStatement = implode(" ", [$sField, "NOT IN (", $sRestriction, ")"]);
+                break;
+            case "eq":
+                $sWhereStatement = implode(" ", [$sField, '=',  $this->_oItemClassInstance->_inFilter($sRestriction)]);
                 break;
             default :
                 $sRestriction = "'" . $this->_oItemClassInstance->_inFilter($sRestriction) . "'";

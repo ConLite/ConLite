@@ -269,7 +269,7 @@ if(!$perm->have_perm_area_action($area))
 
     $db->query($sql);
 
-    if ($db->affected_rows() == 0)
+    if ($db->num_rows() == 0)
     {
         $noresults = '<tr class="text_medium" style="background-color: '.$bgcolor.';" >'.
                      '<td colspan="6" style="border: 0px; border-top:1px; border-right:1px;border-color: '.$cfg["color"]["table_border"].'; border-style: solid;">'.i18n("No results").'</td></tr>';
@@ -280,7 +280,7 @@ if(!$perm->have_perm_area_action($area))
 
     $tpl->set('s', 'NORESULTS', $noresults);
 
-    while ($db->next_record())
+    while ($db->nextRecord())
     {
 
         $darkrow = !$darkrow;
@@ -321,4 +321,3 @@ if(!$perm->have_perm_area_action($area))
     $tpl->generate($cfg['path']['templates'] . $cfg['templates']['log_main']);
 
 }
-?>

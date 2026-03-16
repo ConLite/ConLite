@@ -18,6 +18,9 @@
  *
  *   $Id$:
  */
+
+use ConLite\Exceptions\Exception;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -52,7 +55,7 @@ function getAvailableContentTypes($idartlang)
 
     $db->query($sql);
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $a_content[$db->f("type")][$db->f("typeid")] = urldecode($db->f("value"));
         $a_description[$db->f("type")][$db->f("typeid")] = i18n($db->f("description"));
     }
@@ -72,7 +75,7 @@ function isArtInMultipleUse($idart)
     $sql = "SELECT idart FROM " . $cfg["tab"]["cat_art"] . " WHERE idart = '" . Contenido_Security::toInteger($idart) . "'";
     $db->query($sql);
 
-    return ($db->affected_rows() > 1);
+    return ($db->num_rows() > 1);
 }
 
 /**
@@ -198,7 +201,7 @@ function getIDForArea($area)
 		                    name = '" . Contenido_Security::escapeDB($area, $db) . "'";
 
         $db->query($sql);
-        if ($db->next_record()) {
+        if ($db->nextRecord()) {
             $area = $db->f(0);
         }
     }
@@ -239,7 +242,7 @@ function getParentAreaId($area)
     }
     $db->query($sql);
 
-    if ($db->next_record()) {
+    if ($db->nextRecord()) {
         return $db->f(0);
     } else {
         return $area;
@@ -315,7 +318,7 @@ function backToMainArea($send)
 		                    b.parent_id = a.name";
 
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
 
         $parent = $db->f("name");
 
@@ -350,7 +353,7 @@ function showLocation($area)
 	              Where A.name='" . Contenido_Security::escapeDB($area, $db) . "' AND A.idarea=B.idarea AND A.online='1'";
 
     $db->query($sql);
-    if ($db->next_record()) {
+    if ($db->nextRecord()) {
 
         echo "<b>" . $xml->valueOf($db->f("location")) . "</b>";
     } else {
@@ -359,7 +362,7 @@ function showLocation($area)
 		                    FROM " . $cfg["tab"]["area"] . "
 		                    WHERE name='" . Contenido_Security::escapeDB($area, $db) . "' AND online='1'";
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
         $parent = $db->f("parent_id");
 
         $sql = "SELECT location
@@ -367,7 +370,7 @@ function showLocation($area)
 		                    Where A.name='" . Contenido_Security::escapeDB($parent, $db) . "' AND A.idarea = B.idarea AND A.online='1'";
 
         $db->query($sql);
-        $db->next_record();
+        $db->nextRecord();
         echo "<b>" . $xml->valueOf($db->f("location")) . $lngArea[$area] . "</b>";
     }
 }
@@ -378,7 +381,7 @@ function showTable($tablename)
 
     $sql = "SELECT * FROM $tablename";
     $db->query($sql);
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         foreach ($db->Record as $key => $value) {
             print (is_string($key) ? "<b>$key</b>: $value | " : "");
         }
@@ -425,7 +428,7 @@ function getLanguageNamesByClient($client)
 	                    idlang ASC";
 
     $db->query($sql);
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $list[$db->f("idlang")] = $db->f("name");
     }
 
@@ -465,7 +468,7 @@ function getAllClientsAndLanguages()
     $db->query($sql);
 
     $aRs = array();
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $aRs[] = array(
             'idlang' => $db->f('idlang'),
             'langname' => $db->f('langname'),
@@ -547,7 +550,7 @@ function cleanupSessions()
     $sql = "SELECT changed, sid FROM " . $cfg["tab"]["phplib_active_sessions"];
     $db->query($sql);
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         if ($db->f("changed") < $maxdate) {
             $sql = "DELETE FROM " . $cfg["tab"]["phplib_active_sessions"] . " WHERE sid = '" . Contenido_Security::escapeDB($db->f("sid"), $db2) . "'";
             $db2->query($sql);
@@ -561,7 +564,7 @@ function cleanupSessions()
     while ($c = $col->next()) {
         $sql = "SELECT sid FROM " . $cfg["tab"]["phplib_active_sessions"] . " WHERE sid = '" . Contenido_Security::escapeDB($c->get("session"), $db2) . "'";
         $db2->query($sql);
-        if (!$db2->next_record()) {
+        if (!$db2->nextRecord()) {
             $col->delete($c->get("idinuse"));
         }
     }
@@ -658,6 +661,12 @@ function getPhpModuleInfo($moduleName)
     $string = ob_get_contents();
     ob_end_clean();
 
+    $result = \ConLite\System\phpInfo::getInfoModule($moduleName);
+
+    if (!empty($result)) {
+        return $result;
+    }
+
     $pieces = explode("<h2", $string); // get several modules
 
     foreach ($pieces as $val) {
@@ -743,6 +752,7 @@ function htmldecode($string)
  */
 function rereadClients()
 {
+
     global $cfgClient;
     global $errsite_idcat;
     global $errsite_idart;
@@ -769,10 +779,10 @@ function rereadClients()
 
     $db->query($sql);
 
-    if ($db->affected_rows() <= 0) {
+    if ($db->num_rows() <= 0) {
         return;
     }
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $cfgClient["set"] = "set";
         $cfgClient[$db->f("idclient")]["name"] = $db->f("name");
 
@@ -902,12 +912,12 @@ function getSystemProperties($bGetPropId = 0)
     $results = array();
 
     if ($bGetPropId) {
-        while ($db_systemprop->next_record()) {
+        while ($db_systemprop->nextRecord()) {
             $results[$db_systemprop->f("type")][$db_systemprop->f("name")]['value'] = urldecode($db_systemprop->f("value"));
             $results[$db_systemprop->f("type")][$db_systemprop->f("name")]['idsystemprop'] = urldecode($db_systemprop->f("idsystemprop"));
         }
     } else {
-        while ($db_systemprop->next_record()) {
+        while ($db_systemprop->nextRecord()) {
             $results[$db_systemprop->f("type")][$db_systemprop->f("name")] = urldecode($db_systemprop->f("value"));
         }
     }
@@ -937,7 +947,7 @@ function getSystemProperty($sType, $sName)
       $sql = "SELECT value FROM ".$cfg["tab"]["system_prop"]." WHERE type='".Contenido_Security::escapeDB($type, $db_systemprop)."' AND name='".Contenido_Security::escapeDB($name, $db_systemprop)."'";
       $db_systemprop->query($sql);
 
-      if ($db_systemprop->next_record())
+      if ($db_systemprop->nextRecord())
       {
       return urldecode($db_systemprop->f("value"));
       } else
@@ -963,7 +973,7 @@ function getSystemPropertiesByType($sType)
     $sSQL = "SELECT name, value FROM " . $cfg["tab"]["system_prop"] . " WHERE type='" . Contenido_Security::escapeDB($sType, $db_systemprop) . "' ORDER BY name";
     $db_systemprop->query($sSQL);
 
-    while ($db_systemprop->next_record()) {
+    while ($db_systemprop->nextRecord()) {
         $aResult[$db_systemprop->f("name")] = urldecode($db_systemprop->f("value"));
     }
 
@@ -987,8 +997,8 @@ function getSystemPropertiesByType($sType)
 function getEffectiveSetting($type, $name, $default = "")
 {
     global $auth, $client, $lang;
-
-    if ($auth->auth["uid"] != "nobody") {
+//print_r($auth->auth["uid"]);
+    if ($auth->auth["uid"] != "nobody" && !empty($auth->auth["uid"])) {
         $user = new User;
         $user->loadUserByUserID($auth->auth["uid"]);
         $value = $user->getUserProperty($type, $name, true);
@@ -1089,7 +1099,7 @@ function getArtspec()
 
     $artspec = array();
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $artspec[$db->f("idartspec")]['artspec'] = $db->f("artspec");
         $artspec[$db->f("idartspec")]['online'] = $db->f("online");
         $artspec[$db->f("idartspec")]['default'] = $db->f("artspecdefault");
@@ -1201,7 +1211,7 @@ function buildArticleSelect($sName, $iIdCat, $sValue)
 
     $db->query($sql);
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         if ($sValue != $db->f('idart')) {
             $html .= '<option value="' . $db->f('idart') . '" style="background-color:#EFEFEF">' . $db->f('title') . '</option>';
         } else {
@@ -1248,13 +1258,13 @@ function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "")
 
     $categories = array();
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $categories[$db->f("idcat")]["name"] = $db->f("name");
 
         $sql2 = "SELECT level FROM " . $cfg["tab"]["cat_tree"] . " WHERE idcat = '" . Contenido_Security::toInteger($db->f("idcat")) . "'";
         $db2->query($sql2);
 
-        if ($db2->next_record()) {
+        if ($db2->nextRecord()) {
             $categories[$db->f("idcat")]["level"] = $db2->f("level");
         }
 
@@ -1265,7 +1275,7 @@ function buildCategorySelect($sName, $sValue, $sLevel = 0, $sStyle = "")
 
         $db2->query($sql2);
 
-        while ($db2->next_record()) {
+        while ($db2->nextRecord()) {
             $categories[$db->f("idcat")]["articles"][$db2->f("idcatart")] = $db2->f("title");
         }
     }
@@ -1310,21 +1320,48 @@ function getFileExtension($filename)
     }
 }
 
-function human_readable_size($number)
+/**
+ *
+ * @param int $number
+ * @return string
+ *@deprecated since V3.0
+ * @uses humanReadableSize()
+ *
+ */
+function human_readable_size(int $number): string
+{
+    return humanReadableSize($number);
+}
+
+/**
+ * returns number of bytes as human readable
+ *
+ * @param $number
+ * @return string number with suffix string
+ */
+function humanReadableSize($number)
 {
     $base = 1024;
-    $suffixes = array(" B", " KB", " MB", " GB", " TB", " PB", " EB");
+    $suffixes = [
+        'Bytes',
+        'KiB',
+        'MiB',
+        'GiB',
+        'TiB',
+        'PiB',
+        'EiB'
+    ];
 
     $usesuf = 0;
-    $n = (float)$number; //Appears to be necessary to avoid rounding
+    $n = (float)$number; // Appears to be necessary to avoid rounding
     while ($n >= $base) {
         $n /= (float)$base;
         $usesuf++;
     }
 
     $places = 2 - floor(log10($n));
-    $places = max($places, 0);
-    $retval = number_format($n, $places, ".", "") . $suffixes[$usesuf];
+    $places = (int) max($places, 0);
+    $retval = number_format($n, $places, '.', '') . ' ' . $suffixes[$usesuf];
     return $retval;
 }
 
@@ -1510,7 +1547,7 @@ function getClientName($idclient)
 
     $db->query($sql);
 
-    if ($db->next_record()) {
+    if ($db->nextRecord()) {
         return $db->f("name");
     } else {
         return false;
@@ -2025,64 +2062,32 @@ function endAndLogTiming($uuid)
     trigger_error("calling function " . $_timings[$uuid]["function"] . "(" . $parameterString . ") took " . $timeSpent . " seconds", E_USER_NOTICE);
 }
 
-// @TODO: it's better to create a instance of DB_ConLite class, the class constructor connects also to the database. 
 function checkMySQLConnectivity()
 {
     global $contenido_host, $contenido_database, $contenido_user, $contenido_password, $cfg;
 
-    if ($cfg["database_extension"] == "mysqli") {
-        if (function_exists("mysqli_connect")) {
-            if (($iPos = strpos($contenido_host, ":")) !== false) {
-                list($sHost, $sPort) = explode(":", $contenido_host);
+    /** @var Exception $exception */
+    try {
 
-                $res = mysqli_connect($sHost, $contenido_user, $contenido_password, "", $sPort);
-            } else {
-
-                $res = mysqli_connect($contenido_host, $contenido_user, $contenido_password);
-            }
-        } else {
-            $res = NULL;
-        }
-    } else {
-        if (function_exists("mysql_connect")) {
-            $res = mysql_connect($contenido_host, $contenido_user, $contenido_password);
-        } else {
-            $res = NULL;
-        }
+        $db = new DB_ConLite(['connection' => [
+            'host' => $contenido_host,
+            'user' => $contenido_user,
+            'password' => $contenido_password,
+            'database' => $contenido_database,
+        ]]);
+    } catch (Exception $exception) {
+        echo $exception->getMessage();
+        return false;
     }
 
-    $selectDb = false;
-    if ($res) {
-        if ($cfg["database_extension"] == "mysqli") {
-            $selectDb = mysqli_select_db($res, $contenido_database);
-        } else {
-            $selectDb = mysql_select_db($contenido_database, $res);
-        }
+    if($db->getErrno() == 0) {
+        $db->disconnect();
+        return true;
     }
 
-    if (!$res || !$selectDb) {
-        $errortitle = i18n("MySQL Database not reachable for installation %s");
-        $errortitle = sprintf($errortitle, $cfg["path"]["contenido_fullhtml"]);
-
-        $errormessage = i18n("The MySQL Database for the installation %s is not reachable. Please check if this is a temporary problem or if it is a real fault.");
-        $errormessage = sprintf($errormessage, $cfg["path"]["contenido_fullhtml"]);
-
-        notifyOnError($errortitle, $errormessage);
-
-        if ($cfg["contenido"]["errorpage"] != "") {
-            header("Location: " . $cfg["contenido"]["errorpage"]);
-        } else {
-            die("Could not connect to the database server with this configuration!");
-        }
-
-        exit;
-    } else {
-        if ($cfg["database_extension"] == "mysqli") {
-            mysqli_close($res);
-        } else {
-            mysql_close($res);
-        }
-    }
+    echo $db->getError();
+    $db->disconnect();
+    return false;
 }
 
 function notifyOnError($errortitle, $errormessage)
@@ -2187,7 +2192,7 @@ function sendEncodingHeader($db, $cfg, $lang)
 
         $aLanguageEncodings = array();
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $aLanguageEncodings[$db->f("idlang")] = $db->f("encoding");
         }
 
@@ -2308,4 +2313,24 @@ function clHtmlEntities(string $value, ?int $flags = ENT_QUOTES | ENT_SUBSTITUTE
 function clGetHtmlTranslationTable(int $table = HTML_SPECIALCHARS, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401, string $encoding = "UTF-8")
 {
     return get_html_translation_table($table, $flags, $encoding);
+}
+
+/**
+ * Checks, if a function is disabled or not ('disable_functions' setting in php.ini)
+ * @param string $functionName Name of the function to check
+ * @return bool
+ */
+function isFunctionDisabled(string $functionName)
+{
+    static $disabledFunctions;
+
+    if (empty($functionName)) {
+        return true;
+    }
+
+    if (!isset($disabledFunctions)) {
+        $disabledFunctions = array_map('trim', explode(',', ini_get('disable_functions')));
+    }
+
+    return (in_array($functionName, $disabledFunctions));
 }

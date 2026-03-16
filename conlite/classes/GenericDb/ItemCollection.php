@@ -2,6 +2,7 @@
 
 namespace ConLite\GenericDb;
 
+use ConLite\Exceptions\Exception;
 use ConLite\GenericDb\Driver\GenericDbDriver;
 use ConLite\GenericDb\Driver\MySql\GenericDbDriverMySql;
 use DB_ConLite;
@@ -59,7 +60,7 @@ abstract class ItemCollection extends ItemBaseAbstract
     /**
      * @var array Inner group conditions
      */
-    protected $_innerGroupConditions = array();
+    protected $_innerGroupConditions = [];
 
     /**
      * @var array Group conditions
@@ -69,13 +70,13 @@ abstract class ItemCollection extends ItemBaseAbstract
     /**
      * @var array Result fields for the query
      */
-    protected $_resultFields = array();
+    protected $_resultFields = [];
 
     /**
      *
      * @var array Column names of db table
      */
-    protected $_aTableColums = array();
+    protected $_aTableColums = [];
 
     /**
      * @var string Encoding
@@ -96,6 +97,7 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     protected $_bAllMode = false;
     protected $_order;
+    protected string $lastSQL;
 
     /**
      * Constructor Function
@@ -121,6 +123,16 @@ abstract class ItemCollection extends ItemBaseAbstract
         $this->_aOperators = array(
             '=', '!=', '<>', '<', '>', '<=', '>=', 'LIKE', 'DIACRITICS'
         );
+    }
+
+    public function getLastSQL(): string
+    {
+        return $this->lastSQL;
+    }
+
+    public function setLastSQL(string $lastSQL): void
+    {
+        $this->lastSQL = $lastSQL;
     }
 
     /**
@@ -293,8 +305,8 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @return  array  With all where statements
      */
     protected function _buildGroupWhereStatements() {
-        $aWheres = array();
-        $aGroupWhere = array();
+        $aWheres =[];
+        $aGroupWhere = [];
 
         $mLastGroup = false;
         $sGroupWhereStatement = '';
@@ -303,7 +315,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         if (count($this->_where['groups']) > 0) {
             // Step trough all groups
             foreach ($this->_where['groups'] as $groupname => $group) {
-                $aWheres = array();
+                $aWheres = [];
 
                 // Fetch restriction, fields and operators and build single group
                 // where statements
@@ -391,15 +403,15 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @return  array  Array structure, see above
      */
     protected function _fetchJoinTables($ignoreRoot) {
-        $aParameters = array();
-        $aFields = array();
-        $aTables = array();
-        $aJoins = array();
-        $aWheres = array();
+        $aParameters = [];
+        $aFields = [];
+        $aTables = [];
+        $aJoins = [];
+        $aWheres = [];
 
         // Fetch linked tables
         foreach ($this->_links as $link => $object) {
-            $matches = $this->_findReverseJoinPartner(strtolower(get_class($this)), $link);
+            $matches = $this->_findReverseJoinPartner(get_class($this), $link);
 
             if ($matches !== false) {
                 if (isset($matches['desttable'])) {
@@ -542,7 +554,9 @@ abstract class ItemCollection extends ItemBaseAbstract
         }
 
         // Add this class
-        $aFields[] = strtolower(strtolower(get_class($this))) . '.' . $this->primaryKey;
+        $array = explode("\\", get_class($this));
+        $sourceClass = end($array);
+        $aFields[] = strtolower($sourceClass) . '.' . $this->primaryKey;
 
         // Make the parameters unique
         foreach ($aParameters as $parameter) {
@@ -583,14 +597,14 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     public function resetQuery() {
         $this->setLimit(0, 0);
-        $this->_JoinPartners = array();
-        $this->_forwardJoinPartners = array();
-        $this->_links = array();
-        $this->_where['global'] = array();
-        $this->_where['groups'] = array();
-        $this->_groupConditions = array();
-        $this->_resultFields = array();
-        $this->_aTableColums = array();
+        $this->_JoinPartners = [];
+        $this->_forwardJoinPartners = [];
+        $this->_links = [];
+        $this->_where['global'] = [];
+        $this->_where['groups'] = [];
+        $this->_groupConditions = [];
+        $this->_resultFields = [];
+        $this->_aTableColums = [];
     }
 
     /**
@@ -608,12 +622,15 @@ abstract class ItemCollection extends ItemBaseAbstract
         $aGroupWhereStatements = $this->_buildGroupWhereStatements();
         $sWhereStatements = $this->_buildWhereStatements();
         $aParameters = $this->_fetchJoinTables(strtolower(get_class($this)));
+        $array = explode("\\", get_class($this));
+        $sourceClass = end($array);
+        $thisClass = strtolower($sourceClass);
 
         $aStatement = array(
             'SELECT',
             implode(', ', (array_merge($aParameters['fields'], $this->_resultFields))),
             'FROM',
-            '`' . $this->table . '` AS ' . strtolower(get_class($this))
+            '`' . $this->table . '` AS ' . $thisClass
         );
 
         if (count($aParameters['tables']) > 0) {
@@ -655,7 +672,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = implode(' ', $aStatement);
 
         $result = $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         // @todo  disable all mode in this method for the moment. It has to be verified,
         //        if enabling will result in negative side effects.
         $this->_bAllMode = false;
@@ -720,11 +737,11 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     protected function _findReverseJoinPartner($sParentClass, $sClassName) {
         // Make the parameters lowercase, as get_class is buggy
-        $sClassName = strtolower($sClassName);
-        $sParentClass = strtolower($sParentClass);
+        //$sClassName = strtolower($sClassName);
+        //$sParentClass = strtolower($sParentClass);
 
         // Check if we found a direct link
-        if (in_array($sClassName, $this->_JoinPartners)) {
+        if (in_array(strtolower($sClassName), $this->_JoinPartners)) {
             $obj = new $sClassName;
             return array(
                 'desttable' => $obj->table, 'destclass' => $sClassName,
@@ -795,7 +812,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = 'SELECT ' . $sFields . ' FROM `' . $this->table . '`' . $sWhere
             . $sGroupBy . $sOrderBy . $sLimit;
         $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         $this->_bAllMode = $this->_settings['select_all_mode'];
 
         if ($this->db->num_rows() == 0) {
@@ -851,7 +868,7 @@ abstract class ItemCollection extends ItemBaseAbstract
             . $sFrom . $sWhere . $sGroupBy . $sOrderBy . $sLimit;
 
         $this->db->query($sql);
-        $this->_lastSQL = $sql;
+        $this->lastSQL = $sql;
         // @todo  disable all mode in this method
         $this->_bAllMode = false;
 
@@ -879,11 +896,12 @@ abstract class ItemCollection extends ItemBaseAbstract
      * Advances to the next item in the database.
      *
      * @return Item|bool  The next object, or false if no more objects
+     * @throws Exception
      */
     public function next() {
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             if ($this->_bAllMode) {
-                $aRs = $this->db->toArray(DB_ConLite::FETCH_BOTH);
+                $aRs = $this->db->toArray();
                 return $this->loadItem($aRs);
             } else {
                 return $this->loadItem($this->db->f($this->primaryKey));
@@ -925,7 +943,7 @@ abstract class ItemCollection extends ItemBaseAbstract
      */
     public function fetchTable(array $aFields = array(), array $aObjects = array()) {
         $row = 1;
-        $aTable = array();
+        $aTable = [];
 
         if(!empty($this->_aTableColums)) {
             $aFields = $this->_aTableColums;
@@ -937,7 +955,8 @@ abstract class ItemCollection extends ItemBaseAbstract
 
         $this->db->seek(0);
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
+            //print_r($this->db->toArray());
             foreach ($aFields as $alias => $field) {
                 //if ($alias != '') {
                 if (is_string($alias)) {
@@ -1051,13 +1070,13 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @param   mixed   $mItem  The primary key of the item to load or a recordset
      *                          with itemdata (array) to inject to the item object.
      * @return  Item  The newly created object
-     * @throws  Contenido_ItemException  If item class is not set
+     * @throws  Exception  If item class is not set
      */
     public function loadItem($mItem) {
         if (empty($this->_itemClass)) {
             $sMsg = "ItemClass has to be set in the constructor of class "
                 . get_class($this) . ")";
-            throw new Contenido_ItemException($sMsg);
+            throw new Exception($sMsg);
         }
 
         if (!is_object($this->_iteratorItem)) {
@@ -1091,6 +1110,7 @@ abstract class ItemCollection extends ItemBaseAbstract
 
         $sql = 'INSERT INTO `%s` (%s) VALUES (%d)';
         $oDb->query($sql, $this->table, $this->primaryKey, $iNextId);
+
         return $this->loadItem($iNextId);
     }
 
@@ -1195,7 +1215,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $sql = "DELETE FROM `%s` WHERE %s = '%s'";
         $oDb->query($sql, $this->table, $this->primaryKey, $mId);
 
-        return (($oDb->affected_rows() > 0) ? true : false);
+        return (($oDb->affectedRows() > 0) ? true : false);
     }
 
     /**

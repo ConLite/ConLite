@@ -96,12 +96,18 @@ class cHTMLErrorMessageList extends cHTMLDiv {
         $this->setClass("errorlist");
         $this->setStyle("width: 450px; height: 218px; overflow: auto; border: 1px solid black;");
     }
-	
-    function setContent($content)	{
+
+    /**
+     * @param $content array|string
+     * @return void
+     */
+    public function setContent($content): void
+    {
         $this->_oTable->setContent($content);
     }
 	
-    function toHTML()	{
+    function toHTML(): string
+    {
         $this->_setContent($this->_oTable->render());
         return parent::toHTML();
     }

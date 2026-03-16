@@ -29,6 +29,8 @@
  * 
  */
 
+use ConLite\Database\DbConLite;
+
  if(!defined('CON_FRAMEWORK')) {
                 die('Illegal call');
 }
@@ -50,7 +52,7 @@ class CT_Sql {
 
   function ac_start() {
     $name = $this->database_class;
-    $this->db = new $name;
+    $this->db = new DbConLite();
   }
 
   function ac_get_lock() {
@@ -73,11 +75,11 @@ class CT_Sql {
 
 //  Security Fix
     $timeout = time();
-    $sqldate = date("YmdHis", $timeout - (Contenido_Security::escapeDB($gc_time, $this->db) * 60));
+    $sqldate = date("YmdHis", $timeout - (Contenido_Security::escapeDB($gc_time) * 60));
     $this->db->query(sprintf("DELETE FROM %s WHERE changed < '%s' AND name = '%s'",
                     $this->database_table,
                     $sqldate,
-                    Contenido_Security::escapeDB($name, $this->db)));
+                    Contenido_Security::escapeDB($name)));
     }
 
     function ac_store($id, $name, $str) {
@@ -105,18 +107,18 @@ class CT_Sql {
      $this->database_table,
      $str,
      $now,
-     Contenido_Security::escapeDB($id, $this->db),
-     Contenido_Security::escapeDB($name, $this->db));
+     Contenido_Security::escapeDB($id),
+     Contenido_Security::escapeDB($name));
     $squery = sprintf("select count(*) from %s where val='%s' and changed='%s' and sid='%s' and name='%s'",
      $this->database_table,
      $str,
      $now,
-     Contenido_Security::escapeDB($id, $this->db),
-     Contenido_Security::escapeDB($name, $this->db));
+     Contenido_Security::escapeDB($id),
+     Contenido_Security::escapeDB($name));
     $iquery = sprintf("insert into %s ( sid, name, val, changed ) values ('%s', '%s', '%s', '%s')",
      $this->database_table,
-     Contenido_Security::escapeDB($id, $this->db),
-     Contenido_Security::escapeDB($name, $this->db),
+     Contenido_Security::escapeDB($id),
+     Contenido_Security::escapeDB($name),
      $str,
      $now);
 
@@ -136,7 +138,7 @@ class CT_Sql {
 
     if ( $this->db->affected_rows() == 0
       && $this->db->query($squery)
-      && $this->db->next_record() && $this->db->f(0) == 0
+      && $this->db->nextR() && $this->db->f(0) == 0
       && !$this->db->query($iquery)) {
 
       $ret = false;
@@ -151,8 +153,8 @@ class CT_Sql {
 //  Security Fix
     $this->db->query(sprintf("delete from %s where name = '%s' and sid = '%s'",
       $this->database_table,
-       Contenido_Security::escapeDB($name, $this->db),
-      Contenido_Security::escapeDB($id, $this->db)));
+       Contenido_Security::escapeDB($name),
+      Contenido_Security::escapeDB($id)));
   }
 
   function ac_get_value($id, $name) {
@@ -160,10 +162,10 @@ class CT_Sql {
 //  Security Fix
     $this->db->query(sprintf("select val from %s where sid  = '%s' and name = '%s'",
       $this->database_table,
-      Contenido_Security::escapeDB($id, $this->db),
-      Contenido_Security::escapeDB($name, $this->db)));
+      $id,
+      $name));
      
-    if ($this->db->next_record()) {
+    if ($this->db->NextRecord()) {
       $str  = $this->db->f("val");
       $str2 = base64_decode( $str );
 

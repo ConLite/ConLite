@@ -104,7 +104,7 @@ abstract class ItemBaseAbstract
     protected function __construct($sTable, $sPrimaryKey, $sClassName, $iLifetime = 10) {
         global $cfg;
 
-        $this->db = new DB_ConLite();
+        $this->db = \cRegistry::getDb();
 
         if ($sTable == '') {
             $sMsg = "$sClassName: No table specified. Inherited classes *need* to set a table";

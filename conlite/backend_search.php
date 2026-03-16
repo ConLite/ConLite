@@ -497,8 +497,8 @@ $tpl->set('s', 'REFRESH', $refreshScript);
 
 // Successfully stored Message
 $tpl->set('s', 'SEARCHSTOREDMESSAGE', $saveSuccessfull);
-$iAffectedRows = $db->affected_rows();
-if (empty($where) || $iAffectedRows <= 0) { 
+
+if (empty($where) || $db->num_rows() <= 0) {
     $sNoArticle = i18n("Missing search value.");
     $sNothingFound = i18n("No article found.");
 
@@ -514,12 +514,12 @@ if (empty($where) || $iAffectedRows <= 0) {
 } else {
 	$bHit = false;
 	
-    for ($i = 0; $i < $iAffectedRows; $i++) {
+    for ($i = 0; $i < $db->num_rows(); $i++) {
 		
         // reinitialisiere Hilfs-String
         $sRow = '';
 
-	    $db->next_record();
+	    $db->nextRecord();
 
 		$idcat = $db->f("idcat");
 		$check_rights = $perm->have_perm_area_action("con", "con_makestart");
