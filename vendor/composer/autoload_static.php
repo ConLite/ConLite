@@ -12,22 +12,22 @@ class ComposerStaticInitd0ae0b83b9264ecb75b1020e2c7d3da2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'P' => 
+        'P' =>
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'C' => 
+        'C' =>
         array (
             'ConLite\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'PHPMailer\\PHPMailer\\' => 
+        'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'ConLite\\' => 
+        'ConLite\\' =>
         array (
             0 => __DIR__ . '/../..' . '/conlite/classes',
         ),
