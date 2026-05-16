@@ -3,7 +3,7 @@
         'name' => 'org.conlite/conlite',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '536b9fa0ddcf6ad9fb7c0d988f8ebe737c8ca1a7',
+        'reference' => 'cf54285ec00d70f62e23e545b476cc9e180787b6',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'org.conlite/conlite' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '536b9fa0ddcf6ad9fb7c0d988f8ebe737c8ca1a7',
+            'reference' => 'cf54285ec00d70f62e23e545b476cc9e180787b6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

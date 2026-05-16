@@ -27,9 +27,6 @@
     "autoload": {
         "psr-4": {
             "ConLite\\": "conlite/classes"
-        },
-        "files": [
-            "vendor/adodb/adodb-php/adodb.inc.php"
-        ]
+        }
     }
 }
