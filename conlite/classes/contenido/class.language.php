@@ -9,21 +9,18 @@
  * 
  * @package Core
  * @subpackage cApi
- * @version $Rev$
  * @since 2.0
  * @author Ortwin Pinke <o.pinke@conlite.org>
  * @copyright (c) 2015, conlite.org
  * @license http://www.gnu.de/documents/gpl.en.html GPL v3 (english version)
  * @license http://www.gnu.de/documents/gpl.de.html GPL v3 (deutsche Version)
  * @link http://www.conlite.org ConLite.org
- * 
- * $Id$
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-class cApiLanguageCollection extends ItemCollection {
+class cApiLanguageCollection extends \ConLite\GenericDb\ItemCollection {
 
     /**
      * Constructor
@@ -103,7 +100,7 @@ class cApiLanguageCollection extends ItemCollection {
 
 }
 
-class cApiLanguage extends Item {
+class cApiLanguage extends \ConLite\GenericDb\Item {
 
     /**
      * Constructor Function

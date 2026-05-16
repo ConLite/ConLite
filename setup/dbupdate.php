@@ -244,12 +244,3 @@ if ($currentstep < $totalsteps) {
     printf('<script type="text/javascript">parent.document.getElementById("installing").style.visibility="hidden";parent.document.getElementById("installingdone").style.visibility="visible";</script>');
     printf('<script type="text/javascript">parent.document.getElementById("next").style.visibility="visible"; window.setTimeout("nextStep()", 10); function nextStep () { window.location.href=\'makeconfig.php\'; }</script>');
 }
-
-function txtFileToArray($sFile): array
-{
-    $aFileArray = [];
-    if (file_exists($sFile) && is_readable($sFile)) {
-        $aFileArray = explode("\n", file_get_contents($sFile));
-    }
-    return $aFileArray;
-}

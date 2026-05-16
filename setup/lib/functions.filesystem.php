@@ -333,4 +333,11 @@ function predictCorrectFilepermissions($file) {
     }
 }
 
-?>
+function txtFileToArray($sFile): array
+{
+    $aFileArray = [];
+    if (file_exists($sFile) && is_readable($sFile)) {
+        $aFileArray = explode("\n", file_get_contents($sFile));
+    }
+    return $aFileArray;
+}

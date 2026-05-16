@@ -22,7 +22,7 @@ define('CON_BE_PATH', '../conlite/');
 
 session_start();
 
-require_once 'lib/defines.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '/defines.php';
 /*
  * SetEnv CL_VERSION
  */
@@ -103,17 +103,16 @@ if(!is_dir($cfg['path']['conlite_config'])) {
     die("Setup cannot find the config folder \"".$cfg['path']['conlite_config']."\"! Make shure folder exists and is readable.");
 }
 
+include_once dirname(__DIR__, 2) . '/vendor/autoload.php';
+
 checkAndInclude($cfg['path']['conlite_config'] . 'config.misc.php');
 checkAndInclude($cfg['path']['conlite_config'] . 'cfg_sql.inc.php');
-
-include_once dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 // includes
 /** @todo use conlite autoload to load needed classes */
 checkAndInclude($cfg['path']['frontend'] . '/pear/HTML/Common2.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/con2con/class.registry.php');
 
-checkAndInclude($cfg['path']['conlite'] . 'classes/class.genericdb.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml5.common.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/cHTML5/class.chtml.php');
 checkAndInclude($cfg['path']['conlite'] . 'classes/class.htmlelements.php');

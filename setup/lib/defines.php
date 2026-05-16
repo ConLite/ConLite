@@ -31,15 +31,11 @@ if (array_key_exists('setuptype', $_SESSION)) {
     }
 }
 
-const C_SETUP_STEPFILE = 'images/steps/s%d.png';
-const C_SETUP_STEPFILE_ACTIVE = 'images/steps/s%da.png';
-const C_SETUP_STEPWIDTH = 28;
-const C_SETUP_STEPHEIGHT = 28;
 const C_SETUP_MIN_PHP_VERSION = '8.0.0';
-const C_SETUP_MAX_PHP_VERSION = '8.5.0';
+const C_SETUP_MAX_PHP_VERSION = '8.6.0';
 const C_SETUP_VERSION = '3.1.0';
 
-$sDefLocalPath = __DIR__.DIRECTORY_SEPARATOR.'defines.local.php';
+$sDefLocalPath = __DIR__ . DIRECTORY_SEPARATOR . 'defines.local.php';
 if(file_exists($sDefLocalPath)) {
     include_once $sDefLocalPath;
 }
