@@ -1,8 +1,11 @@
 # phpstan.neon
+includes:
+	- phpstan-baseline.neon
+
 parameters:
     bootstrapFiles:
         - phpstan-bootstrap.php
-    level: 1
+    level: 4
     paths:
         - conlite
         - conlib
@@ -13,7 +16,6 @@ parameters:
         -
             identifiers:
                 - property.notFound
-                - property.neverWritten
                 - method.notFound
                 - variable.undefined
 

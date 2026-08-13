@@ -17,7 +17,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_OK = 0;
+    const int PASS_OK = 0;
 
     /**
      * Given password is too short
@@ -25,7 +25,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_TO_SHORT = 1;
+    const int PASS_TO_SHORT = 1;
 
     /**
      * Given password is not strong enough
@@ -33,7 +33,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_STRONG = 2;
+    const int PASS_NOT_STRONG = 2;
 
     /**
      * Given password is not complex enough
@@ -41,7 +41,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_COMPLEX = 3;
+    const int PASS_NOT_COMPLEX = 3;
 
     /**
      * Password does not contain enough numbers.
@@ -49,7 +49,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_ENOUGH_NUMBERS = 4;
+    const int PASS_NOT_ENOUGH_NUMBERS = 4;
 
     /**
      * Password does not contain enough symbols.
@@ -57,7 +57,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_ENOUGH_SYMBOLS = 5;
+    const int PASS_NOT_ENOUGH_SYMBOLS = 5;
 
     /**
      * Password does not contain enough mixed characters.
@@ -65,7 +65,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_ENOUGH_MIXED_CHARS = 6;
+    const int PASS_NOT_ENOUGH_MIXED_CHARS = 6;
 
     /**
      * Password does not contain enough different characters.
@@ -73,14 +73,14 @@ class User extends Item
      * @var int
      * @final
      */
-    const PASS_NOT_ENOUGH_DIFFERENT_CHARS = 7;
+    const int PASS_NOT_ENOUGH_DIFFERENT_CHARS = 7;
 
     /**
      * This value will be used if no minimum length
      * for passwords are set via $cfg['password']['min_length']
      *
      */
-    const MIN_PASS_LENGTH_DEFAULT = 8;
+    const int MIN_PASS_LENGTH_DEFAULT = 8;
 
     public function __construct($id = false)
     {
@@ -108,7 +108,7 @@ class User extends Item
      * @param boolean group Specifies if this function should recursively search in groups
      * @return string The value of the retrieved property
      */
-    public function getUserProperty($type, $name, $group = false)
+    public function getUserProperty($type, $name, $group = false): false|string
     {
         global $cfg, $perm;
 
@@ -160,7 +160,7 @@ class User extends Item
      * @param bool $bGroup Specifies if this function should recursively search in groups
      * @return  array   The value of the retrieved property
      * */
-    public function getUserPropertiesByType($sType, $bGroup = false)
+    public function getUserPropertiesByType(string $sType, bool $bGroup = false): array
     {
         global $cfg, $perm;
 
@@ -170,7 +170,7 @@ class User extends Item
 
         $aResult = array();
 
-        if ($bGroup == true) {
+        if ($bGroup) {
             $aGroups = $perm->getGroupsForUser($this->values['user_id']);
 
             if (is_array($aGroups)) {
@@ -204,7 +204,7 @@ class User extends Item
      *
      * @return array|bool
      */
-    public function getUserProperties()
+    public function getUserProperties(): bool|array
     {
         global $cfg;
 
@@ -231,7 +231,7 @@ class User extends Item
      * @param string name Specifies the name of the property to retrieve
      * @param string value Specifies the value to insert
      */
-    public function setUserProperty($type, $name, $value)
+    public function setUserProperty($type, $name, $value): void
     {
         global $cfg;
 
@@ -261,7 +261,7 @@ class User extends Item
      * @param string type Specifies the type (class, category etc) for the property to retrieve
      * @param string name Specifies the name of the property to retrieve
      */
-    public function deleteUserProperty($type, $name)
+    public function deleteUserProperty($type, $name): void
     {
         global $cfg;
 
@@ -605,7 +605,7 @@ class User extends Item
      *
      * @param array|string $perms
      */
-    public function setPerms($perms)
+    public function setPerms(array|string $perms): void
     {
         $perms = implode(',', $perms);
         if ($this->get('perms') != $perms) {
@@ -615,12 +615,12 @@ class User extends Item
 
     public static function userExists(string $userId): bool
     {
-        return (new User())->loadByPrimaryKey($userId);
+        return new User()->loadByPrimaryKey($userId);
     }
 
     public static function usernameExists(string $username): bool
     {
-        return (new User())->loadBy('username', $username);
+        return new User()->loadBy('username', $username);
     }
 
 
@@ -635,43 +635,20 @@ class User extends Item
     {
         $cfgPw = \cRegistry::getConfigValue('passwort');
 
-        switch ($iErrorCode) {
-            case self::PASS_NOT_ENOUGH_MIXED_CHARS: {
-                $sError = sprintf(i18n("Please use at least %d lower and upper case characters in your password!"),
-                    $cfgPw['mixed_case_mandatory']);
-                break;
-            }
-            case self::PASS_NOT_ENOUGH_NUMBERS: {
-                $sError = sprintf(i18n("Please use at least %d numbers in your password!"),
-                    $cfgPw['numbers_mandatory']);
-                break;
-            }
-            case self::PASS_NOT_ENOUGH_SYMBOLS : {
-                $sError = sprintf(i18n("Please use at least %d symbols in your password!"),
-                    $cfgPw['symbols_mandatory']);
-                break;
-            }
-            case self::PASS_TO_SHORT: {
-                $sError = sprintf(i18n("Password is too short! Please use at least %d signs."),
-                    ($cfgPw['min_length'] >  0 ? $cfgPw['min_length'] :
-                        self::MIN_PASS_LENGTH_DEFAULT));
-                break;
-            }
-            case self::PASS_NOT_ENOUGH_DIFFERENT_CHARS : {
-                $sError = sprintf(i18n("Password does not contain enough different characters."));
-                break;
-            }
-            case self::PASS_NOT_STRONG: {
-                $sError = i18n("Please choose a more secure password!");
-                break;
-            }
-            default: {
-                $sError = "I do not really know whats happened. But your password does not match the
-                            policies! Please consult your administrator. The error code is #" . $iErrorCode;
-            }
-
-        }
-
-        return $sError;
+        return match ($iErrorCode) {
+            self::PASS_NOT_ENOUGH_MIXED_CHARS => sprintf(i18n("Please use at least %d lower and upper case characters in your password!"),
+                $cfgPw['mixed_case_mandatory']),
+            self::PASS_NOT_ENOUGH_NUMBERS => sprintf(i18n("Please use at least %d numbers in your password!"),
+                $cfgPw['numbers_mandatory']),
+            self::PASS_NOT_ENOUGH_SYMBOLS => sprintf(i18n("Please use at least %d symbols in your password!"),
+                $cfgPw['symbols_mandatory']),
+            self::PASS_TO_SHORT => sprintf(i18n("Password is too short! Please use at least %d signs."),
+                ($cfgPw['min_length'] > 0 ? $cfgPw['min_length'] :
+                    self::MIN_PASS_LENGTH_DEFAULT)),
+            self::PASS_NOT_ENOUGH_DIFFERENT_CHARS => i18n("Password does not contain enough different characters."),
+            self::PASS_NOT_STRONG => i18n("Please choose a more secure password!"),
+            default => "I do not really know whats happened. But your password does not match the
+                            policies! Please consult your administrator. The error code is #" . $iErrorCode,
+        };
     }
 }

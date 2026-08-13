@@ -25,7 +25,7 @@
         "rector/rector": "^2.0"
     },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan -vv"
+    "phpstan": "vendor/bin/phpstan"
   },
     "autoload": {
         "psr-4": {
