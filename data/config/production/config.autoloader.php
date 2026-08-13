@@ -153,7 +153,7 @@ return array(
     'cModuleInputHelper' => 'conlite/classes/class.input.helper.php',
     'Contenido_Security_Exception' => 'conlite/classes/class.security.php',
     'Contenido_Security' => 'conlite/classes/class.security.php',
-    'cSecurity' => 'conlite/classes/class.security.php',
+    'cSecurity' => 'conlite/classes/Migrate/class.security.php',
     'cCharacterConverter' => 'conlite/classes/class.chartable.php',
     'XmlTree' => 'conlite/classes/class.xmltree.php',
     'XmlNode' => 'conlite/classes/class.xmltree.php',
