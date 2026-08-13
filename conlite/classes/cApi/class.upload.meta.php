@@ -86,15 +86,14 @@ class cApiUploadMeta extends Item {
         }
     }
     
-    public function setField($name, $value, $bSafe = true) {
+    public function setField($name, $value, $safe = true): bool
+    {
         switch ($name) {
             case 'idupl':
             case 'idlang':
                 $value = (int) $value;
                 break;
         }
-
-        parent::setField($name, $value, $bSafe);
+        return parent::setField($name, $value, $safe);
     }
 }
-?>

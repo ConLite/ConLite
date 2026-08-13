@@ -28,6 +28,8 @@
  * 
  */
 
+use ConLite\Migrate\cSecurity;
+
 if(!defined('CON_FRAMEWORK')) {
 	die('Illegal call');
 }

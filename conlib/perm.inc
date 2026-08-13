@@ -29,6 +29,9 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -509,9 +512,6 @@ class Contenido_Perm {
         return $oUser;
     }
 
-    /**
-     * @deprecated
-     */
     function have_perm_client($p = 'x') {
         global $auth, $client;
 
@@ -576,7 +576,7 @@ class Contenido_Perm {
         if (!$this->have_perm()) {
 
             if (!is_object($this->db)) {
-                $this->db = new DB_Contenido;
+                $this->db = new DbConLite();
             }
 
             $this->showareas($mainarea);

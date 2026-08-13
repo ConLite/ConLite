@@ -215,9 +215,12 @@ class DbConLite
         return ($this->num_rows() > 0) ? $this->Record : [];
     }
 
-    public function escape($string): string
+    public function escape(mixed $string): mixed
     {
-        return (is_null($string))?'':addslashes($string);
+        if (is_string($string)) {
+            return $this->db->addQ($string);
+        }
+        return $string;
     }
 
     public function nextid($seqName)

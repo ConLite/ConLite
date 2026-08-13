@@ -202,6 +202,11 @@ class cRegistry {
         return self::getBackendPath().self::getConfigValue('path', 'plugins');
     }
 
+    public static function getFrame(): string
+    {
+        return (string) self::_fetchGlobalVariable('frame', '');
+    }
+
     /**
      * Returns Id for current session
      * 
@@ -214,6 +219,43 @@ class cRegistry {
         }
         return NULL;
     }
+
+    public static function getSession(): ?Contenido_Session
+    {
+        $value = self::_fetchGlobalVariable('sess');
+
+        return $value instanceof Contenido_Session ? $value : null;
+    }
+
+    public static function getAuth(): ?Contenido_Challenge_Crypt_Auth
+    {
+        $value = self::_fetchGlobalVariable('auth');
+
+        return $value instanceof Contenido_Challenge_Crypt_Auth ? $value : null;
+    }
+
+    public static function getArea(): string
+    {
+        return (string) self::_fetchGlobalVariable('area');
+    }
+
+    public static function getAction(): string
+    {
+        return (string) self::_fetchGlobalVariable('action');
+    }
+
+    public static function getPerm(): ?Contenido_Perm
+    {
+        $value = self::_fetchGlobalVariable('perm');
+
+        return $value instanceof Contenido_Perm ? $value : null;
+    }
+
+    public static function getChangeLang(): int
+    {
+        return (int) self::_fetchGlobalVariable('changelang');
+    }
+
     
     /**
      * Checks if backend edit mode active or not
@@ -244,7 +286,29 @@ class cRegistry {
 
         return $GLOBALS[$variableName];
     }
-    
+
+    public static function getBackendLanguage(): string
+    {
+        return (string) self::_fetchGlobalVariable('belang');
+    }
+
+    /**
+     * Fetches global template object
+     *
+     * @return Template|null
+     */
+    public static function getTemplate(): ?Template
+    {
+        $value = self::_fetchGlobalVariable('tpl');
+
+        return $value instanceof Template ? $value : null;
+    }
+
+    public static function getCurrentUser()
+    {
+        return (string) self::_fetchGlobalVariable('currentuser');
+    }
+
     protected final static function _fetchItemObject($apiClassName, $objectId) {
         if ((int) $objectId <= 0) {
             throw new cInvalidArgumentException('Object ID must be greater than 0.');

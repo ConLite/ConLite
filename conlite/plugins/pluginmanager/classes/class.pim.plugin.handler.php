@@ -6,6 +6,9 @@
  * 
  * $Id: class.pim.plugin.handler.php 39 2018-01-10 07:49:57Z oldperl $
  */
+
+use ConLite\Migrate\cSecurity;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }

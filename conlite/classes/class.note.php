@@ -70,7 +70,7 @@ class NoteCollection extends CommunicationCollection {
      * @return object    The new item
      * @access public
      */
-    public function create($itemtype, $itemid, $idlang, $message, $category = "") {
+    public function createNode($itemtype, $itemid, $idlang, $message, $category = "") {
         $item = parent::createNewItem();
 
         $item->set("subject", "Note Item");
@@ -139,7 +139,7 @@ class NoteList extends cHTMLDiv {
             $items[] = $oProperty->get("itemid");
         }
 
-        $oNoteItems = new NoteCollection;
+        $oNoteItems = new NoteCollection();
 
         if (count($items) == 0) {
             $items[] = 0;

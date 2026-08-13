@@ -76,7 +76,11 @@ if (!defined('CL_VERSION')) {
 
 }
 
+// init composer autoload
+include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
+
 // 1. security check: Include security class and invoke basic request checks
+include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/classes/Migrate/class.security.php');
 include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/classes/class.security.php');
 try {
     Contenido_Security::checkRequests();
@@ -135,8 +139,6 @@ require_once($cfg['path']['conlite'] . $cfg['path']['includes'] . '/api/function
 // Initialization of autoloader
 include_once($cfg['path']['conlite'] . $cfg['path']['classes'] . 'class.autoload.php');
 cAutoload::initialize($cfg);
-// init composer autoload
-include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 
 
 // 2. security check: Check HTTP parameters, if requested
