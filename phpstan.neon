@@ -5,6 +5,7 @@ parameters:
     level: 1
     paths:
         - conlite
+        - conlib
         - setup
     excludePaths:
         - conlite/plugins/pluginmanager/docs/pear/*
