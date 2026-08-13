@@ -1,5 +1,12 @@
 <?php
 
+global $notification;
+
+use ConLite\Conlite\User;
+use ConLite\Conlite\UserCollection;
+use ConLite\GenericDb\ItemException;
+use ConLite\System\Security;
+
 /**
  * Project:
  * Contenido Content Management System
@@ -19,29 +26,16 @@
  * @link       http://www.4fb.de
  * @link       http://www.contenido.org
  * @since      file available since contenido release <= 4.6
- *
- * {@internal
- *   created 2003-04-30
- *   modified 2008-06-24, Timo Trautmann, storage for valid from valid to added
- *   modified 2008-06-27, Frederic Schneider, add security fix
- *   modified 2008-08-26, Timo Trautmann - fixed CON-200 - User can only get lang rights, if he has client access
- *   modified 2008-10-??, Bilal Arslan - direct DB user modifications are now encapsulated in new ConUser class
- *   modified 2008-11-17, Holger Librenz - method calls for new user object modified, comments updated
- *   modified 2009-11-06, Murat Purc, replaced deprecated functions (PHP 5.3 ready)
- *   modified 2011-02-07, Murat Purc, Cleanup, optimization and formatting
- *
- *   $Id$:
- * }}
- *
- * TODO error handling!!!
- * TODO export functions to new ConUser object!
  */
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-
 cInclude('includes', 'functions.rights.php');
+
+$perm = cRegistry::getPerm();
+$area = cRegistry::getArea();
+$action = cRegistry::getAction();
 
 if (!($perm->have_perm_area_action($area, $action) || $perm->have_perm_area_action('user', $action))) {
     // access denied
@@ -50,32 +44,61 @@ if (!($perm->have_perm_area_action($area, $action) || $perm->have_perm_area_acti
 }
 
 if (!isset($userid)) {
-    // no user id, get out here
     return;
 }
 
-$aPerms = array();
+$aPerms = [];
 $bError = false;
 $sNotification = '';
+$auth = cRegistry::getAuth();
+$sess = cRegistry::getSession();
+$belang = cRegistry::getBackendLanguage();
+$db = cRegistry::getDb();
+$tpl = cRegistry::getTemplate();
+
+$postArray = filter_input_array(INPUT_POST, [
+    'realname' => FILTER_SANITIZE_STRING,
+    'password' => FILTER_SANITIZE_STRING,
+    'passwordagain' => FILTER_SANITIZE_STRING,
+    'email' => [FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL],
+    'telephone' => FILTER_SANITIZE_STRING,
+    'address_street' => FILTER_SANITIZE_STRING,
+    'address_zip' => FILTER_SANITIZE_STRING,
+    'address_city' => FILTER_SANITIZE_STRING,
+    'address_country' => FILTER_SANITIZE_STRING,
+    'mclient' => [
+        'filter' => FILTER_VALIDATE_INT,
+        'flags' => FILTER_REQUIRE_ARRAY
+    ],
+    'mlang' => [
+        'filter' => FILTER_VALIDATE_INT,
+        'flags' => FILTER_REQUIRE_ARRAY
+    ],
+    'wysi' => FILTER_VALIDATE_BOOL,
+    'valid_from' => FILTER_SANITIZE_STRING,
+    'valid_to' => FILTER_SANITIZE_STRING,
+]);
+
 
 // delete user
 if ($action == 'user_delete') {
-    $oUsers = new Users();
-    $oUsers->deleteUserByID($userid);
+    $users = new UserCollection();
+    $users->deleteBy('user_id', $userid);
 
-    $sql = "DELETE FROM " . $cfg["tab"]["groupmembers"]
-            . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
+    $sql = "DELETE FROM " . cRegistry::getConfigValue('tab', 'groupmembers')
+        . " WHERE user_id = '" . Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
-    $sql = "DELETE FROM " . $cfg["tab"]["rights"]
-            . " WHERE user_id = '" . Contenido_Security::escapeDB($userid, $db) . "'";
+    $sql = "DELETE FROM " . cRegistry::getConfigValue('tab', 'rights')
+        . " WHERE user_id = '" . Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
-    $sNotification = $notification->displayNotification("info", i18n("User deleted"));
+    $sNotification = $notification->returnNotification("info", i18n("User deleted"));
     $sTemplate = '
+<!doctype html>
 <html>
 <head>
-    <title></title>
+    <title>' . i18n("User deleted") . '</title>
     <link rel="stylesheet" type="text/css" href="styles/contenido.css">
     <script type="text/javascript">
         parent.parent.frames["left"].frames["left_bottom"].location.reload();
@@ -95,88 +118,131 @@ if ($action == 'user_delete') {
 
 // edit user
 if ($action == 'user_edit') {
-    $aPerms = buildUserOrGroupPermsFromRequest();
+    $cleanRealname = preg_replace('/["\'\/\§$%&]/i', '', $postArray['realname']);
 
-    // update user values
-    // New Class User, update password and other values
-    $oConUser = new ConUser($cfg, $db);
-    $oConUser->setUserId($userid);
-    $oConUser->setRealName($realname);
-    $oConUser->setMail($email);
-    $oConUser->setTelNumber($telephone);
-    $oConUser->setAddressData($address_street, $address_city, $address_zip, $address_country);
-    $oConUser->setUseTiny($wysi);
-    $oConUser->setValidDateFrom($valid_from);
-    $oConUser->setValidDateTo($valid_to);
-    $oConUser->setPerms($aPerms);
+    if ($postArray['realname'] !== $cleanRealname) {
+        $sNotification = $notification->returnNotification("warning", i18n("Special characters in name are not allowed."));
+        $bError = true;
+    } else {
+        if (is_array($postArray['mclient']) && count($postArray['mclient']) > 0) {
+            // Prevent setting the permissions for a client without a language of that client
+            foreach ($postArray['mclient'] as $selectedClient) {
+                // Get all available languages for selected client
+                $clientLanguageCollection = new cApiClientLanguageCollection();
+                $availablelanguages = $clientLanguageCollection->getLanguagesByClient($selectedClient);
 
-    // is a password set?
-    $bPassOk = false;
-    if (strlen($password) > 0) {
-        // yes --> check it...
-        if (strcmp($password, $passwordagain) == 0) {
-            // set password....
-            $iPasswordSaveResult = $oConUser->setPassword($password);
-
-            // fine, passwords are the same, but is the password valid?
-            if ($iPasswordSaveResult != iConUser::PASS_OK) {
-                // oh oh, password is NOT valid. check it...
-                $sPassError = ConUser::getErrorString($iPasswordSaveResult, $cfg);
-                $sNotification = $notification->returnNotification("error", $sPassError);
-                $bError = true;
-            } else {
-                $bPassOk = true;
+                if (is_array($postArray['mlang']) && count($postArray['mlang']) == 0) {
+                    // User has no selected language
+                    $sNotification = $notification->returnNotification("warning", i18n("Please select a language for your selected client."));
+                    $bError = true;
+                } elseif (!$availablelanguages) {
+                    // Client has no assigned language(s)
+                    $sNotification = $notification->returnNotification("warning", i18n("You can only assign users to a client with languages."));
+                    $bError = true;
+                } else {
+                    // Client has one or more assigned language(s)
+                    foreach ($postArray['mlang'] as $selectedlanguage) {
+                        if (!$clientLanguageCollection->hasLanguageInClients($selectedlanguage, $postArray['mclient'])) {
+                            // Selected language are not assigned to selected client
+                            $sNotification = $notification->returnNotification("warning", i18n("You have to select a client with a language of that client."));
+                            $bError = true;
+                        }
+                        if ($bError) {
+                            break;
+                        }
+                    }
+                }
+                if ($bError) {
+                    break;
+                }
             }
-        } else {
-            $sNotification = $notification->returnNotification("error", i18n("Passwords don't match"));
-            $bError = true;
         }
-    }
 
-    if (strlen($password) == 0 || $bPassOk == true) {
         try {
-            // save, if no error occured..
-            if ($oConUser->save()) {
-                $sNotification = $notification->returnNotification("info", i18n("Changes saved"));
-                $bError = true;
-            } else {
-                $sNotification = $notification->returnNotification("error", i18n("An error occured while saving user info."));
-                $bError = true;
-            }
-        } catch (ConUserException $cue) {
-            // TODO make check and info ouput better!
-            $sNotification = $notification->returnNotification("error", i18n("An error occured while saving user info."));
+            $user = new User($userid);
+        } catch (ItemException $e) {
+            $sNotification = $notification->returnNotification("error", i18n("Cannot load User"));
             $bError = true;
         }
+
+        if (!$bError) {
+            $aPerms = buildUserOrGroupPermsFromRequest();
+
+            if(isset($user) && $user instanceof User && $user->isLoaded()) {
+
+                $user->setRealName($postArray['realname']);
+                $user->setMail($postArray['email']);
+                $user->setTelNumber($postArray['telephone']);
+                $user->setAddressData($postArray['address_street'], $postArray['address_city'], $postArray['address_zip'], $postArray['address_country']);
+                $user->setUseWysi($postArray['wysi']);
+                $user->setValidDateFrom($postArray['valid_from']);
+                $user->setValidDateTo($postArray['valid_to']);
+                $user->setPerms($aPerms);
+
+                // is a password set?
+                $bPassOk = false;
+                if (strlen($postArray['password']) > 0) {
+                    // yes --> check it...
+                    if (strcmp($postArray['password'], $postArray['passwordagain']) == 0) {
+                        // set password....
+                        $iPasswordSaveResult = $user->setPassword($postArray['password']);
+
+                        // fine, passwords are the same, but is the password valid?
+                        if ($iPasswordSaveResult != User::PASS_OK) {
+                            // oh oh, password is NOT valid. check it...
+                            $sPassError = User::getErrorString($iPasswordSaveResult);
+                            $sNotification = $notification->returnNotification("error", $sPassError);
+                        } else {
+                            $bPassOk = true;
+                        }
+                    } else {
+                        $sNotification = $notification->returnNotification("error", i18n("Passwords don't match"));
+                    }
+                }
+
+                if ($user->isLoaded() && (strlen($postArray['password']) == 0 || $bPassOk)) {
+                    if ($user->save()) {
+                        $sNotification = $notification->returnNotification("info", i18n("Changes saved"));
+                    } else {
+                        $sNotification = $notification->returnNotification("error", i18n("An error occured while saving user info."));
+                    }
+                }
+            }
+        }
+        unset($user);
     }
 }
 
-
-// TODO port this to new ConUser class!
-$oUser = new User();
-$oUser->loadUserByUserID(Contenido_Security::escapeDB($userid, $db));
+try {
+    $user = new User($userid);
+} catch (ItemException $e) {
+    $notification->displayNotification("error", i18n("User not found"));
+    return;
+}
 
 // delete user property
-if (!empty($del_userprop_type) 
-        && !empty($del_userprop_name)
-        && is_string($del_userprop_type) 
-        && is_string($del_userprop_name)) {
-    $oUser->deleteUserProperty($del_userprop_type, $del_userprop_name);
+if (!empty($del_userprop_type)
+    && !empty($del_userprop_name)
+    && is_string($del_userprop_type)
+    && is_string($del_userprop_name)) {
+    $user->deleteUserProperty($del_userprop_type, $del_userprop_name);
 }
 
 // edit user property
-if (!empty($userprop_type) 
-        && !empty($userprop_name)
-        && is_string($userprop_type)
-        && is_string($userprop_name)
-        && is_string($userprop_value)) {
-    $oUser->setUserProperty($userprop_type, $userprop_name, $userprop_value);
+if (!empty($userprop_type)
+    && !empty($userprop_name)
+    && isset($userprop_value)
+    && is_string($userprop_type)
+    && is_string($userprop_name)
+    && is_string($userprop_value)) {
+    $user->setUserProperty($userprop_type, $userprop_name, $userprop_value);
 }
 
 if (count($aPerms) == 0 || $action == '' || !isset($action)) {
-    $aPerms = explode(',', $oUser->getField('perms'));
+    $aPerms = explode(',', $user->getField('perms'));
 }
 
+$cfgColor = cRegistry::getConfigValue('color');
 
 $tpl->reset();
 $tpl->set('s', 'SID', $sess->id);
@@ -186,85 +252,85 @@ $form = '<form name="user_properties" method="post" action="' . $sess->url("main
              ' . $sess->hidden_session(true) . '
              <input type="hidden" name="area" value="' . $area . '">
              <input type="hidden" name="action" value="user_edit">
-             <input type="hidden" name="frame" value="' . $frame . '">
+             <input type="hidden" name="frame" value="' . cRegistry::getFrame() . '">
              <input type="hidden" name="userid" value="' . $userid . '">
-             <input type="hidden" name="idlang" value="' . $lang . '">';
+             <input type="hidden" name="idlang" value="' . cRegistry::getLanguageId() . '">';
 
 $tpl->set('s', 'FORM', $form);
 $tpl->set('s', 'GET_USERID', $userid);
-$tpl->set('s', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('s', 'BGCOLOR', $cfg["color"]["table_dark"]);
+$tpl->set('s', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('s', 'BGCOLOR', $cfgColor["table_dark"]);
 $tpl->set('s', 'SUBMITTEXT', i18n("Save changes"));
 $tpl->set('s', 'CANCELTEXT', i18n("Discard changes"));
 $tpl->set('s', 'CANCELLINK', $sess->url("main.php?area=$area&frame=4&userid=$userid"));
 
 $tpl->set('d', 'CATNAME', i18n("Property"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_header"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_header"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
 $tpl->set('d', 'CATFIELD', i18n("Value"));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Username"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', $oUser->getField('username') . '<img align="top" src="images/spacer.gif" height="20">');
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', $user->getField('username') . '<img style="vertical-align: top;" src="images/spacer.gif" height="20">');
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Name"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', formGenerateField("text", "realname", $oUser->getField('realname'), 40, 255));
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', formGenerateField("text", "realname", $user->getField('realname'), 40, 255));
 $tpl->next();
 
 // @since 2006-07-04 Display password fields only if not authenticated via LDAP/AD
-if ((isset($msysadmin) && $msysadmin) || $oUser->getField('password') != 'active_directory_auth') {
+if ((isset($msysadmin) && $msysadmin) || $user->getField('password') != 'active_directory_auth') {
     $tpl->set('d', 'CATNAME', i18n("New password"));
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
     $tpl->set('d', 'CATFIELD', formGenerateField('password', 'password', '', 40, 255));
     $tpl->next();
 
     $tpl->set('d', 'CATNAME', i18n("Confirm new password"));
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
     $tpl->set('d', 'CATFIELD', formGenerateField('password', 'passwordagain', '', 40, 255));
     $tpl->next();
 }
 
 $tpl->set('d', 'CATNAME', i18n("E-Mail"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'email', $oUser->getField('email'), 40, 255));
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'email', $user->getField('email'), 40, 255));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Phone number"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'telephone', $oUser->getField('telephone'), 40, 255));
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'telephone', $user->getField('telephone'), 40, 255));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Street"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_street', $oUser->getField('address_street'), 40, 255));
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_street', $user->getField('address_street'), 40, 255));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("ZIP code"));
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_zip', $oUser->getField('address_zip'), 10, 10));
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_zip', $user->getField('address_zip'), 10, 10));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("City"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_city', $oUser->getField('address_city'), 40, 255));
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_city', $user->getField('address_city'), 40, 255));
 $tpl->next();
 
 $tpl->set('d', 'CATNAME', i18n("Country"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_country', $oUser->getField('address_country'), 40, 255));
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+$tpl->set('d', 'CATFIELD', formGenerateField('text', 'address_country', $user->getField('address_country'), 40, 255));
 $tpl->next();
 
 // permissions of current logged in user
@@ -273,8 +339,8 @@ $aAuthPerms = explode(',', $auth->auth['perm']);
 // sysadmin perm
 if (in_array('sysadmin', $aAuthPerms)) {
     $tpl->set('d', 'CATNAME', i18n("System administrator"));
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
     $tpl->set('d', 'CATFIELD', formGenerateCheckbox('msysadmin', '1', in_array('sysadmin', $aPerms)));
     $tpl->next();
 }
@@ -291,8 +357,8 @@ foreach ($aClients as $idclient => $item) {
 
 if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Administrator"));
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
 }
@@ -307,8 +373,8 @@ foreach ($aClients as $idclient => $item) {
 
 if ($sClientCheckboxes !== '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Access clients"));
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
 }
@@ -324,15 +390,15 @@ foreach ($aClientsLanguages as $item) {
 
 if ($sClientCheckboxes != '' && !in_array('sysadmin', $aPerms)) {
     $tpl->set('d', 'CATNAME', i18n("Access languages"));
-    $tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-    $tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+    $tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+    $tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
     $tpl->set('d', 'CATFIELD', $sClientCheckboxes);
     $tpl->next();
 }
 
 
 // user properties
-$aProperties = $oUser->getUserProperties();
+$aProperties = $user->getUserProperties();
 $sPropRows = '';
 foreach ($aProperties as $entry) {
     $type = $entry['type'];
@@ -345,14 +411,14 @@ foreach ($aProperties as $entry) {
             <td>' . $name . '</td>
             <td>' . $value . '</td>
             <td>
-                <a href="' . $sess->url("main.php?area=$area&frame=4&userid=$userid&del_userprop_type=$type&del_userprop_name=$name") . '"><img src="images/delete.gif" border="0" alt="Eigenschaft l�schen" title="Eigenschaft l�schen"></a>
+                <a href="' . $sess->url("main.php?area=$area&frame=4&userid=$userid&del_userprop_type=$type&del_userprop_name=$name") . '"><img src="images/delete.gif" alt="'.i18n("Delete property").'" title="'.i18n("Delete property").'"></a>
             </td>
         </tr>';
     }
 }
 $table = '
-    <table width="100%" cellspacing="0" cellpadding="2" style="border:1px solid ' . $cfg["color"]["table_border"] . ';">
-    <tr style="background-color:' . $cfg["color"]["table_header"] . '" class="text_medium">
+    <table width="100%" cellspacing="0" cellpadding="2" style="border:1px solid ' . $cfgColor["table_border"] . ';">
+    <tr style="background-color:' . $cfgColor["table_header"] . '" class="text_medium">
         <td>' . i18n("Area/Type") . '</td>
         <td>' . i18n("Property") . '</td>
         <td>' . i18n("Value") . '</td>
@@ -368,20 +434,20 @@ $table = '
     </table>';
 
 $tpl->set('d', 'CATNAME', i18n("User-defined properties"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
 $tpl->set('d', 'CATFIELD', $table);
 $tpl->next();
 
 // wysiwyg
 $tpl->set('d', 'CATNAME', i18n("Use WYSIWYG-Editor"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
-$tpl->set('d', 'CATFIELD', formGenerateCheckbox('wysi', '1', $oUser->getField('wysi')));
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
+$tpl->set('d', 'CATFIELD', formGenerateCheckbox('wysi', '1', $user->getField('wysi')));
 $tpl->next();
 
 // account active data (from-to)
-$sCurrentValueFrom = str_replace('00:00:00', '', $oUser->getField('valid_from'));
+$sCurrentValueFrom = str_replace('00:00:00', '', $user->getField('valid_from'));
 $sCurrentValueFrom = trim(str_replace('0000-00-00', '', $sCurrentValueFrom));
 $sCurrentValueFrom = trim(str_replace('1000-01-01', '', $sCurrentValueFrom));
 
@@ -401,12 +467,12 @@ $sInputValidFrom .= '<script type="text/javascript">
                      </script>';
 
 $tpl->set('d', 'CATNAME', i18n("Valid from"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
 $tpl->set('d', 'CATFIELD', $sInputValidFrom);
 $tpl->next();
 
-$sCurrentValueTo = str_replace('00:00:00', '', $oUser->getField('valid_to'));
+$sCurrentValueTo = str_replace('00:00:00', '', $user->getField('valid_to'));
 $sCurrentValueTo = trim(str_replace('0000-00-00', '', $sCurrentValueTo));
 $sCurrentValueTo = trim(str_replace('1000-01-01', '', $sCurrentValueTo));
 
@@ -422,8 +488,8 @@ $sInputValidTo .= '<script type="text/javascript">
                    </script>';
 
 $tpl->set('d', 'CATNAME', i18n("Valid to"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_light"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_light"]);
 $tpl->set('d', 'CATFIELD', $sInputValidTo);
 $tpl->next();
 
@@ -447,13 +513,13 @@ if (($sCurrentValueFrom > $sCurrentDate) || ($sCurrentValueTo < $sCurrentDate)) 
 }
 
 $tpl->set('d', 'CATNAME', '&nbsp;');
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
 $tpl->set('d', 'CATFIELD', '<span style="color:' . $sAccountColor . ';">' . $sAccountState . '</span>');
 $tpl->next();
 
 // Show backend user's group memberships
-$aGroups = $oUser->getGroupsByUserID($userid);
+$aGroups = $user->getGroupsByUserID($userid);
 if (count($aGroups) > 0) {
     asort($aGroups);
     $sGroups = implode("<br/>", $aGroups);
@@ -462,11 +528,10 @@ if (count($aGroups) > 0) {
 }
 
 $tpl->set('d', 'CATNAME', i18n("Group membership"));
-$tpl->set('d', 'BORDERCOLOR', $cfg["color"]["table_border"]);
-$tpl->set('d', 'BGCOLOR', $cfg["color"]["table_dark"]);
+$tpl->set('d', 'BORDERCOLOR', $cfgColor["table_border"]);
+$tpl->set('d', 'BGCOLOR', $cfgColor["table_dark"]);
 $tpl->set('d', 'CATFIELD', $sGroups);
 $tpl->next();
 
 // Generate template
 $tpl->generate($cfg['path']['templates'] . $cfg['templates']['rights_overview']);
-?>

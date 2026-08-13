@@ -244,14 +244,16 @@ class Article extends Item
      * external_redirect - Open article in new window
      * locked            - Article is locked for editing
      *
-     * @param string Property name
-     * @return mixed Property value
+     * @param string $name Property name
+     * @param bool $safe
+     * @return string Property value
      */
-    public function getField($name) {
+    public function getField($name, $safe = true): string
+    {
         if(!is_null($name) && !empty($this->values[$name])) {
             return urldecode($this->values[$name]);
         }
-        
+        return '';
     }
 
     /**

@@ -5,6 +5,7 @@ namespace ConLite\Session;
 use ConLite\Database\DbConLite;
 use ConLite\Exceptions\DatabaseException;
 use ConLite\Exceptions\InvalidArgumentException;
+use ReturnTypeWillChange;
 
 class Session implements \SessionHandlerInterface
 {
@@ -39,31 +40,37 @@ class Session implements \SessionHandlerInterface
         }
     }
 
+    #[ReturnTypeWillChange]
     public function close()
     {
         // TODO: Implement close() method.
     }
 
+    #[ReturnTypeWillChange]
     public function destroy(string $id)
     {
         // TODO: Implement destroy() method.
     }
 
+    #[ReturnTypeWillChange]
     public function gc(int $max_lifetime)
     {
         // TODO: Implement gc() method.
     }
 
+    #[ReturnTypeWillChange]
     public function open(string $path, string $name)
     {
         // TODO: Implement open() method.
     }
 
+    #[ReturnTypeWillChange]
     public function read(string $id)
     {
         // TODO: Implement read() method.
     }
 
+    #[ReturnTypeWillChange]
     public function write(string $id, string $data)
     {
         // TODO: Implement write() method.

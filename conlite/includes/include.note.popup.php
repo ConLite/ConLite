@@ -37,7 +37,7 @@ $cpage = new cPage;
 
 if ($action == "note_save_item")
 {
-	$notes = new NoteCollection;
+	$notes = new NoteCollection();
 	
 	$note = stripslashes(nl2br($note));
 	
@@ -51,7 +51,7 @@ if ($action == "note_save_item")
 		$categoryname = $categoryentry;	
 	}
 	
-	$item = $notes->create($itemtype, $itemid, $lang, $note, $categoryname);
+	$item = $notes->createNode($itemtype, $itemid, $lang, $note, $categoryname);
 	$item->store();
 	
 	$cpage->setContent("<script>window.close();</script>");

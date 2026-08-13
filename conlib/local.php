@@ -42,9 +42,10 @@ if (!defined('CON_FRAMEWORK')) {
 
 /**
  * DB-class for all DB handling
+ *
+ * @deprecated use parent class (@see DbConLite) direct
  */
 class DB_ConLite extends DbConLite {
-    protected bool $NoRecord;
 
     /**
      * Constructor of database class.

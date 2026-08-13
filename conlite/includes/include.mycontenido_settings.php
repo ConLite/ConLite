@@ -68,7 +68,11 @@ if ($action == "mycontenido_editself")
     		$noti = $notification->returnNotification("error", $error)."<br>";
     	} else {
             // New Class User, update password
-            $oUser = new ConUser($cfg, $db, $auth->auth['uid']);
+            $user = new \ConLite\Conlite\User($auth->auth['uid']);
+            if($user->isLoaded()) {
+                $user->setPassword();
+            }
+
             $iResult = $oUser->savePassword($newpassword);
 
             #$user->set("password", md5($newpassword));

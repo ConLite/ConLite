@@ -145,10 +145,7 @@ class cArticleCollector implements SeekableIterator, Countable {
         $this->_aOptions = array_merge($this->_aOptionsDefault, $aOptions);
     }
 
-    /**
-     * 
-     * @return int article count
-     */
+    #[ReturnTypeWillChange]
     public function count() {
         return count($this->_aArticles);
     }
@@ -191,6 +188,7 @@ class cArticleCollector implements SeekableIterator, Countable {
      * 
      * @return int current position
      */
+    #[ReturnTypeWillChange]
     public function key() {
         return $this->_iCurrentPosition;
     }
@@ -198,6 +196,7 @@ class cArticleCollector implements SeekableIterator, Countable {
     /**
      * 
      */
+    #[ReturnTypeWillChange]
     public function next() {
         ++$this->_iCurrentPosition;
     }
@@ -205,6 +204,7 @@ class cArticleCollector implements SeekableIterator, Countable {
     /**
      * set iterator to start position
      */
+    #[ReturnTypeWillChange]
     public function rewind() {
         $this->_iCurrentPosition = 0;
     }
@@ -214,6 +214,7 @@ class cArticleCollector implements SeekableIterator, Countable {
      * @param type $position
      * @throws OutOfBoundsException
      */
+    #[ReturnTypeWillChange]
     public function seek($position) {
         $this->_iCurrentPosition = $position;
 
@@ -227,6 +228,7 @@ class cArticleCollector implements SeekableIterator, Countable {
      * 
      * @return boolean
      */
+    #[ReturnTypeWillChange]
     public function valid() {
         return isset($this->_aArticles[$this->_iCurrentPosition]);
     }

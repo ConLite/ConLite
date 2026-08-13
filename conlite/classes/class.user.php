@@ -717,48 +717,7 @@ class User {
         return ($db->f('realname'));
     }
 
-    /**
-     * Returns the groups a user is in
-     * @param   int    $userid
-     * @return  array  Real names of groups
-     */
-    function getGroupsByUserID($userid) {
-        global $cfg;
 
-        $db = new DB_ConLite();
-
-        $sql = "SELECT
-                    a.group_id
-                FROM
-                    " . $cfg['tab']['groups'] . " AS a,
-                    " . $cfg['tab']['groupmembers'] . " AS b
-                WHERE
-                    (a.group_id  = b.group_id)
-                    AND
-                    (b.user_id = '" . Contenido_Security::escapeDB($userid, $db) . "')
-                ";
-
-        $db->query($sql);
-
-        $arrGroups = array();
-
-        $oGroup = new Group();
-
-        while ($db->nextRecord()) {
-            $oGroup->loadGroupByGroupID($db->f('group_id'));
-            $sTemp = $oGroup->getField('groupname');
-            $sTemp = substr($sTemp, 4, strlen($sTemp) - 4);
-
-            $sDescription = trim($oGroup->getField('description'));
-
-            if ($sDescription != '') {
-                $sTemp .= ' (' . $sDescription . ')';
-            }
-
-            $arrGroups[] = $sTemp;
-        }
-        return $arrGroups;
-    }
 
     /**
      * Returns the groups a user is in

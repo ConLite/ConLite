@@ -195,66 +195,102 @@ abstract class Item extends ItemBaseAbstract
 
     }
 
+    public function getId()
+    {
+        return $this->getField($this->getPrimaryKeyName(), false);
+    }
+
+    public function getPrimaryKeyName(): string
+    {
+        return $this->primaryKey;
+    }
+
+
     /**
      * Gets the value of a specific field.
      *
-     * @param string $sField Specifies the field to retrieve
+     * @param $name
+     * @param bool $safe
      * @return  mixed   Value of the field
      */
-    public function getField($sField)
+    public function getField($name, bool $safe = true): mixed
     {
-        if ($this->virgin == true) {
+        if (!$this->isLoaded()) {
             $this->lasterror = 'No item loaded';
             return false;
         }
-        return $this->_outFilter($this->values[$sField]);
+
+        if($safe) {
+            return $this->_outFilter($this->values[$name]);
+        } else {
+            return $this->values[$name];
+        }
     }
 
     /**
      * Wrapper for getField (less to type).
      *
-     * @param string $sField Specifies the field to retrieve
+     * @param string $name
+     * @param bool $safe
      * @return  mixed   Value of the field
      */
-    public function get($sField)
+    public function get(string $name, bool $safe = true)
     {
-        return $this->getField($sField);
+        return $this->getField($name, $safe);
     }
 
     /**
      * Sets the value of a specific field.
      *
-     * @param string $sField Field name
-     * @param string $mValue Value to set
-     * @param bool $bSafe Flag to run defined inFilter on passed value
+     * @param string $name
+     * @param mixed $value
+     * @param bool $safe
+     * @return bool
      */
-    public function setField($sField, $mValue, $bSafe = true): bool
+    public function setField($name, $value, $safe = true): bool
     {
-        if ($this->virgin == true) {
+        if (!$this->isLoaded()) {
             $this->lasterror = 'No item loaded';
             return false;
         }
 
-        $this->modifiedValues[$sField] = true;
-
-        if ($sField == $this->primaryKey) {
-            $this->oldPrimaryKey = $this->values[$sField];
+        if ($name == $this->getPrimaryKeyName()) {
+            $this->oldPrimaryKey = $this->values[$name];
         }
 
-        $this->values[$sField] = $bSafe == true ? $this->_inFilter($mValue) : $mValue;
+        // Apply filter on value
+        if ($safe) {
+            $value = $this->_inFilter($value);
+        }
+        // Flag as modified
+        $modified = false;
+        if (!isset($this->values[$name])) {
+            $modified = true;
+        } elseif ($this->values[$name] !== $value) {
+            $modified = true;
+        }
+        if ($modified) {
+            if (!is_array($this->modifiedValues)) {
+                $this->modifiedValues = [];
+            }
+            $this->modifiedValues[$name] = true;
+        }
+
+        $this->values[$name] = $value;
+
         return true;
     }
 
+
     /**
-     * Shortcut to setField.
-     *
-     * @param string $sField Field name
-     * @param string $mValue Value to set
-     * @param bool $bSafe Flag to run defined inFilter on passed value
+     * @param string $name
+     * @param mixed $value
+     * @param bool $safe
+     * @return bool
      */
-    public function set($sField, $mValue, $bSafe = true)
+    public function set($name, $value, $safe = true)
     {
-        return $this->setField($sField, $mValue, $bSafe);
+        return $this->setField($name, $value, $safe);
     }
 
     /**
@@ -269,33 +305,22 @@ abstract class Item extends ItemBaseAbstract
             return false;
         }
 
-        $sql = 'UPDATE `' . $this->table . '` SET ';
-        $first = true;
-
         if (!is_array($this->modifiedValues)) {
             return true;
         }
 
-        foreach (array_keys($this->modifiedValues) as $key) {
-            if ($first == true) {
-                $sql .= "`$key` = '" . $this->values[$key] . "'";
-                $first = false;
-            } else {
-                $sql .= ", `$key` = '" . $this->values[$key] . "'";
-            }
-        }
-
-        $sql .= " WHERE " . $this->primaryKey . " = '" . $this->oldPrimaryKey . "'";
-
+        $sql = $this->buildStoreQuery($this->modifiedValues);
         $this->db->query($sql);
 
         $this->_lastSQL = $sql;
 
         if ($this->db->affectedRows() > 0) {
             self::$_oCache->addItem($this->table . "_" . $this->oldPrimaryKey, $this->values);
+            $this->modifiedValues = null;
+            return true;
         }
 
-        return ($this->db->affectedRows() >= 1);
+        return false;
     }
 
     /**
@@ -511,6 +536,37 @@ abstract class Item extends ItemBaseAbstract
             $_metaObjectCache[$qclassname] = new $sClassName($this);
             return $_metaObjectCache[$qclassname];
         }
+    }
+
+    protected function buildStoreQuery($fields)
+    {
+        $sqlFields = [];
+        $modified = array_keys($fields);
+
+        foreach ($modified as $key) {
+            $value = $this->values[$key];
+            if (is_int($value) || is_float($value) || is_bool($value)) {
+                if (is_bool($value)) {
+                    $value = $value ? '1' : '0';
+                }
+                $sqlFields[] = "`$key` = " . $value;
+            } elseif (is_null($value)) {
+                $sqlFields[] = "`$key` = NULL";
+            } else {
+                // Treat everything else as a string
+                $sqlFields[] = "`$key` = '" . $this->db->escape($value) . "'";
+            }
+        }
+
+        $sql = 'UPDATE `' . $this->table . '` SET ' . implode(', ', $sqlFields);
+        $sql .= " WHERE `" . $this->getPrimaryKeyName() . "` = ";
+        if (is_string($this->oldPrimaryKey)) {
+            $sql .= "'" . $this->oldPrimaryKey . "'";
+        } else {
+            $sql .= $this->oldPrimaryKey;
+        }
+
+        return $sql;
     }
 
 }

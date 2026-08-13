@@ -678,11 +678,8 @@ class Contenido_Categories extends Contenido_Category_Base implements IteratorAg
 
     /**
      * Interface method for ArrayAccess.
-     * @access public
-     * @param int $mOffset
-     * @return boolean
-     * @author Rudi Bieller
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($mOffset)
     {
         return array_key_exists($this->aContenidoCategories, $mOffset);
@@ -690,11 +687,8 @@ class Contenido_Categories extends Contenido_Category_Base implements IteratorAg
 
     /**
      * Interface method for ArrayAccess.
-     * @access public
-     * @param int $mOffset
-     * @return obj
-     * @author Rudi Bieller
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($mOffset)
     {
         return $this->aContenidoCategories[$mOffset];

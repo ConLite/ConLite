@@ -5,7 +5,7 @@
  * Contenido Content Management System
  *
  * Description:
- * Creates/Updates the database tables and fills them with entries (depending on 
+ * Creates/Updates the database tables and fills them with entries (depending on
  * selected options during setup process)
  *
  * @package    Contenido setup
@@ -179,7 +179,7 @@ if ($currentstep < $totalsteps) {
         $cfgClient = [];
         rereadClients_Setup();
 
-        $oVersion = new VersionImport($cfg, $cfgClient, $db, $client, $area, $frame);
+        $oVersion = new VersionImport(cRegistry::getConfig(), cRegistry::getClientConfig(), cRegistry::getDb(), cRegistry::getClientId(), cRegistry::getArea(), cRegistry::getFrame());
         $oVersion->CreateHistoryVersion();
     }
 

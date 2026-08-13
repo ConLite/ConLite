@@ -387,10 +387,16 @@ class cApiModule extends Item {
         }
     }
 
-    public function getField($field) {
-        $value = parent::getField($field);
+    /**
+     * @param $name
+     * @param $safe
+     * @return mixed
+     */
+    public function getField($name, $safe = true): mixed
+    {
+        $value = parent::getField($name);
 
-        if ($field === "name" && $value == "") {
+        if ($name === "name" && $value == "") {
             $value = i18n("- Unnamed Module -");
         }
         return ($value);
