@@ -1,0 +1,21 @@
+# phpstan.neon
+includes:
+	- phpstan-baseline.neon
+
+parameters:
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    level: 4
+    paths:
+        - conlite
+        - conlib
+        - setup
+    excludePaths:
+        - conlite/plugins/pluginmanager/docs/pear/*
+    ignoreErrors:
+        -
+            identifiers:
+                - property.notFound
+                - method.notFound
+                - variable.undefined
+

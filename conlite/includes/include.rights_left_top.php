@@ -28,6 +28,9 @@
  * }}
  * 
  */
+
+use ConLite\Conlite\UserCollection;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -37,17 +40,20 @@ $_REQUEST["sortby"] = (empty($_REQUEST["sortby"]))?'': htmlspecialchars($_REQUES
 $_REQUEST["sortorder"] = (empty($_REQUEST["sortorder"]))?'': htmlspecialchars($_REQUEST["sortorder"]);
 $_REQUEST["filter"] = (empty($_REQUEST["filter"]))?'': htmlspecialchars($_REQUEST["filter"]);
 
-$oUser = new cApiUser($auth->auth["uid"]);
+$area = cRegistry::getArea();
+
+$oUser = new User();
+$oUser->loadUserByUserID(cRegistry::getAuth()->auth["uid"]);
 if (!isset($elemperpage) || !is_numeric($elemperpage) || $elemperpage < 0) {
-    $elemperpage = $oUser->getProperty("itemsperpage", $area);
+    $elemperpage = $oUser->getUserProperty("itemsperpage", $area);
     $_REQUEST['elemperpage'] = $elemperpage;
     if ((int) $elemperpage <= 0) {
-        $oUser->setProperty("itemsperpage", $area, 25);
+        $oUser->setUserProperty("itemsperpage", $area, 25);
         $elemperpage = 25;
         $_REQUEST['elemperpage'] = 25;
     }
 } else {
-    $oUser->setProperty("itemsperpage", $area, $elemperpage);
+    $oUser->setUserProperty("itemsperpage", $area, $elemperpage);
     $_REQUEST['elemperpage'] = $elemperpage;
 }
 
