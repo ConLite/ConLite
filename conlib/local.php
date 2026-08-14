@@ -100,7 +100,7 @@ class Contenido_CT_Sql extends CT_Sql {
      * Database class name
      * @var  string
      */
-    public $database_class = 'ConLite\Database\DbConLite';
+    public $database_class = \ConLite\Database\DbConLite::class;
 
     /**
      * And find our session data in this table.
