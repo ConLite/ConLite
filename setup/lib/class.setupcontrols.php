@@ -42,18 +42,18 @@ class cHTMLAlphaImage extends cHTMLImage {
         parent::__construct();
     }
 	
-	function setMouseover ($sMouseoverSrc)
+	public function setMouseover ($sMouseoverSrc)
 	{
 		$this->_sMouseoverSrc = $sMouseoverSrc;	
 	}
 
-	function setSwapOnClick ($sClickSrc, $sMouseoverClickSrc)
+	public function setSwapOnClick ($sClickSrc, $sMouseoverClickSrc)
 	{
 		$this->_sClickImage = $sClickSrc;
 		$this->_sMouseoverClickImage = $sMouseoverClickSrc;
 	}	
 	
-	function toHTML ()
+	public function toHTML ()
 	{
 		
 		$alphaLoader = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'%s\')';
@@ -106,7 +106,7 @@ class cHTMLErrorMessageList extends cHTMLDiv {
         $this->_oTable->setContent($content);
     }
 	
-    function toHTML(): string
+    public function toHTML(): string
     {
         $this->_setContent($this->_oTable->render());
         return parent::toHTML();
@@ -128,7 +128,7 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
      * @param string $sIcon optional
      * @param string $sIconText optional
      */
-    function __construct($sTitle, $sMessage, $sIcon = false, $sIconText = false)	{
+    public function __construct($sTitle, $sMessage, $sIcon = false, $sIconText = false)	{
         $this->_oFolding = new cHTMLTableData;
         $this->_oContent = new cHTMLTableData;
         $this->_oIcon    = new cHTMLTableData;
@@ -179,7 +179,7 @@ class cHTMLFoldableErrorMessage extends cHTMLTableRow {
         parent::__construct();
     }
 	
-    function toHTML()	{
+    public function toHTML()	{
         $this->setContent([$this->_oFolding, $this->_oContent, $this->_oIcon]);
         return parent::toHTML();
     }
@@ -194,7 +194,7 @@ class cHTMLInfoMessage extends cHTMLTableRow {
      * @param string $sTitle
      * @param string $sMessage 
      */
-    function __construct($sTitle, $sMessage)	{
+    public function __construct($sTitle, $sMessage)	{
         $this->_oTitle = new cHTMLTableData;
         $this->_oMessage = new cHTMLTableData;
 
@@ -209,7 +209,7 @@ class cHTMLInfoMessage extends cHTMLTableRow {
         parent::__construct();
     }
 	
-    function toHTML()	{
+    public function toHTML()	{
         $this->setContent([$this->_oTitle, $this->_oMessage]);
         return parent::toHTML();
     }
@@ -223,7 +223,7 @@ class cHTMLLanguageLink extends cHTMLDiv {
      * @param string $langname
      * @param int $stepnumber 
      */
-    function __construct($langcode, $langname, $stepnumber) {
+    public function __construct($langcode, $langname, $stepnumber) {
         parent::__construct();
 
         $linkImage = new cHTMLAlphaImage();
@@ -263,7 +263,7 @@ class cHTMLButtonLink extends cHTMLDiv {
      * @param string $href
      * @param string $title 
      */
-    function __construct($href, $title)	{
+    public function __construct($href, $title)	{
         parent::__construct();
 
         $linkImage = new cHTMLAlphaImage();
