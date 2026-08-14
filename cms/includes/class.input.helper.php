@@ -46,7 +46,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
      *
      * @return none
      * */
-    function __construct($sName, $iWidth = "", $sID = "", $bDisabled = false, $iTabIndex = null, $sAccessKey = "") {
+    public function __construct($sName, $iWidth = "", $sID = "", $bDisabled = false, $iTabIndex = null, $sAccessKey = "") {
         cHTMLSelectElement :: __construct($sName, $iWidth, $sID, $bDisabled, $iTabIndex, $sAccessKey);
     }
 
@@ -60,7 +60,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
      *
      * @return int 		Number of items added
      * */
-    function addArticles($iIDCat, $bColored = false, $bArtOnline = true, $sSpaces = "") {
+    public function addArticles($iIDCat, $bColored = false, $bArtOnline = true, $sSpaces = "") {
         global $cfg, $lang;
 
         $oDB = new DB_Contenido;
@@ -144,7 +144,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
      *
      * @return int		Number of items added
      * */
-    function addCategories($iMaxLevel = 0, $bColored = false, $bCatVisible = true, $bCatPublic = true, $bWithArt = false, $bArtOnline = true) {
+    public function addCategories($iMaxLevel = 0, $bColored = false, $bCatVisible = true, $bCatPublic = true, $bWithArt = false, $bArtOnline = true) {
         global $cfg, $client, $lang;
 
         $oDB = new DB_Contenido;
@@ -217,7 +217,7 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
      *
      * @return int		Number of items added
      * */
-    function addTypesFromArt($iIDCatArt, $sTypeRange = "") {
+    public function addTypesFromArt($iIDCatArt, $sTypeRange = "") {
         global $cfg, $lang;
 
         $oDB = new DB_Contenido;
@@ -274,23 +274,23 @@ class cHTMLInputSelectElement extends cHTMLSelectElement {
 
 class UI_Config_Table {
 
-    var $_sTplCellCode;
-    var $_sTplTableFile;
-    var $_sWidth;
-    var $_sBorder;
-    var $_sBorderColor;
-    var $_bSolidBorder;
-    var $_sPadding;
-    var $_aCells;
-    var $_aCellAlignment;
-    var $_aCellVAlignment;
-    var $_aCellColSpan;
-    var $_aCellClass;
-    var $_aRowBgColor;
-    var $_aRowExtra;
-    var $_bAddMultiSelJS;
-    var $_sColorLight;
-    var $_sColorDark;
+    public $_sTplCellCode;
+    public $_sTplTableFile;
+    public $_sWidth;
+    public $_sBorder;
+    public $_sBorderColor;
+    public $_bSolidBorder;
+    public $_sPadding;
+    public $_aCells;
+    public $_aCellAlignment;
+    public $_aCellVAlignment;
+    public $_aCellColSpan;
+    public $_aCellClass;
+    public $_aRowBgColor;
+    public $_aRowExtra;
+    public $_bAddMultiSelJS;
+    public $_sColorLight;
+    public $_sColorDark;
 
     /**
      * 
@@ -298,7 +298,7 @@ class UI_Config_Table {
      */
     protected $_iRowCnt = 0;
 
-    function __construct() {
+    public function __construct() {
         $cfg = cRegistry::getConfig();
 
         $this->_sPadding = 2;
@@ -312,76 +312,76 @@ class UI_Config_Table {
         $this->_sColorDark = cRegistry::getConfigValue('color', 'table_dark');
     }
 
-    function setCellTemplate($sCode) {
+    public function setCellTemplate($sCode) {
         $this->_sTplCellCode = $sCode;
     }
 
-    function setTableTemplateFile($sPath) {
+    public function setTableTemplateFile($sPath) {
         $this->_sTplTableFile = $sPath;
     }
 
-    function setLightColor($sColor) {
+    public function setLightColor($sColor) {
         $this->_sColorLight = $sColor;
     }
 
-    function setDarkColor($sColor) {
+    public function setDarkColor($sColor) {
         $this->_sColorDark = $sColor;
     }
 
-    function setAddMultiSelJS($bEnabled = true) {
+    public function setAddMultiSelJS($bEnabled = true) {
         $this->_bAddMultiSelJS = (bool) $bEnabled;
     }
 
-    function setWidth($sWidth) {
+    public function setWidth($sWidth) {
         $this->_sWidth = $sWidth;
     }
 
-    function setPadding($sPadding) {
+    public function setPadding($sPadding) {
         $this->_sPadding = $sPadding;
     }
 
-    function setBorder($sBorder) {
+    public function setBorder($sBorder) {
         $this->_sBorder = $sBorder;
     }
 
-    function setBorderColor($sBorderColor) {
+    public function setBorderColor($sBorderColor) {
         $this->_sBorderColor = $sBorderColor;
     }
 
-    function setSolidBorder($bSolidBorder = true) {
+    public function setSolidBorder($bSolidBorder = true) {
         $this->_bSolidBorder = (bool) $bSolidBorder;
     }
 
-    function setCell($sRow, $sCell, $sContent) {
+    public function setCell($sRow, $sCell, $sContent) {
         $this->_aCells[$sRow][$sCell] = $sContent;
         $this->_aCellAlignment[$sRow][$sCell] = "";
     }
 
-    function setCellAlignment($sRow, $sCell, $sAlignment) {
+    public function setCellAlignment($sRow, $sCell, $sAlignment) {
         $this->_aCellAlignment[$sRow][$sCell] = $sAlignment;
     }
 
-    function setCellVAlignment($sRow, $sCell, $sAlignment) {
+    public function setCellVAlignment($sRow, $sCell, $sAlignment) {
         $this->_aCellVAlignment[$sRow][$sCell] = $sAlignment;
     }
 
-    function setCellColspan($sRow, $sCell, $iColSpan) {
+    public function setCellColspan($sRow, $sCell, $iColSpan) {
         $this->_aCellColSpan[$sRow][$sCell] = $iColSpan;
     }
 
-    function setCellClass($sRow, $sCell, $sClass) {
+    public function setCellClass($sRow, $sCell, $sClass) {
         $this->_aCellClass[$sRow][$sCell] = $sClass;
     }
 
-    function setRowBgColor($sRow, $sColor) {
+    public function setRowBgColor($sRow, $sColor) {
         $this->_aRowBgColor[$sRow] = $sColor;
     }
 
-    function setRowExtra($sRow, $sExtra) {
+    public function setRowExtra($sRow, $sExtra) {
         $this->_aRowExtra[$sRow] = $sExtra;
     }
 
-    function _addMultiSelJS() {
+    public function _addMultiSelJS() {
         // Trick: To save multiple selections in <select>-Element, add some JS which saves the
         // selection, comma separated in a hidden input field on change.
         // Try ... catch prevents error messages, if function is added more than once

@@ -24,11 +24,11 @@ if(!defined('CON_FRAMEWORK')) {
 
 function getTeaserImage ($text,$return = 'path') {
 	$regEx  = "/<img[^>]*?>.*?/i";
-    $match  = array();
+    $match  = [];
     preg_match($regEx, $text, $match);
 	
 	$regEx = "/(src)(=)(['\"]?)([^\"']*)(['\"]?)/i";
-    $img = array();
+    $img = [];
     preg_match($regEx, $match[0], $img);
     
     if ($return == 'path') {

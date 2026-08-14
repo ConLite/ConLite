@@ -61,7 +61,7 @@ if ($bRedirect) {
 }
 
 if (isset($_GET['return']) || isset($_POST['return'])){
-    $aLocator = array('lang=' . (int) $lang);
+    $aLocator = ['lang=' . (int) $lang];
 
     if ($idcat > 0) {
         $aLocator[] = 'idcat=' . intval($idcat);
@@ -129,7 +129,7 @@ if ( file_exists($cfgClient[$client]['path']['frontend'] . 'images/but_ok.gif') 
         <input type="hidden" name="idcat" value="<?php echo intval($idcat); ?>" />
         <div class="formHeader">Login</div>
         <div class="formRow">
-            <label for="username">Username:</label><input type="text" class="text" name="username" id="username" size="20" maxlength="32" value="<?php echo ( isset($this->auth['uname']) ) ? $this->auth['uname'] : ''  ?>" /><br class="clear" />
+            <label for="username">Username:</label><input type="text" class="text" name="username" id="username" size="20" maxlength="32" value="<?php echo $this->auth['uname'] ?? ''  ?>" /><br class="clear" />
         </div>
         <div class="formRow">
             <label for="password">Password:</label><input type="password" class="text" name="password" id="password" size="20" maxlength="32" /><br class="clear" />

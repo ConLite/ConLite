@@ -29,49 +29,49 @@ class cConCache{
     *
     * @var obj $_oPearCache
     */
-    var $_oPearCache;
+    public $_oPearCache;
 
     /**
     * Flag 2 activate caching.
     *
     * @var bool $_bEnableCaching
     */
-    var $_bEnableCaching = false;
+    public $_bEnableCaching = false;
 
     /**
     * Flag for output of debug informations.
     *
     * @var bool $_bDebug
     */
-    var $_bDebug = false;
+    public $_bDebug = false;
 
     /**
     * Flag 2 print html comment including some debug informations.
     *
     * @var bool $_bHtmlComment
     */
-    var $_bHtmlComment = false;
+    public $_bHtmlComment = false;
 
     /**
     * Start time of caching.
     *
     * @var int $_iStartTime
     */
-    var $_iStartTime;
+    public $_iStartTime;
 
     /**
     * Option array 4 generating cache identifier (e. g. $_GET,$_POST, $_COOKIE, ...).
     *
     * @var array _aIDOptions
     */
-    var $_aIDOptions;
+    public $_aIDOptions;
 
     /**
     * Option array 4 pear caching.
     *
     * @var array $_aIDOptions
     */
-    var $_aCacheOptions;
+    public $_aCacheOptions;
 
     /**
     * Handler array 2 store code, beeing executed on some events.
@@ -81,63 +81,63 @@ class cConCache{
     *
     * @var array $_aEventCode
     */
-	var $_aEventCode;
+	public $_aEventCode;
 
     /**
     * Unique identifier for caching.
     *
     * @var string $_sID
     */
-    var $_sID;
+    public $_sID;
 
     /**
     * Directory 2 store cached output.
     *
     * @var string $_sDir
     */
-    var $_sDir = 'cache/';
+    public $_sDir = 'cache/';
 
     /**
     * Subdirectory 2 store cached output.
     *
     * @var string $_sGroup
     */
-    var $_sGroup = 'default';
+    public $_sGroup = 'default';
 
     /**
     * Substring 2 add as prefix to cache-filename.
     *
     * @var string $_sPrefix
     */
-    var $_sPrefix = 'cache_';
+    public $_sPrefix = 'cache_';
 
     /**
     * Default lifetime of cached files.
     *
     * @var int $_iLifetime
     */
-    var $_iLifetime = 3600;
+    public $_iLifetime = 3600;
 
     /**
     * Used 2 store debug message.
     *
     * @var string $_sDebugMsg
     */
-    var $_sDebugMsg = '';
+    public $_sDebugMsg = '';
 
     /**
     * HTML code template used for debug message.
     *
     * @var string $_sDebugTpl
     */
-    var $_sDebugTpl = '<div>%s</div>';
+    public $_sDebugTpl = '<div>%s</div>';
 
     /**
     * HTML comment template used for generating some debug infos.
     *
     * @var string $_sDebugTpl
     */
-    var $_sHtmlCommentTpl = '
+    public $_sHtmlCommentTpl = '
 <!--
 CACHESTATE:  %s
 TIME:        %s
@@ -152,7 +152,7 @@ VALID UNTIL: %s
     * @param   string   $cachegroup    Subdirectory 2 cache files
     * @param   string   $cacheprefix   Prefixname 2 add 2 cached files
     */
-    function cConCache($cachedir=null, $cachegroup=null, $cacheprefix=null){
+    public function __construct($cachedir=null, $cachegroup=null, $cacheprefix=null){
         // wherever you want the cache files
         if(!is_null($cachedir)){
             $this->_sDir = $cachedir;
@@ -169,7 +169,7 @@ VALID UNTIL: %s
         }
 
         // config options are passed to the cache as an array
-        $this->_aCacheOptions = array('cache_dir' => $this->_sDir, 'filename_prefix' => $this->_sPrefix);
+        $this->_aCacheOptions = ['cache_dir' => $this->_sDir, 'filename_prefix' => $this->_sPrefix];
 
     } // function cConCache()
 
@@ -180,7 +180,7 @@ VALID UNTIL: %s
     * @param    bool   $enable   True 2 enable chaching or false
     * @return   mixed            Enable flag or void
     */
-    function enable($enable=null){
+    public function enable($enable=null){
         if(!is_null($enable) && is_bool($enable)){
             $this->_bEnableCaching = $enable;
         } else {
@@ -195,7 +195,7 @@ VALID UNTIL: %s
     * @param    bool   $debug   True 2 activate debugging or false.
     * @return   mixed           Debug flag or void
     */
-    function debug($debug){
+    public function debug($debug){
         if(!is_null($debug) && is_bool($debug)){
             $this->_bDebug = $debug;
         } else {
@@ -210,7 +210,7 @@ VALID UNTIL: %s
     * @param    bool   $htmlcomment   True debugging or false.
     * @return   void                  Htmlcomment flag or void
     */
-    function htmlComment($htmlcomment){
+    public function htmlComment($htmlcomment){
         if(!is_null($htmlcomment) && is_bool($htmlcomment)){
             $this->_bHtmlComment = $htmlcomment;
         } else {
@@ -225,7 +225,7 @@ VALID UNTIL: %s
     * @param    int   $seconds   New Lifetime in seconds
     * @return   mixed            Actual lifetime or void
     */
-    function lifetime($seconds=null){
+    public function lifetime($seconds=null){
         if ($seconds != null && is_numeric($seconds) && $seconds > 0) {
             $this->_iLifetime = $seconds;
         } else {
@@ -240,7 +240,7 @@ VALID UNTIL: %s
     * @param    string   $template   Template string including the '%s' format definition.
     * @return   void
     */
-    function infoTemplate($template){
+    public function infoTemplate($template){
         $this->_sDebugTpl = $template;
     } // function infoTemplate()
 
@@ -252,7 +252,7 @@ VALID UNTIL: %s
     * @param    string   $option   Value of option (any variable)
     * @return   void
     */
-    function addOption($name, $option){
+    public function addOption($name, $option){
         $this->_aIDOptions[$name] = $option;
     } // function addOption()
 
@@ -262,7 +262,7 @@ VALID UNTIL: %s
     *
     * @return   string   Information about cache if caching is enabled, otherwhise nothing.
     */
-    function getInfo(){
+    public function getInfo(){
         if(!$this->_bEnableCaching){ return; }
         return $this->_sDebugMsg;
     } // function getInfo()
@@ -275,7 +275,7 @@ VALID UNTIL: %s
     * @param    int    $iPageStartTime   Optional start time, e. g. start time of main script
     * @return   void
     */
-    function start($iPageStartTime=null){
+    public function start($iPageStartTime=null){
         if(!$this->_bEnableCaching){ return; }
 
         $this->_iStartTime = $this->_getMicroTime();
@@ -320,7 +320,7 @@ VALID UNTIL: %s
     *
     * @return   void
     */
-    function end(){
+    public function end(){
         if (!$this->_bEnableCaching){ return; }
 
         // this might go into your auto_append file. store the data into the cache, default lifetime is set in $this->_iLifetime
@@ -339,7 +339,7 @@ VALID UNTIL: %s
     *
     * @return   void
     */
-    function removeFromCache(){
+    public function removeFromCache(){
         // set cache object and unique id
         $this->_initPEARCache();
         $bExists = $this->_oPearCache->isCached($this->_sID, $this->_sGroup);
@@ -356,7 +356,7 @@ VALID UNTIL: %s
     * @return   void
     * @access   private
     */
-    function _initPEARCache(){
+    public function _initPEARCache(){
         if (is_object($this->_oPearCache)) {
             return;
         }
@@ -377,7 +377,7 @@ VALID UNTIL: %s
     * @return   void
     * @access   private
 	*/
-	function _raiseEvent($name){
+	public function _raiseEvent($name){
 		// check if event exists, get out if not
 		if (!isset($this->_aEventCode[$name]) && !is_array($this->_aEventCode[$name])) {
 			return;
@@ -397,7 +397,7 @@ VALID UNTIL: %s
     * @return   float   Timestamp
     * @access   private
     */
-    function _getMicroTime(){
+    public function _getMicroTime(){
         $mtime = explode(' ', microtime());
         $mtime = $mtime[1] + $mtime[0];
         return $mtime;
@@ -438,7 +438,7 @@ class cConCacheHandler extends cConCache {
     * @param   obj      $db            Reference 2 Contenido database object
     * @param   int      $iCreateCode   Flag of createcode state from table con_cat_art
     */
-    function cConCacheHandler($aConf, &$db, $iCreateCode=null) {
+    public function __construct($aConf, &$db, $iCreateCode=null) {
 
         // check if caching is allowed on contenido variable
         if ($aConf['excludecontenido'] == true) {
@@ -471,7 +471,7 @@ class cConCacheHandler extends cConCache {
 		$this->_oDB = $db;
 
         // set caching configuration
-        parent::cConCache($aConf['cachedir'], $aConf['cachegroup']);
+        parent::__construct($aConf['cachedir'], $aConf['cachegroup']);
         $this->debug($aConf['debug']);
         $this->htmlComment($aConf['htmlcomment']);
         $this->lifetime($aConf['lifetime']);
@@ -501,7 +501,7 @@ class cConCacheHandler extends cConCache {
     * @return   bool                   True if code is to create, otherwhise false.
     * @access   private
     */
-    function _isCode2Create($iCreateCode){
+    public function _isCode2Create($iCreateCode){
         if ($this->_bEnableCaching == false) {
             return;
         }

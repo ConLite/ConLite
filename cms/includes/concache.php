@@ -107,12 +107,12 @@ $cfgConCache['cacheprefix'] = 'cache_';
 * auth object, if output differs on authentificated user.
 * @var array  $cfgConCache['idoptions']
 */
-$cfgConCache['idoptions'] = array(
+$cfgConCache['idoptions'] = [
     'uri'  => &$_SERVER['REQUEST_URI'], 
     'post' => &$_POST, 
     'get'  => &$_GET, 
     'auth' => &$auth->auth['perm']
-);
+];
 
 /**
 * array of eventhandler, beeing raised on some events.
@@ -157,10 +157,10 @@ $sStatCode = '
 	$GLOBALS[\'db\']->query($sql);
 ';
 
-$cfgConCache['raiseonevent'] = array(
-    'beforeoutput' => array('/* some code here */'), 
-    'afteroutput'  => array($sStatCode, 'page_close();')
-);
+$cfgConCache['raiseonevent'] = [
+    'beforeoutput' => ['/* some code here */'], 
+    'afteroutput'  => [$sStatCode, 'page_close();']
+];
 
 
 // include concache file

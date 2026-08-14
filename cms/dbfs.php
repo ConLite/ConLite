@@ -45,14 +45,14 @@ include_once ($contenido_path . 'includes/startup.php');
 
 if ($contenido)
 {
-    page_open(array('sess' => 'Contenido_Session',
+    page_open(['sess' => 'Contenido_Session',
                     'auth' => 'Contenido_Challenge_Crypt_Auth',
-                    'perm' => 'Contenido_Perm'));
+                    'perm' => 'Contenido_Perm']);
 
 } else {
-    page_open(array('sess' => 'Contenido_Frontend_Session',
+    page_open(['sess' => 'Contenido_Frontend_Session',
                     'auth' => 'Contenido_Frontend_Challenge_Crypt_Auth',
-                    'perm' => 'Contenido_Perm'));
+                    'perm' => 'Contenido_Perm']);
 }
 
 /* Shorten load time */
