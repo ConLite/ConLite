@@ -275,6 +275,24 @@ class Registry
         return null;
     }
 
+    public static function getSession()
+    {
+        return self::_fetchGlobalVariable('sess', null);
+    }
+
+    public static function getFrame()
+    {
+        return (int) self::_fetchGlobalVariable('frame');
+    }
+
+    /**
+     * Returns the CONTENIDO backend language stored in the global variable "belang".
+     */
+    public static function getBackendLanguage(): string
+    {
+        return (string) self::_fetchGlobalVariable('belang');
+    }
+
     /**
      * Checks if backend edit mode active or not
      *
