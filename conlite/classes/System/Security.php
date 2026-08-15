@@ -2,6 +2,7 @@
 
 namespace ConLite\System;
 
+use ConLite\Database\DbConLite;
 use Contenido_Security_Exception;
 
 class Security
@@ -318,20 +319,77 @@ class Security
     }
 
     /**
+     * Checks some global variables at frontend like $lang, $client, $changelang, $changeclient,
+     * $tmpchangelang.
+     *
+     * Validates client and language related variables and takes care that their content is
+     * really a numeric value.
+     *
+     * Logic in this function is taken over from front_content.php (v 4.8.12, line 164 - 192).
+     *
+     * @TODO:  Need a solution for used globals
+     *
+     * @return  void
+     */
+    public static function checkFrontendGlobals()
+    {
+        global $tmpchangelang, $savedlang, $lang, $changelang, $load_lang, $changeclient, $client, $load_client;
+
+        if (isset($tmpchangelang) && is_numeric($tmpchangelang) && $tmpchangelang > 0) {
+            // savelang is needed to set language before closing the page, see
+            // {frontend_clientdir}/front_content.php before page_close()
+            $savedlang = $lang;
+            $lang = $tmpchangelang;
+        }
+
+        // Check basic incomming data
+        if (isset($changeclient) && !is_numeric($changeclient)) {
+            unset($changeclient);
+        }
+        if (isset($client) && !is_numeric($client)) {
+            unset($client);
+        }
+        if (isset($changelang) && !is_numeric($changelang)) {
+            unset($changelang);
+        }
+        if (isset($lang) && !is_numeric($lang)) {
+            unset($lang);
+        }
+
+        // Change client
+        if (isset($changeclient)) {
+            $client = $changeclient;
+            unset($lang);
+            unset($load_lang);
+        }
+
+        // Change language
+        if (isset($changelang)) {
+            $lang = $changelang;
+        }
+
+        // Initialize client
+        if (!isset($client)) {
+            // load_client defined in {frontend_clientdir}/config.php
+            $client = $load_client;
+        }
+    }
+
+    /**
      * Escaped an query-string with mysql_real_escape_string
      * @static
      *
      * @param string $sString Input string
-     * @param DB_ConLite $oDB Contenido database object
+     * @param DbConLite|null $oDB Contenido database object
      * @param boolean $bUndoAddSlashes Flag for undo addslashes (optional, default: true)
      * @return  string  Converted string
      */
-    public static function escapeDB($sString, $oDB = null, $bUndoAddSlashes = true)
+    public static function escapeDB(string $sString, ?DbConLite $oDB = null, bool $bUndoAddSlashes = true): string
     {
         if (!is_object($oDB)) {
             return self::escapeString($sString);
         } else {
-            if (defined('CONTENIDO_STRIPSLASHES') && $bUndoAddSlashes == true) {
+            if (defined('CONTENIDO_STRIPSLASHES') && $bUndoAddSlashes) {
                 $sString = stripslashes($sString);
             }
             return $oDB->Escape($sString);
@@ -345,7 +403,7 @@ class Security
      * @param string $sString Input string
      * @return  string  Converted string
      */
-    public static function escapeString($sString)
+    public static function escapeString(string $sString): string
     {
         $sString = (string)$sString;
         if (defined('CONTENIDO_STRIPSLASHES')) {
@@ -361,7 +419,7 @@ class Security
      * @param string $sString Input string
      * @return  string  Converted string
      */
-    public static function unescapeDB($sString)
+    public static function unescapeDB(string $sString): string
     {
         return stripslashes($sString);
     }
