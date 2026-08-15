@@ -22,10 +22,11 @@
     "require-dev": {
         "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "@stable",
-        "rector/rector": "^2.0"
+        "rector/rector": "@stable"
     },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan"
+    "phpstan": "vendor/bin/phpstan",
+    "rector": "vendor/bin/rector --dry-run"
   },
     "autoload": {
         "psr-4": {

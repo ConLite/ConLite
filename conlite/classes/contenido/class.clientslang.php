@@ -103,7 +103,7 @@ class cApiClientLanguage extends Item
             // Query the database
             $sSQL = "SELECT %s FROM %s WHERE idclient = '%d' AND idlang = '%d'";
             $this->db->query($sSQL, $this->primaryKey, $this->table, $iIdClient, $iIdLang);
-            if ($this->db->next_record()) {
+            if ($this->db->nextRecord()) {
                 $this->loadByPrimaryKey($this->db->f($this->primaryKey));
             }
         }
