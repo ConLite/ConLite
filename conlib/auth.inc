@@ -31,6 +31,9 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if(!defined('CON_FRAMEWORK')) {
                 die('Illegal call');
 }
@@ -62,6 +65,9 @@ class Auth {
 
   var $auth = array();            ## Data array
   var $in   = false;
+  /**
+   * @var DbConLite
+   */
   var $db;
 
   public array $perm;

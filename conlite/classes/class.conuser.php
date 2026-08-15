@@ -83,6 +83,8 @@ if (! defined ( 'CON_FRAMEWORK' )) {
  * @link       http://www.contenido.org
  * @since      file available since contenido release => 4.8.8
  *
+ * @deprecated since 3.0.0, use new User and/or UserCollection classes instead
+ *
  */
 class ConUser extends ConUser_Abstract {
 

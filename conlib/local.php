@@ -42,9 +42,10 @@ if (!defined('CON_FRAMEWORK')) {
 
 /**
  * DB-class for all DB handling
+ *
+ * @deprecated use parent class (@see DbConLite) direct
  */
 class DB_ConLite extends DbConLite {
-    protected bool $NoRecord;
 
     /**
      * Constructor of database class.
@@ -89,7 +90,7 @@ class DB_ConLite extends DbConLite {
  * 
  * @deprecated since version 2.0.0, use DB_ConLite instead
  */
-class DB_Contenido extends DB_ConLite
+class DB_Contenido extends DbConLite
 {
 }
 
@@ -99,7 +100,7 @@ class Contenido_CT_Sql extends CT_Sql {
      * Database class name
      * @var  string
      */
-    public $database_class = 'ConLite\Database\DbConLite';
+    public $database_class = \ConLite\Database\DbConLite::class;
 
     /**
      * And find our session data in this table.
@@ -139,96 +140,6 @@ class Contenido_CT_Sql extends CT_Sql {
         );
 
         return $this->db->query($iquery);
-    }
-
-}
-
-/**
- * Implements the interface class for storing session data to disk using file
- * session container of phplib.
- */
-class Contenido_CT_File extends CT_File {
-
-    /**
-     * The maximum length for one line in session file.
-     * @var int
-     */
-    public $iLineLength = 999999;
-
-    /**
-     * Overrides standard constructor for setting up file path to the one which is
-     * configured in php.ini
-     *
-     * @return Contenido_CT_File
-     *
-     * @author Holger Librenz <holger.librenz@4fb.de>
-     */
-    public function __construct() {
-        global $cfg;
-
-        if (isset($cfg['session_line_length']) && !empty($cfg['session_line_length'])) {
-            $this->iLineLength = (int) $cfg['session_line_length'];
-        }
-
-        // get php.ini value for session path
-        $this->file_path = session_save_path() . '/';
-    }
-
-    /**
-     * Overrides get method, because standard byte count is not really senseful for
-     * contenido!
-     *
-     * @param   string  $sId
-     * @param   string  $sName
-     * @return  mixed
-     */
-    public function ac_get_value($sId, $sName) {
-        if (file_exists($this->file_path . "$sId$sName")) {
-            $f = fopen($this->file_path . "$sId$sName", 'r');
-            if ($f < 0) {
-                return '';
-            }
-
-            $s = fgets($f, $this->iLineLength);
-            fclose($f);
-
-            return urldecode($s);
-        } else {
-            return '';
-        }
-    }
-
-}
-
-class Contenido_CT_Shm extends CT_Shm {
-
-    public function __construct() {
-        $this->ac_start();
-    }
-
-}
-
-/**
- * Contenido session container, uses PHP's session implementation.
- *
- * NOTE: Is experimental, so don't use this in a production environment.
- *
- * To use this, set session container in contenido/includes/config.misc.php to
- * $cfg["session_container"] = 'session';
- *
- * @todo  Make session container configurable
- *
- * @author  Murat Purc <murat@purc.de>
- */
-class Contenido_CT_Session extends CT_Session {
-
-    public function __construct() {
-        $this->ac_start([
-            'namespace' => 'contenido_ct_session_ns',
-            'session.hash_function' => '1',
-            // use sha-1 function
-            'session.hash_bits_per_character' => '5',
-        ]);
     }
 
 }
@@ -346,87 +257,6 @@ class Contenido_Auth extends Auth {
 
 }
 
-class Contenido_Default_Auth extends Contenido_Auth {
-
-    public $classname = 'Contenido_Default_Auth';
-    public $lifetime = 1;
-    public $nobody = true;
-
-    public function auth_loginform() {
-        global $sess, $_PHPLIB;
-        include($_PHPLIB['libdir'] . 'defloginform.ihtml');
-    }
-
-}
-
-class Contenido_Challenge_Auth extends Auth {
-
-    public $classname = 'Contenido_Challenge_Auth';
-    public $lifetime = 1;
-    public $magic = 'Simsalabim';  ## Challenge seed
-    public $database_class = 'DB_Contenido';
-    public $database_table = 'con_phplib_auth_user';
-
-    public function auth_loginform() {
-        global $sess, $challenge, $_PHPLIB;
-
-        $challenge = md5(uniqid($this->magic));
-        $sess->register('challenge');
-
-        include($_PHPLIB['libdir'] . 'crloginform.ihtml');
-    }
-
-    public function auth_validatelogin() {
-        $pass = null;
-        $uid = null;
-        global $username, $password, $challenge, $response, $timestamp;
-
-        if ($password == '') {
-            return false;
-        }
-
-        if (isset($username)) {
-            // This provides access for 'loginform.ihtml'
-            $this->auth['uname'] = $username;
-        }
-
-        // Sanity check: If the user presses 'reload', don't allow a login with the data
-        // again. Instead, prompt again.
-        if ($timestamp < (time() - 60 * 15)) {
-            return false;
-        }
-        $this->db->query(
-                sprintf("SELECT user_id, perms, password FROM %s WHERE username = '%s'", $this->database_table, addslashes($username))
-        );
-
-        while ($this->db->next_record()) {
-            $uid = $this->db->f('user_id');
-            $perm = $this->db->f('perms');
-            $pass = $this->db->f('password');
-        }
-        $exspected_response = md5("$username:$pass:$challenge");
-
-        // True when JS is disabled
-        if ($response == '') {
-            if ($password != $pass) {
-                return false;
-            } else {
-                $this->auth['perm'] = $perm;
-                return $uid;
-            }
-        }
-
-        // Response is set, JS is enabled
-        if ($exspected_response != $response) {
-            return false;
-        } else {
-            $this->auth['perm'] = $perm;
-            return $uid;
-        }
-    }
-
-}
-
 ##
 ## Contenido_Challenge_Crypt_Auth: Keep passwords in md5 hashes rather
 ##                           than cleartext in database
@@ -437,7 +267,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
     public $classname = 'Contenido_Challenge_Crypt_Auth';
     public $lifetime = 15;
     public $magic = 'Frrobo123xxica';  ## Challenge seed
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
     public $database_table = '';
     public $group_table = '';
     public $member_table = '';
@@ -464,7 +294,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
     }
 
     public function auth_loglogin($uid) {
-        global $cfg, $client, $lang, $auth, $sess, $saveLoginTime;
+        global $cfg, $client, $lang, $auth, $sess, $saveLoginTime, $idart, $idcat;
 
         $contenidoPerm = new Contenido_Perm();
         $timestamp = date('Y-m-d H:i:s');
@@ -479,7 +309,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
         $this->db->query($sql);
 
         $bFound = false;
-        while ($this->db->next_record() && !$bFound) {
+        while ($this->db->nextRecord() && !$bFound) {
             $iTmpClient = $this->db->f('idclient');
             $iTmpLang = $this->db->f('idlang');
 
@@ -500,7 +330,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                         idart = '" . Contenido_Security::toInteger($idart) . "'";
 
             $this->db->query($sql);
-            $this->db->next_record();
+            $this->db->nextRecord();
             $idcatart = $this->db->f('idcatart');
         }
 
@@ -562,7 +392,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
         ));
 
         $sMaintenanceMode = getSystemProperty('maintenance', 'mode');
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $uid = $this->db->f('user_id');
             $perm = $this->db->f('perms');
             $pass = $this->db->f('password');   ## Password is stored as a md5 hash
@@ -601,7 +431,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                 $gperm[] = $perm;
             }
 
-            while ($this->db->next_record()) {
+            while ($this->db->nextRecord()) {
                 $gperm[] = $this->db->f('perms');
             }
 
@@ -638,7 +468,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
     public $classname = 'Contenido_Frontend_Challenge_Crypt_Auth';
     public $lifetime = 15;
     public $magic = 'Frrobo123xxica';  ## Challenge seed
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
     public $database_table = '';
     public $fe_database_table = '';
     public $group_table = '';
@@ -695,7 +525,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
         $this->db->query(sprintf("SELECT idfrontenduser, password FROM %s WHERE username = '%s' AND idclient='$client' AND active='1'", $this->fe_database_table, Contenido_Security::escapeDB(urlencode($username), $this->db)
         ));
 
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             $uid = $this->db->f('idfrontenduser');
             $perm = 'frontend';
             $pass = $this->db->f('password');
@@ -705,7 +535,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
             /* Authentification via backend users */
             $this->db->query(sprintf("SELECT user_id, perms, password FROM %s WHERE username = '%s'", $this->database_table, Contenido_Security::escapeDB($username, $this->db)));
 
-            while ($this->db->next_record()) {
+            while ($this->db->nextRecord()) {
                 $uid = $this->db->f('user_id');
                 $perm = $this->db->f('perms');
                 $pass = $this->db->f('password');   ## Password is stored as a md5 hash
@@ -732,7 +562,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
                     $gperm[] = $perm;
                 }
 
-                while ($this->db->next_record()) {
+                while ($this->db->nextRecord()) {
                     $gperm[] = $this->db->f('perms');
                 }
 
@@ -766,25 +596,4 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
         }
     }
 
-}
-
-/**
- * Registers an external auth handler
- */
-function register_auth_handler($aHandlers) {
-    global $auth_handlers;
-
-    if (!is_array($auth_handlers)) {
-        $auth_handlers = [];
-    }
-
-    if (!is_array($aHandlers)) {
-        $aHandlers = [$aHandlers];
-    }
-
-    foreach ($aHandlers as $aHandler) {
-        if (!in_array($aHandler, $auth_handlers)) {
-            $auth_handlers[md5($aHandler)] = $aHandler;
-        }
-    }
 }

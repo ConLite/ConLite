@@ -63,3 +63,4 @@ modules.xml
 composer.phar
 /conlite/vendor/
 *.old.php
+/phpstan-baseline.neon

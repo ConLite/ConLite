@@ -9,6 +9,16 @@ if (!defined('CL_VERSION')) {
 
 }
 
+// include needed classes for conlib
+include_once 'conlib/ct_sql.inc';
+include_once 'conlib/session.inc';
+include_once 'conlib/auth.inc';
+include_once 'conlib/perm.inc';
+include_once 'conlib/page.inc';
+
+// init composer autoload
+include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
+
 $sPathCfgDir = dirname(__FILE__) . '/data/config/production/';
 
 include_once($sPathCfgDir . 'config.php');

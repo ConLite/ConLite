@@ -35,7 +35,7 @@ function myfile($url) {
         $line = chop(fgets($fp));
     } while ((!empty($line)) && (!feof($fp)));
     // Daten auslesen
-    $result = Array();
+    $result = [];
     while (!feof($fp)) {
         $result[] = fgets($fp);
     }

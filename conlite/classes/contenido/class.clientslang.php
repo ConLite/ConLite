@@ -35,6 +35,28 @@ class cApiClientLanguageCollection extends ItemCollection
         parent::__construct($cfg["tab"]["clients_lang"], "idclientslang");
         $this->_setItemClass("cApiClientLanguage");
     }
+
+    /**
+     * @param $clientId
+     * @return array
+     */
+    public function getLanguagesByClient($clientId): array
+    {
+        $list = [];
+        $sql = "SELECT `idlang` FROM `%s` WHERE `idclient` = %d";
+        $this->db->query($sql, $this->table, $clientId);
+        while ($this->db->nextRecord()) {
+            $list[] = (int) $this->db->f('idlang');
+        }
+        return $list;
+    }
+
+    public function hasLanguageInClients(int $languageId, array $clientIds): bool
+    {
+        $clientIds = array_map('intval', $clientIds);
+        $where = ' `idlang` = ' . $languageId . ' AND `idclient` IN (' . implode(',', $clientIds) . ')';
+        return $this->flexSelect('', '', $where);
+    }
 }
 
 

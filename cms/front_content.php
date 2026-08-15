@@ -50,7 +50,7 @@ if (!defined("CON_FRAMEWORK")) {
 $contenido_path = '';
 
 // Set path to current frontend
-$frontend_path = str_replace('\\', '/', realpath(dirname(__FILE__) . '/')) . '/';
+$frontend_path = str_replace('\\', '/', realpath(__DIR__ . '/')) . '/';
 
 // Include the environment definer file
 include_once($frontend_path . 'environment.php');
@@ -95,11 +95,11 @@ if ($cfg["use_pseudocron"] == true) {
  */
 if (!empty($contenido)) {
     //Backend
-    page_open(array('sess' => 'Contenido_Session', 'auth' => 'Contenido_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
+    page_open(['sess' => 'Contenido_Session', 'auth' => 'Contenido_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm']);
     i18nInit($cfg["path"]["contenido"] . $cfg["path"]["locale"], $belang);
 } else {
     //Frontend
-    page_open(array('sess' => 'Contenido_Frontend_Session', 'auth' => 'Contenido_Frontend_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm'));
+    page_open(['sess' => 'Contenido_Frontend_Session', 'auth' => 'Contenido_Frontend_Challenge_Crypt_Auth', 'perm' => 'Contenido_Perm']);
 }
 
 require_once $cfg['path']['contenido'] . $cfg['path']['includes'] . 'functions.includePluginConf.php';
@@ -121,8 +121,8 @@ if (empty($cfgClient["set"]) || $cfgClient["set"] != "set") {
 # Check if this request is for a compressed file
 if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
     # Get the calling parameters
-    $sFilename = ((isset($_GET['f'])) ? $_GET['f'] : $_GET['amp;f']);
-    $sContentType = ((isset($_GET['c'])) ? $_GET['c'] : $_GET['amp;c']);
+    $sFilename = ($_GET['f'] ?? $_GET['amp;f']);
+    $sContentType = ($_GET['c'] ?? $_GET['amp;c']);
 
     # Output the file using the class output() function
     Output_Compressor::output($cfgClient[$client]['path']['frontend'] . 'cache/', $sFilename, $sContentType);
@@ -133,7 +133,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'get_compressed') {
 
 if (!isset($encoding) || !is_array($encoding) || count($encoding) == 0) {
     // get encodings of all languages
-    $encoding = array();
+    $encoding = [];
     $sql = "SELECT idlang, encoding FROM " . $cfg["tab"]["lang"];
     $db->query($sql);
     while ($db->next_record()) {
@@ -228,10 +228,10 @@ if (isset($path) && strlen($path) > 1) {
 }
 
 // error page
-$aParams = array(
+$aParams = [
     'client' => $client, 'idcat' => $errsite_idcat[$client], 'idart' => $errsite_idart[$client],
     'lang' => $lang, 'error' => '1'
-);
+];
 $errsite = 'Location: ' . Contenido_Url::getInstance()->buildRedirect($aParams);
 
 /*
@@ -426,7 +426,7 @@ if (isset($contenido)) {
     $col->removeSessionMarks($sess->id);
     /* If the override flag is set, override a specific InUseItem */
 
-    list ($inUse, $message) = $col->checkAndMark("article", $idartlang, true, i18n("Article is in use by %s (%s)"), true, $cfg['path']['contenido_fullhtml'] . "external/backendedit/front_content.php?changeview=edit&action=con_editart&idartlang=$idartlang&type=$type&typenr=$typenr&idart=$idart&idcat=$idcat&idcatart=$idcatart&client=$client&lang=$lang");
+    [$inUse, $message] = $col->checkAndMark("article", $idartlang, true, i18n("Article is in use by %s (%s)"), true, $cfg['path']['contenido_fullhtml'] . "external/backendedit/front_content.php?changeview=edit&action=con_editart&idartlang=$idartlang&type=$type&typenr=$typenr&idart=$idart&idcat=$idcat&idcatart=$idcatart&client=$client&lang=$lang");
 
     $sHtmlInUse = '';
     $sHtmlInUseMessage = '';

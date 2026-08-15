@@ -28,19 +28,19 @@ class Contenido_Sitemap_Util {
      * @param array $aDepthInfo Info on level depth / where to stop. Format: array(iCurrentLoopCount, iMaxLoopCount)
      * @return void
      */
-    public static function loopCats(Contenido_Category $oCategory, Contenido_FrontendNavigation $oFrontendNavigation, Template $oTpl, $sUrlStyle, array $aCfg, $iLang, array $aDepthInfo = array()) {
+    public static function loopCats(Contenido_Category $oCategory, Contenido_FrontendNavigation $oFrontendNavigation, Template $oTpl, $sUrlStyle, array $aCfg, $iLang, array $aDepthInfo = []) {
     	$aDepthInfo[0] = isset($aDepthInfo[0]) ? $aDepthInfo[0] + 1 : 1;
-    	$aDepthInfo[1] = isset($aDepthInfo[1]) ? $aDepthInfo[1] : 1;
+    	$aDepthInfo[1] ??= 1;
         // display current item
     	$iItemLevel = $oFrontendNavigation->getLevel($oCategory->getIdCat());
     	// this is just for sample client - modify to your needs!
     	if (($aCfg['url_builder']['name'] == 'front_content') || ($aCfg['url_builder']['name'] == 'MR')) {
-    	    $aParams = array('lang' => $iLang, 'idcat' => $oCategory->getIdCat());
+    	    $aParams = ['lang' => $iLang, 'idcat' => $oCategory->getIdCat()];
     	} else {
-        	$aParams = array('a' => $oCategory->getIdCat(), 
+        	$aParams = ['a' => $oCategory->getIdCat(), 
         					'idcat' => $oCategory->getIdCat(), // needed to build category path
         					'lang' => $iLang, // needed to build category path
-        					'level' => 1); // needed to build category path
+        					'level' => 1]; // needed to build category path
     	}
     	// fill template with values
     	$oTpl->set('d', 'name', $oCategory->getCategoryLanguage()->getName());

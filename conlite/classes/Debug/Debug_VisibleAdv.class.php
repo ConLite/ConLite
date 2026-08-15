@@ -211,9 +211,10 @@ class Debug_VisibleAdv implements IDebug, Countable {
 	/**
 	 * Implemenation of Countable interface
 	 * @access public
-	 * @return int
 	 */
-	public function count() {
+	#[ReturnTypeWillChange]
+    public function count(): int
+    {
         return sizeof($this->_aItems);
 	}
 	

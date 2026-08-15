@@ -33,19 +33,20 @@ if(!defined('CON_FRAMEWORK')) {
 }
 
 
-if ($action == "note_delete")
+if (isset($action) && $action == "note_delete" && isset($deleteitem))
 {
-	$oNoteCollection = new NoteCollection;	
+	$oNoteCollection = new NoteCollection();
 	$oNoteCollection->delete($deleteitem);
 }
 
-$page = new cPage;
+if(isset($itemtype) && isset($itemid)) {
+    $page = new cPage;
 
-$oNoteList = new NoteList($itemtype, $itemid);
-$oNoteList->setDeleteable(true);
+    $oNoteList = new NoteList($itemtype, $itemid);
+    $oNoteList->setDeleteable(true);
 
-$page->setExtra('background: '.$cfg["color"]["table_light"]);
-$page->setMargin(0);
-$page->setContent($oNoteList);
-$page->render();
-?>
+    $page->setExtra('background: ' . cRegistry::getConfigValue('color', 'table_light'));
+    $page->setMargin(0);
+    $page->setContent($oNoteList);
+    $page->render();
+}

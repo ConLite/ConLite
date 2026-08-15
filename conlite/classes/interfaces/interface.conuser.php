@@ -35,6 +35,8 @@
  * @author Holger Librenz
  * @copyright four for business AG
  *
+ * @deprecated since 3.0.0, use new User and/or UserCollection classes instead
+ *
  */
 interface iConUser {
 

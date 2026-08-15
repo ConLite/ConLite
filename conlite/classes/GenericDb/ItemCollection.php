@@ -889,7 +889,7 @@ abstract class ItemCollection extends ItemBaseAbstract
         $oDb = $this->_getSecondDBInstance();
         $sql = "SELECT `%s` FROM %s WHERE %s='%s'";
         $oDb->query($sql, $this->primaryKey, $this->table, $this->primaryKey, $mId);
-        return ($oDb->next_record()) ? true : false;
+        return ($oDb->nextRecord()) ? true : false;
     }
 
     /**
@@ -898,7 +898,8 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @return Item|bool  The next object, or false if no more objects
      * @throws Exception
      */
-    public function next() {
+    public function next(): bool|Item
+    {
         if ($this->db->nextRecord()) {
             if ($this->_bAllMode) {
                 $aRs = $this->db->toArray();
@@ -1098,7 +1099,8 @@ abstract class ItemCollection extends ItemBaseAbstract
      * @param  string  $primaryKeyValue  Optional parameter for direct input of primary key value
      * @return  Item  The newly created object
      */
-    public function createNewItem($aData = NULL) { /* @var $oDb DB_ConLite */
+    public function createNewItem($aData = NULL) {
+        /* @var $oDb DB_ConLite */
         $oDb = $this->_getSecondDBInstance();
         if (is_null($aData) || empty($aData)) {
             $iNextId = $oDb->nextid($this->table);

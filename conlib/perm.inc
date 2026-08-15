@@ -29,6 +29,9 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -45,7 +48,7 @@ class Contenido_Perm {
         global $cfg;
 
         if (!is_object($this->db)) {
-            $this->db = new DB_Contenido;
+            $this->db = new DbConLite();
         }
 
         $sql = "SELECT group_id FROM
@@ -55,7 +58,7 @@ class Contenido_Perm {
 
         $groups = array();
 
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $groups[] = $this->db->f("group_id");
         }
 
@@ -66,7 +69,7 @@ class Contenido_Perm {
         global $cfg;
 
         if (!is_object($this->db_perm)) {
-            $this->db_perm = new DB_Contenido;
+            $this->db_perm = new DbConLite();
         }
 
         if (!is_numeric($area)) {
@@ -78,7 +81,7 @@ class Contenido_Perm {
                                     name = \"" . Contenido_Security::escapeDB($area, $this->db_perm) . "\"";
                 $this->db_perm->query($sql);
 
-                $this->db_perm->next_record();
+                $this->db_perm->nextRecord();
                 $this->areacache[$area] = $this->db_perm->f("idarea");
                 $area = $this->db_perm->f(0);
             } else {
@@ -96,7 +99,7 @@ class Contenido_Perm {
         global $cfg;
 
         if (!is_object($this->db_perm)) {
-            $this->db_perm = new DB_Contenido;
+            $this->db_perm = new DbConLite();
         }
 
         if (!is_numeric($action)) {
@@ -108,7 +111,7 @@ class Contenido_Perm {
                                    name = \"" . Contenido_Security::escapeDB($action, $this->db_perm) . "\"";
 
                 $this->db_perm->query($sql);
-                $this->db_perm->next_record();
+                $this->db_perm->nextRecord();
 
                 $this->actioncache[$action] = $this->db_perm->f("idaction");
                 $action = $this->db_perm->f(0);
@@ -163,7 +166,7 @@ class Contenido_Perm {
         if (!is_array($area_rights)) {
             $area_rights = array();
         }
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $area_rights[$db->f("idarea")][$db->f("idaction")] = true;
         }
 
@@ -175,7 +178,7 @@ class Contenido_Perm {
         $db->query($sql);
 
         $tmp_area = array();
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             array_push($tmp_area, $db->f("idarea"));
         }
 
@@ -186,7 +189,7 @@ class Contenido_Perm {
                                   WHERE user_id='" . Contenido_Security::escapeDB($user, $db) . "' AND idclient='" . Contenido_Security::toInteger($client) . "' AND idlang='" . Contenido_Security::toInteger($lang) . "' AND idarea IN ('$tmp_area_string') AND idcat != '0'";
         $db->query($sql);
 
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $item_rights[$db->f(0)][$db->f(1)][$db->f(2)] = $db->f(2);
         }
     }
@@ -213,7 +216,7 @@ class Contenido_Perm {
         global $item_rights, $auth, $client, $lang, $cfg;
 
         if (!is_object($this->db)) {
-            $this->db = new DB_Contenido;
+            $this->db = new DbConLite();
         }
 
         $area = $this->getIDForArea($area);
@@ -248,7 +251,7 @@ class Contenido_Perm {
                     return false;
                 }
 
-                while ($this->db->next_record()) {
+                while ($this->db->nextRecord()) {
                     $item_rights[$this->db->f("idarea")][$this->db->f("idaction")][$this->db->f("idcat")] = $this->db->f("idcat");
                 }
 
@@ -267,7 +270,7 @@ class Contenido_Perm {
         global $client, $lang, $cfg, $sess;
 
         if (!is_object($this->db)) {
-            $this->db = new DB_Contenido;
+            $this->db = new DbConLite();
         }
 
         if (is_numeric($area)) {
@@ -291,7 +294,7 @@ class Contenido_Perm {
         }
         $this->db->query($sql);
 
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             return $this->db->f(0);
         } else {
             return $area;
@@ -302,7 +305,7 @@ class Contenido_Perm {
         global $area_rights, $client, $lang, $cfg;
         //if not admin or sysadmin
         if (!is_object($this->db_perm)) {
-            $this->db_perm = new DB_Contenido;
+            $this->db_perm = new DbConLite();
         }
 
         $area = $this->getIDForArea($area);
@@ -509,9 +512,6 @@ class Contenido_Perm {
         return $oUser;
     }
 
-    /**
-     * @deprecated
-     */
     function have_perm_client($p = 'x') {
         global $auth, $client;
 
@@ -576,7 +576,7 @@ class Contenido_Perm {
         if (!$this->have_perm()) {
 
             if (!is_object($this->db)) {
-                $this->db = new DB_Contenido;
+                $this->db = new DbConLite();
             }
 
             $this->showareas($mainarea);
@@ -613,12 +613,12 @@ class Contenido_Perm {
                     $this->db->query($sql);
 
                     //if there are no rights for this area set the flag norights
-                    if ($this->db->affected_rows() == 0) {
+                    if ($this->db->affectedRows() == 0) {
                         $item_rights[$value] = "noright";
                     }
 
                     //set the rights
-                    while ($this->db->next_record()) {
+                    while ($this->db->nextRecord()) {
                         if ($this->db->f("idcat") == $itemid) {
                             $flg = true;
                         }
@@ -636,7 +636,7 @@ class Contenido_Perm {
         global $area_tree, $sess, $perm, $cfg;
 
         if (!is_object($this->db)) {
-            $this->db = new DB_Contenido;
+            $this->db = new DbConLite();
         }
 
         $mainarea = $this->getIDForArea($mainarea);
@@ -654,7 +654,7 @@ class Contenido_Perm {
                               idarea='$mainarea'";
 
             $this->db->query($sql);
-            $this->db->next_record();
+            $this->db->nextRecord();
             $name = $this->db->f("name");
 
             //check which subareas are there and write them in the array
@@ -668,7 +668,7 @@ class Contenido_Perm {
 
             $this->db->query($sql);
             $area_tree[$mainarea] = array();
-            while ($this->db->next_record()) {
+            while ($this->db->nextRecord()) {
                 $area_tree[$mainarea][] = $this->db->f("idarea");
             }
         }
