@@ -28,6 +28,9 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -35,7 +38,7 @@ if (!defined('CON_FRAMEWORK')) {
 
 $properties = new PropertyCollection;
 
-$db2 = new DB_ConLite;
+$db2 = new DbConLite();
 
 if ($action == "client_new") {
     $nextid = $db->nextid($cfg["tab"]["clients"]);
@@ -310,7 +313,7 @@ if (!$perm->have_perm_area_action($area)) {
         } else if ($cApiClient->getProperty("generator", "html5") == 'true') {
             $oXHTMLSelect->setDefault("html5");
         } else {
-            $oXHTMLSelect->setDefault("html");
+            $oXHTMLSelect->setDefault("html5");
         }
 
         $tpl->set('d', 'CATNAME', i18n("Generate"));
@@ -336,4 +339,3 @@ if (!$perm->have_perm_area_action($area)) {
         $tpl->generate($cfg['path']['templates'] . $cfg['templates']['client_edit']);
     }
 }
-?>
