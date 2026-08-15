@@ -386,6 +386,8 @@ class Security
      */
     public static function escapeDB(?string $sString, ?DbConLite $oDB = null, bool $bUndoAddSlashes = true): string
     {
+        $sString = (string) $sString;
+
         if (!is_object($oDB)) {
             return self::escapeString($sString);
         } else {
@@ -405,7 +407,7 @@ class Security
      */
     public static function escapeString(?string $sString): string
     {
-        $sString = (string)$sString;
+        $sString = (string) $sString;
         if (defined('CONTENIDO_STRIPSLASHES')) {
             $sString = stripslashes($sString);
         }
