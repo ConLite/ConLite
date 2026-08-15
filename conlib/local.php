@@ -267,7 +267,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
     public $classname = 'Contenido_Challenge_Crypt_Auth';
     public $lifetime = 15;
     public $magic = 'Frrobo123xxica';  ## Challenge seed
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
     public $database_table = '';
     public $group_table = '';
     public $member_table = '';
@@ -309,7 +309,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
         $this->db->query($sql);
 
         $bFound = false;
-        while ($this->db->next_record() && !$bFound) {
+        while ($this->db->nextRecord() && !$bFound) {
             $iTmpClient = $this->db->f('idclient');
             $iTmpLang = $this->db->f('idlang');
 
@@ -330,7 +330,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                         idart = '" . Contenido_Security::toInteger($idart) . "'";
 
             $this->db->query($sql);
-            $this->db->next_record();
+            $this->db->nextRecord();
             $idcatart = $this->db->f('idcatart');
         }
 
@@ -392,7 +392,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
         ));
 
         $sMaintenanceMode = getSystemProperty('maintenance', 'mode');
-        while ($this->db->next_record()) {
+        while ($this->db->nextRecord()) {
             $uid = $this->db->f('user_id');
             $perm = $this->db->f('perms');
             $pass = $this->db->f('password');   ## Password is stored as a md5 hash
@@ -431,7 +431,7 @@ class Contenido_Challenge_Crypt_Auth extends Auth {
                 $gperm[] = $perm;
             }
 
-            while ($this->db->next_record()) {
+            while ($this->db->nextRecord()) {
                 $gperm[] = $this->db->f('perms');
             }
 
@@ -468,7 +468,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
     public $classname = 'Contenido_Frontend_Challenge_Crypt_Auth';
     public $lifetime = 15;
     public $magic = 'Frrobo123xxica';  ## Challenge seed
-    public $database_class = 'DB_Contenido';
+    public $database_class = 'ConLite\Database\DbConLite';
     public $database_table = '';
     public $fe_database_table = '';
     public $group_table = '';
@@ -525,7 +525,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
         $this->db->query(sprintf("SELECT idfrontenduser, password FROM %s WHERE username = '%s' AND idclient='$client' AND active='1'", $this->fe_database_table, Contenido_Security::escapeDB(urlencode($username), $this->db)
         ));
 
-        if ($this->db->next_record()) {
+        if ($this->db->nextRecord()) {
             $uid = $this->db->f('idfrontenduser');
             $perm = 'frontend';
             $pass = $this->db->f('password');
@@ -535,7 +535,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
             /* Authentification via backend users */
             $this->db->query(sprintf("SELECT user_id, perms, password FROM %s WHERE username = '%s'", $this->database_table, Contenido_Security::escapeDB($username, $this->db)));
 
-            while ($this->db->next_record()) {
+            while ($this->db->nextRecord()) {
                 $uid = $this->db->f('user_id');
                 $perm = $this->db->f('perms');
                 $pass = $this->db->f('password');   ## Password is stored as a md5 hash
@@ -562,7 +562,7 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
                     $gperm[] = $perm;
                 }
 
-                while ($this->db->next_record()) {
+                while ($this->db->nextRecord()) {
                     $gperm[] = $this->db->f('perms');
                 }
 
@@ -596,25 +596,4 @@ class Contenido_Frontend_Challenge_Crypt_Auth extends Auth {
         }
     }
 
-}
-
-/**
- * Registers an external auth handler
- */
-function register_auth_handler($aHandlers) {
-    global $auth_handlers;
-
-    if (!is_array($auth_handlers)) {
-        $auth_handlers = [];
-    }
-
-    if (!is_array($aHandlers)) {
-        $aHandlers = [$aHandlers];
-    }
-
-    foreach ($aHandlers as $aHandler) {
-        if (!in_array($aHandler, $auth_handlers)) {
-            $auth_handlers[md5($aHandler)] = $aHandler;
-        }
-    }
 }
