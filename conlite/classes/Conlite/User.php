@@ -408,7 +408,7 @@ class User extends Item
         if($checkPassword != self::PASS_OK) {
             return $checkPassword;
         }
-        var_dump($checkPassword);
+
         $encodedPassword = $this->encodePassword($password);
 
         if ($this->get('password') != $encodedPassword) {

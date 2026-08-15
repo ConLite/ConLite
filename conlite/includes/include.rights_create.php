@@ -147,7 +147,6 @@ if ($action == 'user_createuser') {
                 if($user instanceof User && $user->isLoaded()) {
                     // fill in all user settings
                     $pwNotOk = $user->setPassword($postArray['password']);
-                    var_dump($pwNotOk);
                     $user->setRealName($postArray['realname']);
                     $user->setMail($postArray['email']);
                     $user->setTelNumber($postArray['telephone']);
