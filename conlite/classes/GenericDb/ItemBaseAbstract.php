@@ -5,6 +5,7 @@ namespace ConLite\GenericDb;
 // security check
 defined('CON_FRAMEWORK') or die('Illegal call');
 
+use ConLite\Database\DbConLite;
 use DB_ConLite;
 use PropertyCollection;
 
@@ -14,22 +15,22 @@ abstract class ItemBaseAbstract
 
     /**
      * Database instance, contains the database object
-     * @var  DB_ConLite
+     * @var  DbConLite
      */
-    protected $db;
+    protected ?DbConLite $db;
 
     /**
      * Second DB instance, is required for some additional queries without
      * losing an current existing query result.
-     * @var  DB_ConLite
+     * @var  DbConLite
      */
-    protected $secondDb;
+    protected DbConLite $secondDb;
 
     /**
      * Property collection instance
      * @var  PropertyCollection
      */
-    protected $properties;
+    protected PropertyCollection $properties;
 
     /**
      * Item cache instance
