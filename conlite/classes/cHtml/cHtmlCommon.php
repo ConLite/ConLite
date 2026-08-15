@@ -2,7 +2,7 @@
 
 namespace ConLite\cHtml;
 
-class cHtmlCommonimplements implements \ArrayAccess
+class cHtmlCommon implements \ArrayAccess
 {
 
     protected string|array|null $attributes = null;
