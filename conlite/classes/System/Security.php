@@ -379,12 +379,12 @@ class Security
      * Escaped an query-string with mysql_real_escape_string
      * @static
      *
-     * @param string $sString Input string
+     * @param string|null $sString Input string
      * @param DbConLite|null $oDB Contenido database object
      * @param boolean $bUndoAddSlashes Flag for undo addslashes (optional, default: true)
      * @return  string  Converted string
      */
-    public static function escapeDB(string $sString, ?DbConLite $oDB = null, bool $bUndoAddSlashes = true): string
+    public static function escapeDB(?string $sString, ?DbConLite $oDB = null, bool $bUndoAddSlashes = true): string
     {
         if (!is_object($oDB)) {
             return self::escapeString($sString);
@@ -400,10 +400,10 @@ class Security
      * Escaped an query-string with addslashes
      * @static
      *
-     * @param string $sString Input string
+     * @param string|null $sString Input string
      * @return  string  Converted string
      */
-    public static function escapeString(string $sString): string
+    public static function escapeString(?string $sString): string
     {
         $sString = (string)$sString;
         if (defined('CONTENIDO_STRIPSLASHES')) {
