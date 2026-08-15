@@ -33,6 +33,8 @@
  * 
  */
 
+use ConLite\Database\DbConLite;
+
 if (!defined("CON_FRAMEWORK")) {
     define("CON_FRAMEWORK", true);
 }
@@ -60,8 +62,8 @@ cInclude ("includes", 'functions.forms.php');
 $sess->register("belang");
 
 // Create Contenido classes
-$db  = new DB_ConLite;
-$tpl = new Template;
+$db  = new DbConLite();
+$tpl = new Template();
 
 // Sprache wechseln
 if (isset($changelang) && is_numeric($changelang))
