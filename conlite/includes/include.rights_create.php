@@ -23,6 +23,7 @@
 use ConLite\Conlite\User;
 use ConLite\Conlite\UserCollection;
 use ConLite\Exceptions\Exception;
+use ConLite\System\Registry;
 
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -35,9 +36,9 @@ if (!defined('CON_FRAMEWORK')) {
 
 cInclude('includes', 'functions.rights.php');
 
-$action = cRegistry::getAction();
-$area = cRegistry::getArea();
-$perm = cRegistry::getPerm();
+$action = Registry::getAction();
+$area = Registry::getArea();
+$perm = Registry::getPerm();
 
 
 if (!$perm->have_perm_area_action($area, $action)) {
@@ -45,12 +46,12 @@ if (!$perm->have_perm_area_action($area, $action)) {
     return;
 }
 
-$auth = cRegistry::getAuth();
-$frame = cRegistry::getFrame();
-$lang = cRegistry::getLanguageId();
-$perm = cRegistry::getPerm();
-$sess = cRegistry::getSession();
-$belang = cRegistry::getBackendLanguage();
+$auth = Registry::getAuth();
+$frame = Registry::getFrame();
+$lang = Registry::getLanguageId();
+$perm = Registry::getPerm();
+$sess = Registry::getSession();
+$belang = Registry::getBackendLanguage();
 
 $postArray = filter_input_array(INPUT_POST, [
     'username' => FILTER_SANITIZE_STRING,
@@ -180,7 +181,7 @@ if ($action == 'user_createuser') {
     }
 }
 
-$cfgColor = cRegistry::getConfigValue('color');
+$cfgColor = Registry::getConfigValue('color');
 
 /**
  * @var Template $tpl
@@ -370,4 +371,4 @@ $tpl->set('d', 'CATFIELD', $sInputValidTo);
 $tpl->next();
 
 // Generate template
-$tpl->generate(cRegistry::getConfigValue('path','templates') . cRegistry::getConfigValue('templates', 'rights_create'));
+$tpl->generate(Registry::getConfigValue('path','templates') . Registry::getConfigValue('templates', 'rights_create'));

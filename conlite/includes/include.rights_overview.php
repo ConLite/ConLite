@@ -5,6 +5,7 @@ global $notification;
 use ConLite\Conlite\User;
 use ConLite\Conlite\UserCollection;
 use ConLite\GenericDb\ItemException;
+use ConLite\System\Registry;
 use ConLite\System\Security;
 
 /**
@@ -33,9 +34,9 @@ if (!defined('CON_FRAMEWORK')) {
 
 cInclude('includes', 'functions.rights.php');
 
-$perm = cRegistry::getPerm();
-$area = cRegistry::getArea();
-$action = cRegistry::getAction();
+$perm = Registry::getPerm();
+$area = Registry::getArea();
+$action = Registry::getAction();
 
 if (!($perm->have_perm_area_action($area, $action) || $perm->have_perm_area_action('user', $action))) {
     // access denied
@@ -50,11 +51,11 @@ if (!isset($userid)) {
 $aPerms = [];
 $bError = false;
 $sNotification = '';
-$auth = cRegistry::getAuth();
-$sess = cRegistry::getSession();
-$belang = cRegistry::getBackendLanguage();
-$db = cRegistry::getDb();
-$tpl = cRegistry::getTemplate();
+$auth = Registry::getAuth();
+$sess = Registry::getSession();
+$belang = Registry::getBackendLanguage();
+$db = Registry::getDb();
+$tpl = new Template();
 
 $postArray = filter_input_array(INPUT_POST, [
     'realname' => FILTER_SANITIZE_STRING,
@@ -85,11 +86,11 @@ if ($action == 'user_delete') {
     $users = new UserCollection();
     $users->deleteBy('user_id', $userid);
 
-    $sql = "DELETE FROM " . cRegistry::getConfigValue('tab', 'groupmembers')
+    $sql = "DELETE FROM " . Registry::getConfigValue('tab', 'groupmembers')
         . " WHERE user_id = '" . Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
-    $sql = "DELETE FROM " . cRegistry::getConfigValue('tab', 'rights')
+    $sql = "DELETE FROM " . Registry::getConfigValue('tab', 'rights')
         . " WHERE user_id = '" . Security::escapeDB($userid, $db) . "'";
     $db->query($sql);
 
@@ -242,7 +243,7 @@ if (count($aPerms) == 0 || $action == '' || !isset($action)) {
     $aPerms = explode(',', $user->getField('perms'));
 }
 
-$cfgColor = cRegistry::getConfigValue('color');
+$cfgColor = Registry::getConfigValue('color');
 
 $tpl->reset();
 $tpl->set('s', 'SID', $sess->id);
@@ -252,9 +253,9 @@ $form = '<form name="user_properties" method="post" action="' . $sess->url("main
              ' . $sess->hidden_session(true) . '
              <input type="hidden" name="area" value="' . $area . '">
              <input type="hidden" name="action" value="user_edit">
-             <input type="hidden" name="frame" value="' . cRegistry::getFrame() . '">
+             <input type="hidden" name="frame" value="' . Registry::getFrame() . '">
              <input type="hidden" name="userid" value="' . $userid . '">
-             <input type="hidden" name="idlang" value="' . cRegistry::getLanguageId() . '">';
+             <input type="hidden" name="idlang" value="' . Registry::getLanguageId() . '">';
 
 $tpl->set('s', 'FORM', $form);
 $tpl->set('s', 'GET_USERID', $userid);
