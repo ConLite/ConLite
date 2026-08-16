@@ -37,8 +37,30 @@ if (!defined("CON_FRAMEWORK")) {
 }
 
 $contenido_path = '';
-# include the config file of the frontend to init the Client and Language Id
-include_once ("config.php");
+// Set path to current frontend
+$frontend_path = str_replace('\\', '/', realpath(__DIR__ . '/')) . '/';
+
+// Include the environment definer file
+include_once($frontend_path . 'environment.php');
+
+if (defined('CL_ENVIRONMENT')) {
+    include_once($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.php');
+
+    if (file_exists($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.local.php')) {
+        @include($frontend_path . 'data/config/' . CL_ENVIRONMENT . '/config.local.php');
+    }
+} else {
+    if(file_exists($frontend_path.'config.php')) {
+        include_once($frontend_path.'config.php');
+    }
+    if(file_exists($frontend_path.'config.local.php')) {
+        include_once($frontend_path.'config.local.php');
+    }
+}
+
+if (!is_file($contenido_path . 'includes/startup.php')) {
+    die("<h1>Fatal Error</h1><br>Couldn't include ConLite startup.");
+}
 
 // Contenido startup process
 include_once ($contenido_path . 'includes/startup.php');
@@ -58,9 +80,7 @@ if ($contenido)
 /* Shorten load time */
 $client = $load_client;
 
-$dbfs = new DBFSCollection;
+$dbfs = new DBFSCollection();
 $dbfs->outputFile($file);
 
 page_close();
-
-?>
