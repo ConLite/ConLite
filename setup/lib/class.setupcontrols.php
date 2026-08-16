@@ -195,8 +195,8 @@ class cHTMLInfoMessage extends cHTMLTableRow {
      * @param string $sMessage 
      */
     public function __construct($sTitle, $sMessage)	{
-        $this->_oTitle = new cHTMLTableData;
-        $this->_oMessage = new cHTMLTableData;
+        $this->_oTitle = new cHTMLTableData();
+        $this->_oMessage = new cHTMLTableData();
 
         $this->_oTitle->setContent($sTitle);
         $this->_oTitle->setClass("entry_nowrap");

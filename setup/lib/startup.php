@@ -15,6 +15,8 @@
  * 
  */
 
+use ConLite\System\Security;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -22,6 +24,7 @@ define('CON_BE_PATH', '../conlite/');
 
 session_start();
 
+require_once dirname(__DIR__, 2) . '/vendor/autoload.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . '/defines.php';
 /*
  * SetEnv CL_VERSION
@@ -68,9 +71,7 @@ if (!defined('CL_ENVIRONMENT')) {
     define('CL_ENVIRONMENT', $sEnvironment);
 }
 
-// include security class and check request variables
-include_once(CON_BE_PATH . 'classes/class.security.php');
-Contenido_Security::checkRequests();
+Security::checkRequests();
 
 /**
  * Setup file inclusion

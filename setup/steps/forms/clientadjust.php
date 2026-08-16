@@ -92,7 +92,7 @@ class cSetupClientAdjust extends cSetupMask {
             $oSystemPathBox->setWidth(100);
             $oSystemPathBox->setClass("small");
             $oClientSystemPath = new cHTMLInfoMessage([$sName, $oSystemPathBox], "&nbsp;");
-            $oClientSystemPath->_oTitle->setStyle("padding-left: 8px; padding-bottom: 8px");
+            //$oClientSystemPath->_oTitle->setStyle("padding-left: 8px; padding-bottom: 8px");
 
             $aPathList[] = $oClientSystemPath;
 
@@ -104,7 +104,7 @@ class cSetupClientAdjust extends cSetupMask {
             $oSystemPathBox->setWidth(100);
             $oSystemPathBox->setClass("small");
             $oClientSystemPath = new cHTMLInfoMessage([$sName, $oSystemPathBox], "&nbsp;");
-            $oClientSystemPath->_oTitle->setStyle("padding-left: 8px; padding-bottom: 8px");
+            //$oClientSystemPath->_oTitle->setStyle("padding-left: 8px; padding-bottom: 8px");
 
 
             $aPathList[] = $oClientSystemPath;

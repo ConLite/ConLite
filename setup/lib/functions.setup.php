@@ -53,6 +53,11 @@ function cGenerateSetupStepsDisplay($iCurrentStep)
         if ($iCurrentStep == $i) {
             $sCssActive = 'background-color:#fff;color:#0060B1;';
         }
+        // grey out plugin step
+        if ($i == 6) {
+            $sCssActive = 'color:grey;';
+        }
+
         $sStepsPath .= '<span style="'.$sCssActive.'">&nbsp;'.strval($i).'&nbsp;</span>&nbsp;&nbsp;&nbsp;';
     }
     return $sStepsPath;

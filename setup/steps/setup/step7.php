@@ -39,6 +39,6 @@ checkAndInclude("steps/forms/setupsummary.php");
 
 
 
-$cSetupSetupSummary = new cSetupSetupSummary(7, "setup6", "doinstall");
+$cSetupSetupSummary = new cSetupSetupSummary(7, "setup5", "doinstall");
 $cSetupSetupSummary->render();
 ?>
