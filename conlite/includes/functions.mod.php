@@ -37,7 +37,13 @@ cInclude("includes", "functions.tpl.php");
 cInclude("includes", "functions.con.php");
 
 function modEditModule($idmod, $name, $description, $input, $output, $template, $type = "") {
-    global $db, $client, $cfgClient, $auth, $cfg, $sess, $area_tree, $perm, $frame;
+
+    $db = cRegistry::getDb();
+    $client = cRegistry::getClientId();
+    $cfgClient = cRegistry::getClientConfig($client);
+    $auth = cRegistry::getAuth();
+    $cfg = cRegistry::getConfig();
+    $frame = cRegistry::getFrame();
 
     $date = date("Y-m-d H:i:s");
     $author = $auth->auth["uname"];
@@ -76,10 +82,11 @@ function modEditModule($idmod, $name, $description, $input, $output, $template, 
             || $cApiModule->get("type") != stripslashes($type)) {
 
         $cApiModule->set("name", $name);
-        $cApiModule->set("output", $cApiModule->escape($output));
+        //$cApiModule->set("output", $cApiModule->escape($output));
+        $cApiModule->set("output", $output);
         $cApiModule->set("template", $template);
         $cApiModule->set("description", $description);
-        $cApiModule->set("input", $cApiModule->escape($input));
+        $cApiModule->set("input", $input);
         $cApiModule->set("type", $type);
         $cApiModule->set("lastmodified", $date);
 

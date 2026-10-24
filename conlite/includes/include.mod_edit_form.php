@@ -29,6 +29,8 @@
  * }}
  * 
  */
+use ConLite\Database\DbConLite;
+
 // security
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
@@ -211,7 +213,7 @@ if (($action == "mod_new") && (!$perm->have_perm_area_action_anyitem($area, $act
 
         // Check, if tabs may be inserted in text areas (instead jumping to next element)
         if (getEffectiveSetting("modules", "edit-with-tabs", "false") == "true") {
-            $sTabScript = '<script type="text/javascript"><!--
+            $sTabScript = '<script type="text/javascript">
 /**
 * Insert a tab at the current text position in a textarea
 * Jan Dittmer, jdittmer@ppp0.net, 2005-05-28
@@ -261,7 +263,7 @@ function insertTab(event, obj) {
 		return true;
 	}
 }
-//--></script>';
+</script>';
             $page->addScript("tabScript", $sTabScript);
 
             $input->setEvent("onkeydown", "return insertTab(event,this);");
@@ -271,13 +273,13 @@ function insertTab(event, obj) {
         // Prepare type select box
         $typeselect = new cHTMLSelectElement("type");
 
-        $db2 = new DB_ConLite;
+        $db2 = new DbConLite();
         $sql = "SELECT type FROM " . cRegistry::getConfigValue('tab', 'mod') . " " .
                 "WHERE idclient = '" . cRegistry::getClientId() . "' GROUP BY type"; // @todo check: This query can't be designed using GenericDB...
         $db2->query($sql);
 
         $aTypes = array();
-        while ($db2->next_record()) {
+        while ($db2->nextRecord()) {
             if ($db2->f("type") != "") {
                 $aTypes[] = $db2->f("type");
             }
@@ -363,7 +365,6 @@ function insertTab(event, obj) {
                 $page->setReload();
             }
         }
-
         if (cRegistry::getConfigValue('dceModEdit', 'use')) {
             // button for mod folder creation
             if (!$module->hasModuleFolder() && $action != "mod_new") {
@@ -392,7 +393,7 @@ function insertTab(event, obj) {
         $form->add(i18n("Description"), $descr->render());
 
         if ($sOptionDebugRows == "always" || ($sOptionDebugRows == "onerror" && (!$inputok || !$outputok))) {
-            $sSyncScript = '<script type="text/javascript"><!--
+            $sSyncScript = '<script type="text/javascript">
 function scrolltheother() {
 var oICArea = document.mod_edit.input;
 var oOCArea = document.mod_edit.output;
@@ -405,7 +406,7 @@ oORArea.scrollTop = oOCArea.scrollTop;
 setTimeout("scrolltheother()", 10);
 }
 window.onload = scrolltheother;
-			//--></script>
+			</script>
 			';
             $page->addScript("syncScript", $sSyncScript);
 
@@ -417,11 +418,6 @@ window.onload = scrolltheother;
         }
 
         $noti = "";
-
-        if ($module->isOldModule()) {
-            $noti .= $notification->returnNotification("warning", i18n("This module uses variables and/or functions which are probably not available in this Contenido version. Please make sure that you use up-to-date modules."));
-            $noti .= "<br>";
-        }
 
         if ($idmod != 0) {
             $import = new cHTMLRadiobutton("mode", "import");
