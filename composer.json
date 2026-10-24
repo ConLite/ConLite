@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": ">=8.2",
         "phpmailer/phpmailer": "v6.12.0",
         "adodb/adodb-php": "5.22.11",
       "ext-zlib": "*",
@@ -17,6 +17,7 @@
       "ext-dom": "*",
       "ext-simplexml": "*",
       "ext-gd": "*",
+      "ext-xml": "*",
       "ext-imagick": "*"
     },
     "require-dev": {
