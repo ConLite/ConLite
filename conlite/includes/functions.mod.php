@@ -29,6 +29,9 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
@@ -44,6 +47,7 @@ function modEditModule($idmod, $name, $description, $input, $output, $template, 
     $auth = cRegistry::getAuth();
     $cfg = cRegistry::getConfig();
     $frame = cRegistry::getFrame();
+    $area = cRegistry::getArea();
 
     $date = date("Y-m-d H:i:s");
     $author = $auth->auth["uname"];
@@ -113,14 +117,14 @@ function modDeleteModule($idmod) {
 // Returns true or false
 
 function modTestModule($code, $id, $output = false) {
-    global $cfg, $modErrorMessage;
+    global $cfg, $modErrorMessage, $magicvalue;
 
-    $db = new DB_ConLite();
+    $db = new DbConLite();
 
     $sql = "SELECT type FROM " . $cfg["tab"]["type"];
     $db->query($sql);
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $code = str_replace($db->f("type") . '[', '$' . $db->f("type") . '[', $code);
     }
 
