@@ -443,12 +443,12 @@ class cSetupSystemtest extends cSetupMask {
         // old logs
         if ($_SESSION["setuptype"] != "setup") {
             // old folders
-            $this->logFilePrediction("conlite/cache/");
-            $this->logFilePrediction("conlite/temp/");
+            //$this->logFilePrediction("conlite/cache/");
+            //$this->logFilePrediction("conlite/temp/");
             $this->logFilePrediction("data/cache/");
             $this->logFilePrediction("data/temp/");
-            $this->logFilePrediction("conlite/logs/errorlog.txt");
-            $this->logFilePrediction("conlite/logs/setuplog.txt");
+            //$this->logFilePrediction("conlite/logs/errorlog.txt");
+            //$this->logFilePrediction("conlite/logs/setuplog.txt");
             $this->logFilePrediction("data/logs/errorlog.txt");
             $this->logFilePrediction("data/logs/setuplog.txt");
         }
