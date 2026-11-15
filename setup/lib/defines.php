@@ -31,7 +31,7 @@ if (array_key_exists('setuptype', $_SESSION)) {
     }
 }
 
-const C_SETUP_MIN_PHP_VERSION = '8.0.0';
+const C_SETUP_MIN_PHP_VERSION = '8.2.0';
 const C_SETUP_MAX_PHP_VERSION = '8.6.0';
 const C_SETUP_VERSION = '3.1.0';
 
