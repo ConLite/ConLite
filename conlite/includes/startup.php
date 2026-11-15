@@ -83,7 +83,7 @@ include_once(dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/classes/Migrate/class.security.php');
 include_once(str_replace('\\', '/', realpath(dirname(__FILE__) . '/..')) . '/classes/class.security.php');
 try {
-    Contenido_Security::checkRequests();
+    cSecurity::checkRequests();
 } catch (Exception $e) {
     die($e->getMessage());
 }
@@ -91,7 +91,7 @@ try {
 
 // "Workaround" for register_globals=off settings.
 require_once(dirname(__FILE__) . '/globals_off.inc.php');
-$sPathCfgDir = dirname(dirname(dirname(__FILE__))) . '/data/config/' . CL_ENVIRONMENT . '/';
+$sPathCfgDir = dirname(__FILE__, 3) . '/data/config/' . CL_ENVIRONMENT . '/';
 $sClConfigFile = $sPathCfgDir . 'config.php';
 // Check if configuration file exists, this is a basic indicator to find out, if Contenido is installed
 if (!file_exists(dirname(__FILE__) . '/config.php') && !file_exists($sClConfigFile)) {
