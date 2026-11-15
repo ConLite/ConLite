@@ -162,8 +162,8 @@ class Version {
      * @param array $aCfgClient
      * @param object $oDB	
      * @param integer $iClient
-     * @param object $sArea
-     * @param object $iFrame
+     * @param string $sArea
+     * @param int $iFrame
      * 
      * @return void 
      */
