@@ -1,4 +1,4 @@
-<?php
+<?php global $contenido_host, $contenido_database, $contenido_user, $contenido_password;
 /**
  * Project:
  * Contenido Content Management System
