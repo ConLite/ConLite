@@ -1,11 +1,11 @@
-This is the readme file for **ConLite 3.0.0**
+This is the readme file for **ConLite 3.1.0**
 
 Any help you need you may find by visiting the following links.
 
 * CL-Portal [https://conlite.org](https://conlite.org)
 * CL-Forum [http://forum.conlite.org](http://forum.conlite.org)
 * CL-Bugtracker [https://gitport.de/ConLite/ConLite/issues](https://gitport.de/ConLite/ConLite/issues)
-* CL-API-Doc [https://api.conlite.org/CL3_0_0](https://api.conlite.org/CL3_0_0)
+* CL-API-Doc [https://api.conlite.org/CL3_1_0](https://api.conlite.org/CL3_1_0)
 
 ### !!! Attention !!!
 
@@ -55,6 +55,13 @@ If you want to upgrade with an installed AMR-plugin, uninstall AMR before upgrad
 We will include a fix for that in one of the next versions of CL
 
 ### History / Changelog
+**ConLite 3.1.0**
+* min PHP 8.2.0
+
+**ConLite 3.0.0**
+* only internal use
+* see [https://gitport.de/ConLite/ConLite/milestone/2](https://gitport.de/ConLite/ConLite/milestone/2)
+
 **ConLite 2.1.3**
 
 **ConLite 2.1.2**
