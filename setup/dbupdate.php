@@ -179,7 +179,7 @@ if ($currentstep < $totalsteps) {
         $cfgClient = [];
         rereadClients_Setup();
 
-        $oVersion = new VersionImport(cRegistry::getConfig(), cRegistry::getClientConfig(), cRegistry::getDb(), cRegistry::getClientId(), cRegistry::getArea(), cRegistry::getFrame());
+        $oVersion = new VersionImport(cRegistry::getConfig(), cRegistry::getClientConfig(), $db, cRegistry::getClientId(), cRegistry::getArea(), cRegistry::getFrame());
         $oVersion->CreateHistoryVersion();
     }
 
