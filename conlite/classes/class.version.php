@@ -222,7 +222,8 @@ class Version {
         $bDelete = true;
 
         while (count($this->aRevisionFiles) >= $sVar AND $bDelete AND (int) $sVar > 0) {
-            $iIndex = end(array_keys($this->aRevisionFiles));
+            $keys = array_keys($this->aRevisionFiles);
+            $iIndex = end($keys);
             $bDelete = $this->deleteFile($this->getFirstRevision());
             unset($this->aRevisionFiles[$iIndex]);
         }
