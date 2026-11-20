@@ -40,10 +40,11 @@ if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
-global $parentid;
+global $parentid, $lang, $area, $frame, $_cecRegistry, $syncoptions, $movesubtreeidcat;
 
 $db = cRegistry::getDb();
 $action = cRegistry::getAction();
+$sess = cRegistry::getSession();
 $perm = cRegistry::getPerm();
 $client = cRegistry::getClientId();
 $cfg = cRegistry::getConfig();
@@ -229,12 +230,12 @@ if (isset($force) && $force == 1) {
     $remakeStrTable = true;
 }
 
-if ($StrTableClient != $client) {
+if (isset($StrTableClient) && $StrTableClient != $client) {
     unset($expandedList);
     $remakeStrTable = true;
 }
 
-if ($StrTableLang != $lang) {
+if (isset($StrTableLang) && $StrTableLang != $lang) {
     unset($expandedList);
     $remakeStrTable = true;
 }
@@ -413,10 +414,12 @@ if ($perm->have_perm_area_action($area)) {
     $arrayObj = new ArrayObject($items);
     buildTree($rootStrItem, $arrayObj->getIterator());
 
-    $expandedList = unserialize($currentuser->getUserProperty("system", "cat_expandstate"));
+    if(isset($currentuser)) {
+        $expandedList = unserialize($currentuser->getUserProperty("system", "cat_expandstate"));
 
-    if (is_array($expandedList)) {
-        $rootStrItem->markExpanded($expandedList);
+        if (is_array($expandedList)) {
+            $rootStrItem->markExpanded($expandedList);
+        }
     }
 
     if (isset($collapse) && is_numeric($collapse)) {
@@ -439,8 +442,8 @@ if ($perm->have_perm_area_action($area)) {
         $rootStrItem->markExpanded($idcat);
     }
 
-    $expandedList = Array();
-    $objects = array();
+    $expandedList = [];
+    $objects = [];
 
     $rootStrItem->traverse($objects);
 
@@ -448,6 +451,9 @@ if ($perm->have_perm_area_action($area)) {
     $currentuser->setUserProperty("system", "cat_expandstate", serialize($expandedList));
 
     # Reset Template
+    if(!isset($tpl)) {
+        $tpl = new Template();
+    }
     $tpl->reset();
     $tpl->set('s', 'SID', $sess->id);
     $tpl->set('s', 'AREA', $area);

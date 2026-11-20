@@ -249,7 +249,7 @@ class TreeItem
 	 * Marks an item as expanded. Traverses all subitems
 	 * to find the ID. Note that only the item with $id is
 	 * expanded, but not its childs.
-	 * @param string $id the ID to expand, or an array with all id's
+	 * @param mixed $id the ID to expand, or an array with all id's
      */	
 	function markExpanded ($id)
 	{
@@ -339,7 +339,7 @@ class TreeItem
    * traverse
 	 * traverses the tree starting from this item, and returning
 	 * all objects as $objects.
-	 * @param object $objects all found objects
+	 * @param array $objects all found objects
 	 * @param integer $level Level to start on
      */		
 	function traverse (&$objects, $level = 0)
