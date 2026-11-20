@@ -18,7 +18,8 @@
       "ext-simplexml": "*",
       "ext-gd": "*",
       "ext-xml": "*",
-      "ext-imagick": "*"
+      "ext-imagick": "*",
+      "ext-mbstring": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "@stable",
