@@ -316,14 +316,6 @@ function capiStrRecodeString ($sString, $sourceEncoding, $targetEncoding)
 		return $sString;	
 	}
 	
-	/* Check for the "recode" support */
-	if (function_exists("recode"))
-	{
-		$sResult = recode_string("$sourceEncoding..$targetEncoding", $sString);
-		
-		return ($sResult);	
-	}
-	
 	/* Check for the "iconv" support */ 
 	if (function_exists("iconv"))
 	{
