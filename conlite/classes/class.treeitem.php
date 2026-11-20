@@ -176,30 +176,33 @@ class TreeItem
 		}
 	}
 
-	/**
-   * getItemByID
-	 * Retrieves a specific item by its ID. Note that this
-	 * function traverses all subitems to find the correct item.
-	 * @param string $id the ID to find
-   * @return object The item, or false if nothing was found
-   */	
-	function &getItemByID($id)
-	{
+    /**
+     * getItemByID
+     * Retrieves a specific item by its ID. Note that this
+     * function traverses all subitems to find the correct item.
+     * @param string $id the ID to find
+     * @return TreeItem|false
+     */
+	function &getItemByID(string $id): TreeItem|false|static
+    {
 		if ($this->id == $id)
 		{
-			return ($this);
+            $treeItem = $this;
+            return $treeItem;
 		} else {
 			foreach (array_keys($this->subitems) as $key)
 			{
 				$retObj = &$this->subitems[$key]->getItemByID($id);
 				if ($retObj->id == $id)
 				{
-					return ($retObj);
+                    $retObj1 = $retObj;
+                    return $retObj1;
 				}
 			}
 		}
-		
-		return false;
+
+        $returnItem = false;
+        return $returnItem;
 	}
 
 
