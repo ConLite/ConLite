@@ -55,8 +55,8 @@ if (!defined('CL_ENVIRONMENT')) {
     } elseif (getenv('CL_ENVIRONMENT')) {
         $sEnvironment = getenv('CL_ENVIRONMENT');
     } else {
-        if (file_exists(dirname(dirname(__FILE__)) . "/environment.php")) {
-            include_once dirname(dirname(__FILE__)) . "/environment.php";
+        if (file_exists(dirname(__FILE__, 2) . "/environment.php")) {
+            include_once dirname(__FILE__, 2) . "/environment.php";
         }
 
         if (!isset($sEnvironment) || empty($sEnvironment)) {

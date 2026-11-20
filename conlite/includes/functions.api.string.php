@@ -268,21 +268,9 @@ function capiStrTrimSentence ($string, $approxlen, $hard = false)
  * @param string $targetEncoding
  * @return string returns cleaned string
  */
-function capiStrReplaceDiacritics($sString, $sourceEncoding = null, $targetEncoding = null) {
-    static $aSearch, $aReplace;
-    if (!isset($aSearch) || !isset($aReplace)) {
-        $aSearch  = array('Ä','Ö','Ü','ä','ö','ü','ß','Á','À','Â','á','à','â','É','È','Ê','é','è','ê','Í','Ì','Î','í','ì','î','Ó','Ò','Ô','ó','ò','ô','Ú','Ù','Û','ú','ù','û');
-        $aReplace = array('Ae','Oe','Ue','ae','oe','ue','ss','A','A','A','a','a','a','E','E','E','e','e','e','I','I','I','i','i','i','O','O','O','o','o','o','U','U','U','u','u','u');
-    }
-    // always use utf-8
-    if(function_exists("mb_convert_encoding")) {
-        $sString = mb_convert_encoding($sString, "UTF-8", mb_detect_encoding($sString, "UTF-8, ISO-8859-1, ISO-8859-15", true));
-    } else {
-        $sString = utf8_encode($sString);
-    }
-    $sString = str_replace($aSearch, $aReplace, $sString);
-    
-    return $sString;
+function capiStrReplaceDiacritics($sString, $sourceEncoding = null, $targetEncoding = null): string
+{
+	return cString::replaceDiacritics($sString, $sourceEncoding, $targetEncoding);
 }
 
 

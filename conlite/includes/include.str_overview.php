@@ -33,10 +33,23 @@
  * }}
  * 
  */
+
+use ConLite\Database\DbConLite;
+
 if (!defined('CON_FRAMEWORK')) {
     die('Illegal call');
 }
 
+global $parentid;
+
+$db = cRegistry::getDb();
+$action = cRegistry::getAction();
+$perm = cRegistry::getPerm();
+$client = cRegistry::getClientId();
+$cfg = cRegistry::getConfig();
+$cfgClient = cRegistry::getClientConfig();
+
+$idcat = cRegistry::getCategoryId();
 
 $debug = FALSE;
 
@@ -54,17 +67,17 @@ if (isset($_POST['newcategoryalias']) && isset($_POST['action']) && $_POST['acti
     if (!($perm->have_perm_area_action($tmp_area, "str_renamecat") || $perm->have_perm_area_action_item($tmp_area, "str_renamecat", $iIdCat))) {
         if (trim($_POST['newcategoryalias']) != '') {
             $sUrlName = capiStrCleanURLCharacters($_POST['newcategoryalias']);
-            $sql = "UPDATE {$cfg['tab']['cat_lang']} SET urlname = '" . Contenido_Security::escapeDB($sUrlName, $db) . "' WHERE idcat = '" . Contenido_Security::toInteger($iIdCat) . "' AND idlang = '" . Contenido_Security::toInteger($lang) . "'";
+            $sql = "UPDATE {$cfg['tab']['cat_lang']} SET urlname = '" . cSecurity::escapeDB($sUrlName, $db) . "' WHERE idcat = '" . cSecurity::toInteger($iIdCat) . "' AND idlang = '" . cSecurity::toInteger($lang) . "'";
             $db->query($sql);
         } else {
             //Use categoryname as default -> get it escape it save it as urlname
-            $sql = "SELECT name from {$cfg['tab']['cat_lang']} WHERE idcat = '" . Contenido_Security::toInteger($iIdCat) . "' AND idlang = '" . Contenido_Security::toInteger($lang) . "'";
+            $sql = "SELECT name from {$cfg['tab']['cat_lang']} WHERE idcat = '" . cSecurity::toInteger($iIdCat) . "' AND idlang = '" . cSecurity::toInteger($lang) . "'";
             $db->query($sql);
-            if ($db->next_record()) {
+            if ($db->nextRecord()) {
                 $sUrlName = capiStrCleanURLCharacters($db->f('name'));
-                $sql = "UPDATE {$cfg['tab']['cat_lang']} SET urlname = '" . $sUrlName . "' WHERE idcat = '" . Contenido_Security::toInteger($iIdCat) . "' AND idlang = '" . Contenido_Security::toInteger($lang) . "'";
+                $sql = "UPDATE {$cfg['tab']['cat_lang']} SET urlname = '" . $sUrlName . "' WHERE idcat = '" . cSecurity::toInteger($iIdCat) . "' AND idlang = '" . cSecurity::toInteger($lang) . "'";
                 $db->query($sql);
-                $lang = Contenido_Security::escapeDB($lang, null);
+                $lang = cSecurity::escapeDB($lang, null);
                 @unlink($cfgClient[$client]["path"]["frontend"] . "cache/locationstring-url-cache-$lang.txt");
             }
         }
@@ -72,7 +85,7 @@ if (isset($_POST['newcategoryalias']) && isset($_POST['action']) && $_POST['acti
 }
 
 
-$oDirectionDb = new DB_ConLite();
+$oDirectionDb = new DbConLite();
 
 /**
  * Build a Category select Box containg all categories which user is allowed to create new categories
@@ -82,7 +95,7 @@ $oDirectionDb = new DB_ConLite();
 function buildCategorySelectRights() {
     global $cfg, $client, $lang, $idcat, $perm, $tmp_area;
 
-    $db = new DB_ConLite();
+    $db = new DbConLite();
 
     $oHtmlSelect = new cHTMLSelectElement('idcat', "", "new_idcat");
 
@@ -92,15 +105,15 @@ function buildCategorySelectRights() {
 
     $sql = "SELECT a.idcat AS idcat, b.name AS name, c.level FROM
 	    	   " . $cfg["tab"]["cat"] . " AS a, " . $cfg["tab"]["cat_lang"] . " AS b,
-	    	   " . $cfg["tab"]["cat_tree"] . " AS c WHERE a.idclient = '" . Contenido_Security::toInteger($client) . "'
-	    	   AND b.idlang = '" . Contenido_Security::toInteger($lang) . "' AND b.idcat = a.idcat AND c.idcat = a.idcat
+	    	   " . $cfg["tab"]["cat_tree"] . " AS c WHERE a.idclient = '" . cSecurity::toInteger($client) . "'
+	    	   AND b.idlang = '" . cSecurity::toInteger($lang) . "' AND b.idcat = a.idcat AND c.idcat = a.idcat
 	           ORDER BY c.idtree";
 
     $db->query($sql);
 
     $categories = array();
 
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $categories[$db->f("idcat")]["name"] = $db->f("name");
         $categories[$db->f("idcat")]["idcat"] = $db->f("idcat");
 
@@ -193,7 +206,7 @@ function getTemplateSelect() {
 
     $i = 1;
     if ($db->query($sql)) {
-        while ($db->next_record()) {
+        while ($db->nextRecord()) {
             $bDefaultTemplate = $db->f('defaulttemplate');
             $oHtmlSelectOption = new cHTMLOptionElement($db->f('name'), $db->f('idtpl'), $bDefaultTemplate);
             $oHtmlSelect->addOptionElement($i, $oHtmlSelectOption);
@@ -334,8 +347,8 @@ if ($perm->have_perm_area_action($area)) {
             WHERE
                 A.idcat     = B.idcat AND
                 B.idcat     = C.idcat AND
-                C.idlang    = '" . Contenido_Security::toInteger($lang) . "' AND
-                B.idclient  = '" . Contenido_Security::toInteger($client) . "'
+                C.idlang    = '" . cSecurity::toInteger($lang) . "' AND
+                B.idclient  = '" . cSecurity::toInteger($client) . "'
             ORDER BY
                 idtree";
 
@@ -353,7 +366,7 @@ if ($perm->have_perm_area_action($area)) {
     $iIgnoreLevel = 0;
 
     $items = array();
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $bSkip = false;
 
         if ($bIgnore == true && $iIgnoreLevel >= $db->f("level")) {
@@ -512,7 +525,7 @@ if ($perm->have_perm_area_action($area)) {
 		        " . $cfg["tab"]["tpl_conf"];
     $db->query($sql);
     $aTplconfigs = array();
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $aTplconfigs[$db->f('idtplcfg')] = $db->f('idtpl');
     }
 
@@ -523,7 +536,7 @@ if ($perm->have_perm_area_action($area)) {
 
     $db->query($sql);
     $aTemplates = array();
-    while ($db->next_record()) {
+    while ($db->nextRecord()) {
         $aTemplates[$db->f('idtpl')] = array(
             'name' => $db->f('name'),
             'description' => $db->f('description')
