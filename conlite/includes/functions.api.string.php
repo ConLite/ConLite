@@ -315,14 +315,6 @@ function capiStrRecodeString ($sString, $sourceEncoding, $targetEncoding)
 	{
 		return $sString;	
 	}
-	
-	/* Check for the "iconv" support */ 
-	if (function_exists("iconv"))
-	{
-		$sResult = iconv($sourceEncoding, $targetEncoding, $sString);
-		
-		return ($sResult);	
-	}
 
 	/* No charset converters found; return with warning */	
 	cWarning(__FILE__, __LINE__, "capiStrRecodeString could not find either recode or iconv to do charset conversion.");
