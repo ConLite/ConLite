@@ -615,12 +615,12 @@ class User extends Item
 
     public static function userExists(string $userId): bool
     {
-        return new User()->loadByPrimaryKey($userId);
+        return (new User())->loadByPrimaryKey($userId);
     }
 
     public static function usernameExists(string $username): bool
     {
-        return new User()->loadBy('username', $username);
+        return (new User())->loadBy('username', $username);
     }
 
 
