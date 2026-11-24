@@ -17,7 +17,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_OK = 0;
+    const PASS_OK = 0;
 
     /**
      * Given password is too short
@@ -25,7 +25,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_TO_SHORT = 1;
+    const PASS_TO_SHORT = 1;
 
     /**
      * Given password is not strong enough
@@ -33,7 +33,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_STRONG = 2;
+    const PASS_NOT_STRONG = 2;
 
     /**
      * Given password is not complex enough
@@ -41,7 +41,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_COMPLEX = 3;
+    const PASS_NOT_COMPLEX = 3;
 
     /**
      * Password does not contain enough numbers.
@@ -49,7 +49,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_ENOUGH_NUMBERS = 4;
+    const PASS_NOT_ENOUGH_NUMBERS = 4;
 
     /**
      * Password does not contain enough symbols.
@@ -57,7 +57,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_ENOUGH_SYMBOLS = 5;
+    const PASS_NOT_ENOUGH_SYMBOLS = 5;
 
     /**
      * Password does not contain enough mixed characters.
@@ -65,7 +65,7 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_ENOUGH_MIXED_CHARS = 6;
+    const PASS_NOT_ENOUGH_MIXED_CHARS = 6;
 
     /**
      * Password does not contain enough different characters.
@@ -73,14 +73,14 @@ class User extends Item
      * @var int
      * @final
      */
-    const int PASS_NOT_ENOUGH_DIFFERENT_CHARS = 7;
+    const PASS_NOT_ENOUGH_DIFFERENT_CHARS = 7;
 
     /**
      * This value will be used if no minimum length
      * for passwords are set via $cfg['password']['min_length']
      *
      */
-    const int MIN_PASS_LENGTH_DEFAULT = 8;
+    const MIN_PASS_LENGTH_DEFAULT = 8;
 
     public function __construct($id = false)
     {
